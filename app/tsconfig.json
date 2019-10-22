@@ -7,7 +7,9 @@
         "target": "es6",
         "jsx": "react",
         "plugins": [
-            {"name": "typescript-tslint-plugin"}
+            {
+                "name": "typescript-tslint-plugin"
+            }
         ]
     },
     "exclude": [
