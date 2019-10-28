@@ -1,6 +1,6 @@
 import * as React from "react";
 import { render } from "react-dom";
-import { Hello } from "./components/Hello";
+import { MainPage } from "./components/MainPage";
 import { Provider } from "react-redux";
 import rootReducer from "./reducers/AppReducers";
 import { createStore } from "redux";
@@ -11,7 +11,7 @@ class App extends React.Component {
     render() {
         return (
             <div style={{ fontSize: 100 }}>
-                <Hello compiler="TypeScript" framework="React" />
+                <MainPage />
             </div>
         );
     }

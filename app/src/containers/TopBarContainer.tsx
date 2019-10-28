@@ -15,9 +15,9 @@ const mapDispatchToProps = (dispatch: any) => ({
         dispatch(toggleNavigationPanel(NavigationPanelStates.open))
 });
 
-const Bar = connect(
+const TopNavBar = connect(
     mapStateToProps,
     mapDispatchToProps
 )(TopBar);
 
-export default Bar;
+export default TopNavBar;
