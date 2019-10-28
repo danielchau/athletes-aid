@@ -26,6 +26,7 @@ cd athletes-aid/app
 eb init
 ```
 **Create an enivroment**
+
 Use ca-central-1 as the region and leave the rest of the options as defaults
 ```
 eb create
