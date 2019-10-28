@@ -18,7 +18,7 @@ brew install awsebcli
 
 ### Deployment
 
-For Deployment use the credentials for the **eb-deploy-user** in AWS
+For deployment use the credentials for the **eb-deploy-user** in AWS
 
 **Initalize EBS**
 ```
