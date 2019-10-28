@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import NavigationPanel from "./NavigationPanel";
 import { NavigationPanelStates } from "../util/types";
-import { useStyles } from "../styles/react/NavigationPanelStyle";
+import { topBarStyles } from "../styles/react/TopBarStyle";
 
 interface TopBarProps {
     state: NavigationPanelStates;
@@ -17,7 +17,7 @@ interface TopBarProps {
 }
 
 export default function TopBar(props: TopBarProps) {
-    const classes = useStyles({});
+    const classes = topBarStyles({});
 
     return (
         <div className={classes.root}>

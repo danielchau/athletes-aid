@@ -7,14 +7,15 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { useStyles } from "../styles/react/NavigationPanelStyle";
-import { NavigationPanelStates } from "../util/types";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import GroupIcon from "@material-ui/icons/Group";
 import DescriptionIcon from "@material-ui/icons/Description";
 import HealingIcon from "@material-ui/icons/Healing";
 import SettingsIcon from "@material-ui/icons/Settings";
+import clsx from "clsx";
+import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
+import { NavigationPanelStates } from "../util/types";
 
 interface NavigationPanelProps {
     state: NavigationPanelStates;
@@ -22,19 +23,30 @@ interface NavigationPanelProps {
 }
 
 export default function NavigationPanel(props: NavigationPanelProps) {
-    const classes = useStyles({});
+    const classes = navigationPanelStyles({});
 
     return (
         <Drawer
-            className={classes.drawer}
-            variant="persistent"
-            anchor="left"
-            open={props.state === NavigationPanelStates.open}
+            variant="permanent"
+            className={clsx(classes.drawer, {
+                [classes.drawerOpen]:
+                    props.state === NavigationPanelStates.open,
+                [classes.drawerClose]: !(
+                    props.state === NavigationPanelStates.open
+                )
+            })}
             classes={{
-                paper: classes.drawerPaper
+                paper: clsx({
+                    [classes.drawerOpen]:
+                        props.state === NavigationPanelStates.open,
+                    [classes.drawerClose]: !(
+                        props.state === NavigationPanelStates.open
+                    )
+                })
             }}
+            open={props.state === NavigationPanelStates.open}
         >
-            <div className={classes.drawerHeader}>
+            <div className={classes.toolbar}>
                 <IconButton onClick={props.handleDrawerClose}>
                     <ChevronLeftIcon />
                 </IconButton>
