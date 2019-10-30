@@ -18,6 +18,12 @@ Object.defineProperties(User.prototype, {
         type: "Date",
         keyType: "RANGE"
       },
+      createdBy: {
+        type: "String"
+      },
+      athlete: {
+        type: "String"
+      },
       description: { type: "String"}
     }
   }
