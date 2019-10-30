@@ -14,7 +14,7 @@ module.exports = (options) => {
      * @param {string} description a descrition of the injury
      * @return {Promise} A promise which resolves with the value of the user requested
      */
-    async function putinjury({createdBy, athlete, description}) {
+    async function putInjury({createdBy, athlete, description}) {
         const user = Object.assign(new Injury(), {
             createdAt: new Date(),
             createdBy: created,
