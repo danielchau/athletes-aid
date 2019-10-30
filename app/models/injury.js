@@ -15,7 +15,7 @@ module.exports = (options) => {
      * @return {Promise} A promise which resolves with the value of the user requested
      */
     async function putInjury({createdBy, athlete, description}) {
-        const user = Object.assign(new Injury(), {
+        const injury = Object.assign(new Injury(), {
             createdAt: new Date(),
             createdBy: created,
             athlete: athlete,
@@ -59,7 +59,7 @@ module.exports = (options) => {
             return injury;
         } else {
             console.log('Didnt find Injury report for athlete');
-            // Todo: improve handling of this. No return value is fishy.
+            // Todo: return something
         }
     }
 

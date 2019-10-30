@@ -57,7 +57,7 @@ module.exports = (options) => {
             return user;
         } else {
             console.log('Didnt find User');
-            // Todo: improve handling of this. No return value is fishy.
+            // Todo: improve handling
         }
     }
 
