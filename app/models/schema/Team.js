@@ -1,11 +1,11 @@
 const { DynamoDbSchema, DynamoDbTable } = require("@aws/dynamodb-data-mapper");
 const { v4 } = require("uuid");
 
-class InjuryReports {}
+class Team {}
 
-Object.defineProperties(User.prototype, {
+Object.defineProperties(Team.prototype, {
   [DynamoDbTable]: {
-    value: "InjuryReports"
+    value: "Teams"
   },
   [DynamoDbSchema]: {
     value: {
@@ -14,19 +14,17 @@ Object.defineProperties(User.prototype, {
         keyType: "HASH",
         defaultProvider: v4
       },
-      createdAt: {
-        type: "Date",
-        keyType: "RANGE"
-      },
-      createdBy: {
+      name: {
         type: "String"
       },
-      athlete: {
-        type: "String"
-      },
-      description: { type: "String"}
+      athletes: {
+        type: "List",
+        memberType: {
+          type: "String"
+        }
+      }
     }
   }
 });
 
-module.exports = {InjuryReports};
+module.exports = { Team };
