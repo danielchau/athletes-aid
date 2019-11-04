@@ -5,7 +5,7 @@ import rootReducer from "./reducers/AppReducers";
 import PageContainer from "./containers/PageContainer";
 import { createStore } from "redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 class App extends React.Component {
     render() {

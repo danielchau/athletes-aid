@@ -9,7 +9,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import NavigationPanel from "./NavigationPanel";
 import { NavigationPanelStates } from "../util/types";
 import { pageStyles } from "../styles/react/PageStyle";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, RouteComponentProps } from "react-router-dom";
 import {
     homePath,
     profilePath,
@@ -26,7 +26,7 @@ interface PageProps {
     handleDrawerOpen: any;
 }
 
-export default function Page(props: PageProps) {
+export default function Page(props: PageProps & RouteComponentProps) {
     const classes = pageStyles({});
 
     return (
@@ -42,6 +42,9 @@ export default function Page(props: PageProps) {
                 <NavigationPanel
                     state={props.state}
                     handleDrawerClose={props.handleDrawerClose}
+                    history={props.history}
+                    location={props.location}
+                    match={props.match}
                 />
                 <Switch>
                     <Route path={profilePath}>
