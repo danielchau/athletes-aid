@@ -5,6 +5,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import SearchIcon from "@material-ui/icons/Search";
+import InputBase from "@material-ui/core/InputBase";
 import { NavigationPanelStates } from "../util/types";
 import { topBarStyles } from "../styles/react/TopBarStyle";
 
@@ -39,9 +41,22 @@ export default function TopBar(props: TopBarProps) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap>
+                    <Typography className={classes.title} variant="h6" noWrap>
                         Athlete's Aid
                     </Typography>
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Search…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput
+                            }}
+                            inputProps={{ "aria-label": "search" }}
+                        />
+                    </div>
                 </Toolbar>
             </AppBar>
         </>

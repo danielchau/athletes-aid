@@ -1,11 +1,5 @@
 import * as React from "react";
-import clsx from "clsx";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import NavigationPanel from "./NavigationPanel";
 import { NavigationPanelStates } from "../util/types";
 import { pageStyles } from "../styles/react/PageStyle";
