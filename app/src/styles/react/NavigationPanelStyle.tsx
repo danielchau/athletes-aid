@@ -39,6 +39,10 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
         },
         drawerListItemText: {
             display: "flex"
+        },
+        link: {
+            textDecoration: "none",
+            color: "#000000"
         }
     })
 );

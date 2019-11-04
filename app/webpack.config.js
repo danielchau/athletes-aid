@@ -11,12 +11,16 @@ module.exports = {
     output: {
         // NEW
         path: path.join(__dirname, "dist"),
-        filename: "[name].js"
+        filename: "[name].js",
+        publicPath: "/"
     }, // NEW Ends
     plugins: [htmlPlugin],
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".jsx"]
+    },
+    devServer: {
+        historyApiFallback: true
     },
     module: {
         rules: [
@@ -36,12 +40,7 @@ module.exports = {
                         loader: "style-loader"
                     },
                     {
-                        loader: "css-loader",
-                        options: {
-                            sourceMap: true,
-                            modules: true,
-                            localIdentName: "[local]___[hash:base64:5]"
-                        }
+                        loader: "css-loader"
                     },
                     {
                         loader: "less-loader"

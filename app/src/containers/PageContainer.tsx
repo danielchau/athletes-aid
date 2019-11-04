@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { toggleNavigationPanel } from "../actions/NavigationPanelAction";
-import TopBar from "../components/TopBar";
+import Page from "../components/Page";
 import { AppState } from "..";
 import { NavigationPanelStates } from "../util/types";
 
@@ -15,9 +15,9 @@ const mapDispatchToProps = (dispatch: any) => ({
         dispatch(toggleNavigationPanel(NavigationPanelStates.open))
 });
 
-const TopNavBar = connect(
+const PageContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(TopBar);
+)(Page);
 
-export default TopNavBar;
+export default PageContainer;

@@ -3,9 +3,6 @@ import { drawerWidth } from "../../constants/constants";
 
 export const topBarStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            display: "flex"
-        },
         appBar: {
             zIndex: theme.zIndex.drawer + 1,
             transition: theme.transitions.create(["width", "margin"], {

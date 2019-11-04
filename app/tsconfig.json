@@ -12,5 +12,6 @@
             }
         ]
     },
+    "include": ["src/externals.d.ts"],
     "exclude": ["node_modules"]
 }
