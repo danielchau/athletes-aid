@@ -37,7 +37,7 @@ export async function getTeam(teamId: string): Promise<any> {
  * @param {string} athleteId The id of the athlete to add to the team
  * @return {object} An object containing the team id
  */
-async function addAthlete(teamId : string, athleteId : string ): Promise<any> {
+export async function addAthlete(teamId : string, athleteId : string ): Promise<any> {
   const team = await getTeam(teamId);
   if (team) {
     team.athletes = team.athletes || [];

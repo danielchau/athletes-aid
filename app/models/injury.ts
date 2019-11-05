@@ -26,23 +26,6 @@ export async function putInjury(
 }
 
 /**
- * Generate a query object for the DynamoDb Data Mapper to retrieve an injury by Athlete.
- *
- * @param {string} athlete the userdId of the athlete
- * @return {object} A query object for the datamapper
- */
-function generateDataMapperAthleteQuery(athlete: string): object {
-  const query = {
-    indexName: "athlete-index",
-    valueConstructor: Injury,
-    keyCondition: {
-      athlete: athlete
-    }
-  };
-  return query;
-}
-
-/**
  * Retrieve an Injury by athlete
  *
  * @param {string} athlete the id of the user
@@ -51,8 +34,7 @@ function generateDataMapperAthleteQuery(athlete: string): object {
 export async function getInjury(athlete: string): Promise<Injury> {
   let injury = null;
   for await (const entry of mapper.query(
-    Injury,
-    generateDataMapperAthleteQuery(athlete)
+    Injury,{athlete: athlete}, { indexName: 'athlete-index'}
   )) {
     injury = entry;
   }

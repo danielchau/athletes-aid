@@ -22,23 +22,6 @@ export async function putUser(name : string, email : string, userType: string) {
 }
 
 /**
- * Generate a query object for the DynamoDb Data Mapper to retrieve a user by email.
- *
- * @param {string} email The email address of the user
- * @return {object} A query object for the datamapper
- */
-export async function generateDataMapperEmailQuery(email : string) {
-  const query = {
-    indexName: "email-index",
-    valueConstructor: User,
-    keyCondition: {
-      email: email
-    }
-  };
-  return query;
-}
-
-/**
  * Retrieve a user by Email
  *
  * @param {string} email The email address of the User
@@ -47,7 +30,7 @@ export async function generateDataMapperEmailQuery(email : string) {
 export async function getUser(email : string) {
   let user = null;
   console.log(email);
-  for await (const entry of mapper.query(User, generateDataMapperEmailQuery(email))) {
+  for await (const entry of mapper.query(User, {email: email}, { indexName: 'email-index'})) {
     user = entry;
   }
   if (user) {
@@ -64,7 +47,7 @@ export async function getUser(email : string) {
  * @param {string} email The email address of the User
  * @return {object} An object containing the User profile data
  */
-async function createUniqueUser(name: string , email: string, userType: string) {
+export async function createUniqueUser(name: string , email: string, userType: string) {
   const existingUser = await getUser(email);
   if (existingUser) {
     console.log("User already exists")
