@@ -12,4 +12,4 @@ dist
 !.elasticbeanstalk/*.global.yml
 
 #Secrets
-aws.config.js
+aws.config.ts

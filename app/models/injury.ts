@@ -1,12 +1,5 @@
-const { Injury } = require("./schema/Injury");
-const { DataMapper } = require("@aws/dynamodb-data-mapper");
-const AWS = require("aws-sdk");
-const awsConfig = require("../aws.config").config;
-
-AWS.config.update(awsConfig);
-
-var client = new AWS.DynamoDB();
-const mapper = new DataMapper({ client });
+import { Injury } from "./schema/Injury";
+import mapper from "./mapper";
 
 /**
  * Create a Injury in DynamoDb
@@ -16,14 +9,18 @@ const mapper = new DataMapper({ client });
  * @param {string} description a descrition of the injury
  * @return {Promise} A promise which resolves with the value of the user requested
  */
-async function putInjury({ createdBy, athlete, description }) {
+export async function putInjury(
+  createdBy: string,
+  athlete: string,
+  description: string
+): Promise<any> {
   const injury = Object.assign(new Injury(), {
     createdAt: new Date(),
     createdBy: createdBy,
     athlete: athlete,
     description: description
   });
-  return mapper.put({ item: injury }).then(data => {
+  return mapper.put({ item: injury }).then((data: any) => {
     return { id: data.id };
   });
 }
@@ -34,7 +31,7 @@ async function putInjury({ createdBy, athlete, description }) {
  * @param {string} athlete the userdId of the athlete
  * @return {object} A query object for the datamapper
  */
-function generateDataMapperAthleteQuery(athlete) {
+function generateDataMapperAthleteQuery(athlete: string): object {
   const query = {
     indexName: "athlete-index",
     valueConstructor: Injury,
@@ -51,24 +48,20 @@ function generateDataMapperAthleteQuery(athlete) {
  * @param {string} athlete the id of the user
  * @return {object} An object containing the Injury Data
  */
-async function getInjury({ athlete }) {
+export async function getInjury(athlete: string): Promise<Injury> {
   let injury = null;
   for await (const entry of mapper.query(
+    Injury,
     generateDataMapperAthleteQuery(athlete)
   )) {
     injury = entry;
   }
 
   if (injury) {
-    console.log(injury)
+    console.log(injury);
     return injury;
   } else {
     console.log("Didnt find Injury report for athlete");
     // Todo: return something
   }
 }
-
-module.exports = {
-  putInjury,
-  getInjury
-};

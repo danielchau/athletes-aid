@@ -1,12 +1,6 @@
-const {User} = require('./schema/User');
-const {DataMapper} = require('@aws/dynamodb-data-mapper');
-const AWS = require("aws-sdk");
-const awsConfig = require("../aws.config").config;
 
-AWS.config.update(awsConfig);
-
-var client = new AWS.DynamoDB();
-const mapper = new DataMapper({client});
+import { User } from "./schema/User";
+import mapper from "./mapper";
 
 /**
  * Create a user in DynamoDb
@@ -15,13 +9,13 @@ const mapper = new DataMapper({client});
  * @param {string} email The email address of the User
  * @return {Promise} A promise which resolves with the value of the user requested
  */
-async function putUser({ name, email, userType }) {
+export async function putUser(name : string, email : string, userType: string) {
   const user = Object.assign(new User(), {
     userType: userType,
     name: name,
     email: email
   });
-  return mapper.put({ item: user }).then(data => {
+  return mapper.put({ item: user }).then((data : any) => {
     console.log(data.id);
     return { id: data.id };
   });
@@ -33,7 +27,7 @@ async function putUser({ name, email, userType }) {
  * @param {string} email The email address of the user
  * @return {object} A query object for the datamapper
  */
-function generateDataMapperEmailQuery(email) {
+export async function generateDataMapperEmailQuery(email : string) {
   const query = {
     indexName: "email-index",
     valueConstructor: User,
@@ -50,10 +44,10 @@ function generateDataMapperEmailQuery(email) {
  * @param {string} email The email address of the User
  * @return {object} An object containing the User profile data
  */
-async function getUser({ email }) {
+export async function getUser(email : string) {
   let user = null;
   console.log(email);
-  for await (const entry of mapper.query(generateDataMapperEmailQuery(email))) {
+  for await (const entry of mapper.query(User, generateDataMapperEmailQuery(email))) {
     user = entry;
   }
   if (user) {
@@ -70,18 +64,13 @@ async function getUser({ email }) {
  * @param {string} email The email address of the User
  * @return {object} An object containing the User profile data
  */
-async function createUniqueUser({ name, email, userType }) {
-  const existingUser = await getUser({ email });
+async function createUniqueUser(name: string , email: string, userType: string) {
+  const existingUser = await getUser(email);
   if (existingUser) {
     console.log("User already exists")
     return existingUser;
   }
 
-  return putUser({ name, email, userType });
+  return putUser(name, email, userType);
 }
 
-module.exports = {
-  putUser,
-  getUser,
-  createUniqueUser
-};
