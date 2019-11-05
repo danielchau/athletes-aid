@@ -1,17 +1,19 @@
 import * as React from "react";
 import { render } from "react-dom";
-import { MainPage } from "./components/MainPage";
 import { Provider } from "react-redux";
 import rootReducer from "./reducers/AppReducers";
+import PageContainer from "./containers/PageContainer";
 import { createStore } from "redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
+import { BrowserRouter as Router } from "react-router-dom";
 
-// Calling `store.getState()` returns our state object
 class App extends React.Component {
     render() {
         return (
-            <div style={{ fontSize: 100 }}>
-                <MainPage />
+            <div>
+                <Router>
+                    <PageContainer />
+                </Router>
             </div>
         );
     }

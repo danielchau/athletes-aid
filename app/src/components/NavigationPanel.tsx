@@ -14,15 +14,32 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import HealingIcon from "@material-ui/icons/Healing";
 import SettingsIcon from "@material-ui/icons/Settings";
 import clsx from "clsx";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
 import { NavigationPanelStates } from "../util/types";
+import {
+    homePageName,
+    profilePageName,
+    rosterPageName,
+    injuryLoggingPageName,
+    injuriesPageName,
+    rosterManagementPageName,
+    homePath,
+    profilePath,
+    rosterPath,
+    injuryLoggingPath,
+    injuriesPath,
+    rosterManagementPath
+} from "../constants/constants";
 
 interface NavigationPanelProps {
     state: NavigationPanelStates;
     handleDrawerClose: any;
 }
 
-export default function NavigationPanel(props: NavigationPanelProps) {
+export default function NavigationPanel(
+    props: NavigationPanelProps & RouteComponentProps
+) {
     const classes = navigationPanelStyles({});
 
     return (
@@ -53,42 +70,99 @@ export default function NavigationPanel(props: NavigationPanelProps) {
             </div>
             <Divider />
             <List>
-                {[
-                    "Home",
-                    "My Profile",
-                    "Roster",
-                    "Injury Logging",
-                    "Injuries",
-                    "Roster Management"
-                ].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{determineListIcon(text)}</ListItemIcon>
+                <Link className={classes.link} to={homePath}>
+                    <ListItem
+                        button
+                        key={homePageName}
+                        selected={props.location.pathname == homePath}
+                    >
+                        <ListItemIcon>
+                            <HomeIcon></HomeIcon>
+                        </ListItemIcon>
                         <ListItemText
                             className={classes.drawerListItemText}
-                            primary={text}
+                            primary={homePageName}
                         />
                     </ListItem>
-                ))}
+                </Link>
+                <Link className={classes.link} to={profilePath}>
+                    <ListItem
+                        button
+                        key={profilePageName}
+                        selected={props.location.pathname == profilePath}
+                    >
+                        <ListItemIcon>
+                            <PersonIcon></PersonIcon>
+                        </ListItemIcon>
+                        <ListItemText
+                            className={classes.drawerListItemText}
+                            primary={profilePageName}
+                        />
+                    </ListItem>
+                </Link>
+                <Link className={classes.link} to={rosterPath}>
+                    <ListItem
+                        button
+                        key={rosterPageName}
+                        selected={props.location.pathname == rosterPath}
+                    >
+                        <ListItemIcon>
+                            <GroupIcon></GroupIcon>
+                        </ListItemIcon>
+                        <ListItemText
+                            className={classes.drawerListItemText}
+                            primary={rosterPageName}
+                        />
+                    </ListItem>
+                </Link>
+                <Link className={classes.link} to={injuryLoggingPath}>
+                    <ListItem
+                        button
+                        key={injuryLoggingPageName}
+                        selected={props.location.pathname == injuryLoggingPath}
+                    >
+                        <ListItemIcon>
+                            <DescriptionIcon></DescriptionIcon>
+                        </ListItemIcon>
+                        <ListItemText
+                            className={classes.drawerListItemText}
+                            primary={injuryLoggingPageName}
+                        />
+                    </ListItem>
+                </Link>
+                <Link className={classes.link} to={injuriesPath}>
+                    <ListItem
+                        button
+                        key={injuriesPageName}
+                        selected={props.location.pathname == injuriesPath}
+                    >
+                        <ListItemIcon>
+                            <HealingIcon></HealingIcon>
+                        </ListItemIcon>
+                        <ListItemText
+                            className={classes.drawerListItemText}
+                            primary={injuriesPageName}
+                        />
+                    </ListItem>
+                </Link>
+                <Link className={classes.link} to={rosterManagementPath}>
+                    <ListItem
+                        button
+                        key={rosterManagementPageName}
+                        selected={
+                            props.location.pathname == rosterManagementPath
+                        }
+                    >
+                        <ListItemIcon>
+                            <SettingsIcon></SettingsIcon>
+                        </ListItemIcon>
+                        <ListItemText
+                            className={classes.drawerListItemText}
+                            primary={rosterManagementPageName}
+                        />
+                    </ListItem>
+                </Link>
             </List>
         </Drawer>
     );
-}
-
-function determineListIcon(item: string) {
-    switch (item) {
-        case "Home":
-            return <HomeIcon></HomeIcon>;
-        case "My Profile":
-            return <PersonIcon></PersonIcon>;
-        case "Roster":
-            return <GroupIcon></GroupIcon>;
-        case "Injury Logging":
-            return <DescriptionIcon></DescriptionIcon>;
-        case "Injuries":
-            return <HealingIcon></HealingIcon>;
-        case "Roster Management":
-            return <SettingsIcon></SettingsIcon>;
-        default:
-            return <HomeIcon></HomeIcon>;
-    }
 }
