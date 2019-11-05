@@ -38,3 +38,6 @@ npm run build
 eb deploy
 ```
 
+## DynamoDB
+To access DynamoDB a file called **aws.config.js** with amazon credentials needs to created in the **app/** directory
+
