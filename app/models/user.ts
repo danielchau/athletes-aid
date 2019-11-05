@@ -1,4 +1,3 @@
-
 import { User } from "./schema/User";
 import mapper from "./mapper";
 
@@ -9,13 +8,13 @@ import mapper from "./mapper";
  * @param {string} email The email address of the User
  * @return {Promise} A promise which resolves with the value of the user requested
  */
-export async function putUser(name : string, email : string, userType: string) {
+export async function putUser(name: string, email: string, userType: string) {
   const user = Object.assign(new User(), {
     userType: userType,
     name: name,
     email: email
   });
-  return mapper.put({ item: user }).then((data : any) => {
+  return mapper.put({ item: user }).then((data: any) => {
     console.log(data.id);
     return { id: data.id };
   });
@@ -27,14 +26,18 @@ export async function putUser(name : string, email : string, userType: string) {
  * @param {string} email The email address of the User
  * @return {object} An object containing the User profile data
  */
-export async function getUser(email : string) {
+export async function getUser(email: string) {
   let user = null;
   console.log(email);
-  for await (const entry of mapper.query(User, {email: email}, { indexName: 'email-index'})) {
+  for await (const entry of mapper.query(
+    User,
+    { email: email },
+    { indexName: "email-index" }
+  )) {
     user = entry;
   }
   if (user) {
-    console.log(user)
+    console.log(user);
     return user;
   } else {
     console.log("Didnt find User");
@@ -47,13 +50,16 @@ export async function getUser(email : string) {
  * @param {string} email The email address of the User
  * @return {object} An object containing the User profile data
  */
-export async function createUniqueUser(name: string , email: string, userType: string) {
+export async function createUniqueUser(
+  name: string,
+  email: string,
+  userType: string
+) {
   const existingUser = await getUser(email);
   if (existingUser) {
-    console.log("User already exists")
+    console.log("User already exists");
     return existingUser;
   }
 
   return putUser(name, email, userType);
 }
-

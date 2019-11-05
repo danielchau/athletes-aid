@@ -24,10 +24,12 @@ export async function putTeam(name: string): Promise<any> {
  * @return {Promise} A promise which resolves with the value of the team requested
  */
 export async function getTeam(teamId: string): Promise<any> {
-  return mapper.get(Object.assign(new Team(), { id: teamId })).then((data:any) => {
-    console.log(data);
-    return data;
-  });
+  return mapper
+    .get(Object.assign(new Team(), { id: teamId }))
+    .then((data: any) => {
+      console.log(data);
+      return data;
+    });
 }
 
 /**
@@ -37,12 +39,15 @@ export async function getTeam(teamId: string): Promise<any> {
  * @param {string} athleteId The id of the athlete to add to the team
  * @return {object} An object containing the team id
  */
-export async function addAthlete(teamId : string, athleteId : string ): Promise<any> {
+export async function addAthlete(
+  teamId: string,
+  athleteId: string
+): Promise<any> {
   const team = await getTeam(teamId);
   if (team) {
     team.athletes = team.athletes || [];
     team.athletes.push(athleteId);
-    return mapper.update(team).then((data:any) => {
+    return mapper.update(team).then((data: any) => {
       return { id: data.id };
     });
   }
@@ -60,4 +65,3 @@ export async function getAllTeams(): Promise<object> {
   console.log(teams);
   return { teams: teams };
 }
-

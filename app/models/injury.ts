@@ -34,7 +34,9 @@ export async function putInjury(
 export async function getInjury(athlete: string): Promise<Injury> {
   let injury = null;
   for await (const entry of mapper.query(
-    Injury,{athlete: athlete}, { indexName: 'athlete-index'}
+    Injury,
+    { athlete: athlete },
+    { indexName: "athlete-index" }
   )) {
     injury = entry;
   }
