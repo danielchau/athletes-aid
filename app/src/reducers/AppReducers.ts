@@ -1,8 +1,10 @@
 import { navigationPanelReducer } from "../reducers/NavigationPanelReducer";
+import { injuriesReducer } from "../reducers/InjuriesReducer";
 import { combineReducers } from "redux";
 
 const rootReducer = combineReducers({
-    navigationPanelReducer
+    navigationPanelReducer,
+    injuriesReducer
 });
 
 export default rootReducer;

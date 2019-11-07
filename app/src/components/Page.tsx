@@ -13,6 +13,7 @@ import {
     rosterManagementPath
 } from "../constants/constants";
 import TopBar from "./TopBar";
+import InjuriesPageContainer from "../containers/InjuriesPageContainer";
 
 interface PageProps {
     state: NavigationPanelStates;
@@ -51,7 +52,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                         <h2>Logging</h2>
                     </Route>
                     <Route path={injuriesPath}>
-                        <h2>Injuries</h2>
+                        <InjuriesPageContainer></InjuriesPageContainer>
                     </Route>
                     <Route path={rosterManagementPath}>
                         <h2>Roster Management</h2>
