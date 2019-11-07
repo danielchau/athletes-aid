@@ -22,7 +22,8 @@ function createMockAthleteInjuries(): Injury[] {
             athleteName: "Athlete 1",
             locationOnBody: "head",
             injuryType: "concussion",
-            severity: 4
+            severity: 4,
+            active: true
         },
         {
             id: "2",
@@ -30,7 +31,8 @@ function createMockAthleteInjuries(): Injury[] {
             athleteName: "Athlete 2",
             locationOnBody: "ankle",
             injuryType: "sprain",
-            severity: 3
+            severity: 3,
+            active: true
         },
         {
             id: "3",
@@ -38,7 +40,8 @@ function createMockAthleteInjuries(): Injury[] {
             athleteName: "Athlete 1",
             locationOnBody: "shoulder",
             injuryType: "discolation",
-            severity: 8
+            severity: 8,
+            active: false
         }
     ];
 }

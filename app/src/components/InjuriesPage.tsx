@@ -2,12 +2,12 @@ import * as React from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
-import InjuryDataTable from "./InjuriesDataTable";
+import InjuriesDataTable from "./InjuriesDataTable";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { injuriesPageStyles } from "../styles/react/InjuriesPageStyle";
-import { AthleteInjuries } from "../util/types";
+import { AthleteInjuries, Injury } from "../util/types";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
@@ -65,11 +65,11 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                10
+                                {props.athleteInjuries.injuries.length}
                             </div>
                             <Divider light />
                             <div className={classes.primaryStatisticLabel}>
-                                Statistic 1
+                                Total Filed Reports
                             </div>
                         </div>
                     </Paper>
@@ -78,11 +78,15 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                123
+                                {
+                                    props.athleteInjuries.injuries.filter(
+                                        i => i.active
+                                    ).length
+                                }
                             </div>
                             <Divider light />
                             <div className={classes.primaryStatisticLabel}>
-                                Statistic 2
+                                Total Active Reports
                             </div>
                         </div>
                     </Paper>
@@ -91,11 +95,13 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                32
+                                {getAverageSeverity(
+                                    props.athleteInjuries.injuries
+                                )}
                             </div>
                             <Divider light />
                             <div className={classes.primaryStatisticLabel}>
-                                Statistic 3
+                                Average Severity
                             </div>
                         </div>
                     </Paper>
@@ -104,21 +110,29 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                321
+                                111
                             </div>
                             <Divider light />
                             <div className={classes.primaryStatisticLabel}>
-                                Statistic 4
+                                Placeholder
                             </div>
                         </div>
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <InjuryDataTable></InjuryDataTable>
+                        <InjuriesDataTable
+                            injuries={props.athleteInjuries.injuries}
+                        ></InjuriesDataTable>
                     </Paper>
                 </Grid>
             </Grid>
         </div>
     );
+}
+
+function getAverageSeverity(injuries: Injury[]): string {
+    let sum = 0;
+    injuries.forEach(i => (sum += i.severity));
+    return (sum / injuries.length).toFixed(1);
 }

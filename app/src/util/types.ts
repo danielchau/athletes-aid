@@ -30,4 +30,5 @@ export interface Injury {
     locationOnBody: string;
     injuryType: string;
     severity: number;
+    active: boolean;
 }
