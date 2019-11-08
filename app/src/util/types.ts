@@ -25,7 +25,7 @@ export interface AthleteInjuries {
 
 export interface Injury {
     id: string;
-    createdAt: string;
+    createdAt: Date;
     athleteName: string;
     locationOnBody: string;
     injuryType: string;

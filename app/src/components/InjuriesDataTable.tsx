@@ -19,15 +19,6 @@ import {
 } from "../styles/react/InjuriesDataTableStyles";
 import { Injury } from "../util/types";
 
-type Order = "asc" | "desc";
-
-interface HeadCell {
-    disablePadding: boolean;
-    id: keyof Injury;
-    label: string;
-    numeric: boolean;
-}
-
 interface EnhancedTableProps {
     classes: ReturnType<typeof injuriesDataTableStyles>;
     numSelected: number;
@@ -44,8 +35,21 @@ interface EnhancedTableProps {
     rowCount: number;
 }
 
+interface InjuriesDataTableProps {
+    injuries: Injury[];
+}
+
 interface EnhancedTableToolbarProps {
     numSelected: number;
+}
+
+type Order = "asc" | "desc";
+
+interface HeadCell {
+    disablePadding: boolean;
+    id: keyof Injury;
+    label: string;
+    numeric: boolean;
 }
 
 const headCells: HeadCell[] = [
@@ -87,10 +91,6 @@ const headCells: HeadCell[] = [
     }
 ];
 
-interface InjuriesDataTableProps {
-    injuries: Injury[];
-}
-
 export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const classes = injuriesDataTableStyles({});
     const [order, setOrder] = React.useState<Order>("asc");
@@ -113,7 +113,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         if (event.target.checked) {
-            const newSelecteds = props.injuries.map(n => n.athleteName);
+            const newSelecteds = props.injuries.map(n => JSON.stringify(n));
             setSelected(newSelecteds);
             return;
         }
@@ -192,7 +192,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                 )
                                 .map((row: Injury, index: number) => {
                                     const isItemSelected = isSelected(
-                                        row.athleteName as string
+                                        JSON.stringify(row)
                                     );
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -202,7 +202,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                             onClick={event =>
                                                 handleClick(
                                                     event,
-                                                    row.athleteName as string
+                                                    JSON.stringify(row)
                                                 )
                                             }
                                             role="checkbox"
@@ -228,7 +228,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                                 {row.athleteName}
                                             </TableCell>
                                             <TableCell align="right">
-                                                {row.createdAt}
+                                                {row.createdAt.toLocaleDateString()}
                                             </TableCell>
                                             <TableCell align="right">
                                                 {row.locationOnBody}

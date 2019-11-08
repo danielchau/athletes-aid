@@ -18,7 +18,7 @@ function createMockAthleteInjuries(): Injury[] {
     return [
         {
             id: "1",
-            createdAt: "2019-05-24",
+            createdAt: new Date("2019-05-24"),
             athleteName: "Athlete 1",
             locationOnBody: "head",
             injuryType: "concussion",
@@ -27,7 +27,7 @@ function createMockAthleteInjuries(): Injury[] {
         },
         {
             id: "2",
-            createdAt: "2019-06-15",
+            createdAt: new Date("2019-06-15"),
             athleteName: "Athlete 2",
             locationOnBody: "ankle",
             injuryType: "sprain",
@@ -36,7 +36,7 @@ function createMockAthleteInjuries(): Injury[] {
         },
         {
             id: "3",
-            createdAt: "2019-05-24",
+            createdAt: new Date("2019-05-24"),
             athleteName: "Athlete 1",
             locationOnBody: "shoulder",
             injuryType: "discolation",
