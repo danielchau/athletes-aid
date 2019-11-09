@@ -1,16 +1,35 @@
-import { GET_ATHLETE_INJURIES, Injury } from "../util/types";
+import {
+    GET_ATHLETE_INJURIES,
+    SET_STARTING_DATE,
+    Injury,
+    SET_ENDING_DATE
+} from "../util/types";
 export function getAthleteInjuries(
-    startDate: string,
-    endDate: string,
+    startDate: Date,
+    endDate: Date,
     team: string
 ) {
     return {
         type: GET_ATHLETE_INJURIES,
         athleteInjuries: {
             injuries: createMockAthleteInjuries(),
-            startDate: "2019-05-24",
-            endDate: "2019-06-24"
+            startDate: startDate,
+            endDate: endDate
         }
+    };
+}
+
+export function setInjuriesStartingDate(startingDate: Date) {
+    return {
+        type: SET_STARTING_DATE,
+        startingDate: startingDate
+    };
+}
+
+export function setInjuriesEndingDate(endingDate: Date) {
+    return {
+        type: SET_ENDING_DATE,
+        endingDate: endingDate
     };
 }
 

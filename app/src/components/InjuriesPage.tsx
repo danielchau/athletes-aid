@@ -12,16 +12,28 @@ import { AthleteInjuries, Injury } from "../util/types";
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
     getAthleteInjuries: (
-        team: string,
-        startDate: string,
-        endDate: string
+        startDate: Date,
+        endDate: Date,
+        team: string
     ) => AthleteInjuries;
+    startingDate: Date;
+    endingDate: Date;
+    setStartingDate: (date: Date) => void;
+    setEndingDate: (date: Date) => void;
 }
 
 export default function InjuriesPage(props: InjuriesProps) {
     const classes = injuriesPageStyles({});
     const onInjuriesDateChange = () => {
-        props.getAthleteInjuries("", "", "");
+        props.getAthleteInjuries(new Date(), new Date(), "");
+    };
+
+    const onChangeStartingDate = (event: any) => {
+        props.setStartingDate(new Date(event.target.value));
+    };
+
+    const onChangeEndingDate = (event: any) => {
+        props.setEndingDate(new Date(event.target.value));
     };
 
     return (
@@ -34,8 +46,13 @@ export default function InjuriesPage(props: InjuriesProps) {
                                 id="date"
                                 label="Starting Date"
                                 type="date"
-                                defaultValue="2017-05-24"
+                                defaultValue={
+                                    props.startingDate
+                                        .toISOString()
+                                        .split("T")[0]
+                                }
                                 className={classes.textField}
+                                onChange={onChangeStartingDate}
                                 InputLabelProps={{
                                     shrink: true
                                 }}
@@ -44,8 +61,11 @@ export default function InjuriesPage(props: InjuriesProps) {
                                 id="date"
                                 label="Ending Date"
                                 type="date"
-                                defaultValue="2017-05-24"
+                                defaultValue={
+                                    props.endingDate.toISOString().split("T")[0]
+                                }
                                 className={classes.textField}
+                                onChange={onChangeEndingDate}
                                 InputLabelProps={{
                                     shrink: true
                                 }}
