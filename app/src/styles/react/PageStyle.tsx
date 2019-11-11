@@ -16,7 +16,8 @@ export const pageStyles = makeStyles((theme: Theme) =>
         },
         pageBodyContainer: {
             display: "flex",
-            flexDirection: "row"
+            flexDirection: "row",
+            height: "calc(100vh - 64px)"
         }
     })
 );
