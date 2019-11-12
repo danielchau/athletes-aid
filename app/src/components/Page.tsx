@@ -18,6 +18,8 @@ import InjuryLoggingPage from "./InjuryLoggingPage";
 
 interface PageProps {
     state: NavigationPanelStates;
+    selectedTeam: string;
+    setSelectedTeam: any;
     handleDrawerClose: any;
     handleDrawerOpen: any;
 }
@@ -38,6 +40,8 @@ export default function Page(props: PageProps & RouteComponentProps) {
                 <NavigationPanel
                     state={props.state}
                     handleDrawerClose={props.handleDrawerClose}
+                    selectedTeam={props.selectedTeam}
+                    setSelectedTeam={props.setSelectedTeam}
                     history={props.history}
                     location={props.location}
                     match={props.match}

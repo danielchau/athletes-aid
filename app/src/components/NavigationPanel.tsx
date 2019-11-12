@@ -38,8 +38,11 @@ import {
 interface NavigationPanelProps {
     state: NavigationPanelStates;
     handleDrawerClose: any;
+    selectedTeam: string;
+    setSelectedTeam: any;
 }
 
+// TODO: Have to change this to a Redux state hookup
 const options = ["Team 1", "Team 2", "Team 3", "Team 4"];
 
 export default function NavigationPanel(
@@ -50,7 +53,6 @@ export default function NavigationPanel(
         teamToggleAnchorEl,
         setTeamToggleAnchorEl
     ] = React.useState<null | HTMLElement>(null);
-    const [selectedTeam, setSelectedTeam] = React.useState(options[0]);
 
     const handleClickTeamToggle = (event: React.MouseEvent<HTMLElement>) => {
         setTeamToggleAnchorEl(event.currentTarget);
@@ -60,7 +62,7 @@ export default function NavigationPanel(
         _: React.MouseEvent<HTMLElement>,
         index: number
     ) => {
-        setSelectedTeam(options[index]);
+        props.setSelectedTeam(options[index]);
         setTeamToggleAnchorEl(null);
     };
 
@@ -203,7 +205,7 @@ export default function NavigationPanel(
                             <ListItemText
                                 className={classes.teamToggleListItem}
                                 primary="Team Selection"
-                                secondary={selectedTeam}
+                                secondary={props.selectedTeam}
                             />
                         </ListItem>
                     </List>
@@ -217,7 +219,7 @@ export default function NavigationPanel(
                         {options.map((option, index) => (
                             <MenuItem
                                 key={option}
-                                selected={option === selectedTeam}
+                                selected={option === props.selectedTeam}
                                 onClick={event => handleTeamClick(event, index)}
                             >
                                 {option}

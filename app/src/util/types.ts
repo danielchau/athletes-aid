@@ -1,4 +1,5 @@
 export const TOGGLE_NAVIGATION_PANEL = "TOGGLE_NAVIGATION_PANEL";
+export const SET_SELECTED_TEAM = "SET_SELECTED_TEAM";
 export enum NavigationPanelStates {
     open,
     closed
@@ -7,6 +8,12 @@ export type NavigationPanelTypes = ToggleNavAction;
 interface ToggleNavAction {
     type: typeof TOGGLE_NAVIGATION_PANEL;
     state: NavigationPanelStates;
+}
+
+export type SetSelectedTeamTypes = SetSelectedTeam;
+interface SetSelectedTeam {
+    type: typeof SET_SELECTED_TEAM;
+    team: string;
 }
 
 export const GET_ATHLETE_INJURIES = "GET_ATHLETE_INJURIES";
