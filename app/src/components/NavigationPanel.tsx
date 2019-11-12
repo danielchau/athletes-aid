@@ -15,7 +15,7 @@ import GroupIcon from "@material-ui/icons/Group";
 import DescriptionIcon from "@material-ui/icons/Description";
 import HealingIcon from "@material-ui/icons/Healing";
 import SettingsIcon from "@material-ui/icons/Settings";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import clsx from "clsx";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
@@ -42,7 +42,7 @@ interface NavigationPanelProps {
     setSelectedTeam: any;
 }
 
-// TODO: Have to change this to a Redux state hookup
+// TODO: Have to change this to a Redux state hookup as we probably want this to live on the user object
 const options = ["Team 1", "Team 2", "Team 3", "Team 4"];
 
 export default function NavigationPanel(
@@ -200,7 +200,7 @@ export default function NavigationPanel(
                             onClick={handleClickTeamToggle}
                         >
                             <ListItemIcon>
-                                <ExpandMoreIcon></ExpandMoreIcon>
+                                <NavigateNextIcon></NavigateNextIcon>
                             </ListItemIcon>
                             <ListItemText
                                 className={classes.teamToggleListItem}
@@ -212,6 +212,11 @@ export default function NavigationPanel(
                     <Menu
                         id="team-menu"
                         anchorEl={teamToggleAnchorEl}
+                        getContentAnchorEl={null}
+                        anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "right"
+                        }}
                         keepMounted
                         open={Boolean(teamToggleAnchorEl)}
                         onClose={handleTeamMenuClose}

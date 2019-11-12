@@ -17,7 +17,7 @@ import { injuryLoggingStepContentStyles } from "../styles/react/InjuryLoggingSte
 export default function InjuryLoggingStepContent(stepIndex: number) {
     const classes = injuryLoggingStepContentStyles({});
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-        new Date("2014-08-18T21:11:54")
+        new Date()
     );
     const handleDateChange = (date: Date | null) => {
         setSelectedDate(date);
@@ -41,7 +41,7 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                         <Select
                             labelWidth={90}
                             id="team-select"
-                            value={10}
+                            value={""}
                             inputProps={{ readOnly: true }}
                         >
                             <MenuItem value={10}>Ten</MenuItem>
@@ -54,7 +54,10 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                         <InputLabel id="athlete-select-label">
                             Athlete Name
                         </InputLabel>
-                        <Select labelWidth={100} id="athlete-select" value={10}>
+                        <Select labelWidth={100} id="athlete-select" value={""}>
+                            <MenuItem value="" disabled>
+                                Select athlete on team...
+                            </MenuItem>
                             <MenuItem value={10}>Ten</MenuItem>
                         </Select>
                     </FormControl>
@@ -74,7 +77,7 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                     </MuiPickersUtilsProvider>
                     <FormControlLabel
                         className={classes.checkboxInput}
-                        control={<Checkbox value="true" />}
+                        control={<Checkbox color="primary" value="true" />}
                         label="Sports Related"
                     />
                     <FormControl
@@ -87,8 +90,11 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                         <Select
                             labelWidth={80}
                             id="event-type-select"
-                            value={10}
+                            value={""}
                         >
+                            <MenuItem value="" disabled>
+                                Select where injury took place...
+                            </MenuItem>
                             <MenuItem value={10}>Ten</MenuItem>
                         </Select>
                     </FormControl>
@@ -99,7 +105,10 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                         <InputLabel id="position-select-label">
                             Position
                         </InputLabel>
-                        <Select labelWidth={60} id="position-select" value={10}>
+                        <Select labelWidth={60} id="position-select" value={""}>
+                            <MenuItem value="" disabled>
+                                Select position of athlete...
+                            </MenuItem>
                             <MenuItem value={10}>Ten</MenuItem>
                         </Select>
                     </FormControl>
@@ -113,8 +122,11 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                         <Select
                             labelWidth={100}
                             id="side-of-body-select"
-                            value={10}
+                            value={""}
                         >
+                            <MenuItem value="" disabled>
+                                Select side of body...
+                            </MenuItem>
                             <MenuItem value={10}>Ten</MenuItem>
                         </Select>
                     </FormControl>
@@ -128,8 +140,11 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                         <Select
                             labelWidth={130}
                             id="body-location-select"
-                            value={10}
+                            value={""}
                         >
+                            <MenuItem value="" disabled>
+                                Select injury location...
+                            </MenuItem>
                             <MenuItem value={10}>Ten</MenuItem>
                         </Select>
                     </FormControl>
@@ -143,8 +158,11 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                         <Select
                             labelWidth={80}
                             id="injury-type-select"
-                            value={10}
+                            value={""}
                         >
+                            <MenuItem value="" disabled>
+                                Select type of injury...
+                            </MenuItem>
                             <MenuItem value={10}>Ten</MenuItem>
                         </Select>
                     </FormControl>
@@ -155,7 +173,10 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                         <InputLabel id="severity-select-label">
                             Severity
                         </InputLabel>
-                        <Select labelWidth={60} id="severity-select" value={10}>
+                        <Select labelWidth={60} id="severity-select" value={""}>
+                            <MenuItem value="" disabled>
+                                Select severity of injury...
+                            </MenuItem>
                             <MenuItem value={10}>Ten</MenuItem>
                         </Select>
                     </FormControl>
@@ -178,8 +199,11 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                             <Select
                                 labelWidth={50}
                                 id="status-select"
-                                value={10}
+                                value={""}
                             >
+                                <MenuItem value="" disabled>
+                                    Select status of athlete...
+                                </MenuItem>
                                 <MenuItem value={10}>Ten</MenuItem>
                             </Select>
                         </FormControl>
@@ -193,8 +217,11 @@ export default function InjuryLoggingStepContent(stepIndex: number) {
                             <Select
                                 labelWidth={145}
                                 id="mechanism-select"
-                                value={10}
+                                value={""}
                             >
+                                <MenuItem value="" disabled>
+                                    Select mechanism of injury...
+                                </MenuItem>
                                 <MenuItem value={10}>Ten</MenuItem>
                             </Select>
                         </FormControl>
