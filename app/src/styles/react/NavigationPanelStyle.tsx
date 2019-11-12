@@ -43,6 +43,17 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
         link: {
             textDecoration: "none",
             color: "#000000"
+        },
+        teamToggleButton: {
+            padding: "0px"
+        },
+        teamToggleList: {
+            padding: "0px",
+            width: "100%"
+        },
+        teamToggleListItem: {
+            overflow: "hidden",
+            textOverflow: "ellipsis"
         }
     })
 );
