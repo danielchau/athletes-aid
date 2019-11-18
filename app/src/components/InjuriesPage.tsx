@@ -24,6 +24,16 @@ interface InjuriesProps {
 
 export default function InjuriesPage(props: InjuriesProps) {
     const classes = injuriesPageStyles({});
+    const [injuryOpen, setInjuryOpen] = React.useState(false);
+
+    const handleInjuryOpen = () => {
+        setInjuryOpen(true);
+    };
+
+    const handleInjuryClose = () => {
+        setInjuryOpen(false);
+    };
+
     const onInjuriesDateChange = () => {
         props.getAthleteInjuries(new Date(), new Date(), "");
     };
@@ -143,6 +153,9 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <InjuriesDataTable
                             injuries={props.athleteInjuries.injuries}
+                            injuryOpen={injuryOpen}
+                            handleInjuryOpen={handleInjuryOpen}
+                            handleInjuryClose={handleInjuryClose}
                         ></InjuriesDataTable>
                     </Paper>
                 </Grid>

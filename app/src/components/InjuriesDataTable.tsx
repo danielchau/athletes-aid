@@ -13,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import InjuryDialog from "./InjuryDialog";
 import {
     injuriesDataTableToolbarStyles,
     injuriesDataTableStyles
@@ -37,6 +38,9 @@ interface EnhancedTableProps {
 
 interface InjuriesDataTableProps {
     injuries: Injury[];
+    injuryOpen: boolean;
+    handleInjuryOpen: any;
+    handleInjuryClose: any;
 }
 
 interface EnhancedTableToolbarProps {
@@ -95,13 +99,24 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const classes = injuriesDataTableStyles({});
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<keyof Injury>("athleteName");
-    const [selected, setSelected] = React.useState<string[]>([]);
+    const [selectedInjuries, setSelectedInjuries] = React.useState<string[]>(
+        []
+    );
+    const [selectedInjury, setSelectedInjury] = React.useState<Injury>({
+        id: "",
+        createdAt: new Date(),
+        athleteName: "",
+        locationOnBody: "",
+        injuryType: "",
+        severity: 0,
+        active: false
+    });
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleRequestSort = (
-        event: React.MouseEvent<unknown>,
+        _: React.MouseEvent<unknown>,
         property: keyof Injury
     ) => {
         const isDesc = orderBy === property && order === "desc";
@@ -114,30 +129,38 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     ) => {
         if (event.target.checked) {
             const newSelecteds = props.injuries.map(n => JSON.stringify(n));
-            setSelected(newSelecteds);
+            setSelectedInjuries(newSelecteds);
             return;
         }
-        setSelected([]);
+        setSelectedInjuries([]);
     };
 
-    const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-        const selectedIndex = selected.indexOf(name);
+    const handleSelection = (_: React.MouseEvent<unknown>, name: string) => {
+        const selectedIndex = selectedInjuries.indexOf(name);
         let newSelected: string[] = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selectedInjuries, name);
         } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
+            newSelected = newSelected.concat(selectedInjuries.slice(1));
+        } else if (selectedIndex === selectedInjuries.length - 1) {
+            newSelected = newSelected.concat(selectedInjuries.slice(0, -1));
         } else if (selectedIndex > 0) {
             newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1)
+                selectedInjuries.slice(0, selectedIndex),
+                selectedInjuries.slice(selectedIndex + 1)
             );
         }
 
-        setSelected(newSelected);
+        setSelectedInjuries(newSelected);
+    };
+
+    const handleRowClick = (_: React.MouseEvent<unknown>, name: string) => {
+        let selectedInjury = props.injuries.filter(i => i.id == name)[0];
+        if (!!selectedInjury) {
+            setSelectedInjury(selectedInjury);
+            props.handleInjuryOpen();
+        }
     };
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -155,7 +178,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         setDense(event.target.checked);
     };
 
-    const isSelected = (name: string) => selected.indexOf(name) !== -1;
+    const isSelected = (name: string) => selectedInjuries.indexOf(name) !== -1;
 
     const emptyRows =
         rowsPerPage -
@@ -164,7 +187,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar numSelected={selectedInjuries.length} />
                 <div className={classes.tableWrapper}>
                     <Table
                         className={classes.table}
@@ -174,7 +197,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     >
                         <EnhancedTableHead
                             classes={classes}
-                            numSelected={selected.length}
+                            numSelected={selectedInjuries.length}
                             order={order}
                             orderBy={orderBy}
                             onSelectAllClick={handleSelectAllClick}
@@ -191,28 +214,29 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                     page * rowsPerPage + rowsPerPage
                                 )
                                 .map((row: Injury, index: number) => {
-                                    const isItemSelected = isSelected(
-                                        JSON.stringify(row)
-                                    );
+                                    const isItemSelected = isSelected(row.id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={event =>
-                                                handleClick(
-                                                    event,
-                                                    JSON.stringify(row)
-                                                )
-                                            }
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={JSON.stringify(row)}
+                                            key={row.id}
                                             selected={isItemSelected}
+                                            onClick={event =>
+                                                handleRowClick(event, row.id)
+                                            }
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
+                                                    onClick={event =>
+                                                        handleSelection(
+                                                            event,
+                                                            row.id
+                                                        )
+                                                    }
                                                     checked={isItemSelected}
                                                     inputProps={{
                                                         "aria-labelledby": labelId
@@ -279,6 +303,11 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                 }
                 label="Dense padding"
             />
+            <InjuryDialog
+                injury={selectedInjury}
+                injuryOpen={props.injuryOpen}
+                handleInjuryClose={props.handleInjuryClose}
+            ></InjuryDialog>
         </div>
     );
 }
