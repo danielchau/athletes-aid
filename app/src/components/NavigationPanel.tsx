@@ -19,7 +19,7 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import clsx from "clsx";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
-import { NavigationPanelStates } from "../util/types";
+import { NavigationPanelStates, Team, Athlete } from "../util/types";
 import {
     homePageName,
     profilePageName,
@@ -38,12 +38,21 @@ import {
 interface NavigationPanelProps {
     state: NavigationPanelStates;
     handleDrawerClose: any;
-    selectedTeam: string;
+    selectedTeam: Team;
     setSelectedTeam: any;
 }
 
 // TODO: Have to change this to a Redux state hookup as we probably want this to live on the user object
-const options = ["Team 1", "Team 2", "Team 3", "Team 4"];
+const options = [
+    {
+        name: "Team 1",
+        athletes: [
+            { id: "1", name: "Athlete 1" },
+            { id: "2", name: "Athlete 2" }
+        ] as Athlete[]
+    },
+    { name: "Team 2", athletes: [] as Athlete[] }
+];
 
 export default function NavigationPanel(
     props: NavigationPanelProps & RouteComponentProps
@@ -205,7 +214,7 @@ export default function NavigationPanel(
                             <ListItemText
                                 className={classes.teamToggleListItem}
                                 primary="Team Selection"
-                                secondary={props.selectedTeam}
+                                secondary={props.selectedTeam.name}
                             />
                         </ListItem>
                     </List>
@@ -223,11 +232,11 @@ export default function NavigationPanel(
                     >
                         {options.map((option, index) => (
                             <MenuItem
-                                key={option}
+                                key={option.name}
                                 selected={option === props.selectedTeam}
                                 onClick={event => handleTeamClick(event, index)}
                             >
-                                {option}
+                                {option.name}
                             </MenuItem>
                         ))}
                     </Menu>

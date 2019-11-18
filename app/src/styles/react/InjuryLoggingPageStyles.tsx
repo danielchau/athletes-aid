@@ -9,6 +9,11 @@ export const injuryLoggingPageStyles = makeStyles((theme: Theme) =>
         backButton: {
             marginRight: theme.spacing(1)
         },
+        completedContainer: {
+            height: "calc(100% - 116px)",
+            textAlign: "center",
+            paddingTop: "20%"
+        },
         instructions: {
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1)

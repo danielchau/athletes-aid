@@ -1,7 +1,7 @@
 import * as React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NavigationPanel from "./NavigationPanel";
-import { NavigationPanelStates } from "../util/types";
+import { NavigationPanelStates, Team } from "../util/types";
 import { pageStyles } from "../styles/react/PageStyle";
 import { Switch, Route, RouteComponentProps } from "react-router-dom";
 import {
@@ -14,11 +14,11 @@ import {
 } from "../constants/constants";
 import TopBar from "./TopBar";
 import InjuriesPageContainer from "../containers/InjuriesPageContainer";
-import InjuryLoggingPage from "./InjuryLoggingPage";
+import InjuryLoggingPageContainer from "../containers/InjuryLoggingPageContainer";
 
 interface PageProps {
     state: NavigationPanelStates;
-    selectedTeam: string;
+    selectedTeam: Team;
     setSelectedTeam: any;
     handleDrawerClose: any;
     handleDrawerOpen: any;
@@ -54,7 +54,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                         <h2>Roster</h2>
                     </Route>
                     <Route path={injuryLoggingPath}>
-                        <InjuryLoggingPage></InjuryLoggingPage>
+                        <InjuryLoggingPageContainer></InjuryLoggingPageContainer>
                     </Route>
                     <Route path={injuriesPath}>
                         <InjuriesPageContainer></InjuriesPageContainer>

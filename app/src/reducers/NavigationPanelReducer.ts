@@ -3,7 +3,8 @@ import {
     NavigationPanelTypes,
     NavigationPanelStates,
     SetSelectedTeamTypes,
-    SET_SELECTED_TEAM
+    SET_SELECTED_TEAM,
+    Team
 } from "../util/types";
 
 export function navigationPanelReducer(
@@ -19,7 +20,7 @@ export function navigationPanelReducer(
 }
 
 export function selectedTeamReducer(
-    team: string = "",
+    team: Team = { name: "", athletes: [] },
     action: SetSelectedTeamTypes
 ) {
     switch (action.type) {

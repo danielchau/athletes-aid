@@ -9,18 +9,26 @@ import Typography from "@material-ui/core/Typography";
 import InjuryLoggingStepContent from "./InjuryLoggingStepContent";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import { Team } from "../util/types";
 
 function getSteps() {
     return ["Injury Details", "Further Details", "Review"];
 }
 
-export default function InjuryLoggingPage() {
+interface InjuryLoggingPageProps {
+    selectedTeam: Team;
+}
+
+export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const classes = injuryLoggingPageStyles({});
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
 
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
+        if (activeStep == steps.length - 1) {
+            // Send API event to log injury here
+        }
     };
 
     const handleBack = () => {
@@ -47,16 +55,25 @@ export default function InjuryLoggingPage() {
                 </Stepper>
             </Paper>
             {activeStep === steps.length ? (
-                <div>
-                    <Typography className={classes.instructions}>
-                        All steps completed
+                <div className={classes.completedContainer}>
+                    <Typography variant="h4" className={classes.instructions}>
+                        All steps completed.
                     </Typography>
-                    <Button onClick={handleReset}>Reset</Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleReset}
+                    >
+                        Log Another Injury
+                    </Button>
                 </div>
             ) : (
                 <div className={classes.loggingContent}>
                     <Paper className={classes.paperContent}>
-                        {InjuryLoggingStepContent(activeStep)}
+                        <InjuryLoggingStepContent
+                            stepIndex={activeStep}
+                            selectedTeam={props.selectedTeam}
+                        ></InjuryLoggingStepContent>
                     </Paper>
                     <div className={classes.loggingBottomButtons}>
                         <Button

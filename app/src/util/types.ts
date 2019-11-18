@@ -13,7 +13,17 @@ interface ToggleNavAction {
 export type SetSelectedTeamTypes = SetSelectedTeam;
 interface SetSelectedTeam {
     type: typeof SET_SELECTED_TEAM;
-    team: string;
+    team: Team;
+}
+
+export interface Team {
+    name: string;
+    athletes: Athlete[];
+}
+
+export interface Athlete {
+    id: string;
+    name: string;
 }
 
 export const GET_ATHLETE_INJURIES = "GET_ATHLETE_INJURIES";

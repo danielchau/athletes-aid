@@ -5,7 +5,7 @@ import {
 } from "../actions/NavigationPanelAction";
 import Page from "../components/Page";
 import { AppState } from "..";
-import { NavigationPanelStates } from "../util/types";
+import { NavigationPanelStates, Team } from "../util/types";
 import { withRouter } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => ({
@@ -14,7 +14,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    setSelectedTeam: (team: string) => dispatch(setSelectedTeam(team)),
+    setSelectedTeam: (team: Team) => dispatch(setSelectedTeam(team)),
     handleDrawerClose: () =>
         dispatch(toggleNavigationPanel(NavigationPanelStates.closed)),
     handleDrawerOpen: () =>
@@ -22,10 +22,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const PageContainer = withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Page)
+    connect(mapStateToProps, mapDispatchToProps)(Page)
 );
 
 export default PageContainer;
