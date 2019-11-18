@@ -405,6 +405,10 @@ export default function InjuryLoggingStepContent(
         case 2:
             return (
                 <div>
+                    <Typography className={classes.instructions}>
+                        Please review the following information before
+                        finishing.
+                    </Typography>
                     <p>
                         <b>Team Name: </b>
                         {props.selectedTeam.name}

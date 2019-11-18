@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import InjuryLoggingStepContent from "./InjuryLoggingStepContent";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import DoneIcon from "@material-ui/icons/Done";
 import { Team } from "../util/types";
 
 function getSteps() {
@@ -90,7 +91,9 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                             onClick={handleNext}
                         >
                             {activeStep === steps.length - 1 ? (
-                                "Finish"
+                                <>
+                                    Finish<DoneIcon></DoneIcon>
+                                </>
                             ) : (
                                 <>
                                     Next<NavigateNextIcon></NavigateNextIcon>
