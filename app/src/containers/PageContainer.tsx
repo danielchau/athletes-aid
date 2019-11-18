@@ -1,15 +1,20 @@
 import { connect } from "react-redux";
-import { toggleNavigationPanel } from "../actions/NavigationPanelAction";
+import {
+    toggleNavigationPanel,
+    setSelectedTeam
+} from "../actions/NavigationPanelAction";
 import Page from "../components/Page";
 import { AppState } from "..";
-import { NavigationPanelStates } from "../util/types";
+import { NavigationPanelStates, Team } from "../util/types";
 import { withRouter } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => ({
-    state: state.navigationPanelReducer
+    state: state.navigationPanelReducer,
+    selectedTeam: state.selectedTeamReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
+    setSelectedTeam: (team: Team) => dispatch(setSelectedTeam(team)),
     handleDrawerClose: () =>
         dispatch(toggleNavigationPanel(NavigationPanelStates.closed)),
     handleDrawerOpen: () =>
@@ -17,10 +22,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const PageContainer = withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Page)
+    connect(mapStateToProps, mapDispatchToProps)(Page)
 );
 
 export default PageContainer;
