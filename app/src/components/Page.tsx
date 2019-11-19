@@ -54,7 +54,10 @@ export default function Page(props: PageProps & RouteComponentProps) {
                         <h2>Roster</h2>
                     </Route>
                     <Route path={injuryLoggingPath}>
-                        <InjuryLoggingPageContainer></InjuryLoggingPageContainer>
+                        <InjuryLoggingPageContainer
+                            existingInjury={null}
+                            callbackUponFinishing={null}
+                        ></InjuryLoggingPageContainer>
                     </Route>
                     <Route path={injuriesPath}>
                         <InjuriesPageContainer></InjuriesPageContainer>

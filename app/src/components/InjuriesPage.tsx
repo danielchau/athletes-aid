@@ -140,11 +140,13 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                111
+                                {getTotalPlayersOut(
+                                    props.athleteInjuries.injuries
+                                )}
                             </div>
                             <Divider light />
                             <div className={classes.primaryStatisticLabel}>
-                                Placeholder
+                                Players Out
                             </div>
                         </div>
                     </Paper>
@@ -165,7 +167,22 @@ export default function InjuriesPage(props: InjuriesProps) {
 }
 
 function getAverageSeverity(injuries: Injury[]): string {
+    if (injuries.length == 0) {
+        return "0.0";
+    }
     let sum = 0;
     injuries.forEach(i => (sum += i.severity));
     return (sum / injuries.length).toFixed(1);
+}
+
+function getTotalPlayersOut(injuries: Injury[]): number {
+    let addedAthletes = new Set();
+    return injuries.filter(i => {
+        if (addedAthletes.has(i.athleteName)) {
+            return false;
+        } else {
+            addedAthletes.add(i.athleteName);
+            return i.status == "Out";
+        }
+    }).length;
 }

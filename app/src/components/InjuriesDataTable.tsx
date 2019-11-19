@@ -64,10 +64,10 @@ const headCells: HeadCell[] = [
         label: "Athlete Name"
     },
     {
-        id: "createdAt",
+        id: "injuryDate",
         numeric: true,
         disablePadding: false,
-        label: "Created On"
+        label: "Injury Date"
     },
     {
         id: "locationOnBody",
@@ -88,10 +88,10 @@ const headCells: HeadCell[] = [
         label: "Severity"
     },
     {
-        id: "active",
+        id: "status",
         numeric: true,
         disablePadding: false,
-        label: "Active"
+        label: "Status"
     }
 ];
 
@@ -102,15 +102,9 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const [selectedInjuries, setSelectedInjuries] = React.useState<string[]>(
         []
     );
-    const [selectedInjury, setSelectedInjury] = React.useState<Injury>({
-        id: "",
-        createdAt: new Date(),
-        athleteName: "",
-        locationOnBody: "",
-        injuryType: "",
-        severity: 0,
-        active: false
-    });
+    const [selectedInjury, setSelectedInjury] = React.useState<Injury | null>(
+        null
+    );
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -128,14 +122,18 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         if (event.target.checked) {
-            const newSelecteds = props.injuries.map(n => JSON.stringify(n));
+            const newSelecteds = props.injuries.map(n => n.id);
             setSelectedInjuries(newSelecteds);
             return;
         }
         setSelectedInjuries([]);
     };
 
-    const handleSelection = (_: React.MouseEvent<unknown>, name: string) => {
+    const handleSelection = (
+        event: React.MouseEvent<unknown>,
+        name: string
+    ) => {
+        event.stopPropagation();
         const selectedIndex = selectedInjuries.indexOf(name);
         let newSelected: string[] = [];
 
@@ -219,6 +217,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
 
                                     return (
                                         <TableRow
+                                            className={classes.tableRow}
                                             hover
                                             role="checkbox"
                                             aria-checked={isItemSelected}
@@ -231,6 +230,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
+                                                    color="primary"
                                                     onClick={event =>
                                                         handleSelection(
                                                             event,
@@ -252,7 +252,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                                 {row.athleteName}
                                             </TableCell>
                                             <TableCell align="right">
-                                                {row.createdAt.toLocaleDateString()}
+                                                {row.injuryDate.toLocaleDateString()}
                                             </TableCell>
                                             <TableCell align="right">
                                                 {row.locationOnBody}
@@ -264,7 +264,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                                 {row.severity}
                                             </TableCell>
                                             <TableCell align="right">
-                                                {row.active ? "true" : "false"}
+                                                {row.status}
                                             </TableCell>
                                         </TableRow>
                                     );
@@ -303,11 +303,13 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                 }
                 label="Dense padding"
             />
-            <InjuryDialog
-                injury={selectedInjury}
-                injuryOpen={props.injuryOpen}
-                handleInjuryClose={props.handleInjuryClose}
-            ></InjuryDialog>
+            {!!selectedInjury && (
+                <InjuryDialog
+                    injury={selectedInjury}
+                    injuryOpen={props.injuryOpen}
+                    handleInjuryClose={props.handleInjuryClose}
+                ></InjuryDialog>
+            )}
         </div>
     );
 }
@@ -333,6 +335,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             <TableRow>
                 <TableCell padding="checkbox">
                     <Checkbox
+                        color="primary"
                         indeterminate={
                             numSelected > 0 && numSelected < rowCount
                         }

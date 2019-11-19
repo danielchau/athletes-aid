@@ -4,7 +4,7 @@ export const injuryLoggingPageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             width: "100%",
-            margin: "8px"
+            padding: "8px"
         },
         backButton: {
             marginRight: theme.spacing(1)
