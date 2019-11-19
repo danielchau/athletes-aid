@@ -7,13 +7,13 @@ import mapper from "./mapper";
  * @param {string} name The name of the team
  * @return {Promise} A promise which resolves with the id of the team requested
  */
-export async function putTeam(name: string): Promise<any> {
+export async function putTeam(name: string): Promise<string> {
   const team = Object.assign(new Team(), {
     name: name
   });
-  return mapper.put({ item: team }).then((data: any) => {
-    console.log(data.id);
-    return { id: data.id };
+  return await mapper.put(team).then((team: Team) =>  {
+    console.log(team);
+    return team.id;
   });
 }
 
@@ -21,14 +21,14 @@ export async function putTeam(name: string): Promise<any> {
  * Retrieves a Team from DynamoDB
  *
  * @param {string} teamId The ID of the team
- * @return {Promise} A promise which resolves with the value of the team requested
+ * @return {Promise} A promise which resolves with the team requested
  */
-export async function getTeam(teamId: string): Promise<any> {
+export async function getTeam(teamId: string): Promise<Team> {
   return mapper
     .get(Object.assign(new Team(), { id: teamId }))
-    .then((data: any) => {
-      console.log(data);
-      return data;
+    .then((team: Team) => {
+      console.log(team);
+      return team;
     });
 }
 
@@ -37,18 +37,18 @@ export async function getTeam(teamId: string): Promise<any> {
  *
  * @param {string} teamId The id of the team to add an athlete to
  * @param {string} athleteId The id of the athlete to add to the team
- * @return {object} An object containing the team id
+ * @return {string} A string containing the team id
  */
 export async function addAthlete(
   teamId: string,
   athleteId: string
-): Promise<any> {
+): Promise<string> {
   const team = await getTeam(teamId);
   if (team) {
-    team.athletes = team.athletes || [];
+    team.athletes = team.athletes;
     team.athletes.push(athleteId);
-    return mapper.update(team).then((data: any) => {
-      return { id: data.id };
+    return mapper.update(team).then(data => {
+      return data.id;
     });
   }
 }
@@ -57,11 +57,11 @@ export async function addAthlete(
  * Get all teams from dynamoDB
  * @return {object} An object containing all teams
  */
-export async function getAllTeams(): Promise<object> {
+export async function getAllTeams(): Promise<Team[]> {
   let teams = [];
   for await (const team of mapper.scan(Team)) {
     teams.push(team);
   }
   console.log(teams);
-  return { teams: teams };
+  return teams;
 }

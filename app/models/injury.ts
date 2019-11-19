@@ -7,21 +7,21 @@ import mapper from "./mapper";
  * @param {string} createdBy The name of the user creating the injury
  * @param {string} athlete the userId of the athlete regrading the injury
  * @param {string} description a descrition of the injury
- * @return {Promise} A promise which resolves with the value of the user requested
+ * @return {Promise} A promise which contains the id of the user requested
  */
 export async function putInjury(
   createdBy: string,
   athlete: string,
   description: string
-): Promise<any> {
+): Promise<string> {
   const injury = Object.assign(new Injury(), {
     createdAt: new Date(),
     createdBy: createdBy,
     athlete: athlete,
     description: description
   });
-  return mapper.put({ item: injury }).then((data: any) => {
-    return { id: data.id };
+  return mapper.put(injury).then((data: Injury) => {
+    return data.id;
   });
 }
 
@@ -29,7 +29,7 @@ export async function putInjury(
  * Retrieve an Injury by athlete
  *
  * @param {string} athlete the id of the user
- * @return {object} An object containing the Injury Data
+ * @return {Injury} An Injury object containing the Injury Data
  */
 export async function getInjury(athlete: string): Promise<Injury> {
   let injury = null;
