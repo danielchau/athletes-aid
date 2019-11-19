@@ -2,13 +2,22 @@ import { connect } from "react-redux";
 import InjuryLoggingPage from "../components/InjuryLoggingPage";
 import { AppState } from "..";
 import { withRouter } from "react-router-dom";
+import { Injury } from "../util/types";
 
-const mapStateToProps = (state: AppState) => ({
-    selectedTeam: state.selectedTeamReducer
+interface InjuriesPageContainerProps {
+    existingInjury: Injury | null;
+    callbackUponFinishing: any;
+}
+
+const mapStateToProps = (
+    state: AppState,
+    ownProps: InjuriesPageContainerProps
+) => ({
+    selectedTeam: state.selectedTeamReducer,
+    existingInjury: ownProps.existingInjury,
+    callbackUponFinishing: ownProps.callbackUponFinishing
 });
 
-const InjuryLoggingPageContainer = withRouter(
-    connect(mapStateToProps)(InjuryLoggingPage)
-);
+const InjuryLoggingPageContainer = connect(mapStateToProps)(InjuryLoggingPage);
 
 export default InjuryLoggingPageContainer;

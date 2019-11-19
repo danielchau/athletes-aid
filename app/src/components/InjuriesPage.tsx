@@ -24,6 +24,16 @@ interface InjuriesProps {
 
 export default function InjuriesPage(props: InjuriesProps) {
     const classes = injuriesPageStyles({});
+    const [injuryOpen, setInjuryOpen] = React.useState(false);
+
+    const handleInjuryOpen = () => {
+        setInjuryOpen(true);
+    };
+
+    const handleInjuryClose = () => {
+        setInjuryOpen(false);
+    };
+
     const onInjuriesDateChange = () => {
         props.getAthleteInjuries(new Date(), new Date(), "");
     };
@@ -130,11 +140,13 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                111
+                                {getTotalPlayersOut(
+                                    props.athleteInjuries.injuries
+                                )}
                             </div>
                             <Divider light />
                             <div className={classes.primaryStatisticLabel}>
-                                Placeholder
+                                Players Out
                             </div>
                         </div>
                     </Paper>
@@ -143,6 +155,9 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <InjuriesDataTable
                             injuries={props.athleteInjuries.injuries}
+                            injuryOpen={injuryOpen}
+                            handleInjuryOpen={handleInjuryOpen}
+                            handleInjuryClose={handleInjuryClose}
                         ></InjuriesDataTable>
                     </Paper>
                 </Grid>
@@ -152,7 +167,22 @@ export default function InjuriesPage(props: InjuriesProps) {
 }
 
 function getAverageSeverity(injuries: Injury[]): string {
+    if (injuries.length == 0) {
+        return "0.0";
+    }
     let sum = 0;
     injuries.forEach(i => (sum += i.severity));
     return (sum / injuries.length).toFixed(1);
+}
+
+function getTotalPlayersOut(injuries: Injury[]): number {
+    let addedAthletes = new Set();
+    return injuries.filter(i => {
+        if (addedAthletes.has(i.athleteName)) {
+            return false;
+        } else {
+            addedAthletes.add(i.athleteName);
+            return i.status == "Out";
+        }
+    }).length;
 }

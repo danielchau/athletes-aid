@@ -10,7 +10,7 @@ import InjuryLoggingStepContent from "./InjuryLoggingStepContent";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import DoneIcon from "@material-ui/icons/Done";
-import { Team } from "../util/types";
+import { Team, Injury } from "../util/types";
 
 function getSteps() {
     return ["Injury Details", "Further Details", "Review"];
@@ -18,6 +18,8 @@ function getSteps() {
 
 interface InjuryLoggingPageProps {
     selectedTeam: Team;
+    existingInjury: Injury | null;
+    callbackUponFinishing: any;
 }
 
 export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
@@ -28,6 +30,9 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
         if (activeStep == steps.length - 1) {
+            if (!!props.callbackUponFinishing) {
+                props.callbackUponFinishing();
+            }
             // Send API event to log injury here
         }
     };
@@ -74,6 +79,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                         <InjuryLoggingStepContent
                             stepIndex={activeStep}
                             selectedTeam={props.selectedTeam}
+                            existingInjury={props.existingInjury}
                         ></InjuryLoggingStepContent>
                     </Paper>
                     <div className={classes.loggingBottomButtons}>

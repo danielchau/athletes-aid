@@ -16,7 +16,7 @@ export const drawerWidth: number = 240;
 
 export const eventTypes: string[] = ["Game", "Practice", "Personal"];
 // These should be sport dependant
-export const positions: string[] = ["Position1", "Position2"];
+export const positions: string[] = ["Position 1", "Position 2"];
 export const sidesOfBody: string[] = [
     "Bilateral",
     "Left",

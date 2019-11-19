@@ -56,10 +56,27 @@ export interface AthleteInjuries {
 
 export interface Injury {
     id: string;
-    createdAt: Date;
+    active: boolean;
+    createdOn: Date;
+    createdBy: string;
+    teamName: string;
     athleteName: string;
+    injuryDate: Date;
+    isSportsRelated: boolean;
+    eventType: string;
+    position: string;
+    sideOfBody: string;
     locationOnBody: string;
     injuryType: string;
     severity: number;
-    active: boolean;
+    status: string;
+    mechanism: string;
+    injuryDescription: string;
+    otherNotes: InjuryNote[];
+}
+
+export interface InjuryNote {
+    createdBy: string;
+    createdOn: Date;
+    content: string;
 }

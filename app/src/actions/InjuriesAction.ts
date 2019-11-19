@@ -37,30 +37,60 @@ function createMockAthleteInjuries(): Injury[] {
     return [
         {
             id: "1",
-            createdAt: new Date("2019-05-24"),
+            active: true,
+            createdOn: new Date(),
+            createdBy: "temp",
+            teamName: "Team 1",
             athleteName: "Athlete 1",
-            locationOnBody: "head",
-            injuryType: "concussion",
-            severity: 4,
-            active: true
+            injuryDate: new Date("11/18/2019"),
+            isSportsRelated: true,
+            eventType: "Practice",
+            position: "Position 1",
+            sideOfBody: "Midline",
+            locationOnBody: "Head/Face",
+            injuryType: "Contusion",
+            severity: 6,
+            status: "Mod",
+            mechanism: "Indirect contact",
+            injuryDescription: "Random description.",
+            otherNotes: [
+                {
+                    createdBy: "Person 1",
+                    createdOn: new Date(),
+                    content: "random note"
+                },
+                {
+                    createdBy: "Person 2",
+                    createdOn: new Date(),
+                    content: "random note 2"
+                }
+            ]
         },
         {
             id: "2",
-            createdAt: new Date("2019-06-15"),
+            active: true,
+            createdOn: new Date(),
+            createdBy: "temp",
+            teamName: "Team 2",
             athleteName: "Athlete 2",
-            locationOnBody: "ankle",
-            injuryType: "sprain",
-            severity: 3,
-            active: true
-        },
-        {
-            id: "3",
-            createdAt: new Date("2019-05-24"),
-            athleteName: "Athlete 1",
-            locationOnBody: "shoulder",
-            injuryType: "discolation",
-            severity: 8,
-            active: false
+            injuryDate: new Date("09/16/2019"),
+            isSportsRelated: true,
+            eventType: "Game",
+            position: "Position 1",
+            sideOfBody: "Midline",
+            locationOnBody: "Knee",
+            injuryType: "Dislocation",
+            severity: 4,
+            status: "Out",
+            mechanism: "Direct contact with another athlete",
+            injuryDescription: "Random description.",
+            otherNotes: [
+                {
+                    createdBy: "Person 1",
+                    createdOn: new Date(),
+                    content: "random note"
+                }
+            ]
         }
     ];
 }

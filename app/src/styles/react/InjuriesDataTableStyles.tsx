@@ -21,6 +21,9 @@ export const injuriesDataTableStyles = makeStyles((theme: Theme) =>
         tableWrapper: {
             overflowX: "auto"
         },
+        tableRow: {
+            cursor: "pointer"
+        },
         visuallyHidden: {
             border: 0,
             clip: "rect(0 0 0 0)",
@@ -44,9 +47,9 @@ export const injuriesDataTableToolbarStyles = makeStyles((theme: Theme) =>
         highlight:
             theme.palette.type === "light"
                 ? {
-                      color: theme.palette.secondary.main,
+                      color: theme.palette.primary.main,
                       backgroundColor: lighten(
-                          theme.palette.secondary.light,
+                          theme.palette.primary.light,
                           0.85
                       )
                   }

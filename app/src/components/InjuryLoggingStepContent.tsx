@@ -15,7 +15,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
 import { injuryLoggingStepContentStyles } from "../styles/react/InjuryLoggingStepContentStyles";
-import { Athlete, Team } from "../util/types";
+import { Athlete, Team, Injury } from "../util/types";
 import {
     eventTypes,
     positions,
@@ -30,6 +30,7 @@ import {
 interface InjuryLoggingStepContentProps {
     stepIndex: number;
     selectedTeam: Team;
+    existingInjury: Injury | null;
 }
 
 type StringChangeEvent = React.ChangeEvent<{ value: string }>;
@@ -40,24 +41,50 @@ export default function InjuryLoggingStepContent(
     props: InjuryLoggingStepContentProps
 ) {
     const classes = injuryLoggingStepContentStyles({});
-    const [selectedAthlete, setSelectedAthlete] = React.useState("");
-    const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
-    const [isSportsRelated, setIsSportsRelated] = React.useState(false);
-    const [selectedEventType, setSelectedEventType] = React.useState("");
-    const [selectedPosition, setSelectedPosition] = React.useState("");
-    const [selectedSideOfBody, setSelectedSideOfBody] = React.useState("");
-    const [selectedLocationOnBody, setSelectedLocationOnBody] = React.useState(
-        ""
+    const [selectedAthlete, setSelectedAthlete] = React.useState(
+        !!props.existingInjury ? props.existingInjury.athleteName : ""
     );
-    const [selectedInjuryType, setSelectedInjuryType] = React.useState("");
-    const [selectedSeverity, setSelectedSeverity] = React.useState(0);
-    const [selectedStatus, setSelectedStatus] = React.useState("");
+    const [selectedDate, setSelectedDate] = React.useState<Date>(
+        !!props.existingInjury ? props.existingInjury.injuryDate : new Date()
+    );
+    const [isSportsRelated, setIsSportsRelated] = React.useState(
+        !!props.existingInjury ? props.existingInjury.isSportsRelated : false
+    );
+    const [selectedEventType, setSelectedEventType] = React.useState(
+        !!props.existingInjury ? props.existingInjury.eventType : ""
+    );
+    const [selectedPosition, setSelectedPosition] = React.useState(
+        !!props.existingInjury ? props.existingInjury.position : ""
+    );
+    const [selectedSideOfBody, setSelectedSideOfBody] = React.useState(
+        !!props.existingInjury ? props.existingInjury.sideOfBody : ""
+    );
+    const [selectedLocationOnBody, setSelectedLocationOnBody] = React.useState(
+        !!props.existingInjury ? props.existingInjury.locationOnBody : ""
+    );
+    const [selectedInjuryType, setSelectedInjuryType] = React.useState(
+        !!props.existingInjury ? props.existingInjury.injuryType : ""
+    );
+    const [selectedSeverity, setSelectedSeverity] = React.useState(
+        !!props.existingInjury ? props.existingInjury.severity : 0
+    );
+    const [selectedStatus, setSelectedStatus] = React.useState(
+        !!props.existingInjury ? props.existingInjury.status : ""
+    );
     const [
         selectedMechanismOfInjury,
         setSelectedMechanismOfInjury
-    ] = React.useState("");
-    const [injuryDescription, setInjuryDescription] = React.useState("");
-    const [otherNotes, setOtherNotes] = React.useState("");
+    ] = React.useState(
+        !!props.existingInjury ? props.existingInjury.mechanism : ""
+    );
+    const [injuryDescription, setInjuryDescription] = React.useState(
+        !!props.existingInjury ? props.existingInjury.injuryDescription : ""
+    );
+    const [otherNotes, setOtherNotes] = React.useState(
+        !!props.existingInjury
+            ? "Notes can't be altered. See all injury notes on overview page."
+            : ""
+    );
 
     const handleAthleteChange = (event: StringTextContentChangeEvent) => {
         setSelectedAthlete(event.target.textContent);
@@ -98,9 +125,13 @@ export default function InjuryLoggingStepContent(
     const handleDescriptionChange = (event: StringChangeEvent) => {
         setInjuryDescription(event.target.value);
     };
-    const hanldeOtherNotesChange = (event: StringChangeEvent) => {
+    const handleOtherNotesChange = (event: StringChangeEvent) => {
         setOtherNotes(event.target.value);
     };
+
+    const selectedTeam = !!props.existingInjury
+        ? props.existingInjury.teamName
+        : props.selectedTeam.name;
 
     switch (props.stepIndex) {
         case 0:
@@ -120,11 +151,11 @@ export default function InjuryLoggingStepContent(
                         <Select
                             labelWidth={90}
                             id="team-select"
-                            value={props.selectedTeam.name}
+                            value={selectedTeam}
                             inputProps={{ readOnly: true }}
                         >
-                            <MenuItem value={props.selectedTeam.name}>
-                                {props.selectedTeam.name}
+                            <MenuItem value={selectedTeam}>
+                                {selectedTeam}
                             </MenuItem>
                         </Select>
                     </FormControl>
@@ -132,24 +163,52 @@ export default function InjuryLoggingStepContent(
                         className={classes.formControl}
                         variant="outlined"
                     >
-                        <Autocomplete
-                            id="athlete-select"
-                            options={props.selectedTeam.athletes}
-                            getOptionLabel={(option: Athlete) => option.name}
-                            onChange={handleAthleteChange}
-                            renderInput={params => (
-                                <TextField
-                                    {...params}
-                                    inputProps={{
-                                        ...params.inputProps,
-                                        autoComplete: "off"
-                                    }}
-                                    label="Athlete Name"
-                                    variant="outlined"
-                                    fullWidth
-                                />
-                            )}
-                        />
+                        {!!props.existingInjury ? (
+                            <>
+                                <InputLabel id="athlete-select-label">
+                                    Athlete Name
+                                </InputLabel>
+                                <Select
+                                    labelWidth={90}
+                                    id="athlete-select"
+                                    value={props.existingInjury.athleteName}
+                                    inputProps={{ readOnly: true }}
+                                >
+                                    <MenuItem
+                                        value={props.existingInjury.athleteName}
+                                    >
+                                        {props.existingInjury.athleteName}
+                                    </MenuItem>
+                                </Select>
+                            </>
+                        ) : (
+                            <Autocomplete
+                                id="athlete-select"
+                                options={props.selectedTeam.athletes}
+                                getOptionLabel={(option: Athlete) =>
+                                    option.name
+                                }
+                                onChange={handleAthleteChange}
+                                renderInput={params => (
+                                    <TextField
+                                        {...params}
+                                        inputProps={{
+                                            ...params.inputProps,
+                                            autoComplete: "off"
+                                        }}
+                                        label="Athlete Name"
+                                        variant="outlined"
+                                        defaultValue={
+                                            !!props.existingInjury
+                                                ? props.existingInjury
+                                                      .athleteName
+                                                : ""
+                                        }
+                                        fullWidth
+                                    />
+                                )}
+                            />
+                        )}
                     </FormControl>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
@@ -397,7 +456,8 @@ export default function InjuryLoggingStepContent(
                             margin="normal"
                             variant="outlined"
                             value={otherNotes}
-                            onChange={hanldeOtherNotesChange}
+                            onChange={handleOtherNotesChange}
+                            disabled={!!props.existingInjury}
                         />
                     </FormControl>
                 </>
@@ -411,7 +471,7 @@ export default function InjuryLoggingStepContent(
                     </Typography>
                     <p>
                         <b>Team Name: </b>
-                        {props.selectedTeam.name}
+                        {selectedTeam}
                     </p>
                     <p>
                         <b>Athlete Name: </b>
