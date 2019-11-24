@@ -6,8 +6,18 @@ import PageContainer from "./containers/PageContainer";
 import { createStore } from "redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
 import { BrowserRouter as Router } from "react-router-dom";
+import { getTeams } from "./actions/InitialAction";
+import { connect } from "react-redux";
 
-class App extends React.Component {
+interface AppProps {
+    getTeams: () => void;
+}
+
+class App extends React.Component<AppProps, {}> {
+    componentDidMount() {
+        this.props.getTeams();
+    }
+
     render() {
         return (
             <div>
@@ -19,6 +29,15 @@ class App extends React.Component {
     }
 }
 
+const mapStateToProps = (_: AppState) => ({});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    getTeams: (id: string) => dispatch(getTeams(id))
+});
+
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
+export default AppContainer;
+
 export const store = createStore(
     rootReducer /* preloadedState, */,
     devToolsEnhancer({})
@@ -26,7 +45,7 @@ export const store = createStore(
 
 render(
     <Provider store={store}>
-        <App />
+        <AppContainer />
     </Provider>,
     document.querySelector("#root")
 );

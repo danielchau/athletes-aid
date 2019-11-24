@@ -80,3 +80,11 @@ export interface InjuryNote {
     createdOn: Date;
     content: string;
 }
+
+export const GET_TEAMS = "GET_TEAMS";
+
+export type TeamsTypes = GetTeamsAction;
+interface GetTeamsAction {
+    type: typeof GET_TEAMS;
+    teams: Team[];
+}

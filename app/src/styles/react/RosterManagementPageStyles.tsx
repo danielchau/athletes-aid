@@ -35,6 +35,11 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             padding: "16px",
             paddingRight: "8px",
             overflow: "auto"
+        },
+        textInput: {
+            minWidth: 120,
+            width: "50%",
+            paddingRight: "8px"
         }
     })
 );

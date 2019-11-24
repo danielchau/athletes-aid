@@ -15,7 +15,7 @@ import {
 import TopBar from "./TopBar";
 import InjuriesPageContainer from "../containers/InjuriesPageContainer";
 import InjuryLoggingPageContainer from "../containers/InjuryLoggingPageContainer";
-import RosterManagementPage from "./RosterManagementPage";
+import RosterManagementPageContainer from "../containers/RosterManagementPageContainer";
 
 interface PageProps {
     state: NavigationPanelStates;
@@ -23,6 +23,7 @@ interface PageProps {
     setSelectedTeam: any;
     handleDrawerClose: any;
     handleDrawerOpen: any;
+    teams: Team[];
 }
 
 export default function Page(props: PageProps & RouteComponentProps) {
@@ -46,6 +47,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     history={props.history}
                     location={props.location}
                     match={props.match}
+                    teams={props.teams}
                 />
                 <Switch>
                     <Route path={profilePath}>
@@ -64,7 +66,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                         <InjuriesPageContainer></InjuriesPageContainer>
                     </Route>
                     <Route path={rosterManagementPath}>
-                        <RosterManagementPage></RosterManagementPage>
+                        <RosterManagementPageContainer></RosterManagementPageContainer>
                     </Route>
                     <Route path={homePath}>
                         <h2>Home</h2>
