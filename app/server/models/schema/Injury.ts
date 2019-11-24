@@ -4,7 +4,7 @@ import {
   rangeKey,
   table
 } from "@aws/dynamodb-data-mapper-annotations";
-import {embed} from '@aws/dynamodb-data-mapper';
+import { embed } from "@aws/dynamodb-data-mapper";
 import { bool } from "aws-sdk/clients/signer";
 
 class InjuryNote {
@@ -69,8 +69,6 @@ export class Injury {
   @attribute()
   injuryDescription: string;
 
-  @attribute({memberType: embed(InjuryNote)})
+  @attribute({ memberType: embed(InjuryNote) })
   otherNotes?: Array<InjuryNote>;
 }
-
-
