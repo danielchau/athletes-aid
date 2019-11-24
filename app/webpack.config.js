@@ -7,7 +7,7 @@ const htmlPlugin = new HtmlWebPackPlugin({
 module.exports = {
     entry: "./src/index.tsx",
     devtool: "inline-source-map",
-    watch: true,
+    watch: false,
     output: {
         // NEW
         path: path.join(__dirname, "dist"),
