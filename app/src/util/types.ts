@@ -17,7 +17,9 @@ interface SetSelectedTeam {
 }
 
 export interface Team {
+    id: string;
     name: string;
+    season: string;
     athletes: Athlete[];
 }
 

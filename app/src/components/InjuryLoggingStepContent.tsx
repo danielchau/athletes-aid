@@ -198,12 +198,6 @@ export default function InjuryLoggingStepContent(
                                         }}
                                         label="Athlete Name"
                                         variant="outlined"
-                                        defaultValue={
-                                            !!props.existingInjury
-                                                ? props.existingInjury
-                                                      .athleteName
-                                                : ""
-                                        }
                                         fullWidth
                                     />
                                 )}
