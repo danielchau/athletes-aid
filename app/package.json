@@ -28,6 +28,7 @@
         "@types/uuid": "^3.4.6",
         "aws-sdk": "^2.559.0",
         "date-fns": "^2.0.0-beta.5",
+        "express": "^4.17.1",
         "react": "^16.10.2",
         "react-dom": "^16.10.2",
         "react-redux": "^7.1.1",
