@@ -47,6 +47,10 @@ export const injuryLoggingPageStyles = makeStyles((theme: Theme) =>
         },
         multilineInput: {
             width: "100%"
+        },
+        progress: {
+            marginLeft: "8px",
+            color: "#fff"
         }
     })
 );

@@ -10,6 +10,7 @@ import InjuryLoggingStepContent from "./InjuryLoggingStepContent";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import DoneIcon from "@material-ui/icons/Done";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { Team, Injury } from "../util/types";
 
 function getSteps() {
@@ -26,6 +27,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const classes = injuryLoggingPageStyles({});
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
+    const [isLogging, setIsLogging] = React.useState(false);
 
     const [selectedAthlete, setSelectedAthlete] = React.useState(
         !!props.existingInjury ? props.existingInjury.athleteName : ""
@@ -73,52 +75,65 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     );
 
     const handleNext = () => {
-        setActiveStep(prevActiveStep => prevActiveStep + 1);
         if (activeStep == steps.length - 1) {
             if (!!props.callbackUponFinishing) {
                 props.callbackUponFinishing();
-            }
-
-            fetch("./singleInjury", {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    createdBy: "Daniel Chau",
-                    active: true,
-                    teamName: props.selectedTeam.name,
-                    athleteName: selectedAthlete,
-                    injuryDate: selectedDate.toString(),
-                    isSportsRelated: isSportsRelated,
-                    eventType: selectedEventType,
-                    position: selectedPosition,
-                    sideOfBody: selectedSideOfBody,
-                    locationOnBody: selectedLocationOnBody,
-                    injuryType: selectedInjuryType,
-                    severity: selectedSeverity.toString(),
-                    status: selectedStatus,
-                    mechanism: selectedMechanismOfInjury,
-                    injuryDescription: injuryDescription
+            } else {
+                setIsLogging(true);
+                fetch("./singleInjury", {
+                    method: "post",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        createdBy: "Daniel Chau",
+                        active: true,
+                        teamName: props.selectedTeam.name,
+                        athleteName: selectedAthlete,
+                        injuryDate: selectedDate.toString(),
+                        isSportsRelated: isSportsRelated,
+                        eventType: selectedEventType,
+                        position: selectedPosition,
+                        sideOfBody: selectedSideOfBody,
+                        locationOnBody: selectedLocationOnBody,
+                        injuryType: selectedInjuryType,
+                        severity: selectedSeverity.toString(),
+                        status: selectedStatus,
+                        mechanism: selectedMechanismOfInjury,
+                        injuryDescription: injuryDescription
+                    })
                 })
-            })
-                .then(function(response: any) {
-                    if (response.status !== 200) {
-                        console.log(
-                            "Looks like there was a problem. Status Code: " +
-                                response.status
-                        );
-                        return;
-                    }
-
-                    // Examine the text in the response
-                    response.json().then(function(data: any) {
-                        console.log(data);
+                    .then(function(response: any) {
+                        if (response.status !== 200) {
+                            console.log(
+                                "Looks like there was a problem. Status Code: " +
+                                    response.status
+                            );
+                        }
+                    })
+                    .catch(function(err: Error) {
+                        console.log("Fetch Error", err);
+                    })
+                    .then(function(_: any) {
+                        setIsLogging(false);
+                        setActiveStep(prevActiveStep => prevActiveStep + 1);
+                        setSelectedAthlete("");
+                        setSelectedDate(new Date());
+                        setIsSportsRelated(false);
+                        setSelectedEventType("");
+                        setSelectedPosition("");
+                        setSelectedSideOfBody("");
+                        setSelectedLocationOnBody("");
+                        setSelectedInjuryType("");
+                        setSelectedSeverity(0);
+                        setSelectedStatus("");
+                        setSelectedMechanismOfInjury("");
+                        setInjuryDescription("");
+                        setOtherNotes("");
                     });
-                })
-                .catch(function(err: Error) {
-                    console.log("Fetch Error", err);
-                });
+            }
+        } else {
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     };
 
@@ -215,7 +230,16 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                         >
                             {activeStep === steps.length - 1 ? (
                                 <>
-                                    Finish<DoneIcon></DoneIcon>
+                                    Finish
+                                    {isLogging ? (
+                                        <CircularProgress
+                                            size={24}
+                                            color={"inherit"}
+                                            className={classes.progress}
+                                        />
+                                    ) : (
+                                        <DoneIcon />
+                                    )}
                                 </>
                             ) : (
                                 <>

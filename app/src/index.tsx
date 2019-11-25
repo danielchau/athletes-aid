@@ -5,19 +5,25 @@ import rootReducer from "./reducers/AppReducers";
 import PageContainer from "./containers/PageContainer";
 import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
-import { createLogger } from "redux-logger";
-import { devToolsEnhancer } from "redux-devtools-extension";
 import { BrowserRouter as Router } from "react-router-dom";
 import { getTeams } from "./actions/InitialAction";
+import { setSelectedTeam } from "./actions/NavigationPanelAction";
 import { connect } from "react-redux";
+import { Team } from "./util/types";
 
 interface AppProps {
-    getTeams: () => void;
+    teams: Team[];
+    getTeams: (id: string) => void;
+    setTeam: (team: Team) => void;
 }
 
 class App extends React.Component<AppProps, {}> {
     componentDidMount() {
-        this.props.getTeams();
+        this.props.getTeams("");
+    }
+
+    componentDidUpdate() {
+        this.props.setTeam(this.props.teams[0]);
     }
 
     render() {
@@ -31,20 +37,21 @@ class App extends React.Component<AppProps, {}> {
     }
 }
 
-const mapStateToProps = (_: AppState) => ({});
+const mapStateToProps = (state: AppState) => ({
+    teams: state.teamsReducer
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
-    getTeams: (id: string) => dispatch(getTeams(id))
+    getTeams: (id: string) => dispatch(getTeams(id)),
+    setTeam: (team: Team) => dispatch(setSelectedTeam(team))
 });
 
 const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
 export default AppContainer;
 
-const loggerMiddleware = createLogger();
-
 export const store = createStore(
     rootReducer /* preloadedState, */,
-    applyMiddleware(thunkMiddleware, loggerMiddleware)
+    applyMiddleware(thunkMiddleware)
 );
 
 render(
