@@ -4,6 +4,17 @@ import {
   rangeKey,
   table
 } from "@aws/dynamodb-data-mapper-annotations";
+import { embed } from "@aws/dynamodb-data-mapper";
+import { bool } from "aws-sdk/clients/signer";
+
+class InjuryNote {
+  @attribute()
+  createdBy: string;
+  @attribute()
+  createdOn: Date;
+  @attribute()
+  content: string;
+}
 
 @table("InjuryReports")
 export class Injury {
@@ -17,8 +28,47 @@ export class Injury {
   createdBy: string;
 
   @attribute()
-  athlete: string;
+  active: bool;
 
   @attribute()
-  description: string;
+  teamName: string;
+
+  @attribute()
+  athleteName: string;
+
+  @attribute()
+  injuryDate: Date;
+
+  @attribute()
+  isSportsRelated: bool;
+
+  @attribute()
+  eventType: string;
+
+  @attribute()
+  position: string;
+
+  @attribute()
+  sideOfBody: string;
+
+  @attribute()
+  locationOnBody: string;
+
+  @attribute()
+  injuryType: string;
+
+  @attribute()
+  severity: number;
+
+  @attribute()
+  status: string;
+
+  @attribute()
+  mechanism: string;
+
+  @attribute()
+  injuryDescription: string;
+
+  @attribute({ memberType: embed(InjuryNote) })
+  otherNotes?: Array<InjuryNote>;
 }
