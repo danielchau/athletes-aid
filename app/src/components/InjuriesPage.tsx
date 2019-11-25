@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { injuriesPageStyles } from "../styles/react/InjuriesPageStyle";
-import { AthleteInjuries, Injury } from "../util/types";
+import { AthleteInjuries, Injury, Team } from "../util/types";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
@@ -20,6 +20,7 @@ interface InjuriesProps {
     endingDate: Date;
     setStartingDate: (date: Date) => void;
     setEndingDate: (date: Date) => void;
+    selectedTeam: Team;
 }
 
 export default function InjuriesPage(props: InjuriesProps) {
@@ -35,7 +36,11 @@ export default function InjuriesPage(props: InjuriesProps) {
     };
 
     const onInjuriesDateChange = () => {
-        props.getAthleteInjuries(new Date(), new Date(), "");
+        props.getAthleteInjuries(
+            props.startingDate,
+            props.endingDate,
+            props.selectedTeam.name
+        );
     };
 
     const onChangeStartingDate = (event: any) => {

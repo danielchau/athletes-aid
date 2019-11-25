@@ -3,7 +3,9 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import rootReducer from "./reducers/AppReducers";
 import PageContainer from "./containers/PageContainer";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import thunkMiddleware from "redux-thunk";
+import { createLogger } from "redux-logger";
 import { devToolsEnhancer } from "redux-devtools-extension";
 import { BrowserRouter as Router } from "react-router-dom";
 import { getTeams } from "./actions/InitialAction";
@@ -38,9 +40,11 @@ const mapDispatchToProps = (dispatch: any) => ({
 const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
 export default AppContainer;
 
+const loggerMiddleware = createLogger();
+
 export const store = createStore(
     rootReducer /* preloadedState, */,
-    devToolsEnhancer({})
+    applyMiddleware(thunkMiddleware, loggerMiddleware)
 );
 
 render(
