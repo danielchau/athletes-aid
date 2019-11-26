@@ -17,7 +17,9 @@ interface SetSelectedTeam {
 }
 
 export interface Team {
+    id: string;
     name: string;
+    season: string;
     athletes: Athlete[];
 }
 
@@ -79,4 +81,12 @@ export interface InjuryNote {
     createdBy: string;
     createdOn: Date;
     content: string;
+}
+
+export const GET_TEAMS = "GET_TEAMS";
+
+export type TeamsTypes = GetTeamsAction;
+interface GetTeamsAction {
+    type: typeof GET_TEAMS;
+    teams: Team[];
 }

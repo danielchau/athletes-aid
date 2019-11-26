@@ -10,6 +10,7 @@ import InjuryLoggingStepContent from "./InjuryLoggingStepContent";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import DoneIcon from "@material-ui/icons/Done";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { Team, Injury } from "../util/types";
 
 function getSteps() {
@@ -26,14 +27,113 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const classes = injuryLoggingPageStyles({});
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
+    const [isLogging, setIsLogging] = React.useState(false);
+
+    const [selectedAthlete, setSelectedAthlete] = React.useState(
+        !!props.existingInjury ? props.existingInjury.athleteName : ""
+    );
+    const [selectedDate, setSelectedDate] = React.useState<Date>(
+        !!props.existingInjury ? props.existingInjury.injuryDate : new Date()
+    );
+    const [isSportsRelated, setIsSportsRelated] = React.useState(
+        !!props.existingInjury ? props.existingInjury.isSportsRelated : false
+    );
+    const [selectedEventType, setSelectedEventType] = React.useState(
+        !!props.existingInjury ? props.existingInjury.eventType : ""
+    );
+    const [selectedPosition, setSelectedPosition] = React.useState(
+        !!props.existingInjury ? props.existingInjury.position : ""
+    );
+    const [selectedSideOfBody, setSelectedSideOfBody] = React.useState(
+        !!props.existingInjury ? props.existingInjury.sideOfBody : ""
+    );
+    const [selectedLocationOnBody, setSelectedLocationOnBody] = React.useState(
+        !!props.existingInjury ? props.existingInjury.locationOnBody : ""
+    );
+    const [selectedInjuryType, setSelectedInjuryType] = React.useState(
+        !!props.existingInjury ? props.existingInjury.injuryType : ""
+    );
+    const [selectedSeverity, setSelectedSeverity] = React.useState(
+        !!props.existingInjury ? props.existingInjury.severity : 0
+    );
+    const [selectedStatus, setSelectedStatus] = React.useState(
+        !!props.existingInjury ? props.existingInjury.status : ""
+    );
+    const [
+        selectedMechanismOfInjury,
+        setSelectedMechanismOfInjury
+    ] = React.useState(
+        !!props.existingInjury ? props.existingInjury.mechanism : ""
+    );
+    const [injuryDescription, setInjuryDescription] = React.useState(
+        !!props.existingInjury ? props.existingInjury.injuryDescription : ""
+    );
+    const [otherNotes, setOtherNotes] = React.useState(
+        !!props.existingInjury
+            ? "Notes can't be altered. See all injury notes on overview page."
+            : ""
+    );
 
     const handleNext = () => {
-        setActiveStep(prevActiveStep => prevActiveStep + 1);
         if (activeStep == steps.length - 1) {
             if (!!props.callbackUponFinishing) {
                 props.callbackUponFinishing();
+            } else {
+                setIsLogging(true);
+                fetch("./singleInjury", {
+                    method: "post",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        createdBy: "Daniel Chau",
+                        active: true,
+                        teamName: props.selectedTeam.name,
+                        athleteName: selectedAthlete,
+                        injuryDate: selectedDate.toString(),
+                        isSportsRelated: isSportsRelated,
+                        eventType: selectedEventType,
+                        position: selectedPosition,
+                        sideOfBody: selectedSideOfBody,
+                        locationOnBody: selectedLocationOnBody,
+                        injuryType: selectedInjuryType,
+                        severity: selectedSeverity.toString(),
+                        status: selectedStatus,
+                        mechanism: selectedMechanismOfInjury,
+                        injuryDescription: injuryDescription
+                    })
+                })
+                    .then(function(response: any) {
+                        if (response.status !== 200) {
+                            console.log(
+                                "Looks like there was a problem. Status Code: " +
+                                    response.status
+                            );
+                        }
+                    })
+                    .catch(function(err: Error) {
+                        console.log("Fetch Error", err);
+                    })
+                    .then(function(_: any) {
+                        setIsLogging(false);
+                        setActiveStep(prevActiveStep => prevActiveStep + 1);
+                        setSelectedAthlete("");
+                        setSelectedDate(new Date());
+                        setIsSportsRelated(false);
+                        setSelectedEventType("");
+                        setSelectedPosition("");
+                        setSelectedSideOfBody("");
+                        setSelectedLocationOnBody("");
+                        setSelectedInjuryType("");
+                        setSelectedSeverity(0);
+                        setSelectedStatus("");
+                        setSelectedMechanismOfInjury("");
+                        setInjuryDescription("");
+                        setOtherNotes("");
+                    });
             }
-            // Send API event to log injury here
+        } else {
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     };
 
@@ -80,6 +180,38 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                             stepIndex={activeStep}
                             selectedTeam={props.selectedTeam}
                             existingInjury={props.existingInjury}
+                            selectedAthlete={selectedAthlete}
+                            setSelectedAthlete={setSelectedAthlete}
+                            selectedDate={selectedDate}
+                            setSelectedDate={setSelectedDate}
+                            isSportsRelated={isSportsRelated}
+                            setIsSportsRelated={setIsSportsRelated}
+                            selectedEventType={selectedEventType}
+                            setSelectedEventType={setSelectedEventType}
+                            selectedPosition={selectedPosition}
+                            setSelectedPosition={setSelectedPosition}
+                            selectedSideOfBody={selectedSideOfBody}
+                            setSelectedSideOfBody={setSelectedSideOfBody}
+                            selectedLocationOnBody={selectedLocationOnBody}
+                            setSelectedLocationOnBody={
+                                setSelectedLocationOnBody
+                            }
+                            selectedInjuryType={selectedInjuryType}
+                            setSelectedInjuryType={setSelectedInjuryType}
+                            selectedSeverity={selectedSeverity}
+                            setSelectedSeverity={setSelectedSeverity}
+                            selectedStatus={selectedStatus}
+                            setSelectedStatus={setSelectedStatus}
+                            selectedMechanismOfInjury={
+                                selectedMechanismOfInjury
+                            }
+                            setSelectedMechanismOfInjury={
+                                setSelectedMechanismOfInjury
+                            }
+                            injuryDescription={injuryDescription}
+                            setInjuryDescription={setInjuryDescription}
+                            otherNotes={otherNotes}
+                            setOtherNotes={setOtherNotes}
                         ></InjuryLoggingStepContent>
                     </Paper>
                     <div className={classes.loggingBottomButtons}>
@@ -98,7 +230,16 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                         >
                             {activeStep === steps.length - 1 ? (
                                 <>
-                                    Finish<DoneIcon></DoneIcon>
+                                    Finish
+                                    {isLogging ? (
+                                        <CircularProgress
+                                            size={24}
+                                            color={"inherit"}
+                                            className={classes.progress}
+                                        />
+                                    ) : (
+                                        <DoneIcon />
+                                    )}
                                 </>
                             ) : (
                                 <>

@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import {
-    getAthleteInjuries,
+    fetchAthleteInjuries,
     setInjuriesStartingDate,
     setInjuriesEndingDate
 } from "../actions/InjuriesAction";
@@ -10,12 +10,13 @@ import { AppState } from "..";
 const mapStateToProps = (state: AppState) => ({
     athleteInjuries: state.injuriesReducer,
     startingDate: state.startingDateReducer,
-    endingDate: state.endingDateReducer
+    endingDate: state.endingDateReducer,
+    selectedTeam: state.selectedTeamReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     getAthleteInjuries: (startDate: Date, endDate: Date, team: string) =>
-        dispatch(getAthleteInjuries(startDate, endDate, team)),
+        dispatch(fetchAthleteInjuries(startDate, endDate, team)),
     setStartingDate: (startingDate: Date) =>
         dispatch(setInjuriesStartingDate(startingDate)),
     setEndingDate: (endingDate: Date) =>

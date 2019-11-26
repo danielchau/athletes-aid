@@ -1,11 +1,12 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require("path");
+require("babel-polyfill");
 const htmlPlugin = new HtmlWebPackPlugin({
     template: "./src/index.html",
     filename: "./index.html"
 });
 module.exports = {
-    entry: "./src/index.tsx",
+    entry: ["babel-polyfill", "./src/index.tsx"],
     devtool: "inline-source-map",
     watch: false,
     output: {

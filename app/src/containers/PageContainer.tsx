@@ -10,7 +10,8 @@ import { withRouter } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => ({
     state: state.navigationPanelReducer,
-    selectedTeam: state.selectedTeamReducer
+    selectedTeam: state.selectedTeamReducer,
+    teams: state.teamsReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
