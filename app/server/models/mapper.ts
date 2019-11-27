@@ -1,6 +1,6 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import * as AWS from "aws-sdk";
-import { config } from "../aws.config";
+import { config } from "../config/aws.config";
 
 AWS.config.update(config);
 const client = new AWS.DynamoDB();

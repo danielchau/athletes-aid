@@ -31,6 +31,32 @@ interface InjuryLoggingStepContentProps {
     stepIndex: number;
     selectedTeam: Team;
     existingInjury: Injury | null;
+    selectedAthlete: string;
+    setSelectedAthlete: any;
+    selectedDate: Date;
+    setSelectedDate: any;
+    isSportsRelated: boolean;
+    setIsSportsRelated: any;
+    selectedEventType: string;
+    setSelectedEventType: any;
+    selectedPosition: string;
+    setSelectedPosition: any;
+    selectedSideOfBody: string;
+    setSelectedSideOfBody: any;
+    selectedLocationOnBody: string;
+    setSelectedLocationOnBody: any;
+    selectedInjuryType: string;
+    setSelectedInjuryType: any;
+    selectedSeverity: number;
+    setSelectedSeverity: any;
+    selectedStatus: string;
+    setSelectedStatus: any;
+    selectedMechanismOfInjury: string;
+    setSelectedMechanismOfInjury: any;
+    injuryDescription: string;
+    setInjuryDescription: any;
+    otherNotes: string;
+    setOtherNotes: any;
 }
 
 type StringChangeEvent = React.ChangeEvent<{ value: string }>;
@@ -41,92 +67,48 @@ export default function InjuryLoggingStepContent(
     props: InjuryLoggingStepContentProps
 ) {
     const classes = injuryLoggingStepContentStyles({});
-    const [selectedAthlete, setSelectedAthlete] = React.useState(
-        !!props.existingInjury ? props.existingInjury.athleteName : ""
-    );
-    const [selectedDate, setSelectedDate] = React.useState<Date>(
-        !!props.existingInjury ? props.existingInjury.injuryDate : new Date()
-    );
-    const [isSportsRelated, setIsSportsRelated] = React.useState(
-        !!props.existingInjury ? props.existingInjury.isSportsRelated : false
-    );
-    const [selectedEventType, setSelectedEventType] = React.useState(
-        !!props.existingInjury ? props.existingInjury.eventType : ""
-    );
-    const [selectedPosition, setSelectedPosition] = React.useState(
-        !!props.existingInjury ? props.existingInjury.position : ""
-    );
-    const [selectedSideOfBody, setSelectedSideOfBody] = React.useState(
-        !!props.existingInjury ? props.existingInjury.sideOfBody : ""
-    );
-    const [selectedLocationOnBody, setSelectedLocationOnBody] = React.useState(
-        !!props.existingInjury ? props.existingInjury.locationOnBody : ""
-    );
-    const [selectedInjuryType, setSelectedInjuryType] = React.useState(
-        !!props.existingInjury ? props.existingInjury.injuryType : ""
-    );
-    const [selectedSeverity, setSelectedSeverity] = React.useState(
-        !!props.existingInjury ? props.existingInjury.severity : 0
-    );
-    const [selectedStatus, setSelectedStatus] = React.useState(
-        !!props.existingInjury ? props.existingInjury.status : ""
-    );
-    const [
-        selectedMechanismOfInjury,
-        setSelectedMechanismOfInjury
-    ] = React.useState(
-        !!props.existingInjury ? props.existingInjury.mechanism : ""
-    );
-    const [injuryDescription, setInjuryDescription] = React.useState(
-        !!props.existingInjury ? props.existingInjury.injuryDescription : ""
-    );
-    const [otherNotes, setOtherNotes] = React.useState(
-        !!props.existingInjury
-            ? "Notes can't be altered. See all injury notes on overview page."
-            : ""
-    );
 
     const handleAthleteChange = (event: StringTextContentChangeEvent) => {
-        setSelectedAthlete(event.target.textContent);
+        props.setSelectedAthlete(event.target.textContent);
     };
     const handleDateChange = (date: Date) => {
-        setSelectedDate(date);
+        props.setSelectedDate(date);
     };
     const handleSportRelatedChange = (
         _: React.ChangeEvent<HTMLInputElement>,
         checked: boolean
     ) => {
-        setIsSportsRelated(checked);
+        props.setIsSportsRelated(checked);
     };
     const handleEventTypeChange = (event: StringChangeEvent) => {
-        setSelectedEventType(event.target.value);
+        props.setSelectedEventType(event.target.value);
     };
     const handlePositionChange = (event: StringChangeEvent) => {
-        setSelectedPosition(event.target.value);
+        props.setSelectedPosition(event.target.value);
     };
     const handleSideOfBodyChange = (event: StringChangeEvent) => {
-        setSelectedSideOfBody(event.target.value);
+        props.setSelectedSideOfBody(event.target.value);
     };
     const handleLocationOnBodyChange = (event: StringChangeEvent) => {
-        setSelectedLocationOnBody(event.target.value);
+        props.setSelectedLocationOnBody(event.target.value);
     };
     const handleInjuryTypeChange = (event: StringChangeEvent) => {
-        setSelectedInjuryType(event.target.value);
+        props.setSelectedInjuryType(event.target.value);
     };
     const handleSeverityChange = (event: NumberChangeEvent) => {
-        setSelectedSeverity(event.target.value);
+        props.setSelectedSeverity(event.target.value);
     };
     const handleStatusChange = (event: StringChangeEvent) => {
-        setSelectedStatus(event.target.value);
+        props.setSelectedStatus(event.target.value);
     };
     const handleMechanismChange = (event: StringChangeEvent) => {
-        setSelectedMechanismOfInjury(event.target.value);
+        props.setSelectedMechanismOfInjury(event.target.value);
     };
     const handleDescriptionChange = (event: StringChangeEvent) => {
-        setInjuryDescription(event.target.value);
+        props.setInjuryDescription(event.target.value);
     };
     const handleOtherNotesChange = (event: StringChangeEvent) => {
-        setOtherNotes(event.target.value);
+        props.setOtherNotes(event.target.value);
     };
 
     const selectedTeam = !!props.existingInjury
@@ -151,11 +133,11 @@ export default function InjuryLoggingStepContent(
                         <Select
                             labelWidth={90}
                             id="team-select"
-                            value={selectedTeam}
+                            value={props.selectedTeam.name}
                             inputProps={{ readOnly: true }}
                         >
-                            <MenuItem value={selectedTeam}>
-                                {selectedTeam}
+                            <MenuItem value={props.selectedTeam.name}>
+                                {props.selectedTeam.name}
                             </MenuItem>
                         </Select>
                     </FormControl>
@@ -198,12 +180,6 @@ export default function InjuryLoggingStepContent(
                                         }}
                                         label="Athlete Name"
                                         variant="outlined"
-                                        defaultValue={
-                                            !!props.existingInjury
-                                                ? props.existingInjury
-                                                      .athleteName
-                                                : ""
-                                        }
                                         fullWidth
                                     />
                                 )}
@@ -220,7 +196,7 @@ export default function InjuryLoggingStepContent(
                             margin="normal"
                             id="date-select"
                             label="Injury Date"
-                            value={selectedDate}
+                            value={props.selectedDate}
                             onChange={handleDateChange}
                         />
                     </MuiPickersUtilsProvider>
@@ -229,7 +205,7 @@ export default function InjuryLoggingStepContent(
                         control={
                             <Checkbox
                                 color="primary"
-                                value={isSportsRelated}
+                                value={props.isSportsRelated}
                                 onChange={handleSportRelatedChange}
                             />
                         }
@@ -245,7 +221,7 @@ export default function InjuryLoggingStepContent(
                         <Select
                             labelWidth={80}
                             id="event-type-select"
-                            value={selectedEventType}
+                            value={props.selectedEventType}
                             onChange={handleEventTypeChange}
                         >
                             <MenuItem value="" disabled>
@@ -268,7 +244,7 @@ export default function InjuryLoggingStepContent(
                         <Select
                             labelWidth={60}
                             id="position-select"
-                            value={selectedPosition}
+                            value={props.selectedPosition}
                             onChange={handlePositionChange}
                         >
                             <MenuItem value="" disabled>
@@ -291,7 +267,7 @@ export default function InjuryLoggingStepContent(
                         <Select
                             labelWidth={100}
                             id="side-of-body-select"
-                            value={selectedSideOfBody}
+                            value={props.selectedSideOfBody}
                             onChange={handleSideOfBodyChange}
                         >
                             <MenuItem value="" disabled>
@@ -314,7 +290,7 @@ export default function InjuryLoggingStepContent(
                         <Select
                             labelWidth={130}
                             id="body-location-select"
-                            value={selectedLocationOnBody}
+                            value={props.selectedLocationOnBody}
                             onChange={handleLocationOnBodyChange}
                         >
                             <MenuItem value="" disabled>
@@ -339,7 +315,7 @@ export default function InjuryLoggingStepContent(
                         <Select
                             labelWidth={80}
                             id="injury-type-select"
-                            value={selectedInjuryType}
+                            value={props.selectedInjuryType}
                             onChange={handleInjuryTypeChange}
                         >
                             <MenuItem value="" disabled>
@@ -362,7 +338,7 @@ export default function InjuryLoggingStepContent(
                         <Select
                             labelWidth={60}
                             id="severity-select"
-                            value={selectedSeverity}
+                            value={props.selectedSeverity}
                             onChange={handleSeverityChange}
                         >
                             <MenuItem value="" disabled>
@@ -394,7 +370,7 @@ export default function InjuryLoggingStepContent(
                             <Select
                                 labelWidth={50}
                                 id="status-select"
-                                value={selectedStatus}
+                                value={props.selectedStatus}
                                 onChange={handleStatusChange}
                             >
                                 <MenuItem value="" disabled>
@@ -419,7 +395,7 @@ export default function InjuryLoggingStepContent(
                             <Select
                                 labelWidth={145}
                                 id="mechanism-select"
-                                value={selectedMechanismOfInjury}
+                                value={props.selectedMechanismOfInjury}
                                 onChange={handleMechanismChange}
                             >
                                 <MenuItem value="" disabled>
@@ -443,7 +419,7 @@ export default function InjuryLoggingStepContent(
                             placeholder="Optional"
                             margin="normal"
                             variant="outlined"
-                            value={injuryDescription}
+                            value={props.injuryDescription}
                             onChange={handleDescriptionChange}
                         />
                         <TextField
@@ -455,7 +431,7 @@ export default function InjuryLoggingStepContent(
                             placeholder="Optional"
                             margin="normal"
                             variant="outlined"
-                            value={otherNotes}
+                            value={props.otherNotes}
                             onChange={handleOtherNotesChange}
                             disabled={!!props.existingInjury}
                         />
@@ -475,58 +451,58 @@ export default function InjuryLoggingStepContent(
                     </p>
                     <p>
                         <b>Athlete Name: </b>
-                        {selectedAthlete}
+                        {props.selectedAthlete}
                     </p>
                     <Divider light></Divider>
                     <p>
                         <b>Injury Date: </b>
-                        {selectedDate.toDateString()}
+                        {props.selectedDate.toDateString()}
                     </p>
                     <p>
                         <b>Is Sport Related: </b>
-                        {isSportsRelated ? "Yes" : "No"}
+                        {props.isSportsRelated ? "Yes" : "No"}
                     </p>
                     <p>
                         <b>Event Type: </b>
-                        {selectedEventType}
+                        {props.selectedEventType}
                     </p>
                     <p>
                         <b>Position: </b>
-                        {selectedPosition}
+                        {props.selectedPosition}
                     </p>
                     <p>
                         <b>Side Of Body: </b>
-                        {selectedSideOfBody}
+                        {props.selectedSideOfBody}
                     </p>
                     <p>
                         <b>Location On Body: </b>
-                        {selectedLocationOnBody}
+                        {props.selectedLocationOnBody}
                     </p>
                     <p>
                         <b>Injury Type: </b>
-                        {selectedInjuryType}
+                        {props.selectedInjuryType}
                     </p>
                     <p>
                         <b>Severity: </b>
-                        {selectedSeverity}
+                        {props.selectedSeverity}
                     </p>
                     <Divider light></Divider>
                     <p>
                         <b>Status: </b>
-                        {selectedStatus}
+                        {props.selectedStatus}
                     </p>
                     <p>
                         <b>Mechanism Of Injury: </b>
-                        {selectedMechanismOfInjury}
+                        {props.selectedMechanismOfInjury}
                     </p>
                     <Divider light></Divider>
                     <p>
                         <b>Injury Description: </b>
-                        {injuryDescription}
+                        {props.injuryDescription}
                     </p>
                     <p>
                         <b>Other Notes: </b>
-                        {otherNotes}
+                        {props.otherNotes}
                     </p>
                 </div>
             );

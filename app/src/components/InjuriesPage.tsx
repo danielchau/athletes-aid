@@ -6,8 +6,9 @@ import InjuriesDataTable from "./InjuriesDataTable";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { injuriesPageStyles } from "../styles/react/InjuriesPageStyle";
-import { AthleteInjuries, Injury } from "../util/types";
+import { AthleteInjuries, Injury, Team } from "../util/types";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
@@ -20,11 +21,26 @@ interface InjuriesProps {
     endingDate: Date;
     setStartingDate: (date: Date) => void;
     setEndingDate: (date: Date) => void;
+    selectedTeam: Team;
 }
 
 export default function InjuriesPage(props: InjuriesProps) {
     const classes = injuriesPageStyles({});
     const [injuryOpen, setInjuryOpen] = React.useState(false);
+    const [isFetching, setIsFetching] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsFetching(false);
+    }, [props.athleteInjuries]);
+
+    React.useEffect(() => {
+        setIsFetching(true);
+        props.getAthleteInjuries(
+            props.startingDate,
+            props.endingDate,
+            props.selectedTeam.name
+        );
+    }, [props.selectedTeam]);
 
     const handleInjuryOpen = () => {
         setInjuryOpen(true);
@@ -35,7 +51,12 @@ export default function InjuriesPage(props: InjuriesProps) {
     };
 
     const onInjuriesDateChange = () => {
-        props.getAthleteInjuries(new Date(), new Date(), "");
+        setIsFetching(true);
+        props.getAthleteInjuries(
+            props.startingDate,
+            props.endingDate,
+            props.selectedTeam.name
+        );
     };
 
     const onChangeStartingDate = (event: any) => {
@@ -90,6 +111,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                             </Button>
                         </form>
                     </Paper>
+                    {isFetching && <LinearProgress />}
                 </Grid>
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>

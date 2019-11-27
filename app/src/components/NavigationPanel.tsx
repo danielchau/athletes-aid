@@ -19,7 +19,7 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import clsx from "clsx";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
-import { NavigationPanelStates, Team, Athlete } from "../util/types";
+import { NavigationPanelStates, Team } from "../util/types";
 import {
     homePageName,
     profilePageName,
@@ -40,19 +40,8 @@ interface NavigationPanelProps {
     handleDrawerClose: any;
     selectedTeam: Team;
     setSelectedTeam: any;
+    teams: Team[];
 }
-
-// TODO: Have to change this to a Redux state hookup as we probably want this to live on the user object
-const options = [
-    {
-        name: "Team 1",
-        athletes: [
-            { id: "1", name: "Athlete 1" },
-            { id: "2", name: "Athlete 2" }
-        ] as Athlete[]
-    },
-    { name: "Team 2", athletes: [] as Athlete[] }
-];
 
 export default function NavigationPanel(
     props: NavigationPanelProps & RouteComponentProps
@@ -71,7 +60,7 @@ export default function NavigationPanel(
         _: React.MouseEvent<HTMLElement>,
         index: number
     ) => {
-        props.setSelectedTeam(options[index]);
+        props.setSelectedTeam(props.teams[index]);
         setTeamToggleAnchorEl(null);
     };
 
@@ -230,7 +219,7 @@ export default function NavigationPanel(
                         open={Boolean(teamToggleAnchorEl)}
                         onClose={handleTeamMenuClose}
                     >
-                        {options.map((option, index) => (
+                        {props.teams.map((option, index) => (
                             <MenuItem
                                 key={option.name}
                                 selected={option === props.selectedTeam}
