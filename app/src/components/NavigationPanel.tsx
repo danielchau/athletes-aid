@@ -90,7 +90,10 @@ export default function NavigationPanel(
             open={props.state === NavigationPanelStates.open}
         >
             <div className={classes.toolbar}>
-                <IconButton onClick={props.handleDrawerClose}>
+                <IconButton
+                    style={{ color: "#fff" }}
+                    onClick={props.handleDrawerClose}
+                >
                     <ChevronLeftIcon />
                 </IconButton>
             </div>
@@ -102,7 +105,7 @@ export default function NavigationPanel(
                         key={homePageName}
                         selected={props.location.pathname == homePath}
                     >
-                        <ListItemIcon>
+                        <ListItemIcon className={classes.itemIcon}>
                             <HomeIcon></HomeIcon>
                         </ListItemIcon>
                         <ListItemText
@@ -117,7 +120,7 @@ export default function NavigationPanel(
                         key={profilePageName}
                         selected={props.location.pathname == profilePath}
                     >
-                        <ListItemIcon>
+                        <ListItemIcon className={classes.itemIcon}>
                             <PersonIcon></PersonIcon>
                         </ListItemIcon>
                         <ListItemText
@@ -132,7 +135,7 @@ export default function NavigationPanel(
                         key={rosterPageName}
                         selected={props.location.pathname == rosterPath}
                     >
-                        <ListItemIcon>
+                        <ListItemIcon className={classes.itemIcon}>
                             <GroupIcon></GroupIcon>
                         </ListItemIcon>
                         <ListItemText
@@ -147,7 +150,7 @@ export default function NavigationPanel(
                         key={injuryLoggingPageName}
                         selected={props.location.pathname == injuryLoggingPath}
                     >
-                        <ListItemIcon>
+                        <ListItemIcon className={classes.itemIcon}>
                             <DescriptionIcon></DescriptionIcon>
                         </ListItemIcon>
                         <ListItemText
@@ -162,7 +165,7 @@ export default function NavigationPanel(
                         key={injuriesPageName}
                         selected={props.location.pathname == injuriesPath}
                     >
-                        <ListItemIcon>
+                        <ListItemIcon className={classes.itemIcon}>
                             <HealingIcon></HealingIcon>
                         </ListItemIcon>
                         <ListItemText
@@ -179,7 +182,7 @@ export default function NavigationPanel(
                             props.location.pathname == rosterManagementPath
                         }
                     >
-                        <ListItemIcon>
+                        <ListItemIcon className={classes.itemIcon}>
                             <SettingsIcon></SettingsIcon>
                         </ListItemIcon>
                         <ListItemText
@@ -197,7 +200,7 @@ export default function NavigationPanel(
                             aria-controls="team-menu"
                             onClick={handleClickTeamToggle}
                         >
-                            <ListItemIcon>
+                            <ListItemIcon className={classes.itemIcon}>
                                 <NavigateNextIcon></NavigateNextIcon>
                             </ListItemIcon>
                             <ListItemText

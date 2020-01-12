@@ -13,7 +13,9 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen
-            })
+            }),
+            backgroundColor: "#fafafa",
+            borderRightWidth: 0
         },
         drawerClose: {
             transition: theme.transitions.create("width", {
@@ -24,13 +26,16 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             width: theme.spacing(7) + 1,
             [theme.breakpoints.up("sm")]: {
                 width: theme.spacing(9) + 1
-            }
+            },
+            backgroundColor: "#fafafa",
+            borderRightWidth: 0
         },
         toolbar: {
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
             padding: theme.spacing(0, 1),
+            backgroundColor: "#002145",
             ...theme.mixins.toolbar
         },
         content: {
@@ -54,6 +59,9 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
         teamToggleListItem: {
             overflow: "hidden",
             textOverflow: "ellipsis"
+        },
+        itemIcon: {
+            color: "#002145"
         }
     })
 );

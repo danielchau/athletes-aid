@@ -10,6 +10,7 @@ import { getTeams } from "./actions/InitialAction";
 import { setSelectedTeam } from "./actions/NavigationPanelAction";
 import { connect } from "react-redux";
 import { Team } from "./util/types";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 interface AppProps {
     teams: Team[];
@@ -54,10 +55,26 @@ export const store = createStore(
     applyMiddleware(thunkMiddleware)
 );
 
+const THEME = createMuiTheme({
+    typography: {
+        fontFamily: '"Klavika", "Roboto", "Helvetica", "Arial", sans-serif'
+    },
+    palette: {
+        primary: {
+            main: "#0055B7"
+        },
+        secondary: {
+            main: "#F2A71E"
+        }
+    }
+});
+
 render(
-    <Provider store={store}>
-        <AppContainer />
-    </Provider>,
+    <MuiThemeProvider theme={THEME}>
+        <Provider store={store}>
+            <AppContainer />
+        </Provider>
+    </MuiThemeProvider>,
     document.querySelector("#root")
 );
 

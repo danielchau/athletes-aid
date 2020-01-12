@@ -4,17 +4,18 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             width: "100%",
-            padding: "8px",
+            padding: "16px",
             display: "flex",
-            flexDirection: "column"
+            flexDirection: "column",
+            backgroundColor: "#fff"
         },
         introPaper: {
             color: theme.palette.text.secondary,
-            backgroundColor: "#fafafa",
             display: "flex",
             flexDirection: "row",
             padding: "8px",
-            marginBottom: "8px"
+            marginBottom: "8px",
+            backgroundColor: "rgba(0, 33, 69, 0.03)"
         },
         formControl: {
             minWidth: 120,
@@ -37,7 +38,7 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             display: "flex",
             flexDirection: "column",
             maxHeight: "calc(100% - 80px)",
-            backgroundColor: "#fafafa"
+            backgroundColor: "rgba(0, 33, 69, 0.03)"
         },
         textInput: {
             minWidth: 120,

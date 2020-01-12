@@ -4,12 +4,17 @@ export const injuriesPageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             flexGrow: 1,
-            margin: "16px"
+            margin: "16px",
+            backgroundColor: "#fff"
+        },
+        grid: {
+            backgroundColor: "#fff"
         },
         paper: {
             padding: theme.spacing(2),
             textAlign: "center",
-            color: theme.palette.text.secondary
+            color: theme.palette.text.secondary,
+            backgroundColor: "rgba(0, 33, 69, 0.03)"
         },
         primaryStatisticContainer: {
             display: "flex",

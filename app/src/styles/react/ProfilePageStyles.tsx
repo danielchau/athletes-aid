@@ -4,7 +4,6 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             width: "100%",
-            padding: "16px",
             display: "flex",
             flexDirection: "row"
         },
@@ -14,20 +13,25 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             borderRightWidth: 2,
             borderRightColor: "#EAEAEA",
             borderRightStyle: "solid",
-            paddingRight: "16px",
-            overflow: "scroll"
+            padding: "16px",
+            overflow: "scroll",
+            backgroundColor: "rgba(0, 33, 69, 0.03)"
         },
         rightCol: {
             width: "67%",
             height: "100%",
-            paddingLeft: "16px",
-            overflow: "scroll"
+            padding: "16px",
+            overflow: "scroll",
+            backgroundColor: "#fff"
         },
         profilePicture: {
             width: "calc(30vw - 240px)",
             height: "calc(30vw - 240px)",
             margin: "auto",
-            marginBottom: "16px"
+            marginBottom: "16px",
+            borderWidth: 4,
+            borderColor: "#F2A71E",
+            borderStyle: "solid"
         },
         heading: {
             paddingBottom: "8px",
@@ -38,7 +42,8 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             padding: "8px",
             height: "200px",
             width: "100%",
-            marginBottom: "16px"
+            marginBottom: "16px",
+            backgroundColor: "rgba(0, 33, 69, 0.03)"
         },
         injuryDataTableContainer: {
             marginTop: "-16px"

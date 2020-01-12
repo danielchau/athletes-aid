@@ -69,7 +69,7 @@ export default function InjuriesPage(props: InjuriesProps) {
 
     return (
         <div className={classes.root}>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} className={classes.grid}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <form noValidate className={classes.dateTimeContainer}>
@@ -111,7 +111,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                             </Button>
                         </form>
                     </Paper>
-                    {isFetching && <LinearProgress />}
+                    {isFetching && <LinearProgress color="secondary" />}
                 </Grid>
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>

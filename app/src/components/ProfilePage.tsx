@@ -51,7 +51,11 @@ export default function ProfilePage(props: ProfilePageProps) {
                 {[
                     ["Email", props.currentAthlete.email],
                     ["Cell Phone", props.currentAthlete.cellPhone],
-                    ["Home Phone", props.currentAthlete.homePhone]
+                    ["Home Phone", props.currentAthlete.homePhone],
+                    [
+                        "Health Card Number",
+                        props.currentAthlete.healthCardNumber
+                    ]
                 ].map(([category, value]) => (
                     <ProfileAttribute
                         category={category.toString()}

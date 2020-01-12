@@ -5,6 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import { NavigationPanelStates } from "../util/types";
@@ -13,6 +14,7 @@ import { topBarStyles } from "../styles/react/TopBarStyle";
 interface TopBarProps {
     state: NavigationPanelStates;
     handleDrawerOpen: any;
+    handleDrawerClose: any;
 }
 
 export default function TopBar(props: TopBarProps) {
@@ -20,27 +22,29 @@ export default function TopBar(props: TopBarProps) {
 
     return (
         <>
-            <AppBar
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]:
-                        props.state === NavigationPanelStates.open
-                })}
-            >
+            <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={props.handleDrawerOpen}
+                        onClick={
+                            props.state === NavigationPanelStates.open
+                                ? props.handleDrawerClose
+                                : props.handleDrawerOpen
+                        }
                         edge="start"
-                        className={clsx(
-                            classes.menuButton,
-                            props.state === NavigationPanelStates.open &&
-                                classes.hide
-                        )}
+                        className={classes.menuButton}
                     >
-                        <MenuIcon />
+                        {props.state === NavigationPanelStates.open ? (
+                            <ChevronLeftIcon />
+                        ) : (
+                            <MenuIcon />
+                        )}
                     </IconButton>
+                    <img
+                        className={classes.logo}
+                        src="https://cdn.prestosports.com/action/cdn/logos/id/t7ehcazbcl3orf6t.png"
+                    />
                     <Typography className={classes.title} variant="h6" noWrap>
                         Athlete's Aid
                     </Typography>

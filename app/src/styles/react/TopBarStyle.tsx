@@ -10,31 +10,26 @@ export const topBarStyles = makeStyles((theme: Theme) =>
     createStyles({
         appBar: {
             zIndex: theme.zIndex.drawer + 1,
-            transition: theme.transitions.create(["width", "margin"], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen
-            })
-        },
-        appBarShift: {
-            marginLeft: drawerWidth,
-            width: `calc(100% - ${drawerWidth}px)`,
-            transition: theme.transitions.create(["width", "margin"], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen
-            })
+            left: 0,
+            position: "absolute"
         },
         menuButton: {
-            marginRight: 36
+            marginRight: 24
         },
         hide: {
             display: "none"
         },
         toolbar: {
-            backgroundColor: "#ffffff",
-            color: "#000000"
+            backgroundColor: "#002145",
+            color: "#fff"
+        },
+        logo: {
+            height: "56px",
+            paddingRight: "24px"
         },
         title: {
-            flexGrow: 1
+            flexGrow: 1,
+            fontWeight: 500
         },
         search: {
             position: "relative",

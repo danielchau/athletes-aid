@@ -13,7 +13,8 @@ export const injuriesDataTableStyles = makeStyles((theme: Theme) =>
         },
         paper: {
             width: "100%",
-            marginBottom: theme.spacing(2)
+            marginBottom: theme.spacing(2),
+            backgroundColor: "rgba(0, 33, 69, 0.03)"
         },
         table: {
             minWidth: 750

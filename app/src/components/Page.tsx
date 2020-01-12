@@ -37,6 +37,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                 <TopBar
                     state={props.state}
                     handleDrawerOpen={props.handleDrawerOpen}
+                    handleDrawerClose={props.handleDrawerClose}
                 ></TopBar>
             </div>
             <div className={classes.pageBodyContainer}>
