@@ -1,10 +1,12 @@
 import React from "react";
-import { AthleteProfile } from "../util/types";
+import { AthleteProfile, NavigationPanelStates } from "../util/types";
 import { profilePageStyles } from "../styles/react/ProfilePageStyles";
 import { Avatar, Typography, Divider, Paper } from "@material-ui/core";
 import InjuriesDataTable from "./InjuriesDataTable";
+import clsx from "clsx";
 
 interface ProfilePageProps {
+    state: NavigationPanelStates;
     currentAthlete: AthleteProfile;
 }
 
@@ -21,7 +23,15 @@ export default function ProfilePage(props: ProfilePageProps) {
     };
 
     return (
-        <div className={classes.root}>
+        <div
+            className={clsx(classes.root, {
+                [classes.drawerOpen]:
+                    props.state === NavigationPanelStates.open,
+                [classes.drawerClosed]: !(
+                    props.state === NavigationPanelStates.open
+                )
+            })}
+        >
             <div className={classes.leftCol}>
                 <Avatar
                     className={classes.profilePicture}

@@ -3,9 +3,22 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 export const profilePageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            width: "100%",
             display: "flex",
             flexDirection: "row"
+        },
+        drawerOpen: {
+            width: "calc(100vw - 240px)",
+            transition: theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen
+            })
+        },
+        drawerClosed: {
+            width: "calc(100vw - 60px)",
+            transition: theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen
+            })
         },
         leftCol: {
             width: "30%",
@@ -51,7 +64,8 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             backgroundColor: "rgba(0, 33, 69, 0.03)"
         },
         injuryDataTableContainer: {
-            marginTop: "-16px"
+            marginTop: "-16px",
+            width: "100%"
         }
     })
 );

@@ -11,7 +11,8 @@ const mapStateToProps = (state: AppState) => ({
     athleteInjuries: state.injuriesReducer,
     startingDate: state.startingDateReducer,
     endingDate: state.endingDateReducer,
-    selectedTeam: state.selectedTeamReducer
+    selectedTeam: state.selectedTeamReducer,
+    state: state.navigationPanelReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

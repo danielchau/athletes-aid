@@ -16,7 +16,7 @@ import TopBar from "./TopBar";
 import InjuriesPageContainer from "../containers/InjuriesPageContainer";
 import InjuryLoggingPageContainer from "../containers/InjuryLoggingPageContainer";
 import RosterManagementPageContainer from "../containers/RosterManagementPageContainer";
-import ProfilePage from "./ProfilePage";
+import ProfilePageContainer from "../containers/ProfilePageContainer";
 
 interface PageProps {
     state: NavigationPanelStates;
@@ -53,7 +53,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                 />
                 <Switch>
                     <Route path={profilePath}>
-                        <ProfilePage
+                        <ProfilePageContainer
                             currentAthlete={{
                                 id: "1",
                                 profilePicture:
@@ -78,7 +78,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                                 files: [],
                                 injuries: []
                             }}
-                        ></ProfilePage>
+                        ></ProfilePageContainer>
                     </Route>
                     <Route path={rosterPath}>
                         <h2>Roster</h2>

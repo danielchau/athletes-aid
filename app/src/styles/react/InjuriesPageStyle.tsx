@@ -3,9 +3,22 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 export const injuriesPageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            flexGrow: 1,
-            margin: "16px",
+            padding: "16px",
             backgroundColor: "#fff"
+        },
+        drawerOpen: {
+            width: "calc(100vw - 240px)",
+            transition: theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen
+            })
+        },
+        drawerClosed: {
+            width: "calc(100vw - 60px)",
+            transition: theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen
+            })
         },
         grid: {
             backgroundColor: "#fff"
