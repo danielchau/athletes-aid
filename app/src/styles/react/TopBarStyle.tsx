@@ -25,11 +25,15 @@ export const topBarStyles = makeStyles((theme: Theme) =>
         },
         logo: {
             height: "56px",
-            paddingRight: "24px"
+            paddingRight: "4px"
         },
-        title: {
+        appLogoContainer: {
             flexGrow: 1,
-            fontWeight: 500
+            display: "flex",
+            alignItems: "center"
+        },
+        appLogo: {
+            height: "20px"
         },
         search: {
             position: "relative",
