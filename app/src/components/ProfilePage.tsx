@@ -27,12 +27,14 @@ export default function ProfilePage(props: ProfilePageProps) {
                     className={classes.profilePicture}
                     src={props.currentAthlete.profilePicture}
                 ></Avatar>
+                <Typography className={classes.name} variant="h4">
+                    {props.currentAthlete.name}
+                </Typography>
                 <Divider light />
-                <Typography className={classes.heading} variant="h5">
+                <Typography className={classes.heading} variant="h6">
                     Basic Information
                 </Typography>
                 {[
-                    ["Name", props.currentAthlete.name],
                     ["Birthdate", props.currentAthlete.birthdate],
                     ["Year In School", props.currentAthlete.schoolYear],
                     ["Gender", props.currentAthlete.gender],
@@ -45,7 +47,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                     />
                 ))}
                 <Divider light />
-                <Typography className={classes.heading} variant="h5">
+                <Typography className={classes.heading} variant="h6">
                     Contact Information
                 </Typography>
                 {[
@@ -63,7 +65,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                     />
                 ))}
                 <Divider light />
-                <Typography className={classes.heading} variant="h5">
+                <Typography className={classes.heading} variant="h6">
                     Emergency Contact Information
                 </Typography>
                 {[

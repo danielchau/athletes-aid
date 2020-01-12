@@ -14,8 +14,7 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen
             }),
-            backgroundColor: "#fafafa",
-            borderRightWidth: 0
+            backgroundColor: "#fafafa"
         },
         drawerClose: {
             transition: theme.transitions.create("width", {
@@ -27,8 +26,7 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.up("sm")]: {
                 width: theme.spacing(9) + 1
             },
-            backgroundColor: "#fafafa",
-            borderRightWidth: 0
+            backgroundColor: "#fafafa"
         },
         toolbar: {
             display: "flex",

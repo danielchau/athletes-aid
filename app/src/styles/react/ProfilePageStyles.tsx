@@ -8,30 +8,35 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             flexDirection: "row"
         },
         leftCol: {
-            width: "33%",
+            width: "30%",
             height: "100%",
             borderRightWidth: 2,
             borderRightColor: "#EAEAEA",
             borderRightStyle: "solid",
             padding: "16px",
             overflow: "scroll",
-            backgroundColor: "rgba(0, 33, 69, 0.03)"
+            backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
         rightCol: {
-            width: "67%",
+            width: "70%",
             height: "100%",
             padding: "16px",
             overflow: "scroll",
             backgroundColor: "#fff"
         },
         profilePicture: {
-            width: "calc(30vw - 240px)",
-            height: "calc(30vw - 240px)",
+            width: "calc(32vw - 240px)",
+            height: "calc(32vw - 240px)",
             margin: "auto",
             marginBottom: "16px",
             borderWidth: 4,
             borderColor: "#F2A71E",
             borderStyle: "solid"
+        },
+        name: {
+            textAlign: "center",
+            paddingBottom: "8px",
+            fontWeight: 500
         },
         heading: {
             paddingBottom: "8px",
