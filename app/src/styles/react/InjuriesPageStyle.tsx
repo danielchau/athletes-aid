@@ -14,7 +14,7 @@ export const injuriesPageStyles = makeStyles((theme: Theme) =>
             })
         },
         drawerClosed: {
-            width: "calc(100vw - 60px)",
+            width: "calc(100vw - 72px)",
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen
@@ -27,7 +27,7 @@ export const injuriesPageStyles = makeStyles((theme: Theme) =>
             padding: theme.spacing(2),
             textAlign: "center",
             color: theme.palette.text.secondary,
-            backgroundColor: "rgba(0, 33, 69, 0.03)"
+            backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
         primaryStatisticContainer: {
             display: "flex",

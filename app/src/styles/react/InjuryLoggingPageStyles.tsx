@@ -21,16 +21,21 @@ export const injuryLoggingPageStyles = makeStyles((theme: Theme) =>
         },
         paper: {
             color: theme.palette.text.secondary,
-            backgroundColor: "rgba(0, 33, 69, 0.03)"
+            backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
         paperContent: {
             height: "100%",
             padding: "16px",
             paddingRight: "8px",
-            overflow: "auto"
+            overflow: "auto",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            alignItems: "center",
+            alignContent: "start"
         },
         stepper: {
-            backgroundColor: "rgba(0, 33, 69, 0.03)",
+            backgroundColor: "rgba(0, 33, 69, 0.05)",
             borderRadius: "4px"
         },
         loggingContent: {

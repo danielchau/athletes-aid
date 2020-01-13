@@ -11,7 +11,8 @@ export const topBarStyles = makeStyles((theme: Theme) =>
         appBar: {
             zIndex: theme.zIndex.drawer + 1,
             left: 0,
-            position: "absolute"
+            top: 0,
+            position: "fixed"
         },
         menuButton: {
             marginRight: 24

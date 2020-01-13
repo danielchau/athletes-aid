@@ -15,7 +15,7 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             flexDirection: "row",
             padding: "8px",
             marginBottom: "8px",
-            backgroundColor: "rgba(0, 33, 69, 0.03)"
+            backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
         formControl: {
             minWidth: 120,
@@ -38,7 +38,7 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             display: "flex",
             flexDirection: "column",
             maxHeight: "calc(100% - 80px)",
-            backgroundColor: "rgba(0, 33, 69, 0.03)"
+            backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
         textInput: {
             minWidth: 120,

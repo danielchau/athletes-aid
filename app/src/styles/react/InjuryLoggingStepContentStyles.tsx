@@ -3,13 +3,13 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 export const injuryLoggingStepContentStyles = makeStyles((theme: Theme) =>
     createStyles({
         formControl: {
-            minWidth: 120,
+            minWidth: 200,
             width: "50%",
             paddingRight: "8px",
             paddingBottom: "16px"
         },
         textInput: {
-            minWidth: 120,
+            minWidth: 200,
             width: "100%",
             paddingRight: "8px",
             paddingBottom: "16px"
@@ -20,14 +20,14 @@ export const injuryLoggingStepContentStyles = makeStyles((theme: Theme) =>
             margin: "0px"
         },
         dateInput: {
-            minWidth: 120,
+            minWidth: 200,
             width: "50%",
             margin: "0px",
             paddingRight: "8px",
             paddingBottom: "16px"
         },
         checkboxInput: {
-            minWidth: 120,
+            minWidth: 200,
             width: "50%",
             margin: "0px",
             paddingRight: "8px",
@@ -37,7 +37,8 @@ export const injuryLoggingStepContentStyles = makeStyles((theme: Theme) =>
         instructions: {
             textAlign: "center",
             marginBottom: theme.spacing(3),
-            color: theme.palette.text.secondary
+            color: theme.palette.text.secondary,
+            width: "100%"
         }
     })
 );

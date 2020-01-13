@@ -14,7 +14,7 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             })
         },
         drawerClosed: {
-            width: "calc(100vw - 60px)",
+            width: "calc(100vw - 72px)",
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen
@@ -61,7 +61,7 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             height: "200px",
             width: "100%",
             marginBottom: "16px",
-            backgroundColor: "rgba(0, 33, 69, 0.03)"
+            backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
         injuryDataTableContainer: {
             marginTop: "-16px",
