@@ -28,6 +28,32 @@ export interface Athlete {
     name: string;
 }
 
+export interface AthleteProfile {
+    id: string;
+    profilePicture: string;
+    name: string;
+    birthdate: string;
+    schoolYear: number;
+    gender: string;
+    weight: number;
+    height: number;
+    email: string;
+    cellPhone: string;
+    homePhone: string;
+    healthCardNumber: string;
+    emergencyContact: EmergencyContact;
+    files: string[];
+    injuries: Injury[];
+}
+
+export interface EmergencyContact {
+    id: string;
+    name: string;
+    cellPhone: string;
+    homePhone: string;
+    email: string;
+}
+
 export const GET_ATHLETE_INJURIES = "GET_ATHLETE_INJURIES";
 export const SET_STARTING_DATE = "SET_STARTING_DATE";
 export const SET_ENDING_DATE = "SET_ENDING_DATE";

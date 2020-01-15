@@ -4,7 +4,8 @@ export const injuryLoggingPageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             width: "100%",
-            padding: "8px"
+            padding: "16px",
+            backgroundColor: "#fff"
         },
         backButton: {
             marginRight: theme.spacing(1)
@@ -20,16 +21,21 @@ export const injuryLoggingPageStyles = makeStyles((theme: Theme) =>
         },
         paper: {
             color: theme.palette.text.secondary,
-            backgroundColor: "#fafafa"
+            backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
         paperContent: {
             height: "100%",
             padding: "16px",
             paddingRight: "8px",
-            overflow: "auto"
+            overflow: "auto",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            alignItems: "center",
+            alignContent: "start"
         },
         stepper: {
-            backgroundColor: "#fafafa",
+            backgroundColor: "rgba(0, 33, 69, 0.05)",
             borderRadius: "4px"
         },
         loggingContent: {

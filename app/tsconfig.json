@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "outDir": "./dist/",
         "sourceMap": true,
         "noImplicitAny": true,
@@ -16,6 +16,6 @@
         ]
     },
 
-    "include": ["src/externals.d.ts", "server/**/*"],
+    "include": ["src/externals.d.ts", "src/images.d.ts", "server/**/*"],
     "exclude": ["node_modules"]
 }

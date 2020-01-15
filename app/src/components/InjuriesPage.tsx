@@ -8,7 +8,13 @@ import Button from "@material-ui/core/Button";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { injuriesPageStyles } from "../styles/react/InjuriesPageStyle";
-import { AthleteInjuries, Injury, Team } from "../util/types";
+import {
+    AthleteInjuries,
+    Injury,
+    Team,
+    NavigationPanelStates
+} from "../util/types";
+import clsx from "clsx";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
@@ -22,6 +28,7 @@ interface InjuriesProps {
     setStartingDate: (date: Date) => void;
     setEndingDate: (date: Date) => void;
     selectedTeam: Team;
+    state: NavigationPanelStates;
 }
 
 export default function InjuriesPage(props: InjuriesProps) {
@@ -68,8 +75,16 @@ export default function InjuriesPage(props: InjuriesProps) {
     };
 
     return (
-        <div className={classes.root}>
-            <Grid container spacing={3}>
+        <div
+            className={clsx(classes.root, {
+                [classes.drawerOpen]:
+                    props.state === NavigationPanelStates.open,
+                [classes.drawerClosed]: !(
+                    props.state === NavigationPanelStates.open
+                )
+            })}
+        >
+            <Grid container spacing={3} className={classes.grid}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <form noValidate className={classes.dateTimeContainer}>
@@ -111,7 +126,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                             </Button>
                         </form>
                     </Paper>
-                    {isFetching && <LinearProgress />}
+                    {isFetching && <LinearProgress color="secondary" />}
                 </Grid>
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
@@ -173,8 +188,8 @@ export default function InjuriesPage(props: InjuriesProps) {
                         </div>
                     </Paper>
                 </Grid>
-                <Grid item xs={12}>
-                    <Paper className={classes.paper}>
+                <Grid item xs={12} style={{ width: "100%" }}>
+                    <Paper className={classes.paper} style={{ width: "100%" }}>
                         <InjuriesDataTable
                             injuries={props.athleteInjuries.injuries}
                             injuryOpen={injuryOpen}
