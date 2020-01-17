@@ -5,7 +5,6 @@ import { NavigationPanelStates, Team } from "../util/types";
 import { pageStyles } from "../styles/react/PageStyle";
 import { Switch, Route, RouteComponentProps } from "react-router-dom";
 import {
-    homePath,
     profilePath,
     rosterPath,
     injuryLoggingPath,
@@ -89,14 +88,11 @@ export default function Page(props: PageProps & RouteComponentProps) {
                             callbackUponFinishing={null}
                         ></InjuryLoggingPageContainer>
                     </Route>
-                    <Route path={injuriesPath}>
-                        <InjuriesPageContainer></InjuriesPageContainer>
-                    </Route>
                     <Route path={rosterManagementPath}>
                         <RosterManagementPageContainer></RosterManagementPageContainer>
                     </Route>
-                    <Route path={homePath}>
-                        <h2>Home</h2>
+                    <Route path={injuriesPath}>
+                        <InjuriesPageContainer></InjuriesPageContainer>
                     </Route>
                 </Switch>
             </div>
