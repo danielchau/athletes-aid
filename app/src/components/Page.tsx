@@ -16,6 +16,7 @@ import InjuriesPageContainer from "../containers/InjuriesPageContainer";
 import InjuryLoggingPageContainer from "../containers/InjuryLoggingPageContainer";
 import RosterManagementPageContainer from "../containers/RosterManagementPageContainer";
 import ProfilePageContainer from "../containers/ProfilePageContainer";
+import RosterPageContainer from "../containers/RosterPageContainer";
 
 interface PageProps {
     state: NavigationPanelStates;
@@ -80,7 +81,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                         ></ProfilePageContainer>
                     </Route>
                     <Route path={rosterPath}>
-                        <h2>Roster</h2>
+                        <RosterPageContainer></RosterPageContainer>
                     </Route>
                     <Route path={injuryLoggingPath}>
                         <InjuryLoggingPageContainer

@@ -26,6 +26,7 @@ export interface Team {
 export interface Athlete {
     id: string;
     name: string;
+    injuries: Injury[];
 }
 
 export interface AthleteProfile {
