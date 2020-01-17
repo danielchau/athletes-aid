@@ -4,6 +4,7 @@ export const injuryLoggingPageName: string = "Injury Logging";
 export const injuriesPageName: string = "Injuries";
 export const rosterManagementPageName: string = "Roster Management";
 
+export const myProfilePath: string = "/myprofile";
 export const profilePath: string = "/profile";
 export const rosterPath: string = "/roster";
 export const injuryLoggingPath: string = "/logging";

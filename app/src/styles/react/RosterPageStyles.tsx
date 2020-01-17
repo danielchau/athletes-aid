@@ -19,7 +19,15 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
         table: {
             width: "100%"
         },
-        tableBodyContainer: { overflow: "auto", height: "100%" },
-        tableBody: { tableLayout: "fixed" }
+        tableBodyContainer: {
+            overflow: "auto",
+            height: "100%"
+        },
+        tableBody: {
+            tableLayout: "fixed"
+        },
+        tableRow: {
+            cursor: "pointer"
+        }
     })
 );

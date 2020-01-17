@@ -7,6 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Athlete, Team } from "../util/types";
+import { profilePath } from "../constants/constants";
 
 interface RosterPageProps {
     selectedTeam: Team;
@@ -43,6 +44,11 @@ export default function RosterPage(props: RosterPageProps) {
         return lastInjury.status;
     };
 
+    const handleRowClick = (_: React.MouseEvent<unknown>, name: string) => {
+        window.location.href = profilePath;
+        console.log(name);
+    };
+
     return (
         <div className={classes.root}>
             <Paper className={classes.tableContainer}>
@@ -66,7 +72,14 @@ export default function RosterPage(props: RosterPageProps) {
                         </TableHead>
                         <TableBody>
                             {athletes.map(row => (
-                                <TableRow key={row.name}>
+                                <TableRow
+                                    className={classes.tableRow}
+                                    hover
+                                    key={row.name}
+                                    onClick={event =>
+                                        handleRowClick(event, row.id)
+                                    }
+                                >
                                     <TableCell component="th" scope="row">
                                         {row.name}
                                     </TableCell>

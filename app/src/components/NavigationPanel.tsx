@@ -25,7 +25,7 @@ import {
     injuryLoggingPageName,
     injuriesPageName,
     rosterManagementPageName,
-    profilePath,
+    myProfilePath,
     rosterPath,
     injuryLoggingPath,
     injuriesPath,
@@ -96,11 +96,11 @@ export default function NavigationPanel(
             </div>
             <Divider />
             <List>
-                <Link className={classes.link} to={profilePath}>
+                <Link className={classes.link} to={myProfilePath}>
                     <ListItem
                         button
                         key={profilePageName}
-                        selected={props.location.pathname == profilePath}
+                        selected={props.location.pathname == myProfilePath}
                     >
                         <ListItemIcon className={classes.itemIcon}>
                             <PersonIcon></PersonIcon>
