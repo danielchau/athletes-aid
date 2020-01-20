@@ -5,9 +5,10 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
-import { NavigationPanelStates } from "../util/types";
+import { NavigationPanelStates, Team, Athlete } from "../util/types";
 import { topBarStyles } from "../styles/react/TopBarStyle";
+import { TextField } from "@material-ui/core";
+import Autocomplete, { GetTagProps } from "@material-ui/lab/Autocomplete";
 // @ts-ignore
 import Logo from "../util/logo.png";
 
@@ -15,10 +16,33 @@ interface TopBarProps {
     state: NavigationPanelStates;
     handleDrawerOpen: any;
     handleDrawerClose: any;
+    selectedTeam: Team;
 }
 
 export default function TopBar(props: TopBarProps) {
     const classes = topBarStyles({});
+    const [autocompleteValue, setAutocompleteValue] = React.useState<string>(
+        ""
+    );
+    const [autocompleteOpen, setAutocompleteOpen] = React.useState<boolean>(
+        false
+    );
+
+    const onAutocompleteInputChange = (_: any, value: string) => {
+        setAutocompleteValue(value);
+        if (value != "") {
+            setAutocompleteOpen(true);
+        } else {
+            setAutocompleteOpen(false);
+        }
+    };
+
+    const onAutocompleteChange = (_: React.ChangeEvent<{}>, value: Athlete) => {
+        if (!!value) {
+            window.location.href = profilePath;
+            console.log(value.name);
+        }
+    };
 
     return (
         <>
@@ -50,15 +74,32 @@ export default function TopBar(props: TopBarProps) {
                     </div>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
-                            <SearchIcon />
+                            <SearchIcon color="secondary" />
                         </div>
-                        <InputBase
-                            placeholder="Search…"
+                        <Autocomplete
+                            id="athlete-select"
+                            options={props.selectedTeam.athletes}
+                            getOptionLabel={(option: Athlete) => option.name}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput
                             }}
-                            inputProps={{ "aria-label": "search" }}
+                            renderInput={params => (
+                                <TextField
+                                    {...params}
+                                    inputProps={{
+                                        ...params.inputProps,
+                                        autoComplete: "off"
+                                    }}
+                                    variant="outlined"
+                                    placeholder="Search Athlete..."
+                                />
+                            )}
+                            autoComplete
+                            disableOpenOnFocus
+                            onInputChange={onAutocompleteInputChange}
+                            open={autocompleteOpen}
+                            onChange={onAutocompleteChange}
                         />
                     </div>
                 </Toolbar>

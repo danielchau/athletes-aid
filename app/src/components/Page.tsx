@@ -39,6 +39,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     state={props.state}
                     handleDrawerOpen={props.handleDrawerOpen}
                     handleDrawerClose={props.handleDrawerClose}
+                    selectedTeam={props.selectedTeam}
                 ></TopBar>
             </div>
             <div className={classes.pageBodyContainer}>
