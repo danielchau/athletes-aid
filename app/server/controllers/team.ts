@@ -65,7 +65,7 @@ export const getTeam = async (req: Request, res: Response) => {
     res.json(response);
   } catch (e) {
     Logger.Info(e);
-    return res.status(500).send("Failed to get injuries in range");
+    return res.status(500).send("Failed to get team");
   }
 };
 
@@ -83,7 +83,7 @@ export const getAllTeams = async (req: Request, res: Response) => {
     res.json(response);
   } catch (e) {
     Logger.Info(e);
-    return res.status(500).send("Failed to get injuries in range");
+    return res.status(500).send("Failed to get all teams");
   }
 };
 
