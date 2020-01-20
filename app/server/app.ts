@@ -17,7 +17,14 @@ app.get("/", (req, res) => {
 });
 
 // Controllers (route handlers)
-// import * as teamController from "./controllers/team";
+import * as teamController from "./controllers/team";
+
+app.post("/teams", teamController.postTeam);
+app.get("/teams", teamController.getTeam);
+app.put("/teams", teamController.modifyTeam);
+app.delete("/teams", teamController.deleteTeam);
+app.get("/allTeams", teamController.getAllTeams);
+
 
 // import * as userController from "./controllers/user";
 
