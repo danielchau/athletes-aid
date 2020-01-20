@@ -11,6 +11,7 @@ import { TextField } from "@material-ui/core";
 import Autocomplete, { GetTagProps } from "@material-ui/lab/Autocomplete";
 // @ts-ignore
 import Logo from "../util/logo.png";
+import { profilePath } from "../constants/constants";
 
 interface TopBarProps {
     state: NavigationPanelStates;
