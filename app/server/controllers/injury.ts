@@ -56,9 +56,13 @@ export const postInjury = async (req: Request, res: Response) => {
 };
 
 export const getInjuriesByRange = async (req: Request, res: Response) => {
-  try {  
+  try {
     let injuries = new Array<Injury>();
-    injuries = await injuryModel.getInjuriesByRange(req.query.startDate, req.query.endDate, req.query.teamName);
+    injuries = await injuryModel.getInjuriesByRange(
+      req.query.startDate,
+      req.query.endDate,
+      req.query.teamName
+    );
 
     let response = {
       message: "Injuries By date and team",

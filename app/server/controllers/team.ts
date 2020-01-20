@@ -70,22 +70,22 @@ export const getTeam = async (req: Request, res: Response) => {
 };
 
 export const getAllTeams = async (req: Request, res: Response) => {
-    try {
-      let teams = new Array<Team>();
-      teams = await teamModel.getAllTeams();
+  try {
+    let teams = new Array<Team>();
+    teams = await teamModel.getAllTeams();
 
-      let response = {
-        message: "All Teams",
-        data: {
-          teams
-        }
-      };
-      res.json(response);
-    } catch (e) {
-      Logger.Info(e);
-      return res.status(500).send("Failed to get injuries in range");
-    }
-  };
+    let response = {
+      message: "All Teams",
+      data: {
+        teams
+      }
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e);
+    return res.status(500).send("Failed to get injuries in range");
+  }
+};
 
 export const deleteTeam = async (req: Request, res: Response) => {
   try {

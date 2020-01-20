@@ -25,7 +25,6 @@ app.put("/team", teamController.modifyTeam);
 app.delete("/team", teamController.deleteTeam);
 app.get("/teams", teamController.getAllTeams);
 
-
 // import * as userController from "./controllers/user";
 
 import * as injuryController from "./controllers/injury";
