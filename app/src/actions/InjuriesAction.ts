@@ -89,5 +89,6 @@ async function fetchInjuries(
 
     let response = await fetch("./injuriesInDateRange?" + query);
     let data = await response.json();
+    console.log(data);
     return data;
 }

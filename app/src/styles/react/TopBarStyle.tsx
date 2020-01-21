@@ -39,9 +39,12 @@ export const topBarStyles = makeStyles((theme: Theme) =>
         search: {
             position: "relative",
             borderRadius: theme.shape.borderRadius,
-            backgroundColor: fade(theme.palette.common.black, 0.05),
+            backgroundColor: fade(theme.palette.common.white, 0.15),
+            "&:focus-within": {
+                backgroundColor: theme.palette.common.white
+            },
             "&:hover": {
-                backgroundColor: fade(theme.palette.common.black, 0.15)
+                backgroundColor: theme.palette.common.white
             },
             marginLeft: 0,
             width: "100%",
@@ -63,13 +66,13 @@ export const topBarStyles = makeStyles((theme: Theme) =>
             color: "inherit"
         },
         inputInput: {
-            padding: theme.spacing(1, 1, 1, 7),
+            padding: "1px 1px 1px 40px !important",
             transition: theme.transitions.create("width"),
             width: "100%",
             [theme.breakpoints.up("sm")]: {
-                width: 120,
+                width: "120px !important",
                 "&:focus": {
-                    width: 200
+                    width: "200px !important"
                 }
             }
         }

@@ -9,7 +9,6 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import GroupIcon from "@material-ui/icons/Group";
 import DescriptionIcon from "@material-ui/icons/Description";
@@ -21,14 +20,12 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
 import { NavigationPanelStates, Team } from "../util/types";
 import {
-    homePageName,
     profilePageName,
     rosterPageName,
     injuryLoggingPageName,
     injuriesPageName,
     rosterManagementPageName,
-    homePath,
-    profilePath,
+    myProfilePath,
     rosterPath,
     injuryLoggingPath,
     injuriesPath,
@@ -99,26 +96,11 @@ export default function NavigationPanel(
             </div>
             <Divider />
             <List>
-                <Link className={classes.link} to={homePath}>
-                    <ListItem
-                        button
-                        key={homePageName}
-                        selected={props.location.pathname == homePath}
-                    >
-                        <ListItemIcon className={classes.itemIcon}>
-                            <HomeIcon></HomeIcon>
-                        </ListItemIcon>
-                        <ListItemText
-                            className={classes.drawerListItemText}
-                            primary={homePageName}
-                        />
-                    </ListItem>
-                </Link>
-                <Link className={classes.link} to={profilePath}>
+                <Link className={classes.link} to={myProfilePath}>
                     <ListItem
                         button
                         key={profilePageName}
-                        selected={props.location.pathname == profilePath}
+                        selected={props.location.pathname == myProfilePath}
                     >
                         <ListItemIcon className={classes.itemIcon}>
                             <PersonIcon></PersonIcon>
