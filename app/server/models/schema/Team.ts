@@ -13,5 +13,14 @@ export class Team {
   name: string;
 
   @attribute()
-  athletes: [string];
+  season: string;
+
+  @attribute()
+  createdBy: string;
+
+  @attribute({ defaultProvider: () => new Date() })
+  createdAt: Date;
+
+  @attribute()
+  athletes: Array<string>;
 }
