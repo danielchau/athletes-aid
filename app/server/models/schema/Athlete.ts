@@ -93,7 +93,7 @@ import {
     emergencyContact: string;
 
     @attribute()
-    injuries: Array<string>;
+    injuries?: Array<string>;
 
     @attribute()
     teams: Array<string>;
