@@ -31,6 +31,9 @@ import * as injuryController from "./controllers/injury";
 app.post("/singleInjury", injuryController.postInjury);
 app.get("/injuriesInDateRange", injuryController.getInjuriesByRange);
 
+import * as athleteController from "./controllers/athlete";
+app.post("/athlete", athleteController.postAthlete);
+
 // Routes
 
 export default app;
