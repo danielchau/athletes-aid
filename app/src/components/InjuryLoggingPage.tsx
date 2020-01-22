@@ -73,6 +73,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
             ? "Notes can't be altered. See all injury notes on overview page."
             : ""
     );
+    const [hasError, setHasError] = React.useState<boolean>(false);
 
     const handleNext = () => {
         if (activeStep == steps.length - 1) {
@@ -133,7 +134,23 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                     });
             }
         } else {
-            setActiveStep(prevActiveStep => prevActiveStep + 1);
+            if (
+                activeStep == 0 &&
+                (selectedAthlete == "" ||
+                    selectedEventType == "" ||
+                    selectedLocationOnBody == "" ||
+                    selectedInjuryType == "")
+            ) {
+                setHasError(true);
+            } else if (
+                activeStep == 1 &&
+                (selectedStatus == "" || selectedMechanismOfInjury == "")
+            ) {
+                setHasError(true);
+            } else {
+                setHasError(false);
+                setActiveStep(prevActiveStep => prevActiveStep + 1);
+            }
         }
     };
 
@@ -215,6 +232,11 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                         ></InjuryLoggingStepContent>
                     </Paper>
                     <div className={classes.loggingBottomButtons}>
+                        {hasError && (
+                            <Typography className={classes.errorPrompt}>
+                                Please fill out all required fields.
+                            </Typography>
+                        )}
                         <Button
                             disabled={activeStep === 0}
                             onClick={handleBack}

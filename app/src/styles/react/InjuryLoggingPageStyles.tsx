@@ -57,6 +57,10 @@ export const injuryLoggingPageStyles = makeStyles((theme: Theme) =>
         progress: {
             marginLeft: "8px",
             color: "#fff"
+        },
+        errorPrompt: {
+            color: theme.palette.secondary.main,
+            display: "inline"
         }
     })
 );

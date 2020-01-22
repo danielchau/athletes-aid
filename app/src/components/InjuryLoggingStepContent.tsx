@@ -128,10 +128,10 @@ export default function InjuryLoggingStepContent(
                         variant="outlined"
                     >
                         <InputLabel id="team-select-label">
-                            Team Name
+                            Team Name *
                         </InputLabel>
                         <Select
-                            labelWidth={90}
+                            labelWidth={100}
                             id="team-select"
                             value={props.selectedTeam.name}
                             inputProps={{ readOnly: true }}
@@ -148,10 +148,10 @@ export default function InjuryLoggingStepContent(
                         {!!props.existingInjury ? (
                             <>
                                 <InputLabel id="athlete-select-label">
-                                    Athlete Name
+                                    Athlete Name *
                                 </InputLabel>
                                 <Select
-                                    labelWidth={90}
+                                    labelWidth={100}
                                     id="athlete-select"
                                     value={props.existingInjury.athleteName}
                                     inputProps={{ readOnly: true }}
@@ -171,6 +171,7 @@ export default function InjuryLoggingStepContent(
                                     option.name
                                 }
                                 onChange={handleAthleteChange}
+                                inputValue={props.selectedAthlete}
                                 renderInput={params => (
                                     <TextField
                                         {...params}
@@ -178,7 +179,7 @@ export default function InjuryLoggingStepContent(
                                             ...params.inputProps,
                                             autoComplete: "off"
                                         }}
-                                        label="Athlete Name"
+                                        label="Athlete Name *"
                                         variant="outlined"
                                         fullWidth
                                     />
@@ -195,7 +196,7 @@ export default function InjuryLoggingStepContent(
                             format="MM/dd/yyyy"
                             margin="normal"
                             id="date-select"
-                            label="Injury Date"
+                            label="Injury Date *"
                             value={props.selectedDate}
                             onChange={handleDateChange}
                         />
@@ -216,10 +217,10 @@ export default function InjuryLoggingStepContent(
                         variant="outlined"
                     >
                         <InputLabel id="event-type-select-label">
-                            Event Type
+                            Event Type *
                         </InputLabel>
                         <Select
-                            labelWidth={80}
+                            labelWidth={90}
                             id="event-type-select"
                             value={props.selectedEventType}
                             onChange={handleEventTypeChange}
@@ -285,10 +286,10 @@ export default function InjuryLoggingStepContent(
                         variant="outlined"
                     >
                         <InputLabel id="body-location-select-label">
-                            Location On Body
+                            Location On Body *
                         </InputLabel>
                         <Select
-                            labelWidth={130}
+                            labelWidth={140}
                             id="body-location-select"
                             value={props.selectedLocationOnBody}
                             onChange={handleLocationOnBodyChange}
@@ -310,10 +311,10 @@ export default function InjuryLoggingStepContent(
                         variant="outlined"
                     >
                         <InputLabel id="injury-type-select-label">
-                            Injury Type
+                            Injury Type *
                         </InputLabel>
                         <Select
-                            labelWidth={80}
+                            labelWidth={90}
                             id="injury-type-select"
                             value={props.selectedInjuryType}
                             onChange={handleInjuryTypeChange}
@@ -333,10 +334,10 @@ export default function InjuryLoggingStepContent(
                         variant="outlined"
                     >
                         <InputLabel id="severity-select-label">
-                            Severity
+                            Severity *
                         </InputLabel>
                         <Select
-                            labelWidth={60}
+                            labelWidth={70}
                             id="severity-select"
                             value={props.selectedSeverity}
                             onChange={handleSeverityChange}
@@ -365,10 +366,10 @@ export default function InjuryLoggingStepContent(
                             variant="outlined"
                         >
                             <InputLabel id="status-select-label">
-                                Status
+                                Status *
                             </InputLabel>
                             <Select
-                                labelWidth={50}
+                                labelWidth={60}
                                 id="status-select"
                                 value={props.selectedStatus}
                                 onChange={handleStatusChange}
@@ -390,10 +391,10 @@ export default function InjuryLoggingStepContent(
                             variant="outlined"
                         >
                             <InputLabel id="mechanism-select-label">
-                                Mechanism of Injury
+                                Mechanism of Injury *
                             </InputLabel>
                             <Select
-                                labelWidth={145}
+                                labelWidth={155}
                                 id="mechanism-select"
                                 value={props.selectedMechanismOfInjury}
                                 onChange={handleMechanismChange}
