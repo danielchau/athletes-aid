@@ -15,6 +15,11 @@ import {
     NavigationPanelStates
 } from "../util/types";
 import clsx from "clsx";
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
@@ -66,12 +71,12 @@ export default function InjuriesPage(props: InjuriesProps) {
         );
     };
 
-    const onChangeStartingDate = (event: any) => {
-        props.setStartingDate(new Date(event.target.value));
+    const onChangeStartingDate = (date: Date) => {
+        props.setStartingDate(date);
     };
 
-    const onChangeEndingDate = (event: any) => {
-        props.setEndingDate(new Date(event.target.value));
+    const onChangeEndingDate = (date: Date) => {
+        props.setEndingDate(date);
     };
 
     return (
@@ -88,34 +93,30 @@ export default function InjuriesPage(props: InjuriesProps) {
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <form noValidate className={classes.dateTimeContainer}>
-                            <TextField
-                                id="date"
-                                label="Starting Date"
-                                type="date"
-                                defaultValue={
-                                    props.startingDate
-                                        .toISOString()
-                                        .split("T")[0]
-                                }
-                                className={classes.textField}
-                                onChange={onChangeStartingDate}
-                                InputLabelProps={{
-                                    shrink: true
-                                }}
-                            />
-                            <TextField
-                                id="date"
-                                label="Ending Date"
-                                type="date"
-                                defaultValue={
-                                    props.endingDate.toISOString().split("T")[0]
-                                }
-                                className={classes.textField}
-                                onChange={onChangeEndingDate}
-                                InputLabelProps={{
-                                    shrink: true
-                                }}
-                            />
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    className={classes.dateField}
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="date-select"
+                                    label="Starting Date"
+                                    value={props.startingDate}
+                                    onChange={onChangeStartingDate}
+                                />
+                                <KeyboardDatePicker
+                                    className={classes.dateField}
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="date-select"
+                                    label="Ending Date"
+                                    value={props.endingDate}
+                                    onChange={onChangeEndingDate}
+                                />
+                            </MuiPickersUtilsProvider>
                             <Button
                                 variant="outlined"
                                 aria-label="go"
