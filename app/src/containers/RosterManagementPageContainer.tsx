@@ -3,6 +3,7 @@ import RosterManagementPage from "../components/RosterManagementPage";
 import { AppState } from "..";
 
 const mapStateToProps = (state: AppState) => ({
+    state: state.navigationPanelReducer,
     teams: state.teamsReducer
 });
 

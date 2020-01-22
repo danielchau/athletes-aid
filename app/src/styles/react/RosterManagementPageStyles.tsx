@@ -3,11 +3,24 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            width: "100%",
             padding: "16px",
             display: "flex",
             flexDirection: "column",
             backgroundColor: "#fff"
+        },
+        drawerOpen: {
+            width: "calc(100vw - 240px)",
+            transition: theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen
+            })
+        },
+        drawerClosed: {
+            width: "calc(100vw - 72px)",
+            transition: theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen
+            })
         },
         introPaper: {
             color: theme.palette.text.secondary,
@@ -99,7 +112,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
         },
         addedAthletes: {
             flexGrow: 1,
-            overflow: "scroll"
+            overflow: "scroll",
+            width: "100%"
         }
     })
 );

@@ -4,7 +4,11 @@ import { Typography } from "@material-ui/core";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { ExcelToJSON } from "../util/excelUpload";
 
-export default function MyDropzone() {
+interface MyDropzoneProps {
+    setNewAthletes: any;
+}
+
+export default function MyDropzone(props: MyDropzoneProps) {
     const onDrop = useCallback(acceptedFiles => {
         acceptedFiles.forEach((file: any) => {
             const reader = new FileReader();
@@ -14,7 +18,36 @@ export default function MyDropzone() {
             reader.onload = () => {
                 // Do whatever you want with the file contents
                 const binaryStr = reader.result;
-                console.log(ExcelToJSON(binaryStr));
+                let jsonObject = ExcelToJSON(binaryStr);
+                let athletes = jsonObject.map((entry: any, i: number) => {
+                    return {
+                        id: i,
+                        profilePicture: "",
+                        name:
+                            entry["Athlete First Name*"] +
+                            " " +
+                            entry["Athlete Last Name*"],
+                        birthdate: entry["Day Of Birthday yyyy-mm-dd"],
+                        schoolYear: entry["School Year"],
+                        gender: entry["Gender*"],
+                        weight: entry["Weight in Lbs"],
+                        height: entry["Height in Inches"],
+                        email: entry["E-mail*"],
+                        cellPhone: entry["Cell Phone"],
+                        homePhone: entry["Home Phone"],
+                        healthCardNumber: "",
+                        emergencyContact: {
+                            id: "e" + i,
+                            name: entry["Emergency Contact Name"],
+                            cellPhone: entry["Emergency Contact Cell Phone"],
+                            homePhone: entry["Emergency Contact Home Phone"],
+                            email: entry["Emergency Contact Email"]
+                        },
+                        files: [],
+                        injuries: []
+                    };
+                });
+                props.setNewAthletes(athletes);
             };
             reader.readAsBinaryString(file);
         });

@@ -75,7 +75,7 @@ export default function RosterPage(props: RosterPageProps) {
                                 <TableRow
                                     className={classes.tableRow}
                                     hover
-                                    key={row.name}
+                                    key={row.id}
                                     onClick={event =>
                                         handleRowClick(event, row.id)
                                     }

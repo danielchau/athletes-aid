@@ -19,10 +19,18 @@ import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
-import { Athlete, Team } from "../util/types";
+import {
+    Athlete,
+    Team,
+    NavigationPanelStates,
+    AthleteProfile
+} from "../util/types";
 import MyDropzone from "./Dropzone";
+import AddAthleteTable from "./AddAthleteTable";
+import clsx from "clsx";
 
 interface RosterManagementPageProps {
+    state: NavigationPanelStates;
     teams: Team[];
 }
 
@@ -32,7 +40,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const [teamName, setTeamName] = React.useState<string | null>(null);
     const [season, setSeason] = React.useState<string | null>(null);
     const [checked, setChecked] = React.useState(new Set<string>());
-    const [newAthletes, setNewAthletes] = React.useState<Athlete[]>([]);
+    const [newAthletes, setNewAthletes] = React.useState<AthleteProfile[]>([]);
 
     const handleTeamSelected = (
         event: React.ChangeEvent<{ value: string }>
@@ -78,7 +86,15 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const handleSave = () => {};
 
     return (
-        <div className={classes.root}>
+        <div
+            className={clsx(classes.root, {
+                [classes.drawerOpen]:
+                    props.state === NavigationPanelStates.open,
+                [classes.drawerClosed]: !(
+                    props.state === NavigationPanelStates.open
+                )
+            })}
+        >
             <Paper className={classes.introPaper}>
                 <Typography className={classes.introText}>
                     Edit one of your current teams:
@@ -226,11 +242,15 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                 </div>
                                 <Divider light />
                                 <div className={classes.dropzone}>
-                                    <MyDropzone></MyDropzone>
+                                    <MyDropzone
+                                        setNewAthletes={setNewAthletes}
+                                    ></MyDropzone>
                                 </div>
                                 <Divider light />
                                 <div className={classes.addedAthletes}>
-                                    Athletes
+                                    <AddAthleteTable
+                                        athletes={newAthletes}
+                                    ></AddAthleteTable>
                                 </div>
                             </div>
                             <div>
