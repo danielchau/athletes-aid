@@ -72,7 +72,7 @@ export default function MyDropzone(props: MyDropzoneProps) {
         >
             <input {...getInputProps()} />
             <CloudUploadIcon
-                style={{ width: "4em", height: "4em" }}
+                style={{ width: "2em", height: "2em" }}
             ></CloudUploadIcon>
             <Typography>
                 Drag 'n' drop some files here, or click to select files

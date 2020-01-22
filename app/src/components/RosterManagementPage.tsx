@@ -232,12 +232,11 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                             <div className={classes.uploadPrompt}>
                                 <div className={classes.fileDownload}>
                                     <Typography>
-                                        Please upload the filled spreadsheet
-                                        found{" "}
+                                        Please upload a filled spreadsheet found{" "}
                                         <a href="" download>
                                             here
                                         </a>{" "}
-                                        and then add the athletes.
+                                        below.
                                     </Typography>
                                 </div>
                                 <Divider light />

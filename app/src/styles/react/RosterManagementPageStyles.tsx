@@ -46,8 +46,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
         },
         paperContent: {
             flexGrow: 1,
-            padding: "16px",
-            paddingRight: "8px",
+            padding: "8px",
+            paddingRight: "0px",
             display: "flex",
             flexDirection: "column",
             maxHeight: "calc(100% - 80px)",
@@ -105,7 +105,10 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             marginLeft: "0px"
         },
         fileDownload: {
-            height: "10%"
+            height: "10%",
+            display: "flex",
+            alignItems: "center",
+            alignSelf: "center"
         },
         dropzone: {
             height: "calc(30% - 8px)"
