@@ -45,6 +45,7 @@ interface InjuriesDataTableProps {
 
 interface EnhancedTableToolbarProps {
     numSelected: number;
+    onExport: () => void;
 }
 
 type Order = "asc" | "desc";
@@ -182,10 +183,55 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         rowsPerPage -
         Math.min(rowsPerPage, props.injuries.length - page * rowsPerPage);
 
+    const onExport = () => {
+        let headers =
+            "Active,Created On,Created By,Team Name,Athlete Name,Injury Date," +
+            "Is Sports Related,Event Type,Position,Side Of Body,Location On Body," +
+            "Injury Type,Severity,Status,Mechanism,Injury Description,Other Notes,\r\n";
+        let csvContent = "data:text/csv;charset=utf-8," + headers;
+        props.injuries
+            .filter(i => selectedInjuries.indexOf(i.id) !== -1)
+            .map(i => {
+                let values = [
+                    i.active.toString(),
+                    i.createdOn.toDateString(),
+                    i.createdBy.toString(),
+                    i.teamName.toString(),
+                    i.athleteName.toString(),
+                    i.injuryDate.toDateString(),
+                    i.isSportsRelated.toString(),
+                    i.eventType.toString(),
+                    i.position.toString(),
+                    i.sideOfBody.toString(),
+                    i.locationOnBody.toString(),
+                    i.injuryType.toString(),
+                    i.severity.toString(),
+                    i.status.toString(),
+                    i.mechanism.toString(),
+                    `"` +
+                        i.injuryDescription.replace(/"/g, `'`).toString() +
+                        `"`,
+                    `"` + i.otherNotes.toString().replace(/"/g, `'`) + `"`
+                ];
+                csvContent += values + "\r\n";
+            });
+
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "my_data.csv");
+        document.body.appendChild(link); // Required for FF
+
+        link.click(); // This will download the data file named "my_data.csv".
+    };
+
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selectedInjuries.length} />
+                <EnhancedTableToolbar
+                    numSelected={selectedInjuries.length}
+                    onExport={onExport}
+                />
                 <div className={classes.tableWrapper}>
                     <Table
                         className={classes.table}
@@ -383,13 +429,22 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
             })}
         >
             {numSelected > 0 ? (
-                <Typography
-                    className={classes.title}
-                    color="inherit"
-                    variant="subtitle1"
-                >
-                    {numSelected} selected
-                </Typography>
+                <>
+                    <Typography
+                        className={classes.title}
+                        color="inherit"
+                        variant="subtitle1"
+                    >
+                        {numSelected} selected{" "}
+                        <Typography
+                            className={classes.export}
+                            variant="subtitle1"
+                            onClick={props.onExport}
+                        >
+                            (export)
+                        </Typography>
+                    </Typography>
+                </>
             ) : (
                 <Typography
                     className={classes.title}

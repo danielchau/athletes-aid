@@ -75,7 +75,7 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             margin: "8px"
         },
         newAthletesButton: {
-            width: "calc(50% - 16px)",
+            width: "calc(100% - 16px)",
             margin: "8px"
         },
         uploadPrompt: {
@@ -90,6 +90,16 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
         saveButton: {
             margin: "8px",
             marginLeft: "0px"
+        },
+        fileDownload: {
+            height: "10%"
+        },
+        dropzone: {
+            height: "calc(30% - 8px)"
+        },
+        addedAthletes: {
+            flexGrow: 1,
+            overflow: "scroll"
         }
     })
 );

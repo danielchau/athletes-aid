@@ -19,8 +19,8 @@ import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
-import AttachmentIcon from "@material-ui/icons/Attachment";
 import { Athlete, Team } from "../util/types";
+import MyDropzone from "./Dropzone";
 
 interface RosterManagementPageProps {
     teams: Team[];
@@ -74,8 +74,6 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const handleAthleteDelete = () => {};
 
     const handleAddAthletes = () => {};
-
-    const handleImportAthletes = () => {};
 
     const handleSave = () => {};
 
@@ -216,12 +214,25 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                     <Paper className={classes.card}>
                         <div className={classes.athletesContainer}>
                             <div className={classes.uploadPrompt}>
-                                <Typography>
-                                    Please upload the filled spreadsheet found
-                                    here ____ and then add the athletes.
-                                </Typography>
+                                <div className={classes.fileDownload}>
+                                    <Typography>
+                                        Please upload the filled spreadsheet
+                                        found{" "}
+                                        <a href="" download>
+                                            here
+                                        </a>{" "}
+                                        and then add the athletes.
+                                    </Typography>
+                                </div>
+                                <Divider light />
+                                <div className={classes.dropzone}>
+                                    <MyDropzone></MyDropzone>
+                                </div>
+                                <Divider light />
+                                <div className={classes.addedAthletes}>
+                                    Athletes
+                                </div>
                             </div>
-                            <Divider light />
                             <div>
                                 <Button
                                     variant="contained"
@@ -231,14 +242,6 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                 >
                                     Add Athletes
                                     <AddIcon />
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    className={classes.newAthletesButton}
-                                    onClick={handleImportAthletes}
-                                >
-                                    Bulk Import
-                                    <AttachmentIcon />
                                 </Button>
                             </div>
                         </div>
