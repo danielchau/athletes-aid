@@ -1,9 +1,39 @@
-import { GET_TEAMS, Athlete } from "../util/types";
-export function getTeams(id: string) {
+import { GET_TEAMS, Athlete, Team } from "../util/types";
+
+export function getTeams(athleteId: string, data: any) {
     return {
         type: GET_TEAMS,
-        teams: createMockTeams()
+        teams: data.data.teams.map((d: any) => {
+            return {
+                id: d.id,
+                name: d.name,
+                season: d.season,
+                athletes: d.athletes
+            };
+        })
     };
+}
+
+export function fetchTeams(athleteId: string) {
+    return async (dispatch: any) => {
+        const data = await fetchTeamsEndpoint(athleteId);
+        return dispatch(getTeams(athleteId, data));
+    };
+}
+
+async function fetchTeamsEndpoint(athleteId: string): Promise<Team[]> {
+    let params: any = {};
+    let query = Object.keys(params)
+        .map(
+            (k: any) =>
+                encodeURIComponent(k) + "=" + encodeURIComponent(params[k])
+        )
+        .join("&");
+
+    let response = await fetch("./teams");
+    let data = await response.json();
+    console.log(data);
+    return data;
 }
 
 function createMockTeams() {

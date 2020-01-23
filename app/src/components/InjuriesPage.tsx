@@ -100,7 +100,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                                     variant="inline"
                                     format="MM/dd/yyyy"
                                     margin="normal"
-                                    id="date-select"
+                                    id="starting-date"
                                     label="Starting Date"
                                     value={props.startingDate}
                                     onChange={onChangeStartingDate}
@@ -111,7 +111,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                                     variant="inline"
                                     format="MM/dd/yyyy"
                                     margin="normal"
-                                    id="date-select"
+                                    id="ending-date"
                                     label="Ending Date"
                                     value={props.endingDate}
                                     onChange={onChangeEndingDate}

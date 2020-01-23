@@ -31,6 +31,7 @@ import {
     injuriesPath,
     rosterManagementPath
 } from "../constants/constants";
+import { Typography } from "@material-ui/core";
 
 interface NavigationPanelProps {
     state: NavigationPanelStates;
@@ -187,8 +188,23 @@ export default function NavigationPanel(
                             </ListItemIcon>
                             <ListItemText
                                 className={classes.teamToggleListItem}
-                                primary="Team Selection"
-                                secondary={props.selectedTeam.name}
+                                disableTypography
+                                primary={
+                                    <Typography
+                                        className={classes.primaryLabel}
+                                    >
+                                        Team Selection
+                                    </Typography>
+                                }
+                                secondary={
+                                    <Typography
+                                        className={classes.secondaryLabel}
+                                    >
+                                        {props.selectedTeam.name +
+                                            " - " +
+                                            props.selectedTeam.season}
+                                    </Typography>
+                                }
                             />
                         </ListItem>
                     </List>
@@ -210,7 +226,7 @@ export default function NavigationPanel(
                                 selected={option === props.selectedTeam}
                                 onClick={event => handleTeamClick(event, index)}
                             >
-                                {option.name}
+                                {option.name + " - " + option.season}
                             </MenuItem>
                         ))}
                     </Menu>

@@ -28,6 +28,7 @@ import {
 import MyDropzone from "./Dropzone";
 import AddAthleteTable from "./AddAthleteTable";
 import clsx from "clsx";
+import { createTeam } from "../actions/TeamAction";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
@@ -37,8 +38,8 @@ interface RosterManagementPageProps {
 export default function RosterManagementPage(props: RosterManagementPageProps) {
     const classes = rosterManagementPageStyles({});
     const [selectedTeam, setSelectedTeam] = React.useState<Team | null>(null);
-    const [teamName, setTeamName] = React.useState<string | null>(null);
-    const [season, setSeason] = React.useState<string | null>(null);
+    const [teamName, setTeamName] = React.useState<string | null>("");
+    const [season, setSeason] = React.useState<string | null>("");
     const [checked, setChecked] = React.useState(new Set<string>());
     const [newAthletes, setNewAthletes] = React.useState<AthleteProfile[]>([]);
 
@@ -48,6 +49,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         let team = props.teams.filter(team => team.id === event.target.value);
         setSelectedTeam(team.length > 0 ? team[0] : null);
         setTeamName(null);
+        setSeason(null);
     };
 
     const handleToggle = (value: string) => () => {
@@ -64,7 +66,8 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
 
     const handleAddTeam = () => {
         setSelectedTeam(null);
-        setTeamName(null);
+        setTeamName("");
+        setSeason("");
     };
 
     const handleTeamNameChange = (
@@ -83,7 +86,12 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
 
     const handleAddAthletes = () => {};
 
-    const handleSave = () => {};
+    const handleSave = () => {
+        if (!!selectedTeam) {
+        } else {
+            createTeam(teamName, season);
+        }
+    };
 
     return (
         <div
@@ -129,7 +137,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                 </IconButton>
             </Paper>
             <Paper className={classes.paperContent}>
-                <div>
+                <div className={classes.teamInfoContainer}>
                     <TextField
                         id="team-name"
                         className={classes.textInput}
@@ -142,7 +150,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                 ? teamName != null
                                     ? teamName
                                     : selectedTeam.name
-                                : ""
+                                : teamName
                         }
                         onChange={handleTeamNameChange}
                     />
@@ -158,122 +166,145 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                 ? season != null
                                     ? season
                                     : selectedTeam.season
-                                : ""
+                                : season
                         }
                         onChange={handleSeasonChange}
                     />
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.saveButton}
+                        onClick={handleSave}
+                    >
+                        {!!selectedTeam ? "Save" : "Create"}
+                    </Button>
                 </div>
                 <Divider className={classes.contentDivider} />
                 <div className={classes.athleteContentContainer}>
-                    <Paper className={classes.card}>
-                        <div className={classes.athletesContainer}>
-                            <List dense className={classes.athletesList}>
-                                {!!selectedTeam ? (
-                                    selectedTeam.athletes.map(
-                                        (athlete: Athlete) => {
-                                            const labelId = `checkbox-list-secondary-label-${athlete.name}`;
-                                            return (
-                                                <ListItem
-                                                    key={athlete.id}
-                                                    button
-                                                >
-                                                    <ListItemAvatar>
-                                                        <Avatar
-                                                            alt={`Avatar n°${athlete.id}`}
+                    {!!!selectedTeam ? (
+                        <div className={classes.createPromptContainer}>
+                            <Typography className={classes.createPrompt}>
+                                Please create a team or select an existing one
+                                before adding/modifying athletes.
+                            </Typography>
+                        </div>
+                    ) : (
+                        <>
+                            <Paper className={classes.card}>
+                                <div className={classes.athletesContainer}>
+                                    <List
+                                        dense
+                                        className={classes.athletesList}
+                                    >
+                                        {!!selectedTeam ? (
+                                            selectedTeam.athletes.map(
+                                                (athlete: Athlete) => {
+                                                    const labelId = `checkbox-list-secondary-label-${athlete.name}`;
+                                                    return (
+                                                        <ListItem
+                                                            key={athlete.id}
+                                                            button
                                                         >
-                                                            {athlete.name.slice(
-                                                                0,
-                                                                1
-                                                            )}
-                                                        </Avatar>
-                                                    </ListItemAvatar>
-                                                    <ListItemText
-                                                        id={labelId}
-                                                        primary={athlete.name}
-                                                    />
-                                                    <ListItemSecondaryAction>
-                                                        <Checkbox
-                                                            edge="end"
-                                                            onChange={handleToggle(
-                                                                athlete.id
-                                                            )}
-                                                            checked={checked.has(
-                                                                athlete.id
-                                                            )}
-                                                            inputProps={{
-                                                                "aria-labelledby": labelId
-                                                            }}
-                                                        />
-                                                    </ListItemSecondaryAction>
-                                                </ListItem>
-                                            );
+                                                            <ListItemAvatar>
+                                                                <Avatar
+                                                                    alt={`Avatar n°${athlete.id}`}
+                                                                >
+                                                                    {athlete.name.slice(
+                                                                        0,
+                                                                        1
+                                                                    )}
+                                                                </Avatar>
+                                                            </ListItemAvatar>
+                                                            <ListItemText
+                                                                id={labelId}
+                                                                primary={
+                                                                    athlete.name
+                                                                }
+                                                            />
+                                                            <ListItemSecondaryAction>
+                                                                <Checkbox
+                                                                    edge="end"
+                                                                    onChange={handleToggle(
+                                                                        athlete.id
+                                                                    )}
+                                                                    checked={checked.has(
+                                                                        athlete.id
+                                                                    )}
+                                                                    inputProps={{
+                                                                        "aria-labelledby": labelId
+                                                                    }}
+                                                                />
+                                                            </ListItemSecondaryAction>
+                                                        </ListItem>
+                                                    );
+                                                }
+                                            )
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </List>
+                                    <Divider light />
+                                    <Button
+                                        variant="contained"
+                                        className={
+                                            classes.existingAthletesButton
                                         }
-                                    )
-                                ) : (
-                                    <></>
-                                )}
-                            </List>
-                            <Divider light />
-                            <Button
-                                variant="contained"
-                                className={classes.existingAthletesButton}
-                                onClick={handleAthleteDelete}
-                            >
-                                Delete
-                                {checked.size > 0
-                                    ? " (" + checked.size + " selected)"
-                                    : ""}
-                                <DeleteIcon />
-                            </Button>
-                        </div>
-                    </Paper>
-                    <Paper className={classes.card}>
-                        <div className={classes.athletesContainer}>
-                            <div className={classes.uploadPrompt}>
-                                <div className={classes.fileDownload}>
-                                    <Typography>
-                                        Please upload a filled spreadsheet found{" "}
-                                        <a href="" download>
-                                            here
-                                        </a>{" "}
-                                        below.
-                                    </Typography>
+                                        onClick={handleAthleteDelete}
+                                        color="primary"
+                                    >
+                                        Delete
+                                        {checked.size > 0
+                                            ? " (" + checked.size + " selected)"
+                                            : ""}
+                                        <DeleteIcon />
+                                    </Button>
                                 </div>
-                                <Divider light />
-                                <div className={classes.dropzone}>
-                                    <MyDropzone
-                                        setNewAthletes={setNewAthletes}
-                                    ></MyDropzone>
+                            </Paper>
+                            <Paper className={classes.card}>
+                                <div className={classes.athletesContainer}>
+                                    <div className={classes.uploadPrompt}>
+                                        <div className={classes.fileDownload}>
+                                            <Typography>
+                                                Please upload a filled
+                                                spreadsheet found{" "}
+                                                <a href="" download>
+                                                    here
+                                                </a>{" "}
+                                                below.
+                                            </Typography>
+                                        </div>
+                                        <Divider light />
+                                        <div className={classes.dropzone}>
+                                            <MyDropzone
+                                                setNewAthletes={setNewAthletes}
+                                            ></MyDropzone>
+                                        </div>
+                                        <Divider light />
+                                        <div className={classes.addedAthletes}>
+                                            <AddAthleteTable
+                                                athletes={newAthletes}
+                                            ></AddAthleteTable>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <Button
+                                            variant="contained"
+                                            disabled={newAthletes.length == 0}
+                                            className={
+                                                classes.newAthletesButton
+                                            }
+                                            onClick={handleAddAthletes}
+                                            color="primary"
+                                        >
+                                            Add Athletes
+                                            <AddIcon />
+                                        </Button>
+                                    </div>
                                 </div>
-                                <Divider light />
-                                <div className={classes.addedAthletes}>
-                                    <AddAthleteTable
-                                        athletes={newAthletes}
-                                    ></AddAthleteTable>
-                                </div>
-                            </div>
-                            <div>
-                                <Button
-                                    variant="contained"
-                                    disabled={newAthletes.length == 0}
-                                    className={classes.newAthletesButton}
-                                    onClick={handleAddAthletes}
-                                >
-                                    Add Athletes
-                                    <AddIcon />
-                                </Button>
-                            </div>
-                        </div>
-                    </Paper>
+                            </Paper>
+                        </>
+                    )}
                 </div>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.saveButton}
-                    onClick={handleSave}
-                >
-                    Save
-                </Button>
             </Paper>
         </div>
     );

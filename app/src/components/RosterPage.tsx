@@ -35,11 +35,11 @@ export default function RosterPage(props: RosterPageProps) {
 
     const getIsOut = (athlete: Athlete) => {
         if (athlete.injuries.length <= 0) {
-            return "N/A";
+            return "Active";
         }
         const lastInjury = athlete.injuries[athlete.injuries.length - 1];
         if (!lastInjury.active) {
-            return "N/A";
+            return "Active";
         }
         return lastInjury.status;
     };

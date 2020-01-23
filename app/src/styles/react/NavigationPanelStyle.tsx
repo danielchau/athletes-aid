@@ -60,6 +60,13 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
         },
         itemIcon: {
             color: "#002145"
+        },
+        primaryLabel: {
+            fontWeight: 500
+        },
+        secondaryLabel: {
+            fontWeight: 300,
+            fontSize: 11
         }
     })
 );

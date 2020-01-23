@@ -6,7 +6,7 @@ import PageContainer from "./containers/PageContainer";
 import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { BrowserRouter as Router } from "react-router-dom";
-import { getTeams } from "./actions/InitialAction";
+import { getTeams, fetchTeams } from "./actions/InitialAction";
 import { setSelectedTeam } from "./actions/NavigationPanelAction";
 import { connect } from "react-redux";
 import { Team } from "./util/types";
@@ -43,7 +43,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    getTeams: (id: string) => dispatch(getTeams(id)),
+    getTeams: (id: string) => dispatch(fetchTeams(id)),
     setTeam: (team: Team) => dispatch(setSelectedTeam(team))
 });
 

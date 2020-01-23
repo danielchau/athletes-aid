@@ -53,10 +53,15 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             maxHeight: "calc(100% - 80px)",
             backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
+        teamInfoContainer: {
+            display: "flex",
+            flexDirection: "row"
+        },
         textInput: {
             minWidth: 120,
-            width: "50%",
-            paddingRight: "8px"
+            marginTop: "8px",
+            paddingRight: "8px",
+            flexGrow: 1
         },
         contentDivider: {
             marginRight: "8px"
@@ -117,6 +122,17 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
             overflow: "scroll",
             width: "100%"
+        },
+        createPromptContainer: {
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center"
+        },
+        createPrompt: {
+            width: "100%",
+            textAlign: "center",
+            color: "#8a8a8a"
         }
     })
 );
