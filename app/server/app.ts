@@ -41,6 +41,7 @@ app.post("/athlete", athleteController.postAthlete);
 app.get("/athlete", athleteController.getAthlete);
 app.put("/athlete", athleteController.putAthlete);
 app.get("/allAthletes", athleteController.getAllAthletes);
+app.post("/uploadFile", athleteController.postFile);
 
 // Routes
 app.get("/*", (req, res) => {
