@@ -22,6 +22,7 @@
         "@material-ui/pickers": "^3.2.7",
         "@overnightjs/core": "^1.6.9",
         "@overnightjs/logger": "^1.1.9",
+        "@types/downloadjs": "^1.4.1",
         "@types/errorhandler": "0.0.32",
         "@types/express": "^4.17.2",
         "@types/jquery": "^3.3.31",
@@ -35,6 +36,7 @@
         "babel-polyfill": "^6.26.0",
         "body-parser": "^1.19.0",
         "date-fns": "^2.0.0-beta.5",
+        "downloadjs": "^1.4.7",
         "errorhandler": "^1.5.1",
         "express": "^4.17.1",
         "express-csv": "^0.6.0",
@@ -48,9 +50,9 @@
         "redux-devtools-extension": "^2.13.8",
         "redux-logger": "^3.0.6",
         "redux-thunk": "^2.3.0",
-        "xlsx": "^0.15.4",
         "shelljs": "^0.8.3",
-        "uuid": "^3.3.3"
+        "uuid": "^3.3.3",
+        "xlsx": "^0.15.4"
     },
     "devDependencies": {
         "@babel/core": "^7.6.4",

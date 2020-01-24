@@ -116,6 +116,10 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             alignItems: "center",
             alignSelf: "center"
         },
+        downloadLink: {
+            cursor: "pointer",
+            color: theme.palette.secondary.main
+        },
         dropzone: {
             height: "calc(30% - 8px)"
         },

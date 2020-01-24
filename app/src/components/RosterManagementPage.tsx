@@ -16,7 +16,7 @@ import { Athlete, Team, NavigationPanelStates, AthleteProfile, ListAthlete } fro
 import MyDropzone from "./Dropzone";
 import AddAthleteTable from "./AddAthleteTable";
 import clsx from "clsx";
-import { createTeam } from "../actions/TeamAction";
+import { createTeam, getAthleteTemplate } from "../actions/TeamAction";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import AthleteList from "./AthleteList";
@@ -274,7 +274,10 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                             <div className={classes.fileDownload}>
                                                 <Typography>
                                                     Please upload a filled spreadsheet found{" "}
-                                                    <a href="" download>
+                                                    <a
+                                                        className={classes.downloadLink}
+                                                        onClick={getAthleteTemplate}
+                                                    >
                                                         here
                                                     </a>{" "}
                                                     below.

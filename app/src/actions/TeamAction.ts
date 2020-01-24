@@ -1,4 +1,5 @@
 import { GET_TEAMS, Athlete, Team } from "../util/types";
+import download from "downloadjs";
 
 export function getTeams(athleteId: string, data: any) {
     return {
@@ -24,10 +25,7 @@ export function fetchTeams(athleteId: string) {
 async function fetchTeamsEndpoint(athleteId: string): Promise<Team[]> {
     let params: any = {};
     let query = Object.keys(params)
-        .map(
-            (k: any) =>
-                encodeURIComponent(k) + "=" + encodeURIComponent(params[k])
-        )
+        .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
         .join("&");
 
     let response = await fetch("./teams");
@@ -40,10 +38,7 @@ export async function createTeam(name: string, season: string) {
     return await fetchCreateTeam(name, season);
 }
 
-async function fetchCreateTeam(
-    name: string,
-    season: string
-): Promise<Team | null> {
+async function fetchCreateTeam(name: string, season: string): Promise<Team | null> {
     return fetch("./team", {
         method: "post",
         headers: {
@@ -57,10 +52,7 @@ async function fetchCreateTeam(
     })
         .then(function(response: any) {
             if (response.status !== 200) {
-                console.log(
-                    "Looks like there was a problem. Status Code: " +
-                        response.status
-                );
+                console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
                 console.log(response);
@@ -70,6 +62,23 @@ async function fetchCreateTeam(
         .catch(function(err: Error) {
             console.log("Fetch Error", err);
             return null;
+        });
+}
+
+export function getAthleteTemplate() {
+    fetch("./athleteTemplate", {
+        method: "get"
+    })
+        .then(async function(response: any) {
+            if (response.status !== 200) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+            } else {
+                const blob = await response.blob();
+                download(blob, "addAthleteTemplate.csv");
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
         });
 }
 
@@ -106,8 +115,7 @@ function createMockTeams() {
                             severity: 10,
                             status: "Out",
                             mechanism: "Direct contact with playing surface",
-                            injuryDescription:
-                                "It hurts a lot Arjan says. Career might be over. ",
+                            injuryDescription: "It hurts a lot Arjan says. Career might be over. ",
                             otherNotes: []
                         }
                     ]
