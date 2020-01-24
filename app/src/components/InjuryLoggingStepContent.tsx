@@ -6,10 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -63,9 +60,7 @@ type StringChangeEvent = React.ChangeEvent<{ value: string }>;
 type StringTextContentChangeEvent = React.ChangeEvent<{ textContent: string }>;
 type NumberChangeEvent = React.ChangeEvent<{ value: number }>;
 
-export default function InjuryLoggingStepContent(
-    props: InjuryLoggingStepContentProps
-) {
+export default function InjuryLoggingStepContent(props: InjuryLoggingStepContentProps) {
     const classes = injuryLoggingStepContentStyles({});
 
     const handleAthleteChange = (event: StringTextContentChangeEvent) => {
@@ -74,10 +69,7 @@ export default function InjuryLoggingStepContent(
     const handleDateChange = (date: Date) => {
         props.setSelectedDate(date);
     };
-    const handleSportRelatedChange = (
-        _: React.ChangeEvent<HTMLInputElement>,
-        checked: boolean
-    ) => {
+    const handleSportRelatedChange = (_: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
         props.setIsSportsRelated(checked);
     };
     const handleEventTypeChange = (event: StringChangeEvent) => {
@@ -120,16 +112,10 @@ export default function InjuryLoggingStepContent(
             return (
                 <>
                     <Typography className={classes.instructions}>
-                        Please input the following information regarding the
-                        injury.
+                        Please input the following information regarding the injury.
                     </Typography>
-                    <FormControl
-                        className={classes.formControl}
-                        variant="outlined"
-                    >
-                        <InputLabel id="team-select-label">
-                            Team Name *
-                        </InputLabel>
+                    <FormControl className={classes.formControl} variant="outlined">
+                        <InputLabel id="team-select-label">Team Name *</InputLabel>
                         <Select
                             labelWidth={100}
                             id="team-select"
@@ -141,24 +127,17 @@ export default function InjuryLoggingStepContent(
                             </MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl
-                        className={classes.formControl}
-                        variant="outlined"
-                    >
+                    <FormControl className={classes.formControl} variant="outlined">
                         {!!props.existingInjury ? (
                             <>
-                                <InputLabel id="athlete-select-label">
-                                    Athlete Name *
-                                </InputLabel>
+                                <InputLabel id="athlete-select-label">Athlete Name *</InputLabel>
                                 <Select
                                     labelWidth={100}
                                     id="athlete-select"
                                     value={props.existingInjury.athleteName}
                                     inputProps={{ readOnly: true }}
                                 >
-                                    <MenuItem
-                                        value={props.existingInjury.athleteName}
-                                    >
+                                    <MenuItem value={props.existingInjury.athleteName}>
                                         {props.existingInjury.athleteName}
                                     </MenuItem>
                                 </Select>
@@ -167,9 +146,7 @@ export default function InjuryLoggingStepContent(
                             <Autocomplete
                                 id="athlete-select"
                                 options={props.selectedTeam.athletes}
-                                getOptionLabel={(option: Athlete) =>
-                                    option.name
-                                }
+                                getOptionLabel={(option: Athlete) => option.name}
                                 onChange={handleAthleteChange}
                                 inputValue={props.selectedAthlete}
                                 renderInput={params => (
@@ -212,13 +189,8 @@ export default function InjuryLoggingStepContent(
                         }
                         label="Sports Related"
                     />
-                    <FormControl
-                        className={classes.formControl}
-                        variant="outlined"
-                    >
-                        <InputLabel id="event-type-select-label">
-                            Event Type *
-                        </InputLabel>
+                    <FormControl className={classes.formControl} variant="outlined">
+                        <InputLabel id="event-type-select-label">Event Type *</InputLabel>
                         <Select
                             labelWidth={90}
                             id="event-type-select"
@@ -235,13 +207,8 @@ export default function InjuryLoggingStepContent(
                             ))}
                         </Select>
                     </FormControl>
-                    <FormControl
-                        className={classes.formControl}
-                        variant="outlined"
-                    >
-                        <InputLabel id="position-select-label">
-                            Position
-                        </InputLabel>
+                    <FormControl className={classes.formControl} variant="outlined">
+                        <InputLabel id="position-select-label">Position</InputLabel>
                         <Select
                             labelWidth={60}
                             id="position-select"
@@ -258,13 +225,8 @@ export default function InjuryLoggingStepContent(
                             ))}
                         </Select>
                     </FormControl>
-                    <FormControl
-                        className={classes.formControl}
-                        variant="outlined"
-                    >
-                        <InputLabel id="side-of-body-select-label">
-                            Side Of Body
-                        </InputLabel>
+                    <FormControl className={classes.formControl} variant="outlined">
+                        <InputLabel id="side-of-body-select-label">Side Of Body</InputLabel>
                         <Select
                             labelWidth={100}
                             id="side-of-body-select"
@@ -281,13 +243,8 @@ export default function InjuryLoggingStepContent(
                             ))}
                         </Select>
                     </FormControl>
-                    <FormControl
-                        className={classes.formControl}
-                        variant="outlined"
-                    >
-                        <InputLabel id="body-location-select-label">
-                            Location On Body *
-                        </InputLabel>
+                    <FormControl className={classes.formControl} variant="outlined">
+                        <InputLabel id="body-location-select-label">Location On Body *</InputLabel>
                         <Select
                             labelWidth={140}
                             id="body-location-select"
@@ -297,22 +254,15 @@ export default function InjuryLoggingStepContent(
                             <MenuItem value="" disabled>
                                 Select injury location...
                             </MenuItem>
-                            {bodyLocations.map(
-                                (location: string, i: number) => (
-                                    <MenuItem key={i} value={location}>
-                                        {location}
-                                    </MenuItem>
-                                )
-                            )}
+                            {bodyLocations.map((location: string, i: number) => (
+                                <MenuItem key={i} value={location}>
+                                    {location}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
-                    <FormControl
-                        className={classes.formControl}
-                        variant="outlined"
-                    >
-                        <InputLabel id="injury-type-select-label">
-                            Injury Type *
-                        </InputLabel>
+                    <FormControl className={classes.formControl} variant="outlined">
+                        <InputLabel id="injury-type-select-label">Injury Type *</InputLabel>
                         <Select
                             labelWidth={90}
                             id="injury-type-select"
@@ -329,13 +279,8 @@ export default function InjuryLoggingStepContent(
                             ))}
                         </Select>
                     </FormControl>
-                    <FormControl
-                        className={classes.formControl}
-                        variant="outlined"
-                    >
-                        <InputLabel id="severity-select-label">
-                            Severity *
-                        </InputLabel>
+                    <FormControl className={classes.formControl} variant="outlined">
+                        <InputLabel id="severity-select-label">Severity *</InputLabel>
                         <Select
                             labelWidth={70}
                             id="severity-select"
@@ -361,13 +306,8 @@ export default function InjuryLoggingStepContent(
                         Please input further details about the injury.
                     </Typography>
                     <FormControl className={classes.textInput}>
-                        <FormControl
-                            className={classes.multilineInput}
-                            variant="outlined"
-                        >
-                            <InputLabel id="status-select-label">
-                                Status *
-                            </InputLabel>
+                        <FormControl className={classes.multilineInput} variant="outlined">
+                            <InputLabel id="status-select-label">Status *</InputLabel>
                             <Select
                                 labelWidth={60}
                                 id="status-select"
@@ -377,19 +317,14 @@ export default function InjuryLoggingStepContent(
                                 <MenuItem value="" disabled>
                                     Select status of athlete...
                                 </MenuItem>
-                                {playerStatuses.map(
-                                    (status: string, i: number) => (
-                                        <MenuItem key={i} value={status}>
-                                            {status}
-                                        </MenuItem>
-                                    )
-                                )}
+                                {playerStatuses.map((status: string, i: number) => (
+                                    <MenuItem key={i} value={status}>
+                                        {status}
+                                    </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
-                        <FormControl
-                            className={classes.multilineInput}
-                            variant="outlined"
-                        >
+                        <FormControl className={classes.multilineInput} variant="outlined">
                             <InputLabel id="mechanism-select-label">
                                 Mechanism of Injury *
                             </InputLabel>
@@ -402,13 +337,11 @@ export default function InjuryLoggingStepContent(
                                 <MenuItem value="" disabled>
                                     Select mechanism of injury...
                                 </MenuItem>
-                                {mechanismsOfInjury.map(
-                                    (mechanism: string, i: number) => (
-                                        <MenuItem key={i} value={mechanism}>
-                                            {mechanism}
-                                        </MenuItem>
-                                    )
-                                )}
+                                {mechanismsOfInjury.map((mechanism: string, i: number) => (
+                                    <MenuItem key={i} value={mechanism}>
+                                        {mechanism}
+                                    </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                         <TextField
@@ -443,8 +376,7 @@ export default function InjuryLoggingStepContent(
             return (
                 <div>
                     <Typography className={classes.instructions}>
-                        Please review the following information before
-                        finishing.
+                        Please review the following information before finishing.
                     </Typography>
                     <p>
                         <b>Team Name: </b>

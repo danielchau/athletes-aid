@@ -18,11 +18,9 @@ import { TransitionProps } from "@material-ui/core/transitions";
 import { injuryDialogStyles } from "../styles/react/InjuryDialogStyles";
 import { Injury, InjuryNote } from "../util/types";
 
-const Transition = React.forwardRef<unknown, TransitionProps>(
-    function Transition(props, ref) {
-        return <Slide direction="left" ref={ref} {...props} />;
-    }
-);
+const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
+    return <Slide direction="left" ref={ref} {...props} />;
+});
 
 interface InjuryDialogProps {
     injury: Injury;
@@ -66,10 +64,7 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                             <Typography variant="h6" className={classes.title}>
                                 {props.injury.athleteName}
                             </Typography>
-                            <IconButton
-                                color="inherit"
-                                onClick={handleIsEditing}
-                            >
+                            <IconButton color="inherit" onClick={handleIsEditing}>
                                 {isEditing ? <CancelIcon /> : <EditIcon />}
                             </IconButton>
                         </Toolbar>
@@ -98,9 +93,7 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                                 </p>
                                 <p>
                                     <b>Is Sport Related: </b>
-                                    {props.injury.isSportsRelated
-                                        ? "Yes"
-                                        : "No"}
+                                    {props.injury.isSportsRelated ? "Yes" : "No"}
                                 </p>
                                 <p>
                                     <b>Event Type: </b>
@@ -136,28 +129,20 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                                     {props.injury.mechanism}
                                 </p>
                             </Paper>
-                            {props.injury.otherNotes.map(
-                                (note: InjuryNote, i: number) => (
-                                    <Paper
-                                        key={i}
-                                        className={classes.notePaper}
-                                    >
-                                        <div className={classes.noteContainer}>
-                                            <ChatBubbleOutlineIcon
-                                                className={classes.noteIcon}
-                                            />
-                                            <div>
-                                                <b>
-                                                    {note.createdOn.toLocaleString()}{" "}
-                                                    | {note.createdBy}
-                                                </b>
-                                                <Divider light />
-                                                {note.content}
-                                            </div>
+                            {props.injury.otherNotes.map((note: InjuryNote, i: number) => (
+                                <Paper key={i} className={classes.notePaper}>
+                                    <div className={classes.noteContainer}>
+                                        <ChatBubbleOutlineIcon className={classes.noteIcon} />
+                                        <div>
+                                            <b>
+                                                {note.createdOn.toLocaleString()} | {note.createdBy}
+                                            </b>
+                                            <Divider light />
+                                            {note.content}
                                         </div>
-                                    </Paper>
-                                )
-                            )}
+                                    </div>
+                                </Paper>
+                            ))}
                         </div>
                     )}
                 </DialogContent>

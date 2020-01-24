@@ -23,10 +23,7 @@ export default function MyDropzone(props: MyDropzoneProps) {
                     return {
                         id: i,
                         profilePicture: "",
-                        name:
-                            entry["Athlete First Name*"] +
-                            " " +
-                            entry["Athlete Last Name*"],
+                        name: entry["Athlete First Name*"] + " " + entry["Athlete Last Name*"],
                         birthdate: entry["Day Of Birthday yyyy-mm-dd"],
                         schoolYear: entry["School Year"],
                         gender: entry["Gender*"],
@@ -71,12 +68,8 @@ export default function MyDropzone(props: MyDropzoneProps) {
             {...getRootProps()}
         >
             <input {...getInputProps()} />
-            <CloudUploadIcon
-                style={{ width: "2em", height: "2em" }}
-            ></CloudUploadIcon>
-            <Typography>
-                Drag 'n' drop some files here, or click to select files
-            </Typography>
+            <CloudUploadIcon style={{ width: "2em", height: "2em" }}></CloudUploadIcon>
+            <Typography>Drag 'n' drop some files here, or click to select files</Typography>
         </div>
     );
 }

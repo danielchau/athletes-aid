@@ -7,26 +7,14 @@ import Button from "@material-ui/core/Button";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { injuriesPageStyles } from "../styles/react/InjuriesPageStyle";
-import {
-    AthleteInjuries,
-    Injury,
-    Team,
-    NavigationPanelStates
-} from "../util/types";
+import { AthleteInjuries, Injury, Team, NavigationPanelStates } from "../util/types";
 import clsx from "clsx";
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
-    getAthleteInjuries: (
-        startDate: Date,
-        endDate: Date,
-        team: string
-    ) => AthleteInjuries;
+    getAthleteInjuries: (startDate: Date, endDate: Date, team: string) => AthleteInjuries;
     startingDate: Date;
     endingDate: Date;
     setStartingDate: (date: Date) => void;
@@ -47,11 +35,7 @@ export default function InjuriesPage(props: InjuriesProps) {
     React.useEffect(() => {
         if (props.selectedTeam.name != "") {
             setIsFetching(true);
-            props.getAthleteInjuries(
-                props.startingDate,
-                props.endingDate,
-                props.selectedTeam.name
-            );
+            props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.name);
         }
     }, [props.selectedTeam]);
 
@@ -65,11 +49,7 @@ export default function InjuriesPage(props: InjuriesProps) {
 
     const onInjuriesDateChange = () => {
         setIsFetching(true);
-        props.getAthleteInjuries(
-            props.startingDate,
-            props.endingDate,
-            props.selectedTeam.name
-        );
+        props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.name);
     };
 
     const onChangeStartingDate = (date: Date) => {
@@ -83,11 +63,8 @@ export default function InjuriesPage(props: InjuriesProps) {
     return (
         <div
             className={clsx(classes.root, {
-                [classes.drawerOpen]:
-                    props.state === NavigationPanelStates.open,
-                [classes.drawerClosed]: !(
-                    props.state === NavigationPanelStates.open
-                )
+                [classes.drawerOpen]: props.state === NavigationPanelStates.open,
+                [classes.drawerClosed]: !(props.state === NavigationPanelStates.open)
             })}
         >
             <Grid container spacing={3} className={classes.grid}>
@@ -137,9 +114,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                                 {props.athleteInjuries.injuries.length}
                             </div>
                             <Divider light />
-                            <div className={classes.primaryStatisticLabel}>
-                                Total Filed Reports
-                            </div>
+                            <div className={classes.primaryStatisticLabel}>Total Filed Reports</div>
                         </div>
                     </Paper>
                 </Grid>
@@ -147,11 +122,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                {
-                                    props.athleteInjuries.injuries.filter(
-                                        i => i.active
-                                    ).length
-                                }
+                                {props.athleteInjuries.injuries.filter(i => i.active).length}
                             </div>
                             <Divider light />
                             <div className={classes.primaryStatisticLabel}>
@@ -164,14 +135,10 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                {getAverageSeverity(
-                                    props.athleteInjuries.injuries
-                                )}
+                                {getAverageSeverity(props.athleteInjuries.injuries)}
                             </div>
                             <Divider light />
-                            <div className={classes.primaryStatisticLabel}>
-                                Average Severity
-                            </div>
+                            <div className={classes.primaryStatisticLabel}>Average Severity</div>
                         </div>
                     </Paper>
                 </Grid>
@@ -179,14 +146,10 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                {getTotalPlayersOut(
-                                    props.athleteInjuries.injuries
-                                )}
+                                {getTotalPlayersOut(props.athleteInjuries.injuries)}
                             </div>
                             <Divider light />
-                            <div className={classes.primaryStatisticLabel}>
-                                Players Out
-                            </div>
+                            <div className={classes.primaryStatisticLabel}>Players Out</div>
                         </div>
                     </Paper>
                 </Grid>

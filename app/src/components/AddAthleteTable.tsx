@@ -34,10 +34,7 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
             );
         } else {
             return (
-                <IconButton
-                    onClick={() => addAthlete(athlete)}
-                    style={{ color: "#F2A71E" }}
-                >
+                <IconButton onClick={() => addAthlete(athlete)} style={{ color: "#F2A71E" }}>
                     <PersonAddIcon />
                 </IconButton>
             );
@@ -65,10 +62,7 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                         <TableHead>
                             <TableRow>
                                 <TableCell>
-                                    <b>
-                                        Athlete Exists? (If No: click icon to
-                                        register athlete)
-                                    </b>
+                                    <b>Athlete Exists? (If No: click icon to register athlete)</b>
                                 </TableCell>
                                 <TableCell>
                                     <b>Athlete Name</b>
@@ -113,48 +107,22 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                         </TableHead>
                         <TableBody>
                             {props.athletes.map(row => (
-                                <TableRow
-                                    className={classes.tableRow}
-                                    hover
-                                    key={row.id}
-                                >
-                                    <TableCell
-                                        align="left"
-                                        component="th"
-                                        scope="row"
-                                    >
+                                <TableRow className={classes.tableRow} hover key={row.id}>
+                                    <TableCell align="left" component="th" scope="row">
                                         {doesPlayerExist(row)}
                                     </TableCell>
                                     <TableCell component="th" scope="row">
                                         {row.name}
                                     </TableCell>
-                                    <TableCell align="right">
-                                        {row.birthdate}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {row.schoolYear}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {row.gender}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {row.weight}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {row.height}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {row.email}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {row.cellPhone}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {row.homePhone}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {row.emergencyContact.name}
-                                    </TableCell>
+                                    <TableCell align="right">{row.birthdate}</TableCell>
+                                    <TableCell align="right">{row.schoolYear}</TableCell>
+                                    <TableCell align="right">{row.gender}</TableCell>
+                                    <TableCell align="right">{row.weight}</TableCell>
+                                    <TableCell align="right">{row.height}</TableCell>
+                                    <TableCell align="right">{row.email}</TableCell>
+                                    <TableCell align="right">{row.cellPhone}</TableCell>
+                                    <TableCell align="right">{row.homePhone}</TableCell>
+                                    <TableCell align="right">{row.emergencyContact.name}</TableCell>
                                     <TableCell align="right">
                                         {row.emergencyContact.cellPhone}
                                     </TableCell>

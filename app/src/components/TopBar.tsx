@@ -22,12 +22,8 @@ interface TopBarProps {
 
 export default function TopBar(props: TopBarProps) {
     const classes = topBarStyles({});
-    const [autocompleteValue, setAutocompleteValue] = React.useState<string>(
-        ""
-    );
-    const [autocompleteOpen, setAutocompleteOpen] = React.useState<boolean>(
-        false
-    );
+    const [autocompleteValue, setAutocompleteValue] = React.useState<string>("");
+    const [autocompleteOpen, setAutocompleteOpen] = React.useState<boolean>(false);
 
     const onAutocompleteInputChange = (_: any, value: string) => {
         setAutocompleteValue(value);

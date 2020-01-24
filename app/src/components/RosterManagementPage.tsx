@@ -12,13 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
-import {
-    Athlete,
-    Team,
-    NavigationPanelStates,
-    AthleteProfile,
-    ListAthlete
-} from "../util/types";
+import { Athlete, Team, NavigationPanelStates, AthleteProfile, ListAthlete } from "../util/types";
 import MyDropzone from "./Dropzone";
 import AddAthleteTable from "./AddAthleteTable";
 import clsx from "clsx";
@@ -37,13 +31,8 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const [selectedTeam, setSelectedTeam] = React.useState<Team | null>(null);
     const [teamName, setTeamName] = React.useState<string | null>("");
     const [season, setSeason] = React.useState<string | null>("");
-    const [
-        existingAthletesChecked,
-        setExistingAthletesChecked
-    ] = React.useState(new Set<string>());
-    const [newAthletesChecked, setNewAthletesChecked] = React.useState(
-        new Set<string>()
-    );
+    const [existingAthletesChecked, setExistingAthletesChecked] = React.useState(new Set<string>());
+    const [newAthletesChecked, setNewAthletesChecked] = React.useState(new Set<string>());
     const [newAthletes, setNewAthletes] = React.useState<AthleteProfile[]>([]);
     const [tab, setTab] = React.useState<number>(0);
     const handleTabChange = (_: React.ChangeEvent, newValue: any) => {
@@ -51,9 +40,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     };
     const [allAthletes, setAllAthletes] = React.useState<ListAthlete[]>([]);
 
-    const handleTeamSelected = (
-        event: React.ChangeEvent<{ value: string }>
-    ) => {
+    const handleTeamSelected = (event: React.ChangeEvent<{ value: string }>) => {
         let team = props.teams.filter(team => team.id === event.target.value);
         setSelectedTeam(team.length > 0 ? team[0] : null);
         setTeamName(null);
@@ -90,15 +77,11 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setSeason("");
     };
 
-    const handleTeamNameChange = (
-        event: React.ChangeEvent<{ value: string }>
-    ) => {
+    const handleTeamNameChange = (event: React.ChangeEvent<{ value: string }>) => {
         setTeamName(event.target.value);
     };
 
-    const handleSeasonChange = (
-        event: React.ChangeEvent<{ value: string }>
-    ) => {
+    const handleSeasonChange = (event: React.ChangeEvent<{ value: string }>) => {
         setSeason(event.target.value);
     };
 
@@ -152,11 +135,8 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     return (
         <div
             className={clsx(classes.root, {
-                [classes.drawerOpen]:
-                    props.state === NavigationPanelStates.open,
-                [classes.drawerClosed]: !(
-                    props.state === NavigationPanelStates.open
-                )
+                [classes.drawerOpen]: props.state === NavigationPanelStates.open,
+                [classes.drawerClosed]: !(props.state === NavigationPanelStates.open)
             })}
         >
             <Paper className={classes.introPaper}>
@@ -181,9 +161,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                         ))}
                     </Select>
                 </FormControl>
-                <Typography className={classes.introText}>
-                    or add a new one:
-                </Typography>
+                <Typography className={classes.introText}>or add a new one:</Typography>
                 <IconButton
                     aria-label="add"
                     className={classes.introButton}
@@ -240,8 +218,8 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                     {!!!selectedTeam ? (
                         <div className={classes.createPromptContainer}>
                             <Typography className={classes.createPrompt}>
-                                Please create a team or select an existing one
-                                before adding/modifying athletes.
+                                Please create a team or select an existing one before
+                                adding/modifying athletes.
                             </Typography>
                         </div>
                     ) : (
@@ -256,25 +234,19 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                                   )
                                                 : []
                                         }
-                                        handleToggle={
-                                            handleExistingAthletesToggle
-                                        }
+                                        handleToggle={handleExistingAthletesToggle}
                                         checked={existingAthletesChecked}
                                     />
                                     <Divider light />
                                     <Button
                                         variant="contained"
-                                        className={
-                                            classes.existingAthletesButton
-                                        }
+                                        className={classes.existingAthletesButton}
                                         onClick={handleAthleteDelete}
                                         color="primary"
                                     >
                                         Delete
                                         {existingAthletesChecked.size > 0
-                                            ? " (" +
-                                              existingAthletesChecked.size +
-                                              " selected)"
+                                            ? " (" + existingAthletesChecked.size + " selected)"
                                             : ""}
                                         <DeleteIcon />
                                     </Button>
@@ -295,12 +267,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                     </Tabs>
                                     {tab == 0 ? (
                                         <div className={classes.uploadPrompt}>
-                                            <div
-                                                className={classes.fileDownload}
-                                            >
+                                            <div className={classes.fileDownload}>
                                                 <Typography>
-                                                    Please upload a filled
-                                                    spreadsheet found{" "}
+                                                    Please upload a filled spreadsheet found{" "}
                                                     <a href="" download>
                                                         here
                                                     </a>{" "}
@@ -310,37 +279,23 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                             <Divider light />
                                             <div className={classes.dropzone}>
                                                 <MyDropzone
-                                                    setNewAthletes={
-                                                        setNewAthletes
-                                                    }
+                                                    setNewAthletes={setNewAthletes}
                                                 ></MyDropzone>
                                             </div>
                                             <Divider light />
-                                            <div
-                                                className={
-                                                    classes.addedAthletes
-                                                }
-                                            >
+                                            <div className={classes.addedAthletes}>
                                                 <AddAthleteTable
                                                     athletes={newAthletes}
                                                     allAthletes={allAthletes}
-                                                    setAllAthletes={
-                                                        setAllAthletes
-                                                    }
+                                                    setAllAthletes={setAllAthletes}
                                                 ></AddAthleteTable>
                                             </div>
                                         </div>
                                     ) : (
-                                        <div
-                                            className={
-                                                classes.newAthleteContainer
-                                            }
-                                        >
+                                        <div className={classes.newAthleteContainer}>
                                             <AthleteList
                                                 athletes={filterNewAthletes()}
-                                                handleToggle={
-                                                    handleNewAthletesToggle
-                                                }
+                                                handleToggle={handleNewAthletesToggle}
                                                 checked={newAthletesChecked}
                                             />
                                         </div>
@@ -349,9 +304,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                         <Button
                                             variant="contained"
                                             disabled={determineAddButtonState()}
-                                            className={
-                                                classes.newAthletesButton
-                                            }
+                                            className={classes.newAthletesButton}
                                             onClick={handleAddAthletes}
                                             color="primary"
                                         >

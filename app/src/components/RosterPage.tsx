@@ -76,22 +76,14 @@ export default function RosterPage(props: RosterPageProps) {
                                     className={classes.tableRow}
                                     hover
                                     key={row.id}
-                                    onClick={event =>
-                                        handleRowClick(event, row.id)
-                                    }
+                                    onClick={event => handleRowClick(event, row.id)}
                                 >
                                     <TableCell component="th" scope="row">
                                         {row.name}
                                     </TableCell>
-                                    <TableCell align="right">
-                                        {getLastInjuryDate(row)}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {getLastInjuryDetails(row)}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {getIsOut(row)}
-                                    </TableCell>
+                                    <TableCell align="right">{getLastInjuryDate(row)}</TableCell>
+                                    <TableCell align="right">{getLastInjuryDetails(row)}</TableCell>
+                                    <TableCell align="right">{getIsOut(row)}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

@@ -31,10 +31,7 @@ export default function AthleteList(props: AthleteListProps) {
                         </ListItemAvatar>
                         <ListItemText id={labelId} primary={athlete.name} />
                         {!!athlete.birthdate && (
-                            <ListItemText
-                                id={birthdateId}
-                                primary={athlete.birthdate}
-                            />
+                            <ListItemText id={birthdateId} primary={athlete.birthdate} />
                         )}
                         <ListItemSecondaryAction>
                             <Checkbox
