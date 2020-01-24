@@ -85,7 +85,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setSeason(event.target.value);
     };
 
-    const handleAthleteDelete = () => {};
+    const handleAthleteDelete = () => {
+        // Delete athlete on team fetch
+    };
 
     const handleAddAthletes = () => {
         let allAthleteMap = new Map<string, string>();
@@ -94,6 +96,8 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         let athletesIds = newAthletes.map(nA => {
             allAthleteMap.get(nA.name + nA.birthdate);
         });
+
+        // Add athlete fetch
     };
 
     const handleSave = () => {
@@ -286,6 +290,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                             <div className={classes.addedAthletes}>
                                                 <AddAthleteTable
                                                     athletes={newAthletes}
+                                                    rosterAthletes={selectedTeam.athletes}
                                                     allAthletes={allAthletes}
                                                     setAllAthletes={setAllAthletes}
                                                 ></AddAthleteTable>

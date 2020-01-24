@@ -5,15 +5,17 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { AthleteProfile, ListAthlete } from "../util/types";
+import { AthleteProfile, ListAthlete, Athlete } from "../util/types";
 import { addAthleteTableStyles } from "../styles/react/AddAthleteTableStyles";
 import { IconButton } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { addAthleteToDb } from "../actions/AthleteAction";
 
 interface AddAthleteTableProps {
     athletes: AthleteProfile[];
+    rosterAthletes: Athlete[];
     allAthletes: ListAthlete[];
     setAllAthletes: any;
 }
@@ -22,7 +24,13 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
     const classes = addAthleteTableStyles({});
 
     const doesPlayerExist = (athlete: AthleteProfile) => {
-        if (
+        if (props.rosterAthletes.filter(a => a.id == athlete.id).length > 0) {
+            return (
+                <IconButton disabled style={{ color: "#db2e2e" }}>
+                    <HighlightOffIcon />
+                </IconButton>
+            );
+        } else if (
             props.allAthletes.filter(
                 a => a.name == athlete.name && a.birthdate == athlete.birthdate
             ).length > 0
