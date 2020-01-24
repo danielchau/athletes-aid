@@ -3,7 +3,6 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import InjuriesDataTable from "./InjuriesDataTable";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -46,12 +45,14 @@ export default function InjuriesPage(props: InjuriesProps) {
     }, [props.athleteInjuries]);
 
     React.useEffect(() => {
-        setIsFetching(true);
-        props.getAthleteInjuries(
-            props.startingDate,
-            props.endingDate,
-            props.selectedTeam.name
-        );
+        if (props.selectedTeam.name != "") {
+            setIsFetching(true);
+            props.getAthleteInjuries(
+                props.startingDate,
+                props.endingDate,
+                props.selectedTeam.name
+            );
+        }
     }, [props.selectedTeam]);
 
     const handleInjuryOpen = () => {
@@ -206,7 +207,7 @@ export default function InjuriesPage(props: InjuriesProps) {
 
 function getAverageSeverity(injuries: Injury[]): string {
     if (injuries.length == 0) {
-        return "0.0";
+        return "0";
     }
     let sum = 0;
     injuries.forEach(i => (sum += i.severity));

@@ -103,7 +103,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             justifyContent: "center",
             flexDirection: "column",
             display: "flex",
-            alignContent: "center"
+            alignContent: "center",
+            height: "calc(100% - 100px)"
         },
         saveButton: {
             margin: "8px",
@@ -133,6 +134,16 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             width: "100%",
             textAlign: "center",
             color: "#8a8a8a"
+        },
+        tabRoot: {
+            color: "#fff",
+            backgroundColor: theme.palette.primary.dark
+        },
+        newAthleteContainer: {
+            height: "100%",
+            width: "100%",
+            overflow: "scroll",
+            flexGrow: 1
         }
     })
 );

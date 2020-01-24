@@ -9,13 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Checkbox from "@material-ui/core/Checkbox";
-import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
@@ -23,12 +16,16 @@ import {
     Athlete,
     Team,
     NavigationPanelStates,
-    AthleteProfile
+    AthleteProfile,
+    ListAthlete
 } from "../util/types";
 import MyDropzone from "./Dropzone";
 import AddAthleteTable from "./AddAthleteTable";
 import clsx from "clsx";
 import { createTeam } from "../actions/TeamAction";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import AthleteList from "./AthleteList";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
@@ -40,8 +37,19 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const [selectedTeam, setSelectedTeam] = React.useState<Team | null>(null);
     const [teamName, setTeamName] = React.useState<string | null>("");
     const [season, setSeason] = React.useState<string | null>("");
-    const [checked, setChecked] = React.useState(new Set<string>());
+    const [
+        existingAthletesChecked,
+        setExistingAthletesChecked
+    ] = React.useState(new Set<string>());
+    const [newAthletesChecked, setNewAthletesChecked] = React.useState(
+        new Set<string>()
+    );
     const [newAthletes, setNewAthletes] = React.useState<AthleteProfile[]>([]);
+    const [tab, setTab] = React.useState<number>(0);
+    const handleTabChange = (_: React.ChangeEvent, newValue: any) => {
+        setTab(newValue);
+    };
+    const [allAthletes, setAllAthletes] = React.useState<ListAthlete[]>([]);
 
     const handleTeamSelected = (
         event: React.ChangeEvent<{ value: string }>
@@ -52,16 +60,28 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setSeason(null);
     };
 
-    const handleToggle = (value: string) => () => {
-        const newChecked = new Set(checked);
+    const handleExistingAthletesToggle = (value: string) => {
+        const newChecked = new Set(existingAthletesChecked);
 
-        if (checked.has(value)) {
+        if (existingAthletesChecked.has(value)) {
             newChecked.delete(value);
         } else {
             newChecked.add(value);
         }
 
-        setChecked(newChecked);
+        setExistingAthletesChecked(newChecked);
+    };
+
+    const handleNewAthletesToggle = (value: string) => {
+        const newChecked = new Set(newAthletesChecked);
+
+        if (newAthletesChecked.has(value)) {
+            newChecked.delete(value);
+        } else {
+            newChecked.add(value);
+        }
+
+        setNewAthletesChecked(newChecked);
     };
 
     const handleAddTeam = () => {
@@ -84,13 +104,49 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
 
     const handleAthleteDelete = () => {};
 
-    const handleAddAthletes = () => {};
+    const handleAddAthletes = () => {
+        let allAthleteMap = new Map<string, string>();
+        allAthletes.forEach(a => allAthleteMap.set(a.name + a.birthdate, a.id));
+
+        let athletesIds = newAthletes.map(nA => {
+            allAthleteMap.get(nA.name + nA.birthdate);
+        });
+    };
 
     const handleSave = () => {
         if (!!selectedTeam) {
+            // Alter team name or season
         } else {
             createTeam(teamName, season);
         }
+    };
+
+    const transformExistingAthletesToList = (athletes: Athlete[]) => {
+        return athletes.map(a => {
+            return {
+                id: a.id,
+                name: a.name,
+                birthdate: null
+            };
+        });
+    };
+
+    const determineAddButtonState = (): boolean => {
+        let allAthleteSet = new Set<string>();
+        allAthletes.forEach(a => allAthleteSet.add(a.name + a.birthdate));
+
+        let athletesInDatabase = newAthletes.filter(nA =>
+            allAthleteSet.has(nA.name + nA.birthdate)
+        );
+        console.log(athletesInDatabase);
+
+        return athletesInDatabase.length != newAthletes.length;
+    };
+
+    const filterNewAthletes = () => {
+        let rosterAthletes = new Set();
+        selectedTeam.athletes.forEach(a => rosterAthletes.add(a.id));
+        return allAthletes.filter(a => !rosterAthletes.has(a.id));
     };
 
     return (
@@ -120,7 +176,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                         </MenuItem>
                         {props.teams.map((team: Team, i: number) => (
                             <MenuItem key={i} value={team.id}>
-                                {team.name}
+                                {team.name + " -  " + team.season}
                             </MenuItem>
                         ))}
                     </Select>
@@ -192,57 +248,19 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                         <>
                             <Paper className={classes.card}>
                                 <div className={classes.athletesContainer}>
-                                    <List
-                                        dense
-                                        className={classes.athletesList}
-                                    >
-                                        {!!selectedTeam ? (
-                                            selectedTeam.athletes.map(
-                                                (athlete: Athlete) => {
-                                                    const labelId = `checkbox-list-secondary-label-${athlete.name}`;
-                                                    return (
-                                                        <ListItem
-                                                            key={athlete.id}
-                                                            button
-                                                        >
-                                                            <ListItemAvatar>
-                                                                <Avatar
-                                                                    alt={`Avatar n°${athlete.id}`}
-                                                                >
-                                                                    {athlete.name.slice(
-                                                                        0,
-                                                                        1
-                                                                    )}
-                                                                </Avatar>
-                                                            </ListItemAvatar>
-                                                            <ListItemText
-                                                                id={labelId}
-                                                                primary={
-                                                                    athlete.name
-                                                                }
-                                                            />
-                                                            <ListItemSecondaryAction>
-                                                                <Checkbox
-                                                                    edge="end"
-                                                                    onChange={handleToggle(
-                                                                        athlete.id
-                                                                    )}
-                                                                    checked={checked.has(
-                                                                        athlete.id
-                                                                    )}
-                                                                    inputProps={{
-                                                                        "aria-labelledby": labelId
-                                                                    }}
-                                                                />
-                                                            </ListItemSecondaryAction>
-                                                        </ListItem>
-                                                    );
-                                                }
-                                            )
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </List>
+                                    <AthleteList
+                                        athletes={
+                                            !!selectedTeam
+                                                ? transformExistingAthletesToList(
+                                                      selectedTeam.athletes
+                                                  )
+                                                : []
+                                        }
+                                        handleToggle={
+                                            handleExistingAthletesToggle
+                                        }
+                                        checked={existingAthletesChecked}
+                                    />
                                     <Divider light />
                                     <Button
                                         variant="contained"
@@ -253,8 +271,10 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                         color="primary"
                                     >
                                         Delete
-                                        {checked.size > 0
-                                            ? " (" + checked.size + " selected)"
+                                        {existingAthletesChecked.size > 0
+                                            ? " (" +
+                                              existingAthletesChecked.size +
+                                              " selected)"
                                             : ""}
                                         <DeleteIcon />
                                     </Button>
@@ -262,34 +282,73 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                             </Paper>
                             <Paper className={classes.card}>
                                 <div className={classes.athletesContainer}>
-                                    <div className={classes.uploadPrompt}>
-                                        <div className={classes.fileDownload}>
-                                            <Typography>
-                                                Please upload a filled
-                                                spreadsheet found{" "}
-                                                <a href="" download>
-                                                    here
-                                                </a>{" "}
-                                                below.
-                                            </Typography>
+                                    <Tabs
+                                        className={classes.tabRoot}
+                                        value={tab}
+                                        onChange={handleTabChange}
+                                        indicatorColor="secondary"
+                                        centered
+                                        variant="fullWidth"
+                                    >
+                                        <Tab label="Bulk Addition" />
+                                        <Tab label="Individual Addition" />
+                                    </Tabs>
+                                    {tab == 0 ? (
+                                        <div className={classes.uploadPrompt}>
+                                            <div
+                                                className={classes.fileDownload}
+                                            >
+                                                <Typography>
+                                                    Please upload a filled
+                                                    spreadsheet found{" "}
+                                                    <a href="" download>
+                                                        here
+                                                    </a>{" "}
+                                                    below.
+                                                </Typography>
+                                            </div>
+                                            <Divider light />
+                                            <div className={classes.dropzone}>
+                                                <MyDropzone
+                                                    setNewAthletes={
+                                                        setNewAthletes
+                                                    }
+                                                ></MyDropzone>
+                                            </div>
+                                            <Divider light />
+                                            <div
+                                                className={
+                                                    classes.addedAthletes
+                                                }
+                                            >
+                                                <AddAthleteTable
+                                                    athletes={newAthletes}
+                                                    allAthletes={allAthletes}
+                                                    setAllAthletes={
+                                                        setAllAthletes
+                                                    }
+                                                ></AddAthleteTable>
+                                            </div>
                                         </div>
-                                        <Divider light />
-                                        <div className={classes.dropzone}>
-                                            <MyDropzone
-                                                setNewAthletes={setNewAthletes}
-                                            ></MyDropzone>
+                                    ) : (
+                                        <div
+                                            className={
+                                                classes.newAthleteContainer
+                                            }
+                                        >
+                                            <AthleteList
+                                                athletes={filterNewAthletes()}
+                                                handleToggle={
+                                                    handleNewAthletesToggle
+                                                }
+                                                checked={newAthletesChecked}
+                                            />
                                         </div>
-                                        <Divider light />
-                                        <div className={classes.addedAthletes}>
-                                            <AddAthleteTable
-                                                athletes={newAthletes}
-                                            ></AddAthleteTable>
-                                        </div>
-                                    </div>
+                                    )}
                                     <div>
                                         <Button
                                             variant="contained"
-                                            disabled={newAthletes.length == 0}
+                                            disabled={determineAddButtonState()}
                                             className={
                                                 classes.newAthletesButton
                                             }

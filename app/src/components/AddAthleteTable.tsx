@@ -5,16 +5,58 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { AthleteProfile } from "../util/types";
-import { profilePath } from "../constants/constants";
+import { AthleteProfile, ListAthlete } from "../util/types";
 import { addAthleteTableStyles } from "../styles/react/AddAthleteTableStyles";
+import { IconButton } from "@material-ui/core";
+import DoneIcon from "@material-ui/icons/Done";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import { addAthleteToDb } from "../actions/AthleteAction";
 
 interface AddAthleteTableProps {
     athletes: AthleteProfile[];
+    allAthletes: ListAthlete[];
+    setAllAthletes: any;
 }
 
 export default function AddAthleteTable(props: AddAthleteTableProps) {
     const classes = addAthleteTableStyles({});
+
+    const doesPlayerExist = (athlete: AthleteProfile) => {
+        if (
+            props.allAthletes.filter(
+                a => a.name == athlete.name && a.birthdate == athlete.birthdate
+            ).length > 0
+        ) {
+            return (
+                <IconButton disabled style={{ color: "#0055B7" }}>
+                    <DoneIcon />
+                </IconButton>
+            );
+        } else {
+            return (
+                <IconButton
+                    onClick={() => addAthlete(athlete)}
+                    style={{ color: "#F2A71E" }}
+                >
+                    <PersonAddIcon />
+                </IconButton>
+            );
+        }
+    };
+
+    const addAthlete = (athlete: AthleteProfile) => {
+        let response = addAthleteToDb(athlete);
+        if (response != null) {
+            props.setAllAthletes(
+                props.allAthletes.concat({
+                    id: athlete.id, //have to change this to the actual ID
+                    name: athlete.name,
+                    birthdate: athlete.birthdate
+                })
+            );
+        }
+    };
+
     return (
         <div className={classes.root}>
             <Paper className={classes.tableContainer}>
@@ -22,6 +64,12 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                     <Table stickyHeader className={classes.tableBody}>
                         <TableHead>
                             <TableRow>
+                                <TableCell>
+                                    <b>
+                                        Athlete Exists? (If No: click icon to
+                                        register athlete)
+                                    </b>
+                                </TableCell>
                                 <TableCell>
                                     <b>Athlete Name</b>
                                 </TableCell>
@@ -70,6 +118,13 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                                     hover
                                     key={row.id}
                                 >
+                                    <TableCell
+                                        align="left"
+                                        component="th"
+                                        scope="row"
+                                    >
+                                        {doesPlayerExist(row)}
+                                    </TableCell>
                                     <TableCell component="th" scope="row">
                                         {row.name}
                                     </TableCell>

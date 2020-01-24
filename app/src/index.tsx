@@ -6,7 +6,7 @@ import PageContainer from "./containers/PageContainer";
 import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { BrowserRouter as Router } from "react-router-dom";
-import { getTeams, fetchTeams } from "./actions/InitialAction";
+import { fetchTeams } from "./actions/TeamAction";
 import { setSelectedTeam } from "./actions/NavigationPanelAction";
 import { connect } from "react-redux";
 import { Team } from "./util/types";
