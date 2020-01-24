@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
   res.sendFile(HTML_FILE); // EDIT
 });
 
-app.get('/athleteTemplate', function(req, res) {
+app.get("/athleteTemplate", function(req, res) {
   res.download(ATHLETE_CSV);
 });
 
@@ -38,6 +38,8 @@ app.get("/injuriesInDateRange", injuryController.getInjuriesByRange);
 
 import * as athleteController from "./controllers/athlete";
 app.post("/athlete", athleteController.postAthlete);
+app.get("/allAthletes", athleteController.getAllAthletes);
+app.get("/athlete", athleteController.getAthlete);
 
 // Routes
 

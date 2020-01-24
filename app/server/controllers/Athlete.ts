@@ -10,59 +10,58 @@ export const postAthlete = async (req: Request, res: Response) => {
 
   try {
     const athlete = Object.assign(new Athlete(), {
-        createdBy: req.body.createdBy,
+      createdBy: req.body.createdBy,
 
-        firstName: req.body.firstName,
+      firstName: req.body.firstName,
 
-        lastName: req.body.lastName,
+      lastName: req.body.lastName,
 
-        birthDate: req.body.birthDate,
+      birthDate: req.body.birthDate,
 
-        yearInSchool: req.body.yearInSchool,
-    
-        gender: req.body.gender,
+      yearInSchool: req.body.yearInSchool,
 
-        weight: req.body.weight,
+      gender: req.body.gender,
 
-        height: req.body.height,
+      weight: req.body.weight,
 
-        email: req.body.email,
+      height: req.body.height,
 
-        cellPhone: req.body.cellPhone,
-    
-        homePhone: req.body.homePhone,
-    
-        address: req.body.address,
+      email: req.body.email,
 
-        emailNotifications: req.body.emailNotifications,
+      cellPhone: req.body.cellPhone,
 
-        textNotifications: req.body.textNotifications,
+      homePhone: req.body.homePhone,
 
-        healthPlan: req.body.healthPlan,
+      address: req.body.address,
 
-        memberId: req.body.memberId,
+      emailNotifications: req.body.emailNotifications,
 
-        groupNumber: req.body.groupNumber,
+      textNotifications: req.body.textNotifications,
 
-        provincialHealthCardNumber: req.body.provincialHealthCardNumber,
+      healthPlan: req.body.healthPlan,
 
-        province: req.body.province,
+      memberId: req.body.memberId,
 
-        primaryPhysician: req.body.primaryPhysician,
+      groupNumber: req.body.groupNumber,
 
-        emergencyContact: req.body.emergencyContact,
+      provincialHealthCardNumber: req.body.provincialHealthCardNumber,
 
-        injuries: req.body.injuries,
+      province: req.body.province,
 
-        teams: req.body.teams
-    
+      primaryPhysician: req.body.primaryPhysician,
+
+      emergencyContact: req.body.emergencyContact,
+
+      injuries: req.body.injuries,
+
+      teams: req.body.teams
     });
     let id: string = await athleteModel.putAthlete(athlete);
 
     let response = {
       message: "Athlete Created",
       data: {
-        athleteId: id
+        id: id
       }
     };
     res.json(response);
@@ -72,4 +71,38 @@ export const postAthlete = async (req: Request, res: Response) => {
   }
 };
 
+export const getAthlete = async (req: Request, res: Response) => {
+  try {
+    let athlete = new Athlete();
+    athlete = await athleteModel.getAthlete(req.query.athleteId);
 
+    let response = {
+      message: "Athlete found",
+      data: {
+        athlete: athlete
+      }
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e);
+    return res.status(500).send("Failed to get athlete");
+  }
+};
+
+export const getAllAthletes = async (req: Request, res: Response) => {
+  try {
+    let athletes = new Array<Athlete>();
+    athletes = await athleteModel.getAllAthletes();
+
+    let response = {
+      message: "All athletes",
+      data: {
+        athletes: athletes
+      }
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e);
+    return res.status(500).send("Failed to get athletes");
+  }
+};
