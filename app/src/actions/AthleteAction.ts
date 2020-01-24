@@ -1,19 +1,17 @@
-import { AthleteProfile } from "../util/types";
+import { AthleteProfile, ListAthlete } from "../util/types";
 
 export async function addAthleteToDb(athlete: AthleteProfile) {
     return await fetchAddAthlete(athlete);
 }
 
-async function fetchAddAthlete(
-    athlete: AthleteProfile
-): Promise<AthleteProfile> {
+async function fetchAddAthlete(athlete: AthleteProfile): Promise<string | null> {
     return fetch("./athlete", {
         method: "post",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            createdBy: "Daniel Chau", //TODO: have to change this current user
+            createdBy: "Daniel Chau", //TODO: have to change this to current user
             firstName: athlete.name.substring(0, athlete.name.indexOf(" ")),
             lastName: athlete.name.substring(athlete.name.indexOf(" ") + 1),
             birthDate: new Date(athlete.birthdate),
@@ -22,8 +20,8 @@ async function fetchAddAthlete(
             weight: athlete.weight,
             height: athlete.height,
             email: athlete.email,
-            cellPhone: 0, //athlete.cellPhone,
-            homePhone: 0, //athlete.homePhone,
+            cellPhone: athlete.cellPhone,
+            homePhone: athlete.homePhone,
             address: "",
             emailNotifications: true,
             textNotifications: true,
@@ -33,7 +31,11 @@ async function fetchAddAthlete(
             provincialHealthCardNumber: 0,
             province: "",
             primaryPhysician: "",
-            emergencyContact: JSON.stringify(athlete.emergencyContact),
+            emergencyContact: {
+                name: athlete.emergencyContact.name,
+                address: "",
+                phone: athlete.emergencyContact.cellPhone
+            },
             injuries: [],
             teams: [],
             notes: []
@@ -41,14 +43,39 @@ async function fetchAddAthlete(
     })
         .then(function(response: any) {
             if (response.status !== 200) {
-                console.log(
-                    "Looks like there was a problem. Status Code: " +
-                        response.status
-                );
+                console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
-                console.log(response);
+                return response.data.id;
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
+
+export async function getAllAthletes(athleteId: string) {
+    return await fetchAllAthletes(athleteId);
+}
+
+async function fetchAllAthletes(athleteId: string): Promise<ListAthlete[] | null> {
+    return fetch("./allAthletes", {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(function(response: any) {
+            if (response.status !== 200) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
+            } else {
+                return response.data.athletes.map(a => ({
+                    id: a.id,
+                    name: a.firstName + " " + a.lastName,
+                    birthdate: a.birthdate.toDateString()
+                }));
             }
         })
         .catch(function(err: Error) {

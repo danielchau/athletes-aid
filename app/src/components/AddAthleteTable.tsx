@@ -50,16 +50,17 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
     };
 
     const addAthlete = (athlete: AthleteProfile) => {
-        let response = addAthleteToDb(athlete);
-        if (response != null) {
-            props.setAllAthletes(
-                props.allAthletes.concat({
-                    id: athlete.id, //have to change this to the actual ID
-                    name: athlete.name,
-                    birthdate: athlete.birthdate
-                })
-            );
-        }
+        addAthleteToDb(athlete).then((athleteId: string | null) => {
+            if (athleteId != null) {
+                props.setAllAthletes(
+                    props.allAthletes.concat({
+                        id: athleteId,
+                        name: athlete.name,
+                        birthdate: athlete.birthdate
+                    })
+                );
+            }
+        });
     };
 
     return (
@@ -70,7 +71,7 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                         <TableHead>
                             <TableRow>
                                 <TableCell>
-                                    <b>Athlete Exists? (If No: click icon to register athlete)</b>
+                                    <b>Athlete Exists?</b> (No? click icon to register)
                                 </TableCell>
                                 <TableCell>
                                     <b>Athlete Name</b>

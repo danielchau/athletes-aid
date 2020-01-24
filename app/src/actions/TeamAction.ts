@@ -35,11 +35,11 @@ async function fetchTeamsEndpoint(athleteId: string): Promise<Team[]> {
 }
 
 export async function createTeam(name: string, season: string) {
-    return await fetchCreateTeam(name, season);
+    await fetchCreateTeam(name, season);
 }
 
-async function fetchCreateTeam(name: string, season: string): Promise<Team | null> {
-    return fetch("./team", {
+async function fetchCreateTeam(name: string, season: string) {
+    fetch("./team", {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -53,15 +53,67 @@ async function fetchCreateTeam(name: string, season: string): Promise<Team | nul
         .then(function(response: any) {
             if (response.status !== 200) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
-                return null;
             } else {
                 console.log(response);
-                return null;
             }
         })
         .catch(function(err: Error) {
             console.log("Fetch Error", err);
-            return null;
+        });
+}
+
+export async function updateTeamInfo(id: string, name: string, season: string) {
+    await fetchUpdateTeamInfo(id, name, season);
+}
+
+async function fetchUpdateTeamInfo(id: string, name: string, season: string) {
+    fetch("./team", {
+        method: "put",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            teamId: id,
+            teamName: name,
+            season: season
+        })
+    })
+        .then(function(response: any) {
+            if (response.status !== 200) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+            } else {
+                console.log(response);
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+        });
+}
+
+export async function updateTeamAthletes(id: string, athletes: string[]) {
+    await fetchUpdateTeamAthletes(id, athletes);
+}
+
+async function fetchUpdateTeamAthletes(id: string, athletes: string[]) {
+    fetch("./team", {
+        method: "put",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            teamId: id,
+            athletes: athletes
+        })
+    })
+        .then(function(response: any) {
+            if (response.status !== 200) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+            } else {
+                console.log(response);
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
         });
 }
 

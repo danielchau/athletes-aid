@@ -16,14 +16,21 @@ import { Athlete, Team, NavigationPanelStates, AthleteProfile, ListAthlete } fro
 import MyDropzone from "./Dropzone";
 import AddAthleteTable from "./AddAthleteTable";
 import clsx from "clsx";
-import { createTeam, getAthleteTemplate } from "../actions/TeamAction";
+import {
+    createTeam,
+    getAthleteTemplate,
+    updateTeamInfo,
+    updateTeamAthletes
+} from "../actions/TeamAction";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import AthleteList from "./AthleteList";
+import { getAllAthletes } from "../actions/AthleteAction";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
     teams: Team[];
+    getTeams: (id: string) => void;
 }
 
 export default function RosterManagementPage(props: RosterManagementPageProps) {
@@ -39,6 +46,14 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setTab(newValue);
     };
     const [allAthletes, setAllAthletes] = React.useState<ListAthlete[]>([]);
+
+    React.useEffect(() => {
+        getAllAthletes("").then((response: ListAthlete[] | null) => {
+            if (!!response) {
+                setAllAthletes(response);
+            }
+        });
+    }, []);
 
     const handleTeamSelected = (event: React.ChangeEvent<{ value: string }>) => {
         let team = props.teams.filter(team => team.id === event.target.value);
@@ -86,23 +101,39 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     };
 
     const handleAthleteDelete = () => {
-        // Delete athlete on team fetch
+        let athleteIds = selectedTeam.athletes
+            .filter(a => !existingAthletesChecked.has(a.id))
+            .map(a => a.id);
+        updateTeamAthletes(selectedTeam.id, athleteIds);
+        props.getTeams("");
     };
 
     const handleAddAthletes = () => {
+        let athleteIds = [];
         let allAthleteMap = new Map<string, string>();
         allAthletes.forEach(a => allAthleteMap.set(a.name + a.birthdate, a.id));
+        let rosterAthleteSet = new Set<string>();
+        selectedTeam.athletes.forEach(a => rosterAthleteSet.add(a.id));
 
-        let athletesIds = newAthletes.map(nA => {
-            allAthleteMap.get(nA.name + nA.birthdate);
-        });
+        if (tab == 0) {
+            athleteIds = newAthletes
+                .map(nA => {
+                    return allAthleteMap.get(nA.name + nA.birthdate);
+                })
+                .filter(a => !rosterAthleteSet.has(a));
+        } else {
+            athleteIds = Array.from(newAthletesChecked);
+        }
 
-        // Add athlete fetch
+        athleteIds = Array.from(rosterAthleteSet).concat(athleteIds);
+        updateTeamAthletes(selectedTeam.id, athleteIds);
+        props.getTeams("");
     };
 
     const handleSave = () => {
         if (!!selectedTeam) {
-            // Alter team name or season
+            updateTeamInfo(selectedTeam.id, teamName, season);
+            props.getTeams("");
         } else {
             createTeam(teamName, season);
         }
@@ -125,7 +156,6 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         let athletesInDatabase = newAthletes.filter(nA =>
             allAthleteSet.has(nA.name + nA.birthdate)
         );
-        console.log(athletesInDatabase);
 
         return athletesInDatabase.length != newAthletes.length;
     };
@@ -247,6 +277,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                         className={classes.existingAthletesButton}
                                         onClick={handleAthleteDelete}
                                         color="primary"
+                                        disabled={existingAthletesChecked.size == 0}
                                     >
                                         Delete
                                         {existingAthletesChecked.size > 0
