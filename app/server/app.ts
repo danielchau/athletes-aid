@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 //paths
 const DIST_DIR = path.join(__dirname, "../dist"); // NEW
 const HTML_FILE = path.join(DIST_DIR, "index.html"); // NEW
+const ATHLETE_CSV = path.join(DIST_DIR, "athleteBulkTemplate.csv");
 
 const app = express();
 
@@ -14,6 +15,10 @@ app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   res.sendFile(HTML_FILE); // EDIT
+});
+
+app.get('/athleteTemplate', function(req, res) {
+  res.download(ATHLETE_CSV);
 });
 
 // Controllers (route handlers)
