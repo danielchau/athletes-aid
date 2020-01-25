@@ -56,12 +56,10 @@ export const getTeam = async (req: Request, res: Response) => {
   try {
     let team = new Team();
     let athletes = new Array<Athlete>();
+
     team = await teamModel.getTeam(req.query.teamId);
 
-    console.log(team);
-    console.log(team.athletes);
     for (var id of team.athletes) {
-      console.log(id);
       let athlete = await athleteModel.getAthlete(id);
       athletes.push(athlete);
     }
