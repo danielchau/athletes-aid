@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { Team } from "../models/schema/Team";
-
 import { Logger } from "@overnightjs/logger";
 
+import { Athlete } from "../models/schema/Athlete";
 import * as teamModel from "../models/team";
+import * as athleteModel from "../models/athlete";
 
 export const postTeam = async (req: Request, res: Response) => {
   try {
@@ -54,12 +55,22 @@ export const modifyTeam = async (req: Request, res: Response) => {
 export const getTeam = async (req: Request, res: Response) => {
   try {
     let team = new Team();
+    let athletes = new Array<Athlete>();
     team = await teamModel.getTeam(req.query.teamId);
+
+    console.log(team);
+    console.log(team.athletes);
+    for (var id of team.athletes) {
+      console.log(id);
+      let athlete = await athleteModel.getAthlete(id);
+      athletes.push(athlete);
+    }
 
     let response = {
       message: "Team found",
       data: {
-        team
+        team,
+        athletes
       }
     };
     res.json(response);
