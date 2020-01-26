@@ -26,6 +26,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import AthleteList from "./AthleteList";
 import { getAllAthletes } from "../actions/AthleteAction";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
@@ -46,6 +47,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setTab(newValue);
     };
     const [allAthletes, setAllAthletes] = React.useState<ListAthlete[]>([]);
+    const [isFetching, setIsFetching] = React.useState<string>("");
 
     React.useEffect(() => {
         getAllAthletes("").then((response: ListAthlete[] | null) => {
@@ -62,6 +64,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                 setSelectedTeam(newSelectedTeam[0]);
             }
         }
+        setIsFetching("");
     }, [props.teams]);
 
     const handleTeamSelected = (event: React.ChangeEvent<{ value: string }>) => {
@@ -113,6 +116,8 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         let athleteIds = selectedTeam.athletes
             .filter(a => !existingAthletesChecked.has(a.id))
             .map(a => a.id);
+        setIsFetching("delete");
+        setExistingAthletesChecked(new Set());
         updateTeamAthletes(selectedTeam.id, athleteIds).then(_ => {
             props.getTeams("");
         });
@@ -136,6 +141,8 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         }
 
         athleteIds = Array.from(rosterAthleteSet).concat(athleteIds);
+        setIsFetching("add");
+        setNewAthletesChecked(new Set());
         updateTeamAthletes(selectedTeam.id, athleteIds).then(_ => {
             props.getTeams("");
         });
@@ -162,6 +169,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     };
 
     const determineAddButtonState = (): boolean => {
+        let athleteState = false;
         if (tab == 0) {
             let allAthleteSet = new Set<string>();
             allAthletes.forEach(a => allAthleteSet.add(a.name + a.birthdate));
@@ -170,10 +178,11 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                 allAthleteSet.has(nA.name + nA.birthdate)
             );
 
-            return athletesInDatabase.length != newAthletes.length;
+            athleteState = athletesInDatabase.length != newAthletes.length;
         } else {
-            return newAthletesChecked.size <= 0;
+            athleteState = newAthletesChecked.size <= 0;
         }
+        return athleteState || isFetching == "add";
     };
 
     const filterNewAthletes = () => {
@@ -293,13 +302,24 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                         className={classes.existingAthletesButton}
                                         onClick={handleAthleteDelete}
                                         color="primary"
-                                        disabled={existingAthletesChecked.size == 0}
+                                        disabled={
+                                            existingAthletesChecked.size == 0 ||
+                                            isFetching == "delete"
+                                        }
                                     >
-                                        Delete
-                                        {existingAthletesChecked.size > 0
-                                            ? " (" + existingAthletesChecked.size + " selected)"
-                                            : ""}
-                                        <DeleteIcon />
+                                        {isFetching == "delete" ? (
+                                            <CircularProgress size={24} color={"secondary"} />
+                                        ) : (
+                                            <>
+                                                Delete
+                                                {existingAthletesChecked.size > 0
+                                                    ? " (" +
+                                                      existingAthletesChecked.size +
+                                                      " selected)"
+                                                    : ""}
+                                                <DeleteIcon />
+                                            </>
+                                        )}
                                     </Button>
                                 </div>
                             </Paper>
@@ -364,8 +384,14 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                             onClick={handleAddAthletes}
                                             color="primary"
                                         >
-                                            Add Athletes
-                                            <AddIcon />
+                                            {isFetching == "add" ? (
+                                                <CircularProgress size={24} color={"secondary"} />
+                                            ) : (
+                                                <>
+                                                    Add Athletes
+                                                    <AddIcon />
+                                                </>
+                                            )}
                                         </Button>
                                     </div>
                                 </div>
