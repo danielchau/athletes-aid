@@ -3,7 +3,7 @@ import { Athlete } from "../models/schema/Athlete";
 
 import { Logger } from "@overnightjs/logger";
 
-import * as athleteModel from "../models/Athlete";
+import * as athleteModel from "../models/athlete";
 
 export const postAthlete = async (req: Request, res: Response) => {
   Logger.Info(req);
