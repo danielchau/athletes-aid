@@ -55,6 +55,15 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         });
     }, []);
 
+    React.useEffect(() => {
+        if (!!selectedTeam) {
+            let newSelectedTeam = props.teams.filter(t => t.id == selectedTeam.id);
+            if (newSelectedTeam.length > 0) {
+                setSelectedTeam(newSelectedTeam[0]);
+            }
+        }
+    }, [props.teams]);
+
     const handleTeamSelected = (event: React.ChangeEvent<{ value: string }>) => {
         let team = props.teams.filter(team => team.id === event.target.value);
         setSelectedTeam(team.length > 0 ? team[0] : null);
@@ -104,8 +113,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         let athleteIds = selectedTeam.athletes
             .filter(a => !existingAthletesChecked.has(a.id))
             .map(a => a.id);
-        updateTeamAthletes(selectedTeam.id, athleteIds);
-        props.getTeams("");
+        updateTeamAthletes(selectedTeam.id, athleteIds).then(_ => {
+            props.getTeams("");
+        });
     };
 
     const handleAddAthletes = () => {
@@ -126,14 +136,16 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         }
 
         athleteIds = Array.from(rosterAthleteSet).concat(athleteIds);
-        updateTeamAthletes(selectedTeam.id, athleteIds);
-        props.getTeams("");
+        updateTeamAthletes(selectedTeam.id, athleteIds).then(_ => {
+            props.getTeams("");
+        });
     };
 
     const handleSave = () => {
         if (!!selectedTeam) {
-            updateTeamInfo(selectedTeam.id, teamName, season);
-            props.getTeams("");
+            updateTeamInfo(selectedTeam.id, teamName, season).then(_ => {
+                props.getTeams("");
+            });
         } else {
             createTeam(teamName, season);
         }
@@ -150,14 +162,18 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     };
 
     const determineAddButtonState = (): boolean => {
-        let allAthleteSet = new Set<string>();
-        allAthletes.forEach(a => allAthleteSet.add(a.name + a.birthdate));
+        if (tab == 0) {
+            let allAthleteSet = new Set<string>();
+            allAthletes.forEach(a => allAthleteSet.add(a.name + a.birthdate));
 
-        let athletesInDatabase = newAthletes.filter(nA =>
-            allAthleteSet.has(nA.name + nA.birthdate)
-        );
+            let athletesInDatabase = newAthletes.filter(nA =>
+                allAthleteSet.has(nA.name + nA.birthdate)
+            );
 
-        return athletesInDatabase.length != newAthletes.length;
+            return athletesInDatabase.length != newAthletes.length;
+        } else {
+            return newAthletesChecked.size <= 0;
+        }
     };
 
     const filterNewAthletes = () => {

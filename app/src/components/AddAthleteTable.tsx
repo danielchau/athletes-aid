@@ -25,17 +25,18 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
     const classes = addAthleteTableStyles({});
 
     const doesPlayerExist = (athlete: AthleteProfile) => {
-        if (props.rosterAthletes.filter(a => a.id == athlete.id).length > 0) {
-            return (
-                <IconButton disabled style={{ color: "#db2e2e" }}>
-                    <HighlightOffIcon />
-                </IconButton>
-            );
-        } else if (
-            props.allAthletes.filter(
-                a => a.name == athlete.name && a.birthdate == athlete.birthdate
-            ).length > 0
-        ) {
+        let athleteInDatabase = props.allAthletes.filter(
+            a => a.name == athlete.name && a.birthdate == athlete.birthdate
+        );
+
+        if (athleteInDatabase.length > 0) {
+            if (props.rosterAthletes.filter(a => a.id == athleteInDatabase[0].id).length > 0) {
+                return (
+                    <IconButton disabled style={{ color: "#db2e2e" }}>
+                        <HighlightOffIcon />
+                    </IconButton>
+                );
+            }
             return (
                 <IconButton disabled style={{ color: "#0055B7" }}>
                     <DoneIcon />

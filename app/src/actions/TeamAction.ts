@@ -4,12 +4,16 @@ import download from "downloadjs";
 export function getTeams(athleteId: string, data: any) {
     return {
         type: GET_TEAMS,
-        teams: data.data.teams.map((d: any) => {
+        teams: data.data.teamOutput.map((d: any) => {
             return {
                 id: d.id,
                 name: d.name,
                 season: d.season,
-                athletes: d.athletes
+                athletes: d.athletes.map((a: any) => ({
+                    id: a.id,
+                    name: a.firstName + " " + a.lastName,
+                    injuries: a.injuries
+                }))
             };
         })
     };
@@ -93,11 +97,11 @@ async function fetchUpdateTeamInfo(id: string, name: string, season: string) {
 }
 
 export async function updateTeamAthletes(id: string, athletes: string[]) {
-    await fetchUpdateTeamAthletes(id, athletes);
+    return await fetchUpdateTeamAthletes(id, athletes);
 }
 
 async function fetchUpdateTeamAthletes(id: string, athletes: string[]) {
-    fetch("./team", {
+    return fetch("./team", {
         method: "put",
         headers: {
             "Content-Type": "application/json"
@@ -111,12 +115,15 @@ async function fetchUpdateTeamAthletes(id: string, athletes: string[]) {
         .then((response: any) => {
             if (response.error) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
             } else {
                 console.log(response);
+                return response;
             }
         })
         .catch(function(err: Error) {
             console.log("Fetch Error", err);
+            return null;
         });
 }
 
