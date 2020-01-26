@@ -24,7 +24,7 @@ export default function MyDropzone(props: MyDropzoneProps) {
                         id: i,
                         profilePicture: "",
                         name: entry["Athlete First Name*"] + " " + entry["Athlete Last Name*"],
-                        birthdate: entry["Day Of Birthday yyyy-mm-dd"],
+                        birthdate: new Date(entry["Day Of Birthday yyyy-mm-dd"]).toDateString(),
                         schoolYear: entry["School Year"],
                         gender: entry["Gender*"],
                         weight: entry["Weight in Lbs"],

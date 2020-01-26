@@ -34,15 +34,16 @@ async function fetchAddAthlete(athlete: AthleteProfile): Promise<string | null> 
             emergencyContact: {
                 name: athlete.emergencyContact.name,
                 address: "",
-                phone: athlete.emergencyContact.cellPhone
+                phone: 0 // athlete.emergencyContact.cellPhone
             },
             injuries: [],
             teams: [],
             notes: []
         })
     })
-        .then(function(response: any) {
-            if (response.status !== 200) {
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -61,20 +62,22 @@ export async function getAllAthletes(athleteId: string) {
 
 async function fetchAllAthletes(athleteId: string): Promise<ListAthlete[] | null> {
     return fetch("./allAthletes", {
-        method: "post",
+        method: "get",
         headers: {
             "Content-Type": "application/json"
         }
     })
-        .then(function(response: any) {
-            if (response.status !== 200) {
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
-                return response.data.athletes.map(a => ({
+                console.log(response);
+                return response.data.athletes.map((a: any) => ({
                     id: a.id,
                     name: a.firstName + " " + a.lastName,
-                    birthdate: a.birthdate.toDateString()
+                    birthdate: new Date(a.birthDate).toDateString()
                 }));
             }
         })

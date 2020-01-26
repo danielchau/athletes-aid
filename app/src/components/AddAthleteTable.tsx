@@ -18,6 +18,7 @@ interface AddAthleteTableProps {
     rosterAthletes: Athlete[];
     allAthletes: ListAthlete[];
     setAllAthletes: any;
+    getTeams: (id: string) => void;
 }
 
 export default function AddAthleteTable(props: AddAthleteTableProps) {
@@ -59,6 +60,7 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                         birthdate: athlete.birthdate
                     })
                 );
+                props.getTeams("");
             }
         });
     };

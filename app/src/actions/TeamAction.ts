@@ -50,8 +50,9 @@ async function fetchCreateTeam(name: string, season: string) {
             athletes: []
         })
     })
-        .then(function(response: any) {
-            if (response.status !== 200) {
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
             } else {
                 console.log(response);
@@ -78,8 +79,9 @@ async function fetchUpdateTeamInfo(id: string, name: string, season: string) {
             season: season
         })
     })
-        .then(function(response: any) {
-            if (response.status !== 200) {
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
             } else {
                 console.log(response);
@@ -105,8 +107,9 @@ async function fetchUpdateTeamAthletes(id: string, athletes: string[]) {
             athletes: athletes
         })
     })
-        .then(function(response: any) {
-            if (response.status !== 200) {
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
             } else {
                 console.log(response);

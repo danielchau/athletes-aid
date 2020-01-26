@@ -327,6 +327,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                                     rosterAthletes={selectedTeam.athletes}
                                                     allAthletes={allAthletes}
                                                     setAllAthletes={setAllAthletes}
+                                                    getTeams={props.getTeams}
                                                 ></AddAthleteTable>
                                             </div>
                                         </div>
