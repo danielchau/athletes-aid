@@ -34,6 +34,7 @@ app.get("/teams", teamController.getAllTeams);
 
 import * as injuryController from "./controllers/injury";
 app.post("/singleInjury", injuryController.postInjury);
+app.post("/injuryNote", injuryController.postInjuryNote);
 app.get("/injuriesInDateRange", injuryController.getInjuriesByRange);
 
 import * as athleteController from "./controllers/athlete";
