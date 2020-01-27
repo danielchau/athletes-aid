@@ -23,14 +23,8 @@ import { Injury } from "../util/types";
 interface EnhancedTableProps {
     classes: ReturnType<typeof injuriesDataTableStyles>;
     numSelected: number;
-    onRequestSort: (
-        event: React.MouseEvent<unknown>,
-        property: keyof Injury
-    ) => void;
-    onSelectAllClick: (
-        event: React.ChangeEvent<HTMLInputElement>,
-        checked: boolean
-    ) => void;
+    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Injury) => void;
+    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
     order: Order;
     orderBy: string;
     rowCount: number;
@@ -45,6 +39,7 @@ interface InjuriesDataTableProps {
 
 interface EnhancedTableToolbarProps {
     numSelected: number;
+    onExport: () => void;
 }
 
 type Order = "asc" | "desc";
@@ -99,28 +94,19 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const classes = injuriesDataTableStyles({});
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<keyof Injury>("athleteName");
-    const [selectedInjuries, setSelectedInjuries] = React.useState<string[]>(
-        []
-    );
-    const [selectedInjury, setSelectedInjury] = React.useState<Injury | null>(
-        null
-    );
+    const [selectedInjuries, setSelectedInjuries] = React.useState<string[]>([]);
+    const [selectedInjury, setSelectedInjury] = React.useState<Injury | null>(null);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-    const handleRequestSort = (
-        _: React.MouseEvent<unknown>,
-        property: keyof Injury
-    ) => {
+    const handleRequestSort = (_: React.MouseEvent<unknown>, property: keyof Injury) => {
         const isDesc = orderBy === property && order === "desc";
         setOrder(isDesc ? "asc" : "desc");
         setOrderBy(property);
     };
 
-    const handleSelectAllClick = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
             const newSelecteds = props.injuries.map(n => n.id);
             setSelectedInjuries(newSelecteds);
@@ -129,10 +115,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         setSelectedInjuries([]);
     };
 
-    const handleSelection = (
-        event: React.MouseEvent<unknown>,
-        name: string
-    ) => {
+    const handleSelection = (event: React.MouseEvent<unknown>, name: string) => {
         event.stopPropagation();
         const selectedIndex = selectedInjuries.indexOf(name);
         let newSelected: string[] = [];
@@ -165,9 +148,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
@@ -179,13 +160,52 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const isSelected = (name: string) => selectedInjuries.indexOf(name) !== -1;
 
     const emptyRows =
-        rowsPerPage -
-        Math.min(rowsPerPage, props.injuries.length - page * rowsPerPage);
+        rowsPerPage - Math.min(rowsPerPage, props.injuries.length - page * rowsPerPage);
+
+    const onExport = () => {
+        let headers =
+            "Active,Created On,Created By,Team Name,Athlete Name,Injury Date," +
+            "Is Sports Related,Event Type,Position,Side Of Body,Location On Body," +
+            "Injury Type,Severity,Status,Mechanism,Injury Description,Other Notes,\r\n";
+        let csvContent = "data:text/csv;charset=utf-8," + headers;
+        props.injuries
+            .filter(i => selectedInjuries.indexOf(i.id) !== -1)
+            .map(i => {
+                let values = [
+                    i.active.toString(),
+                    i.createdOn.toDateString(),
+                    i.createdBy.toString(),
+                    i.teamName.toString(),
+                    i.athleteName.toString(),
+                    i.injuryDate.toDateString(),
+                    i.isSportsRelated.toString(),
+                    i.eventType.toString(),
+                    i.position.toString(),
+                    i.sideOfBody.toString(),
+                    i.locationOnBody.toString(),
+                    i.injuryType.toString(),
+                    i.severity.toString(),
+                    i.status.toString(),
+                    i.mechanism.toString(),
+                    `"` + i.injuryDescription.replace(/"/g, `'`).toString() + `"`,
+                    `"` + i.otherNotes.toString().replace(/"/g, `'`) + `"`
+                ];
+                csvContent += values + "\r\n";
+            });
+
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "my_data.csv");
+        document.body.appendChild(link); // Required for FF
+
+        link.click(); // This will download the data file named "my_data.csv".
+    };
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selectedInjuries.length} />
+                <EnhancedTableToolbar numSelected={selectedInjuries.length} onExport={onExport} />
                 <div className={classes.tableWrapper}>
                     <Table
                         className={classes.table}
@@ -203,14 +223,8 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                             rowCount={props.injuries.length}
                         />
                         <TableBody>
-                            {stableSort(
-                                props.injuries,
-                                getSorting(order, orderBy)
-                            )
-                                .slice(
-                                    page * rowsPerPage,
-                                    page * rowsPerPage + rowsPerPage
-                                )
+                            {stableSort(props.injuries, getSorting(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row: Injury, index: number) => {
                                     const isItemSelected = isSelected(row.id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -224,18 +238,13 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                             tabIndex={-1}
                                             key={row.id}
                                             selected={isItemSelected}
-                                            onClick={event =>
-                                                handleRowClick(event, row.id)
-                                            }
+                                            onClick={event => handleRowClick(event, row.id)}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
                                                     color="primary"
                                                     onClick={event =>
-                                                        handleSelection(
-                                                            event,
-                                                            row.id
-                                                        )
+                                                        handleSelection(event, row.id)
                                                     }
                                                     checked={isItemSelected}
                                                     inputProps={{
@@ -257,15 +266,9 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                             <TableCell align="right">
                                                 {row.locationOnBody}
                                             </TableCell>
-                                            <TableCell align="right">
-                                                {row.injuryType}
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                {row.severity}
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                {row.status}
-                                            </TableCell>
+                                            <TableCell align="right">{row.injuryType}</TableCell>
+                                            <TableCell align="right">{row.severity}</TableCell>
+                                            <TableCell align="right">{row.status}</TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -298,9 +301,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                 />
             </Paper>
             <FormControlLabel
-                control={
-                    <Switch checked={dense} onChange={handleChangeDense} />
-                }
+                control={<Switch checked={dense} onChange={handleChangeDense} />}
                 label="Dense padding"
             />
             {!!selectedInjury && (
@@ -324,9 +325,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         rowCount,
         onRequestSort
     } = props;
-    const createSortHandler = (property: keyof Injury) => (
-        event: React.MouseEvent<unknown>
-    ) => {
+    const createSortHandler = (property: keyof Injury) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
 
@@ -336,9 +335,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                 <TableCell padding="checkbox">
                     <Checkbox
                         color="primary"
-                        indeterminate={
-                            numSelected > 0 && numSelected < rowCount
-                        }
+                        indeterminate={numSelected > 0 && numSelected < rowCount}
                         checked={numSelected === rowCount}
                         onChange={onSelectAllClick}
                         inputProps={{ "aria-label": "select all desserts" }}
@@ -359,9 +356,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                             {headCell.label}
                             {orderBy === headCell.id ? (
                                 <span className={classes.visuallyHidden}>
-                                    {order === "desc"
-                                        ? "sorted descending"
-                                        : "sorted ascending"}
+                                    {order === "desc" ? "sorted descending" : "sorted ascending"}
                                 </span>
                             ) : null}
                         </TableSortLabel>
@@ -383,19 +378,20 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
             })}
         >
             {numSelected > 0 ? (
-                <Typography
-                    className={classes.title}
-                    color="inherit"
-                    variant="subtitle1"
-                >
-                    {numSelected} selected
-                </Typography>
+                <>
+                    <Typography className={classes.title} color="inherit" variant="subtitle1">
+                        {numSelected} selected{" "}
+                        <Typography
+                            className={classes.export}
+                            variant="subtitle1"
+                            onClick={props.onExport}
+                        >
+                            (export)
+                        </Typography>
+                    </Typography>
+                </>
             ) : (
-                <Typography
-                    className={classes.title}
-                    variant="h6"
-                    id="tableTitle"
-                >
+                <Typography className={classes.title} variant="h6" id="tableTitle">
                     Injury Information
                 </Typography>
             )}
@@ -427,7 +423,5 @@ function getSorting<K extends keyof any>(
     order: Order,
     orderBy: keyof Injury
 ): (a: Injury, b: Injury) => number {
-    return order === "desc"
-        ? (a, b) => desc(a, b, orderBy)
-        : (a, b) => -desc(a, b, orderBy);
+    return order === "desc" ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }

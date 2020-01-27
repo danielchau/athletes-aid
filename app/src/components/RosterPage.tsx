@@ -35,11 +35,11 @@ export default function RosterPage(props: RosterPageProps) {
 
     const getIsOut = (athlete: Athlete) => {
         if (athlete.injuries.length <= 0) {
-            return "N/A";
+            return "Active";
         }
         const lastInjury = athlete.injuries[athlete.injuries.length - 1];
         if (!lastInjury.active) {
-            return "N/A";
+            return "Active";
         }
         return lastInjury.status;
     };
@@ -75,23 +75,15 @@ export default function RosterPage(props: RosterPageProps) {
                                 <TableRow
                                     className={classes.tableRow}
                                     hover
-                                    key={row.name}
-                                    onClick={event =>
-                                        handleRowClick(event, row.id)
-                                    }
+                                    key={row.id}
+                                    onClick={event => handleRowClick(event, row.id)}
                                 >
                                     <TableCell component="th" scope="row">
                                         {row.name}
                                     </TableCell>
-                                    <TableCell align="right">
-                                        {getLastInjuryDate(row)}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {getLastInjuryDetails(row)}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {getIsOut(row)}
-                                    </TableCell>
+                                    <TableCell align="right">{getLastInjuryDate(row)}</TableCell>
+                                    <TableCell align="right">{getLastInjuryDetails(row)}</TableCell>
+                                    <TableCell align="right">{getIsOut(row)}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

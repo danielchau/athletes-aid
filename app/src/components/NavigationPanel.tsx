@@ -31,6 +31,7 @@ import {
     injuriesPath,
     rosterManagementPath
 } from "../constants/constants";
+import { Typography } from "@material-ui/core";
 
 interface NavigationPanelProps {
     state: NavigationPanelStates;
@@ -40,23 +41,15 @@ interface NavigationPanelProps {
     teams: Team[];
 }
 
-export default function NavigationPanel(
-    props: NavigationPanelProps & RouteComponentProps
-) {
+export default function NavigationPanel(props: NavigationPanelProps & RouteComponentProps) {
     const classes = navigationPanelStyles({});
-    const [
-        teamToggleAnchorEl,
-        setTeamToggleAnchorEl
-    ] = React.useState<null | HTMLElement>(null);
+    const [teamToggleAnchorEl, setTeamToggleAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const handleClickTeamToggle = (event: React.MouseEvent<HTMLElement>) => {
         setTeamToggleAnchorEl(event.currentTarget);
     };
 
-    const handleTeamClick = (
-        _: React.MouseEvent<HTMLElement>,
-        index: number
-    ) => {
+    const handleTeamClick = (_: React.MouseEvent<HTMLElement>, index: number) => {
         props.setSelectedTeam(props.teams[index]);
         setTeamToggleAnchorEl(null);
     };
@@ -69,28 +62,19 @@ export default function NavigationPanel(
         <Drawer
             variant="permanent"
             className={clsx(classes.drawer, {
-                [classes.drawerOpen]:
-                    props.state === NavigationPanelStates.open,
-                [classes.drawerClose]: !(
-                    props.state === NavigationPanelStates.open
-                )
+                [classes.drawerOpen]: props.state === NavigationPanelStates.open,
+                [classes.drawerClose]: !(props.state === NavigationPanelStates.open)
             })}
             classes={{
                 paper: clsx({
-                    [classes.drawerOpen]:
-                        props.state === NavigationPanelStates.open,
-                    [classes.drawerClose]: !(
-                        props.state === NavigationPanelStates.open
-                    )
+                    [classes.drawerOpen]: props.state === NavigationPanelStates.open,
+                    [classes.drawerClose]: !(props.state === NavigationPanelStates.open)
                 })
             }}
             open={props.state === NavigationPanelStates.open}
         >
             <div className={classes.toolbar}>
-                <IconButton
-                    style={{ color: "#fff" }}
-                    onClick={props.handleDrawerClose}
-                >
+                <IconButton style={{ color: "#fff" }} onClick={props.handleDrawerClose}>
                     <ChevronLeftIcon />
                 </IconButton>
             </div>
@@ -160,9 +144,7 @@ export default function NavigationPanel(
                     <ListItem
                         button
                         key={rosterManagementPageName}
-                        selected={
-                            props.location.pathname == rosterManagementPath
-                        }
+                        selected={props.location.pathname == rosterManagementPath}
                     >
                         <ListItemIcon className={classes.itemIcon}>
                             <SettingsIcon></SettingsIcon>
@@ -187,8 +169,19 @@ export default function NavigationPanel(
                             </ListItemIcon>
                             <ListItemText
                                 className={classes.teamToggleListItem}
-                                primary="Team Selection"
-                                secondary={props.selectedTeam.name}
+                                disableTypography
+                                primary={
+                                    <Typography className={classes.primaryLabel}>
+                                        Team Selection
+                                    </Typography>
+                                }
+                                secondary={
+                                    <Typography className={classes.secondaryLabel}>
+                                        {props.selectedTeam.name +
+                                            " - " +
+                                            props.selectedTeam.season}
+                                    </Typography>
+                                }
                             />
                         </ListItem>
                     </List>
@@ -210,7 +203,7 @@ export default function NavigationPanel(
                                 selected={option === props.selectedTeam}
                                 onClick={event => handleTeamClick(event, index)}
                             >
-                                {option.name}
+                                {option.name + " - " + option.season}
                             </MenuItem>
                         ))}
                     </Menu>

@@ -25,11 +25,8 @@ export default function ProfilePage(props: ProfilePageProps) {
     return (
         <div
             className={clsx(classes.root, {
-                [classes.drawerOpen]:
-                    props.state === NavigationPanelStates.open,
-                [classes.drawerClosed]: !(
-                    props.state === NavigationPanelStates.open
-                )
+                [classes.drawerOpen]: props.state === NavigationPanelStates.open,
+                [classes.drawerClosed]: !(props.state === NavigationPanelStates.open)
             })}
         >
             <div className={classes.leftCol}>
@@ -51,10 +48,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                     ["Weight", props.currentAthlete.weight + " kg"],
                     ["Height", props.currentAthlete.height + " cm"]
                 ].map(([category, value]) => (
-                    <ProfileAttribute
-                        category={category.toString()}
-                        value={value.toString()}
-                    />
+                    <ProfileAttribute category={category.toString()} value={value.toString()} />
                 ))}
                 <Divider light />
                 <Typography className={classes.heading} variant="h6">
@@ -64,15 +58,9 @@ export default function ProfilePage(props: ProfilePageProps) {
                     ["Email", props.currentAthlete.email],
                     ["Cell Phone", props.currentAthlete.cellPhone],
                     ["Home Phone", props.currentAthlete.homePhone],
-                    [
-                        "Health Card Number",
-                        props.currentAthlete.healthCardNumber
-                    ]
+                    ["Health Card Number", props.currentAthlete.healthCardNumber]
                 ].map(([category, value]) => (
-                    <ProfileAttribute
-                        category={category.toString()}
-                        value={value.toString()}
-                    />
+                    <ProfileAttribute category={category.toString()} value={value.toString()} />
                 ))}
                 <Divider light />
                 <Typography className={classes.heading} variant="h6">
@@ -81,19 +69,10 @@ export default function ProfilePage(props: ProfilePageProps) {
                 {[
                     ["Name", props.currentAthlete.emergencyContact.name],
                     ["Email", props.currentAthlete.emergencyContact.email],
-                    [
-                        "Cell Phone",
-                        props.currentAthlete.emergencyContact.cellPhone
-                    ],
-                    [
-                        "Home Phone",
-                        props.currentAthlete.emergencyContact.homePhone
-                    ]
+                    ["Cell Phone", props.currentAthlete.emergencyContact.cellPhone],
+                    ["Home Phone", props.currentAthlete.emergencyContact.homePhone]
                 ].map(([category, value]) => (
-                    <ProfileAttribute
-                        category={category.toString()}
-                        value={value.toString()}
-                    />
+                    <ProfileAttribute category={category.toString()} value={value.toString()} />
                 ))}
                 <Divider light />
             </div>
@@ -127,10 +106,7 @@ interface ProfileAttributeProps {
 function ProfileAttribute(props: ProfileAttributeProps) {
     return (
         <div style={{ display: "flex", paddingBottom: "4px" }}>
-            <Typography
-                variant="body1"
-                style={{ paddingRight: "4px", fontWeight: 400 }}
-            >
+            <Typography variant="body1" style={{ paddingRight: "4px", fontWeight: 400 }}>
                 {props.category}:
             </Typography>
             <Typography style={{ fontWeight: 300 }} variant="body1">

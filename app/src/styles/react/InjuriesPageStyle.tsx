@@ -47,6 +47,12 @@ export const injuriesPageStyles = makeStyles((theme: Theme) =>
             marginRight: theme.spacing(1),
             width: 200
         },
+        dateField: {
+            width: 200,
+            marginRight: theme.spacing(1),
+            marginTop: 0,
+            marginBottom: 0
+        },
         dateTimeButton: {
             marginLeft: "8px",
             marginTop: "6px"

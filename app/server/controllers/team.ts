@@ -83,10 +83,29 @@ export const getAllTeams = async (req: Request, res: Response) => {
     let teams = new Array<Team>();
     teams = await teamModel.getAllTeams();
 
+    let teamAthletes = new Map();
+
+    for (var team of teams) {
+      let athletes = [];
+      for (var id of team.athletes) {
+        let a = await athleteModel.getAthlete(id);
+        athletes.push(a);
+      }
+      teamAthletes.set(team.id, athletes);
+    }
+
+    let teamOutput = teams.map(t => ({
+      id: t.id,
+      name: t.name,
+      season: t.season,
+      athletes: teamAthletes.get(t.id)
+    }));
+
+    console.log(teamOutput);
     let response = {
       message: "All Teams",
       data: {
-        teams
+        teamOutput
       }
     };
     res.json(response);

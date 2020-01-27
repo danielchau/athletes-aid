@@ -59,10 +59,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const [selectedStatus, setSelectedStatus] = React.useState(
         !!props.existingInjury ? props.existingInjury.status : ""
     );
-    const [
-        selectedMechanismOfInjury,
-        setSelectedMechanismOfInjury
-    ] = React.useState(
+    const [selectedMechanismOfInjury, setSelectedMechanismOfInjury] = React.useState(
         !!props.existingInjury ? props.existingInjury.mechanism : ""
     );
     const [injuryDescription, setInjuryDescription] = React.useState(
@@ -73,6 +70,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
             ? "Notes can't be altered. See all injury notes on overview page."
             : ""
     );
+    const [hasError, setHasError] = React.useState<boolean>(false);
 
     const handleNext = () => {
         if (activeStep == steps.length - 1) {
@@ -106,8 +104,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                     .then(function(response: any) {
                         if (response.status !== 200) {
                             console.log(
-                                "Looks like there was a problem. Status Code: " +
-                                    response.status
+                                "Looks like there was a problem. Status Code: " + response.status
                             );
                         }
                     })
@@ -133,7 +130,23 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                     });
             }
         } else {
-            setActiveStep(prevActiveStep => prevActiveStep + 1);
+            if (
+                activeStep == 0 &&
+                (selectedAthlete == "" ||
+                    selectedEventType == "" ||
+                    selectedLocationOnBody == "" ||
+                    selectedInjuryType == "")
+            ) {
+                setHasError(true);
+            } else if (
+                activeStep == 1 &&
+                (selectedStatus == "" || selectedMechanismOfInjury == "")
+            ) {
+                setHasError(true);
+            } else {
+                setHasError(false);
+                setActiveStep(prevActiveStep => prevActiveStep + 1);
+            }
         }
     };
 
@@ -148,11 +161,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <Stepper
-                    activeStep={activeStep}
-                    alternativeLabel
-                    className={classes.stepper}
-                >
+                <Stepper activeStep={activeStep} alternativeLabel className={classes.stepper}>
                     {steps.map(label => (
                         <Step key={label}>
                             <StepLabel>{label}</StepLabel>
@@ -165,11 +174,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                     <Typography variant="h4" className={classes.instructions}>
                         All steps completed.
                     </Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleReset}
-                    >
+                    <Button variant="contained" color="primary" onClick={handleReset}>
                         Log Another Injury
                     </Button>
                 </div>
@@ -193,21 +198,15 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                             selectedSideOfBody={selectedSideOfBody}
                             setSelectedSideOfBody={setSelectedSideOfBody}
                             selectedLocationOnBody={selectedLocationOnBody}
-                            setSelectedLocationOnBody={
-                                setSelectedLocationOnBody
-                            }
+                            setSelectedLocationOnBody={setSelectedLocationOnBody}
                             selectedInjuryType={selectedInjuryType}
                             setSelectedInjuryType={setSelectedInjuryType}
                             selectedSeverity={selectedSeverity}
                             setSelectedSeverity={setSelectedSeverity}
                             selectedStatus={selectedStatus}
                             setSelectedStatus={setSelectedStatus}
-                            selectedMechanismOfInjury={
-                                selectedMechanismOfInjury
-                            }
-                            setSelectedMechanismOfInjury={
-                                setSelectedMechanismOfInjury
-                            }
+                            selectedMechanismOfInjury={selectedMechanismOfInjury}
+                            setSelectedMechanismOfInjury={setSelectedMechanismOfInjury}
                             injuryDescription={injuryDescription}
                             setInjuryDescription={setInjuryDescription}
                             otherNotes={otherNotes}
@@ -215,6 +214,11 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                         ></InjuryLoggingStepContent>
                     </Paper>
                     <div className={classes.loggingBottomButtons}>
+                        {hasError && (
+                            <Typography className={classes.errorPrompt}>
+                                Please fill out all required fields.
+                            </Typography>
+                        )}
                         <Button
                             disabled={activeStep === 0}
                             onClick={handleBack}
@@ -223,11 +227,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                             <NavigateBeforeIcon></NavigateBeforeIcon>
                             Back
                         </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleNext}
-                        >
+                        <Button variant="contained" color="primary" onClick={handleNext}>
                             {activeStep === steps.length - 1 ? (
                                 <>
                                     Finish

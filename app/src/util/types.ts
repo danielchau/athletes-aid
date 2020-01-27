@@ -117,3 +117,9 @@ interface GetTeamsAction {
     type: typeof GET_TEAMS;
     teams: Team[];
 }
+
+export interface ListAthlete {
+    id: string;
+    name: string;
+    birthdate: string | null;
+}

@@ -9,7 +9,11 @@ import {
 } from "../util/types";
 
 export function injuriesReducer(
-    state: AthleteInjuries = { injuries: [], startDate: "", endDate: "" },
+    state: AthleteInjuries = {
+        injuries: [],
+        startDate: new Date().toString(),
+        endDate: new Date().toString()
+    },
     action: AthleteInjuriesTypes
 ) {
     switch (action.type) {

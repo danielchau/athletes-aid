@@ -3,26 +3,18 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import InjuriesDataTable from "./InjuriesDataTable";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { injuriesPageStyles } from "../styles/react/InjuriesPageStyle";
-import {
-    AthleteInjuries,
-    Injury,
-    Team,
-    NavigationPanelStates
-} from "../util/types";
+import { AthleteInjuries, Injury, Team, NavigationPanelStates } from "../util/types";
 import clsx from "clsx";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
-    getAthleteInjuries: (
-        startDate: Date,
-        endDate: Date,
-        team: string
-    ) => AthleteInjuries;
+    getAthleteInjuries: (startDate: Date, endDate: Date, team: string) => AthleteInjuries;
     startingDate: Date;
     endingDate: Date;
     setStartingDate: (date: Date) => void;
@@ -41,12 +33,10 @@ export default function InjuriesPage(props: InjuriesProps) {
     }, [props.athleteInjuries]);
 
     React.useEffect(() => {
-        setIsFetching(true);
-        props.getAthleteInjuries(
-            props.startingDate,
-            props.endingDate,
-            props.selectedTeam.name
-        );
+        if (props.selectedTeam.name != "") {
+            setIsFetching(true);
+            props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.name);
+        }
     }, [props.selectedTeam]);
 
     const handleInjuryOpen = () => {
@@ -59,63 +49,52 @@ export default function InjuriesPage(props: InjuriesProps) {
 
     const onInjuriesDateChange = () => {
         setIsFetching(true);
-        props.getAthleteInjuries(
-            props.startingDate,
-            props.endingDate,
-            props.selectedTeam.name
-        );
+        props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.name);
     };
 
-    const onChangeStartingDate = (event: any) => {
-        props.setStartingDate(new Date(event.target.value));
+    const onChangeStartingDate = (date: Date) => {
+        props.setStartingDate(date);
     };
 
-    const onChangeEndingDate = (event: any) => {
-        props.setEndingDate(new Date(event.target.value));
+    const onChangeEndingDate = (date: Date) => {
+        props.setEndingDate(date);
     };
 
     return (
         <div
             className={clsx(classes.root, {
-                [classes.drawerOpen]:
-                    props.state === NavigationPanelStates.open,
-                [classes.drawerClosed]: !(
-                    props.state === NavigationPanelStates.open
-                )
+                [classes.drawerOpen]: props.state === NavigationPanelStates.open,
+                [classes.drawerClosed]: !(props.state === NavigationPanelStates.open)
             })}
         >
             <Grid container spacing={3} className={classes.grid}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <form noValidate className={classes.dateTimeContainer}>
-                            <TextField
-                                id="date"
-                                label="Starting Date"
-                                type="date"
-                                defaultValue={
-                                    props.startingDate
-                                        .toISOString()
-                                        .split("T")[0]
-                                }
-                                className={classes.textField}
-                                onChange={onChangeStartingDate}
-                                InputLabelProps={{
-                                    shrink: true
-                                }}
-                            />
-                            <TextField
-                                id="date"
-                                label="Ending Date"
-                                type="date"
-                                defaultValue={
-                                    props.endingDate.toISOString().split("T")[0]
-                                }
-                                className={classes.textField}
-                                onChange={onChangeEndingDate}
-                                InputLabelProps={{
-                                    shrink: true
-                                }}
-                            />
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    className={classes.dateField}
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="starting-date"
+                                    label="Starting Date"
+                                    value={props.startingDate}
+                                    onChange={onChangeStartingDate}
+                                />
+                                <KeyboardDatePicker
+                                    className={classes.dateField}
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="ending-date"
+                                    label="Ending Date"
+                                    value={props.endingDate}
+                                    onChange={onChangeEndingDate}
+                                />
+                            </MuiPickersUtilsProvider>
                             <Button
                                 variant="outlined"
                                 aria-label="go"
@@ -135,9 +114,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                                 {props.athleteInjuries.injuries.length}
                             </div>
                             <Divider light />
-                            <div className={classes.primaryStatisticLabel}>
-                                Total Filed Reports
-                            </div>
+                            <div className={classes.primaryStatisticLabel}>Total Filed Reports</div>
                         </div>
                     </Paper>
                 </Grid>
@@ -145,11 +122,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                {
-                                    props.athleteInjuries.injuries.filter(
-                                        i => i.active
-                                    ).length
-                                }
+                                {props.athleteInjuries.injuries.filter(i => i.active).length}
                             </div>
                             <Divider light />
                             <div className={classes.primaryStatisticLabel}>
@@ -162,14 +135,10 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                {getAverageSeverity(
-                                    props.athleteInjuries.injuries
-                                )}
+                                {getAverageSeverity(props.athleteInjuries.injuries)}
                             </div>
                             <Divider light />
-                            <div className={classes.primaryStatisticLabel}>
-                                Average Severity
-                            </div>
+                            <div className={classes.primaryStatisticLabel}>Average Severity</div>
                         </div>
                     </Paper>
                 </Grid>
@@ -177,14 +146,10 @@ export default function InjuriesPage(props: InjuriesProps) {
                     <Paper className={classes.paper}>
                         <div className={classes.primaryStatisticContainer}>
                             <div className={classes.primaryStatisticValue}>
-                                {getTotalPlayersOut(
-                                    props.athleteInjuries.injuries
-                                )}
+                                {getTotalPlayersOut(props.athleteInjuries.injuries)}
                             </div>
                             <Divider light />
-                            <div className={classes.primaryStatisticLabel}>
-                                Players Out
-                            </div>
+                            <div className={classes.primaryStatisticLabel}>Players Out</div>
                         </div>
                     </Paper>
                 </Grid>
@@ -205,7 +170,7 @@ export default function InjuriesPage(props: InjuriesProps) {
 
 function getAverageSeverity(injuries: Injury[]): string {
     if (injuries.length == 0) {
-        return "0.0";
+        return "0";
     }
     let sum = 0;
     injuries.forEach(i => (sum += i.severity));
