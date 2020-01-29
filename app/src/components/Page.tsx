@@ -83,6 +83,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                                 files: [],
                                 injuries: []
                             }}
+                            canEdit={true}
                         ></ProfilePageContainer>
                     </Route>
                     <Route path={rosterPath}>

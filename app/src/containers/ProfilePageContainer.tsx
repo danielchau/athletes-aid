@@ -5,21 +5,17 @@ import ProfilePage from "../components/ProfilePage";
 
 interface ProfilePageContainerProps {
     currentAthlete: AthleteProfile;
+    canEdit: boolean;
 }
 
-const mapStateToProps = (
-    state: AppState,
-    ownProps: ProfilePageContainerProps
-) => ({
+const mapStateToProps = (state: AppState, ownProps: ProfilePageContainerProps) => ({
     state: state.navigationPanelReducer,
-    currentAthlete: ownProps.currentAthlete
+    currentAthlete: ownProps.currentAthlete,
+    canEdit: ownProps.canEdit
 });
 
 const mapDispatchToProps = (_: any) => ({});
 
-const ProfilePageContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ProfilePage);
+const ProfilePageContainer = connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
 
 export default ProfilePageContainer;

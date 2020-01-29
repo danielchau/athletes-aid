@@ -47,7 +47,9 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             borderStyle: "solid",
             fontSize: "4vw",
             color: "#fff",
-            backgroundColor: "#6f8296"
+            backgroundColor: "#6f8296",
+            maxWidth: "300px",
+            maxHeight: "300px"
         },
         name: {
             textAlign: "center",

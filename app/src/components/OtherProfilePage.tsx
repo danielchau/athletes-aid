@@ -32,7 +32,7 @@ export default function OtherProfilePage(props: OtherProfilePageProps) {
                     <CircularProgress size={60} />
                 </div>
             ) : (
-                <ProfilePageContainer currentAthlete={currentAthlete} />
+                <ProfilePageContainer currentAthlete={currentAthlete} canEdit={false} />
             )}
         </div>
     );

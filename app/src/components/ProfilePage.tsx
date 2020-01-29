@@ -11,6 +11,7 @@ import ProfilePageInfo from "./ProfilePageInfo";
 interface ProfilePageProps {
     state: NavigationPanelStates;
     currentAthlete: AthleteProfile;
+    canEdit: boolean;
 }
 
 export default function ProfilePage(props: ProfilePageProps) {
@@ -38,12 +39,14 @@ export default function ProfilePage(props: ProfilePageProps) {
             })}
         >
             <div className={classes.leftCol}>
-                <IconButton
-                    style={{ color: isEditing ? "#0055B7" : "#F2A71E", position: "absolute" }}
-                    onClick={onEditClick}
-                >
-                    {isEditing ? <CheckIcon /> : <EditIcon />}
-                </IconButton>
+                {props.canEdit && (
+                    <IconButton
+                        style={{ color: isEditing ? "#0055B7" : "#F2A71E", position: "absolute" }}
+                        onClick={onEditClick}
+                    >
+                        {isEditing ? <CheckIcon /> : <EditIcon />}
+                    </IconButton>
+                )}
                 {props.currentAthlete.profilePicture == "" ? (
                     <Avatar className={classes.profilePicture}>
                         {props.currentAthlete.name.substr(0, 1)}
