@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Injury } from "../models/schema/Injury";
+import { Injury, InjuryNote } from "../models/schema/Injury";
 
 import { Logger } from "@overnightjs/logger";
 
@@ -74,5 +74,29 @@ export const getInjuriesByRange = async (req: Request, res: Response) => {
   } catch (e) {
     Logger.Info(e);
     return res.status(500).send("Failed to get injuries in range");
+  }
+};
+
+
+export const postInjuryNote = async (req: Request, res: Response) => {
+  try {
+
+    const injuryNote = Object.assign(new InjuryNote(), {
+      createdBy: req.body.createdBy,
+      content: req.body.content,
+    });
+
+    let injury: Injury = await injuryModel.addInjuryNote(injuryNote, req.body.injuryId);
+
+    let response = {
+      message: "Injury Note Added",
+      data: {
+        injury: injury
+      }
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e);
+    return res.status(500).send("Failed to add note");
   }
 };

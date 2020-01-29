@@ -7,10 +7,10 @@ import {
 import { embed } from "@aws/dynamodb-data-mapper";
 import { bool } from "aws-sdk/clients/signer";
 
-class InjuryNote {
+export class InjuryNote {
   @attribute()
   createdBy: string;
-  @attribute()
+  @attribute({ defaultProvider: () => new Date() })
   createdOn: Date;
   @attribute()
   content: string;
