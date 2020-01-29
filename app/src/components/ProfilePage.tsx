@@ -30,10 +30,16 @@ export default function ProfilePage(props: ProfilePageProps) {
             })}
         >
             <div className={classes.leftCol}>
-                <Avatar
-                    className={classes.profilePicture}
-                    src={props.currentAthlete.profilePicture}
-                ></Avatar>
+                {props.currentAthlete.profilePicture == "" ? (
+                    <Avatar className={classes.profilePicture}>
+                        {props.currentAthlete.name.substr(0, 1)}
+                    </Avatar>
+                ) : (
+                    <Avatar
+                        className={classes.profilePicture}
+                        src={props.currentAthlete.profilePicture}
+                    ></Avatar>
+                )}
                 <Typography className={classes.name} variant="h4">
                     {props.currentAthlete.name}
                 </Typography>

@@ -123,3 +123,11 @@ export interface ListAthlete {
     name: string;
     birthdate: string | null;
 }
+
+export const SET_SELECTED_ATHLETE = "SET_SELECTED_ATHLETE";
+
+export type SetSelectedAthleteTypes = SetSelectedAthlete;
+interface SetSelectedAthlete {
+    type: typeof SET_SELECTED_ATHLETE;
+    athleteId: string;
+}

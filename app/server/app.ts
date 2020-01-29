@@ -13,10 +13,6 @@ app.set("port", process.env.PORT || 3000);
 app.use(express.static(DIST_DIR)); // NEW
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.sendFile(HTML_FILE); // EDIT
-});
-
 app.get("/athleteTemplate", function(req, res) {
   res.download(ATHLETE_CSV);
 });
@@ -42,5 +38,8 @@ app.get("/allAthletes", athleteController.getAllAthletes);
 app.get("/athlete", athleteController.getAthlete);
 
 // Routes
+app.get("/*", (req, res) => {
+  res.sendFile(HTML_FILE); // EDIT
+});
 
 export default app;

@@ -1,9 +1,4 @@
-import {
-    makeStyles,
-    Theme,
-    createStyles,
-    fade
-} from "@material-ui/core/styles";
+import { makeStyles, Theme, createStyles, fade } from "@material-ui/core/styles";
 import { drawerWidth } from "../../constants/constants";
 
 export const topBarStyles = makeStyles((theme: Theme) =>
@@ -75,6 +70,10 @@ export const topBarStyles = makeStyles((theme: Theme) =>
                     width: "200px !important"
                 }
             }
+        },
+        option: {
+            textDecoration: "none",
+            color: "#000"
         }
     })
 );
