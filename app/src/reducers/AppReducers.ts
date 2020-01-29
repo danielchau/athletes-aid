@@ -2,6 +2,7 @@ import { navigationPanelReducer, selectedTeamReducer } from "./NavigationPanelRe
 import { injuriesReducer, startingDateReducer, endingDateReducer } from "./InjuriesReducer";
 import { selectedAthleteReducer } from "./AthleteReducer";
 import { teamsReducer } from "./InitialReducer";
+import { currentUserReducer } from "./UserReducer";
 import { combineReducers } from "redux";
 
 const rootReducer = combineReducers({
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     startingDateReducer,
     endingDateReducer,
     teamsReducer,
-    selectedAthleteReducer
+    selectedAthleteReducer,
+    currentUserReducer
 });
 
 export default rootReducer;

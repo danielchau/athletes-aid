@@ -11,7 +11,7 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import DoneIcon from "@material-ui/icons/Done";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Team, Injury } from "../util/types";
+import { Team, Injury, User } from "../util/types";
 import { postInjury, postInjuryNote } from "../actions/InjuriesAction";
 
 function getSteps() {
@@ -22,6 +22,7 @@ interface InjuryLoggingPageProps {
     selectedTeam: Team;
     existingInjury: Injury | null;
     callbackUponFinishing: any;
+    currentUser: User;
 }
 
 export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
@@ -81,7 +82,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                 setIsLogging(true);
                 postInjury(
                     JSON.stringify({
-                        createdBy: "Daniel Chau",
+                        createdBy: props.currentUser.athleteProfile.name,
                         active: true,
                         teamName: props.selectedTeam.name,
                         athleteName: selectedAthlete,
@@ -99,7 +100,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                     })
                 ).then((id: string | null) => {
                     if (!!id) {
-                        postInjuryNote(id, otherNotes);
+                        postInjuryNote(id, otherNotes, props.currentUser.athleteProfile.name);
                     }
 
                     setIsLogging(false);

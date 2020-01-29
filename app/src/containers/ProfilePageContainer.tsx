@@ -15,7 +15,8 @@ const mapStateToProps = (state: AppState, ownProps: ProfilePageContainerProps) =
     canEdit: ownProps.canEdit,
     startingDate: state.startingDateReducer,
     endingDate: state.endingDateReducer,
-    selectedTeam: state.selectedTeamReducer
+    selectedTeam: state.selectedTeamReducer,
+    currentUser: state.currentUserReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

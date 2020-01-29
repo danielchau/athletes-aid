@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { injuriesPageStyles } from "../styles/react/InjuriesPageStyle";
-import { AthleteInjuries, Injury, Team, NavigationPanelStates } from "../util/types";
+import { AthleteInjuries, Injury, Team, NavigationPanelStates, User } from "../util/types";
 import clsx from "clsx";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
@@ -21,6 +21,7 @@ interface InjuriesProps {
     setEndingDate: (date: Date) => void;
     selectedTeam: Team;
     state: NavigationPanelStates;
+    currentUser: User;
 }
 
 export default function InjuriesPage(props: InjuriesProps) {
@@ -164,6 +165,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                             startingDate={props.startingDate}
                             endingDate={props.endingDate}
                             selectedTeam={props.selectedTeam}
+                            currentUser={props.currentUser}
                         ></InjuriesDataTable>
                     </Paper>
                 </Grid>

@@ -1,5 +1,5 @@
 import React from "react";
-import { AthleteProfile, NavigationPanelStates, AthleteInjuries, Team } from "../util/types";
+import { User, NavigationPanelStates, AthleteInjuries, Team, AthleteProfile } from "../util/types";
 import { profilePageStyles } from "../styles/react/ProfilePageStyles";
 import { Avatar, Typography, Divider, Paper, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
@@ -11,6 +11,7 @@ import ProfilePageInfo from "./ProfilePageInfo";
 interface ProfilePageProps {
     state: NavigationPanelStates;
     currentAthlete: AthleteProfile;
+    currentUser: User;
     canEdit: boolean;
     getAthleteInjuries: (startDate: Date, endDate: Date, team: string) => AthleteInjuries;
     startingDate: Date;
@@ -87,6 +88,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                         startingDate={props.startingDate}
                         endingDate={props.endingDate}
                         selectedTeam={props.selectedTeam}
+                        currentUser={props.currentUser}
                     ></InjuriesDataTable>
                 </div>
             </div>

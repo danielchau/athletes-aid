@@ -9,7 +9,8 @@ import { setSelectedAthlete } from "../actions/AthleteAction";
 const mapStateToProps = (state: AppState) => ({
     state: state.navigationPanelReducer,
     selectedTeam: state.selectedTeamReducer,
-    teams: state.teamsReducer
+    teams: state.teamsReducer,
+    currentUser: state.currentUserReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

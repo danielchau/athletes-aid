@@ -1,17 +1,17 @@
 import { AthleteProfile, ListAthlete, SET_SELECTED_ATHLETE } from "../util/types";
 
-export async function addAthleteToDb(athlete: AthleteProfile) {
-    return await fetchAddAthlete(athlete);
+export async function addAthleteToDb(athlete: AthleteProfile, createdBy: string) {
+    return await fetchAddAthlete(athlete, createdBy);
 }
 
-async function fetchAddAthlete(athlete: AthleteProfile): Promise<string | null> {
+async function fetchAddAthlete(athlete: AthleteProfile, createdBy: string): Promise<string | null> {
     return fetch("./athlete", {
         method: "post",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            createdBy: "Daniel Chau", //TODO: have to change this to current user
+            createdBy: createdBy,
             firstName: athlete.name.substring(0, athlete.name.indexOf(" ")),
             lastName: athlete.name.substring(athlete.name.indexOf(" ") + 1),
             birthDate: new Date(athlete.birthdate),

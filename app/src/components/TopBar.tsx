@@ -41,7 +41,7 @@ export default function TopBar(props: TopBarProps) {
                     setAutocompleteValue(value);
                     if (value != "" && !autocompleteOpen) {
                         setAutocompleteOpen(true);
-                    } else if (autocompleteOpen) {
+                    } else if (value == "" && autocompleteOpen) {
                         setAutocompleteOpen(false);
                     }
                 }

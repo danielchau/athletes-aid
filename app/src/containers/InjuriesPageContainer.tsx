@@ -12,21 +12,17 @@ const mapStateToProps = (state: AppState) => ({
     startingDate: state.startingDateReducer,
     endingDate: state.endingDateReducer,
     selectedTeam: state.selectedTeamReducer,
-    state: state.navigationPanelReducer
+    state: state.navigationPanelReducer,
+    currentUser: state.currentUserReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     getAthleteInjuries: (startDate: Date, endDate: Date, team: string) =>
         dispatch(fetchAthleteInjuries(startDate, endDate, team)),
-    setStartingDate: (startingDate: Date) =>
-        dispatch(setInjuriesStartingDate(startingDate)),
-    setEndingDate: (endingDate: Date) =>
-        dispatch(setInjuriesEndingDate(endingDate))
+    setStartingDate: (startingDate: Date) => dispatch(setInjuriesStartingDate(startingDate)),
+    setEndingDate: (endingDate: Date) => dispatch(setInjuriesEndingDate(endingDate))
 });
 
-const InjuriesPageContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(InjuriesPage);
+const InjuriesPageContainer = connect(mapStateToProps, mapDispatchToProps)(InjuriesPage);
 
 export default InjuriesPageContainer;

@@ -16,7 +16,7 @@ import Paper from "@material-ui/core/Paper";
 import InjuryLoggingPageContainer from "../containers/InjuryLoggingPageContainer";
 import { TransitionProps } from "@material-ui/core/transitions";
 import { injuryDialogStyles } from "../styles/react/InjuryDialogStyles";
-import { Injury, InjuryNote, AthleteInjuries, Team } from "../util/types";
+import { Injury, InjuryNote, AthleteInjuries, Team, User } from "../util/types";
 import SendIcon from "@material-ui/icons/Send";
 import { TextField, Switch } from "@material-ui/core";
 import { postInjuryNote } from "../actions/InjuriesAction";
@@ -33,6 +33,7 @@ interface InjuryDialogProps {
     startingDate: Date;
     endingDate: Date;
     selectedTeam: Team;
+    currentUser: User;
 }
 
 export default function InjuryDialog(props: InjuryDialogProps) {
@@ -55,15 +56,17 @@ export default function InjuryDialog(props: InjuryDialogProps) {
 
     const onSendClick = () => {
         if (newNote != "") {
-            postInjuryNote(props.injury.id, newNote).then(injury => {
-                props.getAthleteInjuries(
-                    props.startingDate,
-                    props.endingDate,
-                    props.selectedTeam.name
-                );
-                setInjury(injury);
-                setNewNote("");
-            });
+            postInjuryNote(props.injury.id, newNote, props.currentUser.athleteProfile.name).then(
+                injury => {
+                    props.getAthleteInjuries(
+                        props.startingDate,
+                        props.endingDate,
+                        props.selectedTeam.name
+                    );
+                    setInjury(injury);
+                    setNewNote("");
+                }
+            );
         }
     };
 

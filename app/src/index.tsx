@@ -9,14 +9,17 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { fetchTeams } from "./actions/TeamAction";
 import { setSelectedTeam } from "./actions/NavigationPanelAction";
 import { connect } from "react-redux";
-import { Team } from "./util/types";
+import { Team, User } from "./util/types";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
+import { setCurrentUser } from "./actions/UserAction";
+import { mockUser } from "./util/mockData";
 
 interface AppProps {
     teams: Team[];
     getTeams: (id: string) => void;
     setTeam: (team: Team) => void;
+    setCurrentUser: (user: User) => void;
 }
 
 interface AppStates {
@@ -31,6 +34,7 @@ class App extends React.Component<AppProps, AppStates> {
 
     componentDidMount() {
         this.props.getTeams("");
+        this.props.setCurrentUser(mockUser);
     }
 
     shouldComponentUpdate(nextProps: AppProps, nextState: AppStates) {
@@ -88,7 +92,8 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     getTeams: (id: string) => dispatch(fetchTeams(id)),
-    setTeam: (team: Team) => dispatch(setSelectedTeam(team))
+    setTeam: (team: Team) => dispatch(setSelectedTeam(team)),
+    setCurrentUser: (user: User) => dispatch(setCurrentUser(user))
 });
 
 const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);

@@ -105,18 +105,22 @@ async function fetchPostInjury(athleteInfo: any): Promise<string | null> {
         });
 }
 
-export async function postInjuryNote(injuryId: string, content: string) {
-    return await fetchPostInjuryNote(injuryId, content);
+export async function postInjuryNote(injuryId: string, content: string, createdBy: string) {
+    return await fetchPostInjuryNote(injuryId, content, createdBy);
 }
 
-async function fetchPostInjuryNote(injuryId: string, content: string): Promise<Injury | null> {
+async function fetchPostInjuryNote(
+    injuryId: string,
+    content: string,
+    createdBy: string
+): Promise<Injury | null> {
     return fetch("./injuryNote", {
         method: "post",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            createdBy: "Daniel Chau",
+            createdBy: createdBy,
             injuryId: injuryId,
             content: content
         })
