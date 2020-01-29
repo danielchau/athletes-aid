@@ -34,7 +34,7 @@ export const injuryDialogStyles = makeStyles((theme: Theme) =>
             marginBottom: "8px"
         },
         notePaper: {
-            backgroundColor: "#fffcf0",
+            backgroundColor: "#ffffff",
             padding: "8px",
             marginBottom: "8px"
         },
@@ -56,10 +56,19 @@ export const injuryDialogStyles = makeStyles((theme: Theme) =>
             alignSelf: "center"
         },
         newNote: {
-            flexGrow: 1
+            flexGrow: 1,
+            paddingRight: "8px"
         },
         sendButton: {
             color: "#F2A71E"
+        },
+        activeSwitchContainer: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignContent: "center",
+            alignSelf: "center",
+            paddingBottom: "8px"
         }
     })
 );

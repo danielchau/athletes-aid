@@ -108,7 +108,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
         },
         saveButton: {
             margin: "8px",
-            marginLeft: "0px"
+            marginLeft: "0px",
+            width: "70px"
         },
         fileDownload: {
             height: "10%",

@@ -18,7 +18,7 @@ import { TransitionProps } from "@material-ui/core/transitions";
 import { injuryDialogStyles } from "../styles/react/InjuryDialogStyles";
 import { Injury, InjuryNote, AthleteInjuries, Team } from "../util/types";
 import SendIcon from "@material-ui/icons/Send";
-import { TextField } from "@material-ui/core";
+import { TextField, Switch } from "@material-ui/core";
 import { postInjuryNote } from "../actions/InjuriesAction";
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
@@ -109,9 +109,18 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                         ></InjuryLoggingPageContainer>
                     ) : (
                         <div className={classes.dialogContent}>
-                            <Paper className={classes.dialogContentPaper}>
-                                {injury.injuryDescription}
-                            </Paper>
+                            <div className={classes.activeSwitchContainer}>
+                                <p style={{ fontWeight: 300 }}>Not Active</p>
+                                <div style={{ marginTop: "5px" }}>
+                                    <Switch checked={injury.active} onChange={() => {}} />
+                                </div>
+                                <p style={{ fontWeight: 300 }}>Active</p>
+                            </div>
+                            {injury.injuryDescription != "" && (
+                                <Paper className={classes.dialogContentPaper}>
+                                    {injury.injuryDescription}
+                                </Paper>
+                            )}
                             <Paper className={classes.dialogContentPaper}>
                                 <p>
                                     <b>Team Name: </b>

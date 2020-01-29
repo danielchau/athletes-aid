@@ -149,12 +149,17 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     };
 
     const handleSave = () => {
+        setIsFetching("teamUpdate");
         if (!!selectedTeam) {
             updateTeamInfo(selectedTeam.id, teamName, season).then(_ => {
                 props.getTeams("");
+                setIsFetching("");
             });
         } else {
-            createTeam(teamName, season);
+            createTeam(teamName, season).then(_ => {
+                props.getTeams("");
+                setIsFetching("");
+            });
         }
     };
 
@@ -268,8 +273,15 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                         color="primary"
                         className={classes.saveButton}
                         onClick={handleSave}
+                        disabled={isFetching == "teamUpdate"}
                     >
-                        {!!selectedTeam ? "Save" : "Create"}
+                        {isFetching == "teamUpdate" ? (
+                            <CircularProgress size={24} color={"inherit"} />
+                        ) : !!selectedTeam ? (
+                            "Save"
+                        ) : (
+                            "Create"
+                        )}
                     </Button>
                 </div>
                 <Divider className={classes.contentDivider} />
