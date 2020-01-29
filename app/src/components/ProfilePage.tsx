@@ -1,9 +1,12 @@
 import React from "react";
 import { AthleteProfile, NavigationPanelStates } from "../util/types";
 import { profilePageStyles } from "../styles/react/ProfilePageStyles";
-import { Avatar, Typography, Divider, Paper } from "@material-ui/core";
+import { Avatar, Typography, Divider, Paper, IconButton } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import CheckIcon from "@material-ui/icons/Check";
 import InjuriesDataTable from "./InjuriesDataTable";
 import clsx from "clsx";
+import ProfilePageInfo from "./ProfilePageInfo";
 
 interface ProfilePageProps {
     state: NavigationPanelStates;
@@ -13,6 +16,7 @@ interface ProfilePageProps {
 export default function ProfilePage(props: ProfilePageProps) {
     const classes = profilePageStyles({});
     const [injuryOpen, setInjuryOpen] = React.useState(false);
+    const [isEditing, setIsEditing] = React.useState<boolean>(false);
 
     const handleInjuryOpen = () => {
         setInjuryOpen(true);
@@ -20,6 +24,10 @@ export default function ProfilePage(props: ProfilePageProps) {
 
     const handleInjuryClose = () => {
         setInjuryOpen(false);
+    };
+
+    const onEditClick = () => {
+        setIsEditing(!isEditing);
     };
 
     return (
@@ -30,6 +38,12 @@ export default function ProfilePage(props: ProfilePageProps) {
             })}
         >
             <div className={classes.leftCol}>
+                <IconButton
+                    style={{ color: isEditing ? "#0055B7" : "#F2A71E", position: "absolute" }}
+                    onClick={onEditClick}
+                >
+                    {isEditing ? <CheckIcon /> : <EditIcon />}
+                </IconButton>
                 {props.currentAthlete.profilePicture == "" ? (
                     <Avatar className={classes.profilePicture}>
                         {props.currentAthlete.name.substr(0, 1)}
@@ -44,42 +58,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                     {props.currentAthlete.name}
                 </Typography>
                 <Divider light />
-                <Typography className={classes.heading} variant="h6">
-                    Basic Information
-                </Typography>
-                {[
-                    ["Birthdate", props.currentAthlete.birthdate],
-                    ["Year In School", props.currentAthlete.schoolYear],
-                    ["Gender", props.currentAthlete.gender],
-                    ["Weight", props.currentAthlete.weight + " kg"],
-                    ["Height", props.currentAthlete.height + " cm"]
-                ].map(([category, value]) => (
-                    <ProfileAttribute category={category.toString()} value={value.toString()} />
-                ))}
-                <Divider light />
-                <Typography className={classes.heading} variant="h6">
-                    Contact Information
-                </Typography>
-                {[
-                    ["Email", props.currentAthlete.email],
-                    ["Cell Phone", props.currentAthlete.cellPhone],
-                    ["Home Phone", props.currentAthlete.homePhone],
-                    ["Health Card Number", props.currentAthlete.healthCardNumber]
-                ].map(([category, value]) => (
-                    <ProfileAttribute category={category.toString()} value={value.toString()} />
-                ))}
-                <Divider light />
-                <Typography className={classes.heading} variant="h6">
-                    Emergency Contact Information
-                </Typography>
-                {[
-                    ["Name", props.currentAthlete.emergencyContact.name],
-                    ["Email", props.currentAthlete.emergencyContact.email],
-                    ["Cell Phone", props.currentAthlete.emergencyContact.cellPhone],
-                    ["Home Phone", props.currentAthlete.emergencyContact.homePhone]
-                ].map(([category, value]) => (
-                    <ProfileAttribute category={category.toString()} value={value.toString()} />
-                ))}
+                <ProfilePageInfo currentAthlete={props.currentAthlete} isEditing={isEditing} />
                 <Divider light />
             </div>
             <div className={classes.rightCol}>
@@ -100,24 +79,6 @@ export default function ProfilePage(props: ProfilePageProps) {
                     ></InjuriesDataTable>
                 </div>
             </div>
-        </div>
-    );
-}
-
-interface ProfileAttributeProps {
-    category: string;
-    value: string;
-}
-
-function ProfileAttribute(props: ProfileAttributeProps) {
-    return (
-        <div style={{ display: "flex", paddingBottom: "4px" }}>
-            <Typography variant="body1" style={{ paddingRight: "4px", fontWeight: 400 }}>
-                {props.category}:
-            </Typography>
-            <Typography style={{ fontWeight: 300 }} variant="body1">
-                {props.value}
-            </Typography>
         </div>
     );
 }
