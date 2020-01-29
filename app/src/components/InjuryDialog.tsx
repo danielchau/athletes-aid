@@ -195,7 +195,6 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                                     label="Enter new note..."
                                     multiline
                                     rows="3"
-                                    placeholder="Optional"
                                     margin="normal"
                                     variant="outlined"
                                     value={newNote}

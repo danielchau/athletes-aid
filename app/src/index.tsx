@@ -33,6 +33,16 @@ class App extends React.Component<AppProps, AppStates> {
         this.props.getTeams("");
     }
 
+    shouldComponentUpdate(nextProps: AppProps, nextState: AppStates) {
+        if (this.props.teams.length == 0 && nextProps.teams.length > 0) {
+            return true;
+        }
+        if (this.state.isLoading && !nextState.isLoading) {
+            return true;
+        }
+        return false;
+    }
+
     componentDidUpdate() {
         this.props.setTeam(this.props.teams[0]);
         setTimeout(() => {
