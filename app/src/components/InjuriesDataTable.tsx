@@ -18,7 +18,7 @@ import {
     injuriesDataTableToolbarStyles,
     injuriesDataTableStyles
 } from "../styles/react/InjuriesDataTableStyles";
-import { Injury } from "../util/types";
+import { Injury, AthleteInjuries, Team } from "../util/types";
 
 interface EnhancedTableProps {
     classes: ReturnType<typeof injuriesDataTableStyles>;
@@ -35,6 +35,10 @@ interface InjuriesDataTableProps {
     injuryOpen: boolean;
     handleInjuryOpen: any;
     handleInjuryClose: any;
+    getAthleteInjuries: (startDate: Date, endDate: Date, team: string) => AthleteInjuries;
+    startingDate: Date;
+    endingDate: Date;
+    selectedTeam: Team;
 }
 
 interface EnhancedTableToolbarProps {
@@ -309,6 +313,10 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     injury={selectedInjury}
                     injuryOpen={props.injuryOpen}
                     handleInjuryClose={props.handleInjuryClose}
+                    getAthleteInjuries={props.getAthleteInjuries}
+                    startingDate={props.startingDate}
+                    endingDate={props.endingDate}
+                    selectedTeam={props.selectedTeam}
                 ></InjuryDialog>
             )}
         </div>

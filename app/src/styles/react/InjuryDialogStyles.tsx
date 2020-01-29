@@ -46,6 +46,20 @@ export const injuryDialogStyles = makeStyles((theme: Theme) =>
             margin: "auto",
             marginLeft: "8px",
             marginRight: "16px"
+        },
+        newNoteContainer: {
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center"
+        },
+        newNote: {
+            flexGrow: 1
+        },
+        sendButton: {
+            color: "#F2A71E"
         }
     })
 );

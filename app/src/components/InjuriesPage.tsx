@@ -160,6 +160,10 @@ export default function InjuriesPage(props: InjuriesProps) {
                             injuryOpen={injuryOpen}
                             handleInjuryOpen={handleInjuryOpen}
                             handleInjuryClose={handleInjuryClose}
+                            getAthleteInjuries={props.getAthleteInjuries}
+                            startingDate={props.startingDate}
+                            endingDate={props.endingDate}
+                            selectedTeam={props.selectedTeam}
                         ></InjuriesDataTable>
                     </Paper>
                 </Grid>

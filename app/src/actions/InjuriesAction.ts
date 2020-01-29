@@ -1,15 +1,5 @@
-import {
-    GET_ATHLETE_INJURIES,
-    SET_STARTING_DATE,
-    Injury,
-    SET_ENDING_DATE
-} from "../util/types";
-export function getAthleteInjuries(
-    startDate: Date,
-    endDate: Date,
-    team: string,
-    data: any
-) {
+import { GET_ATHLETE_INJURIES, SET_STARTING_DATE, Injury, SET_ENDING_DATE } from "../util/types";
+export function getAthleteInjuries(startDate: Date, endDate: Date, team: string, data: any) {
     return {
         type: GET_ATHLETE_INJURIES,
         athleteInjuries: {
@@ -20,11 +10,7 @@ export function getAthleteInjuries(
     };
 }
 
-export function fetchAthleteInjuries(
-    startDate: Date,
-    endDate: Date,
-    team: string
-) {
+export function fetchAthleteInjuries(startDate: Date, endDate: Date, team: string) {
     return async (dispatch: any) => {
         const data = await fetchInjuries(startDate, endDate, team);
         return dispatch(getAthleteInjuries(startDate, endDate, team, data));
@@ -65,29 +51,88 @@ function transformJSONToInjury(json: any[]): Injury[] {
             status: injury.status,
             mechanism: injury.mechanism,
             injuryDescription: injury.injuryDescription,
-            otherNotes: []
+            otherNotes: !!injury.otherNotes
+                ? injury.otherNotes.map((n: any) => ({
+                      createdBy: !!n.createdBy ? n.createdBy : "",
+                      createdOn: new Date(n.createdOn),
+                      content: n.content
+                  }))
+                : []
         };
     });
 }
 
-async function fetchInjuries(
-    startDate: Date,
-    endDate: Date,
-    teamName: string
-): Promise<Injury[]> {
+async function fetchInjuries(startDate: Date, endDate: Date, teamName: string): Promise<Injury[]> {
     let params: any = {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
         teamName: teamName
     };
     let query = Object.keys(params)
-        .map(
-            (k: any) =>
-                encodeURIComponent(k) + "=" + encodeURIComponent(params[k])
-        )
+        .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
         .join("&");
 
     let response = await fetch("./injuriesInDateRange?" + query);
     let data = await response.json();
     return data;
+}
+
+export async function postInjury(athleteInfo: any) {
+    return await fetchPostInjury(athleteInfo);
+}
+
+async function fetchPostInjury(athleteInfo: any): Promise<string | null> {
+    return fetch("./singleInjury", {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: athleteInfo
+    })
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                console.log(response);
+                return response.data.injuryId;
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
+
+export async function postInjuryNote(injuryId: string, content: string) {
+    return await fetchPostInjuryNote(injuryId, content);
+}
+
+async function fetchPostInjuryNote(injuryId: string, content: string): Promise<Injury | null> {
+    return fetch("./injuryNote", {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            createdBy: "Daniel Chau",
+            injuryId: injuryId,
+            content: content
+        })
+    })
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                console.log(response);
+                return transformJSONToInjury([response.data.injury])[0];
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
 }
