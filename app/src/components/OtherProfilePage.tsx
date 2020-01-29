@@ -3,7 +3,7 @@ import ProfilePageContainer from "../containers/ProfilePageContainer";
 import { AthleteProfile } from "../util/types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getAthlete } from "../actions/AthleteAction";
-import { otherProfilePageStyles } from "../styles/react/OtherProfilePage.Styles";
+import { otherProfilePageStyles } from "../styles/react/OtherProfilePageStyles";
 
 interface OtherProfilePageProps {
     selectedAthleteId: string;
