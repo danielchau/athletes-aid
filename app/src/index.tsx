@@ -11,6 +11,7 @@ import { setSelectedTeam } from "./actions/NavigationPanelAction";
 import { connect } from "react-redux";
 import { Team } from "./util/types";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { CircularProgress } from "@material-ui/core";
 
 interface AppProps {
     teams: Team[];
@@ -18,16 +19,49 @@ interface AppProps {
     setTeam: (team: Team) => void;
 }
 
-class App extends React.Component<AppProps, {}> {
+interface AppStates {
+    isLoading: boolean;
+}
+
+class App extends React.Component<AppProps, AppStates> {
+    constructor(props: AppProps) {
+        super(props);
+        this.state = { isLoading: true };
+    }
+
     componentDidMount() {
         this.props.getTeams("");
     }
 
     componentDidUpdate() {
         this.props.setTeam(this.props.teams[0]);
+        setTimeout(() => {
+            this.setState({ isLoading: false });
+        }, 750);
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignSelf: "center",
+                        alignItems: "center",
+                        width: "calc(100vw  - 16px)",
+                        height: "calc(100vh  - 16px)"
+                    }}
+                >
+                    <img
+                        style={{ width: "60px" }}
+                        src="https://s3.amazonaws.com/streamlineathletes.com/assets/programs/22/university-british-columbia_track-field_thunderbirds_logo.png"
+                    />
+                    <CircularProgress size={40} color={"secondary"} />
+                </div>
+            );
+        }
         return (
             <div>
                 <Router>
