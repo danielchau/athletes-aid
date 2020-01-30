@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 import { Injury, InjuryNote } from "../models/schema/Injury";
 
+import { Athlete} from "../models/schema/Athlete";
+
 import { Logger } from "@overnightjs/logger";
 
 import * as injuryModel from "../models/injury";
+import * as athleteModel from "../models/athlete";
 
 export const postInjury = async (req: Request, res: Response) => {
   Logger.Info(req);
@@ -16,6 +19,8 @@ export const postInjury = async (req: Request, res: Response) => {
       teamName: req.body.teamName,
 
       athleteName: req.body.athleteName,
+
+      athleteId: req.body.athleteId,
 
       injuryDate: req.body.injuryDate,
 
@@ -41,6 +46,16 @@ export const postInjury = async (req: Request, res: Response) => {
     });
 
     let id: string = await injuryModel.putInjury(injury);
+
+    let athlete: Athlete = await athleteModel.getAthlete(req.body.athleteId);
+
+    if(!athlete.injuries) {
+      athlete.injuries = Array<string>();
+    }
+      
+    athlete.injuries.push(id);
+
+    athlete = await athleteModel.updateAthlete(athlete);
 
     let response = {
       message: "Injury Created",
