@@ -5,7 +5,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { AthleteProfile, ListAthlete, Athlete } from "../util/types";
+import { AthleteProfile, ListAthlete, Athlete, User } from "../util/types";
 import { addAthleteTableStyles } from "../styles/react/AddAthleteTableStyles";
 import { IconButton } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
@@ -19,6 +19,7 @@ interface AddAthleteTableProps {
     allAthletes: ListAthlete[];
     setAllAthletes: any;
     getTeams: (id: string) => void;
+    currentUser: User;
 }
 
 export default function AddAthleteTable(props: AddAthleteTableProps) {
@@ -52,18 +53,20 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
     };
 
     const addAthlete = (athlete: AthleteProfile) => {
-        addAthleteToDb(athlete).then((athleteId: string | null) => {
-            if (athleteId != null) {
-                props.setAllAthletes(
-                    props.allAthletes.concat({
-                        id: athleteId,
-                        name: athlete.name,
-                        birthdate: athlete.birthdate
-                    })
-                );
-                props.getTeams("");
+        addAthleteToDb(athlete, props.currentUser.athleteProfile.name).then(
+            (athleteId: string | null) => {
+                if (athleteId != null) {
+                    props.setAllAthletes(
+                        props.allAthletes.concat({
+                            id: athleteId,
+                            name: athlete.name,
+                            birthdate: athlete.birthdate
+                        })
+                    );
+                    props.getTeams("");
+                }
             }
-        });
+        );
     };
 
     return (

@@ -27,7 +27,8 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
             tableLayout: "fixed"
         },
         tableRow: {
-            cursor: "pointer"
+            cursor: "pointer",
+            textDecoration: "none"
         }
     })
 );

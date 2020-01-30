@@ -8,7 +8,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import { NavigationPanelStates, Team, Athlete } from "../util/types";
 import { topBarStyles } from "../styles/react/TopBarStyle";
 import { TextField } from "@material-ui/core";
-import Autocomplete, { GetTagProps } from "@material-ui/lab/Autocomplete";
+import Autocomplete, { RenderOptionState } from "@material-ui/lab/Autocomplete";
+import { Link } from "react-router-dom";
 // @ts-ignore
 import Logo from "../util/logo.png";
 import { profilePath } from "../constants/constants";
@@ -18,6 +19,7 @@ interface TopBarProps {
     handleDrawerOpen: any;
     handleDrawerClose: any;
     selectedTeam: Team;
+    setSelectedAthlete: (id: string) => void;
 }
 
 export default function TopBar(props: TopBarProps) {
@@ -25,19 +27,25 @@ export default function TopBar(props: TopBarProps) {
     const [autocompleteValue, setAutocompleteValue] = React.useState<string>("");
     const [autocompleteOpen, setAutocompleteOpen] = React.useState<boolean>(false);
 
-    const onAutocompleteInputChange = (_: any, value: string) => {
-        setAutocompleteValue(value);
-        if (value != "") {
-            setAutocompleteOpen(true);
-        } else {
-            setAutocompleteOpen(false);
-        }
-    };
-
-    const onAutocompleteChange = (_: React.ChangeEvent<{}>, value: Athlete) => {
-        if (!!value) {
-            window.location.href = profilePath;
-            console.log(value.name);
+    const onAutocompleteInputChange = (event: any, value: string) => {
+        if (!!event) {
+            if (event.type == "blur") {
+                setAutocompleteOpen(false);
+            } else if (event.type == "click" || (event.type == "keydown" && event.keyCode == 13)) {
+                let selectedAthlete = props.selectedTeam.athletes.filter(a => value == a.name);
+                if (selectedAthlete.length > 0) {
+                    props.setSelectedAthlete(selectedAthlete[0].id);
+                }
+            } else {
+                if (autocompleteValue != value) {
+                    setAutocompleteValue(value);
+                    if (value != "" && !autocompleteOpen) {
+                        setAutocompleteOpen(true);
+                    } else if (value == "" && autocompleteOpen) {
+                        setAutocompleteOpen(false);
+                    }
+                }
+            }
         }
     };
 
@@ -81,6 +89,11 @@ export default function TopBar(props: TopBarProps) {
                                 root: classes.inputRoot,
                                 input: classes.inputInput
                             }}
+                            renderOption={(option: Athlete, state: RenderOptionState) => (
+                                <Link className={classes.option} to={profilePath}>
+                                    {option.name}
+                                </Link>
+                            )}
                             renderInput={params => (
                                 <TextField
                                     {...params}
@@ -96,7 +109,6 @@ export default function TopBar(props: TopBarProps) {
                             disableOpenOnFocus
                             onInputChange={onAutocompleteInputChange}
                             open={autocompleteOpen}
-                            onChange={onAutocompleteChange}
                         />
                     </div>
                 </Toolbar>

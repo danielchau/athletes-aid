@@ -11,7 +11,8 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import DoneIcon from "@material-ui/icons/Done";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Team, Injury } from "../util/types";
+import { Team, Injury, User } from "../util/types";
+import { postInjury, postInjuryNote } from "../actions/InjuriesAction";
 
 function getSteps() {
     return ["Injury Details", "Further Details", "Review"];
@@ -21,6 +22,7 @@ interface InjuryLoggingPageProps {
     selectedTeam: Team;
     existingInjury: Injury | null;
     callbackUponFinishing: any;
+    currentUser: User;
 }
 
 export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
@@ -78,13 +80,9 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                 props.callbackUponFinishing();
             } else {
                 setIsLogging(true);
-                fetch("./singleInjury", {
-                    method: "post",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        createdBy: "Daniel Chau",
+                postInjury(
+                    JSON.stringify({
+                        createdBy: props.currentUser.athleteProfile.name,
                         active: true,
                         teamName: props.selectedTeam.name,
                         athleteName: selectedAthlete,
@@ -100,34 +98,27 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                         mechanism: selectedMechanismOfInjury,
                         injuryDescription: injuryDescription
                     })
-                })
-                    .then(function(response: any) {
-                        if (response.status !== 200) {
-                            console.log(
-                                "Looks like there was a problem. Status Code: " + response.status
-                            );
-                        }
-                    })
-                    .catch(function(err: Error) {
-                        console.log("Fetch Error", err);
-                    })
-                    .then(function(_: any) {
-                        setIsLogging(false);
-                        setActiveStep(prevActiveStep => prevActiveStep + 1);
-                        setSelectedAthlete("");
-                        setSelectedDate(new Date());
-                        setIsSportsRelated(false);
-                        setSelectedEventType("");
-                        setSelectedPosition("");
-                        setSelectedSideOfBody("");
-                        setSelectedLocationOnBody("");
-                        setSelectedInjuryType("");
-                        setSelectedSeverity(0);
-                        setSelectedStatus("");
-                        setSelectedMechanismOfInjury("");
-                        setInjuryDescription("");
-                        setOtherNotes("");
-                    });
+                ).then((id: string | null) => {
+                    if (!!id) {
+                        postInjuryNote(id, otherNotes, props.currentUser.athleteProfile.name);
+                    }
+
+                    setIsLogging(false);
+                    setActiveStep(prevActiveStep => prevActiveStep + 1);
+                    setSelectedAthlete("");
+                    setSelectedDate(new Date());
+                    setIsSportsRelated(false);
+                    setSelectedEventType("");
+                    setSelectedPosition("");
+                    setSelectedSideOfBody("");
+                    setSelectedLocationOnBody("");
+                    setSelectedInjuryType("");
+                    setSelectedSeverity(0);
+                    setSelectedStatus("");
+                    setSelectedMechanismOfInjury("");
+                    setInjuryDescription("");
+                    setOtherNotes("");
+                });
             }
         } else {
             if (

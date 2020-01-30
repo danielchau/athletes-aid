@@ -9,13 +9,11 @@ interface InjuriesPageContainerProps {
     callbackUponFinishing: any;
 }
 
-const mapStateToProps = (
-    state: AppState,
-    ownProps: InjuriesPageContainerProps
-) => ({
+const mapStateToProps = (state: AppState, ownProps: InjuriesPageContainerProps) => ({
     selectedTeam: state.selectedTeamReducer,
     existingInjury: ownProps.existingInjury,
-    callbackUponFinishing: ownProps.callbackUponFinishing
+    callbackUponFinishing: ownProps.callbackUponFinishing,
+    currentUser: state.currentUserReducer
 });
 
 const InjuryLoggingPageContainer = connect(mapStateToProps)(InjuryLoggingPage);

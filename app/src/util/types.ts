@@ -47,6 +47,11 @@ export interface AthleteProfile {
     injuries: Injury[];
 }
 
+export interface User {
+    athleteProfile: AthleteProfile;
+    permissions: string[];
+}
+
 export interface EmergencyContact {
     id: string;
     name: string;
@@ -122,4 +127,20 @@ export interface ListAthlete {
     id: string;
     name: string;
     birthdate: string | null;
+}
+
+export const SET_SELECTED_ATHLETE = "SET_SELECTED_ATHLETE";
+
+export type SetSelectedAthleteTypes = SetSelectedAthlete;
+interface SetSelectedAthlete {
+    type: typeof SET_SELECTED_ATHLETE;
+    athleteId: string;
+}
+
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+
+export type setCurrentUserTypes = SetCurrentUser;
+interface SetCurrentUser {
+    type: typeof SET_CURRENT_USER;
+    currentUser: User;
 }

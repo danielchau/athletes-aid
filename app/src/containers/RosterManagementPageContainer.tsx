@@ -5,7 +5,8 @@ import { fetchTeams } from "../actions/TeamAction";
 
 const mapStateToProps = (state: AppState) => ({
     state: state.navigationPanelReducer,
-    teams: state.teamsReducer
+    teams: state.teamsReducer,
+    currentUser: state.currentUserReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

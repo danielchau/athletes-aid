@@ -1,17 +1,17 @@
-import { AthleteProfile, ListAthlete } from "../util/types";
+import { AthleteProfile, ListAthlete, SET_SELECTED_ATHLETE } from "../util/types";
 
-export async function addAthleteToDb(athlete: AthleteProfile) {
-    return await fetchAddAthlete(athlete);
+export async function addAthleteToDb(athlete: AthleteProfile, createdBy: string) {
+    return await fetchAddAthlete(athlete, createdBy);
 }
 
-async function fetchAddAthlete(athlete: AthleteProfile): Promise<string | null> {
+async function fetchAddAthlete(athlete: AthleteProfile, createdBy: string): Promise<string | null> {
     return fetch("./athlete", {
         method: "post",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            createdBy: "Daniel Chau", //TODO: have to change this to current user
+            createdBy: createdBy,
             firstName: athlete.name.substring(0, athlete.name.indexOf(" ")),
             lastName: athlete.name.substring(athlete.name.indexOf(" ") + 1),
             birthDate: new Date(athlete.birthdate),
@@ -85,4 +85,60 @@ async function fetchAllAthletes(athleteId: string): Promise<ListAthlete[] | null
             console.log("Fetch Error", err);
             return null;
         });
+}
+
+export async function getAthlete(athleteId: string) {
+    return await fetchAthlete(athleteId);
+}
+
+async function fetchAthlete(athleteId: string): Promise<AthleteProfile | null> {
+    let params: any = {
+        athleteId: athleteId
+    };
+    let query = Object.keys(params)
+        .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+        .join("&");
+
+    return fetch("./athlete?" + query, {
+        method: "get"
+    })
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                let data = response.data.athlete;
+                return {
+                    id: data.id,
+                    profilePicture: "",
+                    name: data.firstName + " " + data.lastName,
+                    birthdate: new Date(data.birthDate).toDateString(),
+                    schoolYear: data.yearInSchool,
+                    gender: data.gender,
+                    weight: data.weight,
+                    height: data.height,
+                    email: data.email,
+                    cellPhone: data.cellPhone,
+                    homePhone: data.homePhone,
+                    healthCardNumber: data.healthPlan,
+                    emergencyContact: {
+                        name: data.emergencyContact.name,
+                        cellPhone: data.emergencyContact.phone.toString(),
+                        homePhone: "",
+                        email: ""
+                    },
+                    files: [],
+                    injuries: data.injuries
+                };
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
+
+export function setSelectedAthlete(athleteId: string) {
+    return { type: SET_SELECTED_ATHLETE, athleteId };
 }

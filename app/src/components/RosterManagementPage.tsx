@@ -12,7 +12,14 @@ import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
-import { Athlete, Team, NavigationPanelStates, AthleteProfile, ListAthlete } from "../util/types";
+import {
+    Athlete,
+    Team,
+    NavigationPanelStates,
+    AthleteProfile,
+    ListAthlete,
+    User
+} from "../util/types";
 import MyDropzone from "./Dropzone";
 import AddAthleteTable from "./AddAthleteTable";
 import clsx from "clsx";
@@ -32,6 +39,7 @@ interface RosterManagementPageProps {
     state: NavigationPanelStates;
     teams: Team[];
     getTeams: (id: string) => void;
+    currentUser: User;
 }
 
 export default function RosterManagementPage(props: RosterManagementPageProps) {
@@ -149,12 +157,17 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     };
 
     const handleSave = () => {
+        setIsFetching("teamUpdate");
         if (!!selectedTeam) {
             updateTeamInfo(selectedTeam.id, teamName, season).then(_ => {
                 props.getTeams("");
+                setIsFetching("");
             });
         } else {
-            createTeam(teamName, season);
+            createTeam(teamName, season).then(_ => {
+                props.getTeams("");
+                setIsFetching("");
+            });
         }
     };
 
@@ -268,8 +281,15 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                         color="primary"
                         className={classes.saveButton}
                         onClick={handleSave}
+                        disabled={isFetching == "teamUpdate"}
                     >
-                        {!!selectedTeam ? "Save" : "Create"}
+                        {isFetching == "teamUpdate" ? (
+                            <CircularProgress size={24} color={"inherit"} />
+                        ) : !!selectedTeam ? (
+                            "Save"
+                        ) : (
+                            "Create"
+                        )}
                     </Button>
                 </div>
                 <Divider className={classes.contentDivider} />
@@ -364,6 +384,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                                     allAthletes={allAthletes}
                                                     setAllAthletes={setAllAthletes}
                                                     getTeams={props.getTeams}
+                                                    currentUser={props.currentUser}
                                                 ></AddAthleteTable>
                                             </div>
                                         </div>
