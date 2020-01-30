@@ -82,9 +82,13 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                 setIsLogging(true);
                 postInjury(
                     JSON.stringify({
+                        athleteId: props.selectedTeam.athletes.filter(
+                            a => a.name == selectedAthlete
+                        )[0].id,
                         createdBy: props.currentUser.athleteProfile.name,
                         active: true,
                         teamName: props.selectedTeam.name,
+                        teamId: props.selectedTeam.id,
                         athleteName: selectedAthlete,
                         injuryDate: selectedDate.toString(),
                         isSportsRelated: isSportsRelated,

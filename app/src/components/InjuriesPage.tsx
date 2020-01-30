@@ -36,7 +36,7 @@ export default function InjuriesPage(props: InjuriesProps) {
     React.useEffect(() => {
         if (props.selectedTeam.name != "") {
             setIsFetching(true);
-            props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.name);
+            props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.id);
         }
     }, [props.selectedTeam]);
 
@@ -50,7 +50,7 @@ export default function InjuriesPage(props: InjuriesProps) {
 
     const onInjuriesDateChange = () => {
         setIsFetching(true);
-        props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.name);
+        props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.id);
     };
 
     const onChangeStartingDate = (date: Date) => {

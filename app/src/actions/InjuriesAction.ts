@@ -10,10 +10,10 @@ export function getAthleteInjuries(startDate: Date, endDate: Date, team: string,
     };
 }
 
-export function fetchAthleteInjuries(startDate: Date, endDate: Date, team: string) {
+export function fetchAthleteInjuries(startDate: Date, endDate: Date, teamId: string) {
     return async (dispatch: any) => {
-        const data = await fetchInjuries(startDate, endDate, team);
-        return dispatch(getAthleteInjuries(startDate, endDate, team, data));
+        const data = await fetchInjuries(startDate, endDate, teamId);
+        return dispatch(getAthleteInjuries(startDate, endDate, teamId, data));
     };
 }
 
@@ -62,11 +62,11 @@ function transformJSONToInjury(json: any[]): Injury[] {
     });
 }
 
-async function fetchInjuries(startDate: Date, endDate: Date, teamName: string): Promise<Injury[]> {
+async function fetchInjuries(startDate: Date, endDate: Date, teamId: string): Promise<Injury[]> {
     let params: any = {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
-        teamName: teamName
+        teamId: teamId
     };
     let query = Object.keys(params)
         .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
