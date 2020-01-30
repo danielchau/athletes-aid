@@ -1,3 +1,5 @@
+import { UserPermissions } from "./permissions";
+
 export const TOGGLE_NAVIGATION_PANEL = "TOGGLE_NAVIGATION_PANEL";
 export const SET_SELECTED_TEAM = "SET_SELECTED_TEAM";
 export enum NavigationPanelStates {
@@ -49,7 +51,7 @@ export interface AthleteProfile {
 
 export interface User {
     athleteProfile: AthleteProfile;
-    permissions: string[];
+    permissions: UserPermissions[];
 }
 
 export interface EmergencyContact {
