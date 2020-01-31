@@ -15,6 +15,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import HealingIcon from "@material-ui/icons/Healing";
 import SettingsIcon from "@material-ui/icons/Settings";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import clsx from "clsx";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
@@ -81,6 +82,16 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
             </div>
             <Divider />
             <List>
+                <div className={classes.roleContainer}>
+                    <AccessibilityNewIcon className={classes.itemIcon} />
+                    <div className={classes.labelContainer}>
+                        <Typography className={classes.primaryLabel}>Profile Type</Typography>
+                        <Typography className={classes.secondaryLabel}>
+                            {props.currentUser.permissions.label}
+                        </Typography>
+                    </div>
+                </div>
+                <Divider light></Divider>
                 <Link className={classes.link} to={myProfilePath}>
                     <ListItem
                         button
