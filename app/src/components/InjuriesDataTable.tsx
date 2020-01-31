@@ -45,6 +45,7 @@ interface InjuriesDataTableProps {
 interface EnhancedTableToolbarProps {
     numSelected: number;
     onExport: () => void;
+    currentUser: User;
 }
 
 type Order = "asc" | "desc";
@@ -210,7 +211,11 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selectedInjuries.length} onExport={onExport} />
+                <EnhancedTableToolbar
+                    numSelected={selectedInjuries.length}
+                    onExport={onExport}
+                    currentUser={props.currentUser}
+                />
                 <div className={classes.tableWrapper}>
                     <Table
                         className={classes.table}
@@ -309,7 +314,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                 control={<Switch checked={dense} onChange={handleChangeDense} />}
                 label="Dense padding"
             />
-            {!!selectedInjury && (
+            {!!selectedInjury && props.currentUser.permissions.canSeeInjuryDetails && (
                 <InjuryDialog
                     injury={selectedInjury}
                     injuryOpen={props.injuryOpen}
@@ -391,13 +396,15 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
                 <>
                     <Typography className={classes.title} color="inherit" variant="subtitle1">
                         {numSelected} selected{" "}
-                        <Typography
-                            className={classes.export}
-                            variant="subtitle1"
-                            onClick={props.onExport}
-                        >
-                            (export)
-                        </Typography>
+                        {props.currentUser.permissions.canSeeInjuryDetails && (
+                            <Typography
+                                className={classes.export}
+                                variant="subtitle1"
+                                onClick={props.onExport}
+                            >
+                                (export)
+                            </Typography>
+                        )}
                     </Typography>
                 </>
             ) : (

@@ -37,9 +37,11 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
+    selectedTeam: Team;
     teams: Team[];
     getTeams: (id: string) => void;
     currentUser: User;
+    setSelectedTeam: any;
 }
 
 export default function RosterManagementPage(props: RosterManagementPageProps) {
@@ -69,6 +71,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         if (!!selectedTeam) {
             let newSelectedTeam = props.teams.filter(t => t.id == selectedTeam.id);
             if (newSelectedTeam.length > 0) {
+                if (newSelectedTeam[0].id == props.selectedTeam.id) {
+                    props.setSelectedTeam(newSelectedTeam[0]);
+                }
                 setSelectedTeam(newSelectedTeam[0]);
             }
         }

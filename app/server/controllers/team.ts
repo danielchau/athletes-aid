@@ -5,6 +5,7 @@ import { Logger } from "@overnightjs/logger";
 import { Athlete } from "../models/schema/Athlete";
 import * as teamModel from "../models/team";
 import * as athleteModel from "../models/athlete";
+import * as injuryModel from "../models/injury";
 
 export const postTeam = async (req: Request, res: Response) => {
   try {
@@ -89,7 +90,15 @@ export const getAllTeams = async (req: Request, res: Response) => {
       let athletes = [];
       for (var id of team.athletes) {
         let a = await athleteModel.getAthlete(id);
-        athletes.push(a);
+        let injuries = [];
+        for (var iid of a.injuries) {
+          let i = await injuryModel.getInjury(iid);
+          injuries.push(i);
+        }
+        athletes.push({
+          ...a,
+          injuries: injuries
+        });
       }
       teamAthletes.set(team.id, athletes);
     }

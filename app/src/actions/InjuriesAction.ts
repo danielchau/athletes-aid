@@ -31,7 +31,7 @@ export function setInjuriesEndingDate(endingDate: Date) {
     };
 }
 
-function transformJSONToInjury(json: any[]): Injury[] {
+export function transformJSONToInjury(json: any[]): Injury[] {
     return json.map((injury: any) => {
         return {
             id: injury.id,

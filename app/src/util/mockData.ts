@@ -1,5 +1,5 @@
 import { Injury } from "./types";
-import { AdminPermissions, TrainerPermissions } from "./permissions";
+import { AdminPermissions, TrainerPermissions, CoachPermissions } from "./permissions";
 
 export const mockUser = {
     athleteProfile: {
@@ -26,5 +26,5 @@ export const mockUser = {
         files: [] as string[],
         injuries: [] as Injury[]
     },
-    permissions: TrainerPermissions
+    permissions: AdminPermissions
 };

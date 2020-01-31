@@ -1,12 +1,13 @@
 import React from "react";
 import ProfilePageContainer from "../containers/ProfilePageContainer";
-import { AthleteProfile } from "../util/types";
+import { AthleteProfile, User } from "../util/types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getAthlete } from "../actions/AthleteAction";
 import { otherProfilePageStyles } from "../styles/react/OtherProfilePageStyles";
 
 interface OtherProfilePageProps {
     selectedAthleteId: string;
+    currentUser: User;
 }
 
 export default function OtherProfilePage(props: OtherProfilePageProps) {
@@ -32,7 +33,10 @@ export default function OtherProfilePage(props: OtherProfilePageProps) {
                     <CircularProgress size={60} />
                 </div>
             ) : (
-                <ProfilePageContainer currentAthlete={currentAthlete} canEdit={false} />
+                <ProfilePageContainer
+                    currentAthlete={currentAthlete}
+                    canEdit={props.currentUser.permissions.canEditOtherProfiles}
+                />
             )}
         </div>
     );

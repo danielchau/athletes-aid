@@ -23,6 +23,7 @@ interface InjuryLoggingPageProps {
     existingInjury: Injury | null;
     callbackUponFinishing: any;
     currentUser: User;
+    getTeams: (id: string) => void;
 }
 
 export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
@@ -104,7 +105,11 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                     })
                 ).then((id: string | null) => {
                     if (!!id) {
-                        postInjuryNote(id, otherNotes, props.currentUser.athleteProfile.name);
+                        postInjuryNote(id, otherNotes, props.currentUser.athleteProfile.name).then(
+                            _ => {
+                                props.getTeams("");
+                            }
+                        );
                     }
 
                     setIsLogging(false);

@@ -4,6 +4,7 @@ import { Athlete } from "../models/schema/Athlete";
 import { Logger } from "@overnightjs/logger";
 
 import * as athleteModel from "../models/athlete";
+import * as injuryModel from "../models/injury";
 
 export const postAthlete = async (req: Request, res: Response) => {
   Logger.Info(req);
@@ -76,10 +77,19 @@ export const getAthlete = async (req: Request, res: Response) => {
     let athlete = new Athlete();
     athlete = await athleteModel.getAthlete(req.query.athleteId);
 
+    let injuries = [];
+    for (var iid of athlete.injuries) {
+      let i = await injuryModel.getInjury(iid);
+      injuries.push(i);
+    }
+
     let response = {
       message: "Athlete found",
       data: {
-        athlete: athlete
+        athlete: {
+          ...athlete,
+          injuries: injuries
+        }
       }
     };
     res.json(response);

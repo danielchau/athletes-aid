@@ -1,5 +1,6 @@
 import { GET_TEAMS, Athlete, Team } from "../util/types";
 import download from "downloadjs";
+import { transformJSONToInjury } from "./InjuriesAction";
 
 export function getTeams(athleteId: string, data: any) {
     return {
@@ -12,7 +13,7 @@ export function getTeams(athleteId: string, data: any) {
                 athletes: d.athletes.map((a: any) => ({
                     id: a.id,
                     name: a.firstName + " " + a.lastName,
-                    injuries: a.injuries
+                    injuries: transformJSONToInjury(a.injuries)
                 }))
             };
         })
