@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Injury, InjuryNote } from "../models/schema/Injury";
 
-import { Athlete} from "../models/schema/Athlete";
+import { Athlete } from "../models/schema/Athlete";
 
 import { Logger } from "@overnightjs/logger";
 
@@ -51,10 +51,10 @@ export const postInjury = async (req: Request, res: Response) => {
 
     let athlete: Athlete = await athleteModel.getAthlete(req.body.athleteId);
 
-    if(!athlete.injuries) {
+    if (!athlete.injuries) {
       athlete.injuries = Array<string>();
     }
-      
+
     athlete.injuries.push(id);
 
     athlete = await athleteModel.updateAthlete(athlete);
@@ -94,16 +94,17 @@ export const getInjuriesByRange = async (req: Request, res: Response) => {
   }
 };
 
-
 export const postInjuryNote = async (req: Request, res: Response) => {
   try {
-
     const injuryNote = Object.assign(new InjuryNote(), {
       createdBy: req.body.createdBy,
-      content: req.body.content,
+      content: req.body.content
     });
 
-    let injury: Injury = await injuryModel.addInjuryNote(injuryNote, req.body.injuryId);
+    let injury: Injury = await injuryModel.addInjuryNote(
+      injuryNote,
+      req.body.injuryId
+    );
 
     let response = {
       message: "Injury Note Added",
