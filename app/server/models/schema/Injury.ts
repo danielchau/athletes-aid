@@ -34,9 +34,6 @@ export class Injury {
   teamName: string;
 
   @attribute()
-  teamId: string;
-
-  @attribute()
   athleteName: string;
 
   @attribute()

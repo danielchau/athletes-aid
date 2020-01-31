@@ -18,7 +18,7 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import clsx from "clsx";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
-import { NavigationPanelStates, Team } from "../util/types";
+import { NavigationPanelStates, Team, User } from "../util/types";
 import {
     profilePageName,
     rosterPageName,
@@ -39,6 +39,7 @@ interface NavigationPanelProps {
     selectedTeam: Team;
     setSelectedTeam: any;
     teams: Team[];
+    currentUser: User;
 }
 
 export default function NavigationPanel(props: NavigationPanelProps & RouteComponentProps) {
@@ -95,66 +96,74 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                         />
                     </ListItem>
                 </Link>
-                <Link className={classes.link} to={rosterPath}>
-                    <ListItem
-                        button
-                        key={rosterPageName}
-                        selected={props.location.pathname == rosterPath}
-                    >
-                        <ListItemIcon className={classes.itemIcon}>
-                            <GroupIcon></GroupIcon>
-                        </ListItemIcon>
-                        <ListItemText
-                            className={classes.drawerListItemText}
-                            primary={rosterPageName}
-                        />
-                    </ListItem>
-                </Link>
-                <Link className={classes.link} to={injuryLoggingPath}>
-                    <ListItem
-                        button
-                        key={injuryLoggingPageName}
-                        selected={props.location.pathname == injuryLoggingPath}
-                    >
-                        <ListItemIcon className={classes.itemIcon}>
-                            <DescriptionIcon></DescriptionIcon>
-                        </ListItemIcon>
-                        <ListItemText
-                            className={classes.drawerListItemText}
-                            primary={injuryLoggingPageName}
-                        />
-                    </ListItem>
-                </Link>
-                <Link className={classes.link} to={injuriesPath}>
-                    <ListItem
-                        button
-                        key={injuriesPageName}
-                        selected={props.location.pathname == injuriesPath}
-                    >
-                        <ListItemIcon className={classes.itemIcon}>
-                            <HealingIcon></HealingIcon>
-                        </ListItemIcon>
-                        <ListItemText
-                            className={classes.drawerListItemText}
-                            primary={injuriesPageName}
-                        />
-                    </ListItem>
-                </Link>
-                <Link className={classes.link} to={rosterManagementPath}>
-                    <ListItem
-                        button
-                        key={rosterManagementPageName}
-                        selected={props.location.pathname == rosterManagementPath}
-                    >
-                        <ListItemIcon className={classes.itemIcon}>
-                            <SettingsIcon></SettingsIcon>
-                        </ListItemIcon>
-                        <ListItemText
-                            className={classes.drawerListItemText}
-                            primary={rosterManagementPageName}
-                        />
-                    </ListItem>
-                </Link>
+                {props.currentUser.permissions.pages.roster && (
+                    <Link className={classes.link} to={rosterPath}>
+                        <ListItem
+                            button
+                            key={rosterPageName}
+                            selected={props.location.pathname == rosterPath}
+                        >
+                            <ListItemIcon className={classes.itemIcon}>
+                                <GroupIcon></GroupIcon>
+                            </ListItemIcon>
+                            <ListItemText
+                                className={classes.drawerListItemText}
+                                primary={rosterPageName}
+                            />
+                        </ListItem>
+                    </Link>
+                )}
+                {props.currentUser.permissions.pages.logging && (
+                    <Link className={classes.link} to={injuryLoggingPath}>
+                        <ListItem
+                            button
+                            key={injuryLoggingPageName}
+                            selected={props.location.pathname == injuryLoggingPath}
+                        >
+                            <ListItemIcon className={classes.itemIcon}>
+                                <DescriptionIcon></DescriptionIcon>
+                            </ListItemIcon>
+                            <ListItemText
+                                className={classes.drawerListItemText}
+                                primary={injuryLoggingPageName}
+                            />
+                        </ListItem>
+                    </Link>
+                )}
+                {props.currentUser.permissions.pages.injuries && (
+                    <Link className={classes.link} to={injuriesPath}>
+                        <ListItem
+                            button
+                            key={injuriesPageName}
+                            selected={props.location.pathname == injuriesPath}
+                        >
+                            <ListItemIcon className={classes.itemIcon}>
+                                <HealingIcon></HealingIcon>
+                            </ListItemIcon>
+                            <ListItemText
+                                className={classes.drawerListItemText}
+                                primary={injuriesPageName}
+                            />
+                        </ListItem>
+                    </Link>
+                )}
+                {props.currentUser.permissions.pages.rosterManagement && (
+                    <Link className={classes.link} to={rosterManagementPath}>
+                        <ListItem
+                            button
+                            key={rosterManagementPageName}
+                            selected={props.location.pathname == rosterManagementPath}
+                        >
+                            <ListItemIcon className={classes.itemIcon}>
+                                <SettingsIcon></SettingsIcon>
+                            </ListItemIcon>
+                            <ListItemText
+                                className={classes.drawerListItemText}
+                                primary={rosterManagementPageName}
+                            />
+                        </ListItem>
+                    </Link>
+                )}
                 <Divider light></Divider>
                 <ListItem button className={classes.teamToggleButton}>
                     <List component="nav" className={classes.teamToggleList}>

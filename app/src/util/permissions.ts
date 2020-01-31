@@ -1,4 +1,5 @@
 export interface UserPermissions {
+    label: string;
     pages: PagePermissions;
     canSeeSearchBar: boolean;
     canEditOtherProfiles: boolean;
@@ -14,6 +15,7 @@ interface PagePermissions {
 }
 
 export const AdminPermissions: UserPermissions = {
+    label: "Administrator",
     pages: {
         profiles: true,
         roster: true,
@@ -27,6 +29,7 @@ export const AdminPermissions: UserPermissions = {
 };
 
 export const TrainerPermissions: UserPermissions = {
+    label: "Trainer",
     pages: {
         profiles: true,
         roster: true,
@@ -40,6 +43,7 @@ export const TrainerPermissions: UserPermissions = {
 };
 
 export const AthletePermissions: UserPermissions = {
+    label: "Athlete",
     pages: {
         profiles: false,
         roster: false,
@@ -53,6 +57,7 @@ export const AthletePermissions: UserPermissions = {
 };
 
 export const CoachPermissions: UserPermissions = {
+    label: "Coach",
     pages: {
         profiles: true,
         roster: true,

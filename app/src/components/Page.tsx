@@ -56,6 +56,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     location={props.location}
                     match={props.match}
                     teams={props.teams}
+                    currentUser={props.currentUser}
                 />
                 <Switch>
                     <Route path={myProfilePath}>
@@ -64,24 +65,34 @@ export default function Page(props: PageProps & RouteComponentProps) {
                             canEdit={true}
                         ></ProfilePageContainer>
                     </Route>
-                    <Route path={rosterPath}>
-                        <RosterPageContainer></RosterPageContainer>
-                    </Route>
-                    <Route path={injuryLoggingPath}>
-                        <InjuryLoggingPageContainer
-                            existingInjury={null}
-                            callbackUponFinishing={null}
-                        ></InjuryLoggingPageContainer>
-                    </Route>
-                    <Route path={rosterManagementPath}>
-                        <RosterManagementPageContainer></RosterManagementPageContainer>
-                    </Route>
-                    <Route path={profilePath}>
-                        <OtherProfilePageContainer />
-                    </Route>
-                    <Route path={injuriesPath}>
-                        <InjuriesPageContainer></InjuriesPageContainer>
-                    </Route>
+                    {props.currentUser.permissions.pages.roster && (
+                        <Route path={rosterPath}>
+                            <RosterPageContainer></RosterPageContainer>
+                        </Route>
+                    )}
+                    {props.currentUser.permissions.pages.logging && (
+                        <Route path={injuryLoggingPath}>
+                            <InjuryLoggingPageContainer
+                                existingInjury={null}
+                                callbackUponFinishing={null}
+                            ></InjuryLoggingPageContainer>
+                        </Route>
+                    )}
+                    {props.currentUser.permissions.pages.rosterManagement && (
+                        <Route path={rosterManagementPath}>
+                            <RosterManagementPageContainer></RosterManagementPageContainer>
+                        </Route>
+                    )}
+                    {props.currentUser.permissions.pages.profiles && (
+                        <Route path={profilePath}>
+                            <OtherProfilePageContainer />
+                        </Route>
+                    )}
+                    {props.currentUser.permissions.pages.injuries && (
+                        <Route path={injuriesPath}>
+                            <InjuriesPageContainer></InjuriesPageContainer>
+                        </Route>
+                    )}
                 </Switch>
             </div>
         </div>

@@ -10,10 +10,10 @@ export function getAthleteInjuries(startDate: Date, endDate: Date, team: string,
     };
 }
 
-export function fetchAthleteInjuries(startDate: Date, endDate: Date, teamId: string) {
+export function fetchAthleteInjuries(startDate: Date, endDate: Date, team: string) {
     return async (dispatch: any) => {
-        const data = await fetchInjuries(startDate, endDate, teamId);
-        return dispatch(getAthleteInjuries(startDate, endDate, teamId, data));
+        const data = await fetchInjuries(startDate, endDate, team);
+        return dispatch(getAthleteInjuries(startDate, endDate, team, data));
     };
 }
 

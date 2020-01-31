@@ -18,8 +18,6 @@ export const postInjury = async (req: Request, res: Response) => {
 
       teamName: req.body.teamName,
 
-      teamId: req.body.teamId,
-
       athleteName: req.body.athleteName,
 
       athleteId: req.body.athleteId,
@@ -78,7 +76,7 @@ export const getInjuriesByRange = async (req: Request, res: Response) => {
     injuries = await injuryModel.getInjuriesByRange(
       req.query.startDate,
       req.query.endDate,
-      req.query.teamId
+      req.query.teamName
     );
 
     let response = {

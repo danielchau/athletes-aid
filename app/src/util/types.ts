@@ -51,7 +51,7 @@ export interface AthleteProfile {
 
 export interface User {
     athleteProfile: AthleteProfile;
-    permissions: UserPermissions[];
+    permissions: UserPermissions;
 }
 
 export interface EmergencyContact {

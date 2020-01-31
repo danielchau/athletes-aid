@@ -7,7 +7,7 @@ import {
 } from "@aws/dynamodb-expressions";
 import mapper from "./mapper";
 import { Logger } from "@overnightjs/logger";
-
+import { loggerModeArr } from "@overnightjs/logger/lib/constants";
 
 /**
  * Create a Injury in DynamoDb
@@ -26,7 +26,7 @@ export async function putInjury(injury: Injury): Promise<string> {
 export async function getInjuriesByRange(
   startDate: string,
   endDate: string,
-  teamId: string
+  teamName: string
 ): Promise<Array<Injury>> {
   let startTime = new Date(startDate).getTime() / 1000;
   let endTime = new Date(endDate).getTime() / 1000;
@@ -43,8 +43,8 @@ export async function getInjuriesByRange(
 
   for await (const entry of mapper.query(
     Injury,
-    { teamId: teamId },
-    { filter: equalsExpression, indexName: "teamId-index" }
+    { teamName: teamName },
+    { filter: equalsExpression, indexName: "teamName-index" }
   )) {
     injuries.push(entry);
   }
