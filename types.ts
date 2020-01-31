@@ -1,0 +1,119 @@
+import { string } from "prop-types";
+
+export const TOGGLE_NAVIGATION_PANEL = "TOGGLE_NAVIGATION_PANEL";
+export const SET_SELECTED_TEAM = "SET_SELECTED_TEAM";
+export enum NavigationPanelStates {
+  open,
+  closed
+}
+export type NavigationPanelTypes = ToggleNavAction;
+interface ToggleNavAction {
+  type: typeof TOGGLE_NAVIGATION_PANEL;
+  state: NavigationPanelStates;
+}
+
+export type SetSelectedTeamTypes = SetSelectedTeam;
+interface SetSelectedTeam {
+  type: typeof SET_SELECTED_TEAM;
+  team: Team;
+}
+
+export interface Team {
+  id: string;
+  name: string;
+  season: string;
+  athletes: Athlete[];
+}
+
+export interface Roster {
+  id: string;
+  athletesname: Athlete[];
+  playingstatus: PlayingStatus[];
+  lastinjury: LastInjury[];
+}
+
+export interface PlayingStatus {
+  id: string;
+  value: string;
+}
+
+export interface LastInjury {
+  id: string;
+  value: string;
+}
+
+export interface Athlete {
+  id: string;
+  name: string;
+}
+
+export const GET_ATHLETE_INJURIES = "GET_ATHLETE_INJURIES";
+export const SET_STARTING_DATE = "SET_STARTING_DATE";
+export const SET_ENDING_DATE = "SET_ENDING_DATE";
+
+export type AthleteInjuriesTypes = GetAthleteInjuriesAction;
+interface GetAthleteInjuriesAction {
+  type: typeof GET_ATHLETE_INJURIES;
+  athleteInjuries: AthleteInjuries;
+}
+
+export type InjuriesStartingDate = SetInjuriesStartingDate;
+interface SetInjuriesStartingDate {
+  type: typeof SET_STARTING_DATE;
+  startingDate: Date;
+}
+
+export type InjuriesEndingDate = SetInjuriesEndingDate;
+interface SetInjuriesEndingDate {
+  type: typeof SET_ENDING_DATE;
+  endingDate: Date;
+}
+
+export interface AthleteInjuries {
+  injuries: Injury[];
+  startDate: string;
+  endDate: string;
+}
+
+export interface Injury {
+  id: string;
+  active: boolean;
+  createdOn: Date;
+  createdBy: string;
+  teamName: string;
+  athleteName: string;
+  injuryDate: Date;
+  isSportsRelated: boolean;
+  eventType: string;
+  position: string;
+  sideOfBody: string;
+  locationOnBody: string;
+  injuryType: string;
+  severity: number;
+  status: string;
+  mechanism: string;
+  injuryDescription: string;
+  otherNotes: InjuryNote[];
+}
+
+export interface InjuryNote {
+  createdBy: string;
+  createdOn: Date;
+  content: string;
+}
+
+export const GET_TEAMS = "GET_TEAMS";
+
+export const GET_ROSTER = "GET_ROSTER";
+
+export type TeamsTypes = GetTeamsAction;
+interface GetTeamsAction {
+  type: typeof GET_TEAMS;
+  teams: Team[];
+}
+
+export type RosterTypes = GetRosterAction;
+interface GetRosterAction {
+  type: typeof GET_ROSTER;
+  teams: Roster[];
+}
