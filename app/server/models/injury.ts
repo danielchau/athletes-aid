@@ -8,7 +8,6 @@ import {
 import mapper from "./mapper";
 import { Logger } from "@overnightjs/logger";
 
-
 /**
  * Create a Injury in DynamoDb
  *
@@ -62,24 +61,19 @@ export async function addInjuryNote(
   injuryNote: InjuryNote,
   injuryId: string
 ): Promise<Injury> {
-  
-  let injury : Injury;
+  let injury: Injury;
 
-  for await (const entry of mapper.query(
-    Injury,
-    { id: injuryId },
-  )) {
+  for await (const entry of mapper.query(Injury, { id: injuryId })) {
     injury = entry;
   }
 
   if (injury) {
-
-    if(!injury.otherNotes) {
+    if (!injury.otherNotes) {
       injury.otherNotes = Array<InjuryNote>();
     }
-      
+
     injury.otherNotes.push(injuryNote);
-    
+
     return mapper.update(injury).then(injury => {
       return injury;
     });
