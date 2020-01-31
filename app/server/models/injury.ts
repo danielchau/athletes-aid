@@ -95,12 +95,20 @@ export async function addInjuryNote(
  * @return {Promise} A promise which resolves with the team requested
  */
 export async function getInjury(injuryId: string): Promise<Injury> {
-  return mapper
-    .get(Object.assign(new Injury(), { id: injuryId }))
-    .then((injury: Injury) => {
-      console.log(injury);
-      return injury;
-    });
+  let injury : Injury;
+
+  for await (const entry of mapper.query(
+    Injury,
+    { id: injuryId },
+  )) {
+    injury = entry;
+  }
+
+  if(injury) {
+    return injury;
+  }else {
+    throw new Error(`Could not find injury with Id ${injuryId}`);
+  }
 }
 
 /**

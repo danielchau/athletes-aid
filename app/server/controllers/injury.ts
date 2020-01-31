@@ -117,3 +117,21 @@ export const postInjuryNote = async (req: Request, res: Response) => {
     return res.status(500).send("Failed to add note");
   }
 };
+
+export const getInjury = async (req: Request, res: Response) => {
+  try {
+    let injury = new Injury();
+    injury = await injuryModel.getInjury(req.query.injuryId);
+
+    let response = {
+      message: "Injury found",
+      data: {
+        injury: injury
+      }
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e);
+    return res.status(500).send("Failed to get Injury");
+  }
+};
