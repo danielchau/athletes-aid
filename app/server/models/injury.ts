@@ -102,6 +102,20 @@ export async function getInjury(injuryId: string): Promise<Injury> {
 }
 
 /**
+ * Updates an injury
+ *
+ * @param {Injury} injury The id of the injury 
+ * @return {Injury} the updated injury
+ */
+export async function updateInjury(
+  injury: Injury,
+): Promise<Injury> {
+    return mapper.update(injury).then(data => {
+      return data;
+    });
+}
+
+/**
  * Retrieve an Injury by athlete
  *
  * @param {string} athlete the id of the user
