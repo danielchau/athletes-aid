@@ -4,6 +4,7 @@ import { AthleteProfile, User } from "../util/types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getAthlete } from "../actions/AthleteAction";
 import { otherProfilePageStyles } from "../styles/react/OtherProfilePageStyles";
+import FetchingScreen from "./FetchingScreen";
 
 interface OtherProfilePageProps {
     selectedAthleteId: string;
@@ -29,9 +30,7 @@ export default function OtherProfilePage(props: OtherProfilePageProps) {
     return (
         <div className={classes.root}>
             {isFetching && !!!currentAthlete ? (
-                <div className={classes.progressContainer}>
-                    <CircularProgress size={60} />
-                </div>
+                <FetchingScreen />
             ) : (
                 <ProfilePageContainer
                     currentAthlete={currentAthlete}

@@ -11,8 +11,9 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import DoneIcon from "@material-ui/icons/Done";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Team, Injury, User } from "../util/types";
+import { Team, Injury, User, Athlete } from "../util/types";
 import { postInjury, postInjuryNote } from "../actions/InjuriesAction";
+import FetchingScreen from "./FetchingScreen";
 
 function getSteps() {
     return ["Injury Details", "Further Details", "Review"];
@@ -24,6 +25,8 @@ interface InjuryLoggingPageProps {
     callbackUponFinishing: any;
     currentUser: User;
     getTeams: (id: string) => void;
+    currentRoster: Athlete[];
+    getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
 export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
@@ -75,6 +78,30 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     );
     const [hasError, setHasError] = React.useState<boolean>(false);
 
+    const [isFetching, setIsFetching] = React.useState<boolean>(true);
+
+    React.useEffect(() => {
+        if (!!props.currentRoster) {
+            setIsFetching(false);
+        } else {
+            props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
+                setIsFetching(false);
+            });
+        }
+    }, []);
+
+    React.useEffect(() => {
+        if (
+            !!props.currentRoster &&
+            JSON.stringify(props.currentRoster.map(a => a.id)) !=
+                JSON.stringify(props.selectedTeam.athleteIds)
+        ) {
+            props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
+                setIsFetching(false);
+            });
+        }
+    }, [props.selectedTeam]);
+
     const handleNext = () => {
         if (activeStep == steps.length - 1) {
             if (!!props.callbackUponFinishing) {
@@ -83,9 +110,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                 setIsLogging(true);
                 postInjury(
                     JSON.stringify({
-                        athleteId: props.selectedTeam.athletes.filter(
-                            a => a.name == selectedAthlete
-                        )[0].id,
+                        athleteId: props.currentRoster.filter(a => a.name == selectedAthlete)[0].id,
                         createdBy: props.currentUser.athleteProfile.name,
                         active: true,
                         teamName: props.selectedTeam.name,
@@ -160,95 +185,106 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
 
     return (
         <div className={classes.root}>
-            <Paper className={classes.paper}>
-                <Stepper activeStep={activeStep} alternativeLabel className={classes.stepper}>
-                    {steps.map(label => (
-                        <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                        </Step>
-                    ))}
-                </Stepper>
-            </Paper>
-            {activeStep === steps.length ? (
-                <div className={classes.completedContainer}>
-                    <Typography variant="h4" className={classes.instructions}>
-                        All steps completed.
-                    </Typography>
-                    <Button variant="contained" color="primary" onClick={handleReset}>
-                        Log Another Injury
-                    </Button>
-                </div>
+            {isFetching || !!!props.currentRoster ? (
+                <FetchingScreen />
             ) : (
-                <div className={classes.loggingContent}>
-                    <Paper className={classes.paperContent}>
-                        <InjuryLoggingStepContent
-                            stepIndex={activeStep}
-                            selectedTeam={props.selectedTeam}
-                            existingInjury={props.existingInjury}
-                            selectedAthlete={selectedAthlete}
-                            setSelectedAthlete={setSelectedAthlete}
-                            selectedDate={selectedDate}
-                            setSelectedDate={setSelectedDate}
-                            isSportsRelated={isSportsRelated}
-                            setIsSportsRelated={setIsSportsRelated}
-                            selectedEventType={selectedEventType}
-                            setSelectedEventType={setSelectedEventType}
-                            selectedPosition={selectedPosition}
-                            setSelectedPosition={setSelectedPosition}
-                            selectedSideOfBody={selectedSideOfBody}
-                            setSelectedSideOfBody={setSelectedSideOfBody}
-                            selectedLocationOnBody={selectedLocationOnBody}
-                            setSelectedLocationOnBody={setSelectedLocationOnBody}
-                            selectedInjuryType={selectedInjuryType}
-                            setSelectedInjuryType={setSelectedInjuryType}
-                            selectedSeverity={selectedSeverity}
-                            setSelectedSeverity={setSelectedSeverity}
-                            selectedStatus={selectedStatus}
-                            setSelectedStatus={setSelectedStatus}
-                            selectedMechanismOfInjury={selectedMechanismOfInjury}
-                            setSelectedMechanismOfInjury={setSelectedMechanismOfInjury}
-                            injuryDescription={injuryDescription}
-                            setInjuryDescription={setInjuryDescription}
-                            otherNotes={otherNotes}
-                            setOtherNotes={setOtherNotes}
-                        ></InjuryLoggingStepContent>
-                    </Paper>
-                    <div className={classes.loggingBottomButtons}>
-                        {hasError && (
-                            <Typography className={classes.errorPrompt}>
-                                Please fill out all required fields.
-                            </Typography>
-                        )}
-                        <Button
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            className={classes.backButton}
+                <>
+                    <Paper className={classes.paper}>
+                        <Stepper
+                            activeStep={activeStep}
+                            alternativeLabel
+                            className={classes.stepper}
                         >
-                            <NavigateBeforeIcon></NavigateBeforeIcon>
-                            Back
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={handleNext}>
-                            {activeStep === steps.length - 1 ? (
-                                <>
-                                    Finish
-                                    {isLogging ? (
-                                        <CircularProgress
-                                            size={24}
-                                            color={"inherit"}
-                                            className={classes.progress}
-                                        />
+                            {steps.map(label => (
+                                <Step key={label}>
+                                    <StepLabel>{label}</StepLabel>
+                                </Step>
+                            ))}
+                        </Stepper>
+                    </Paper>
+                    {activeStep === steps.length ? (
+                        <div className={classes.completedContainer}>
+                            <Typography variant="h4" className={classes.instructions}>
+                                All steps completed.
+                            </Typography>
+                            <Button variant="contained" color="primary" onClick={handleReset}>
+                                Log Another Injury
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className={classes.loggingContent}>
+                            <Paper className={classes.paperContent}>
+                                <InjuryLoggingStepContent
+                                    stepIndex={activeStep}
+                                    selectedTeam={props.selectedTeam}
+                                    currentRoster={props.currentRoster}
+                                    existingInjury={props.existingInjury}
+                                    selectedAthlete={selectedAthlete}
+                                    setSelectedAthlete={setSelectedAthlete}
+                                    selectedDate={selectedDate}
+                                    setSelectedDate={setSelectedDate}
+                                    isSportsRelated={isSportsRelated}
+                                    setIsSportsRelated={setIsSportsRelated}
+                                    selectedEventType={selectedEventType}
+                                    setSelectedEventType={setSelectedEventType}
+                                    selectedPosition={selectedPosition}
+                                    setSelectedPosition={setSelectedPosition}
+                                    selectedSideOfBody={selectedSideOfBody}
+                                    setSelectedSideOfBody={setSelectedSideOfBody}
+                                    selectedLocationOnBody={selectedLocationOnBody}
+                                    setSelectedLocationOnBody={setSelectedLocationOnBody}
+                                    selectedInjuryType={selectedInjuryType}
+                                    setSelectedInjuryType={setSelectedInjuryType}
+                                    selectedSeverity={selectedSeverity}
+                                    setSelectedSeverity={setSelectedSeverity}
+                                    selectedStatus={selectedStatus}
+                                    setSelectedStatus={setSelectedStatus}
+                                    selectedMechanismOfInjury={selectedMechanismOfInjury}
+                                    setSelectedMechanismOfInjury={setSelectedMechanismOfInjury}
+                                    injuryDescription={injuryDescription}
+                                    setInjuryDescription={setInjuryDescription}
+                                    otherNotes={otherNotes}
+                                    setOtherNotes={setOtherNotes}
+                                ></InjuryLoggingStepContent>
+                            </Paper>
+                            <div className={classes.loggingBottomButtons}>
+                                {hasError && (
+                                    <Typography className={classes.errorPrompt}>
+                                        Please fill out all required fields.
+                                    </Typography>
+                                )}
+                                <Button
+                                    disabled={activeStep === 0}
+                                    onClick={handleBack}
+                                    className={classes.backButton}
+                                >
+                                    <NavigateBeforeIcon></NavigateBeforeIcon>
+                                    Back
+                                </Button>
+                                <Button variant="contained" color="primary" onClick={handleNext}>
+                                    {activeStep === steps.length - 1 ? (
+                                        <>
+                                            Finish
+                                            {isLogging ? (
+                                                <CircularProgress
+                                                    size={24}
+                                                    color={"inherit"}
+                                                    className={classes.progress}
+                                                />
+                                            ) : (
+                                                <DoneIcon />
+                                            )}
+                                        </>
                                     ) : (
-                                        <DoneIcon />
+                                        <>
+                                            Next<NavigateNextIcon></NavigateNextIcon>
+                                        </>
                                     )}
-                                </>
-                            ) : (
-                                <>
-                                    Next<NavigateNextIcon></NavigateNextIcon>
-                                </>
-                            )}
-                        </Button>
-                    </div>
-                </div>
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );

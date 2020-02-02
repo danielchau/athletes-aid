@@ -20,7 +20,7 @@ export function navigationPanelReducer(
 }
 
 export function selectedTeamReducer(
-    team: Team = { id: "", name: "", season: "", athletes: [] },
+    team: Team = { id: "", name: "", season: "", athleteIds: [] },
     action: SetSelectedTeamTypes
 ) {
     switch (action.type) {

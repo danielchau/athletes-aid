@@ -1,4 +1,4 @@
-import { GET_TEAMS, Athlete, Team } from "../util/types";
+import { GET_TEAMS, Athlete, Team, GET_CURRENT_ROSTER } from "../util/types";
 import download from "downloadjs";
 import { transformJSONToInjury } from "./InjuriesAction";
 
@@ -10,11 +10,7 @@ export function getTeams(athleteId: string, data: any) {
                 id: d.id,
                 name: d.name,
                 season: d.season,
-                athletes: d.athletes.map((a: any) => ({
-                    id: a.id,
-                    name: a.firstName + " " + a.lastName,
-                    injuries: transformJSONToInjury(a.injuries)
-                }))
+                athleteIds: d.athletes
             };
         })
     };
@@ -149,4 +145,42 @@ export function getAthleteTemplate() {
         .catch(function(err: Error) {
             console.log("Fetch Error", err);
         });
+}
+
+export function getCurrentRoster(athletes: Athlete[]) {
+    return {
+        type: GET_CURRENT_ROSTER,
+        currentRoster: athletes
+    };
+}
+
+export function fetchCurrentRoster(athleteIds: string[]) {
+    return async (dispatch: any) => {
+        const athletes = await fetchCurrentRosterEndpoint(athleteIds);
+        return dispatch(getCurrentRoster(athletes));
+    };
+}
+
+export async function fetchCurrentRosterEndpoint(athleteIds: string[]): Promise<Athlete[]> {
+    let athletes = [];
+    for (let id of athleteIds) {
+        let params: any = {
+            athleteId: id
+        };
+        let query = Object.keys(params)
+            .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+            .join("&");
+
+        let response = await fetch("./athlete?" + query);
+        let data = await response.json();
+        let a = data.data.athlete;
+        athletes.push({
+            id: a.id,
+            name: a.firstName + " " + a.lastName,
+            injuries: transformJSONToInjury(a.injuries)
+        });
+    }
+
+    console.log(athletes);
+    return athletes;
 }

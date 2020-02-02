@@ -27,6 +27,7 @@ import {
 interface InjuryLoggingStepContentProps {
     stepIndex: number;
     selectedTeam: Team;
+    currentRoster: Athlete[];
     existingInjury: Injury | null;
     selectedAthlete: string;
     setSelectedAthlete: any;
@@ -145,7 +146,7 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                         ) : (
                             <Autocomplete
                                 id="athlete-select"
-                                options={props.selectedTeam.athletes}
+                                options={props.currentRoster}
                                 getOptionLabel={(option: Athlete) => option.name}
                                 onChange={handleAthleteChange}
                                 inputValue={props.selectedAthlete}

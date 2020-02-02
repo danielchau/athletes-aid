@@ -84,30 +84,11 @@ export const getAllTeams = async (req: Request, res: Response) => {
     let teams = new Array<Team>();
     teams = await teamModel.getAllTeams();
 
-    let teamAthletes = new Map();
-
-    for (var team of teams) {
-      let athletes = [];
-      for (var id of team.athletes) {
-        let a = await athleteModel.getAthlete(id);
-        let injuries = [];
-        for (var iid of a.injuries) {
-          let i = await injuryModel.getInjury(iid);
-          injuries.push(i);
-        }
-        athletes.push({
-          ...a,
-          injuries: injuries
-        });
-      }
-      teamAthletes.set(team.id, athletes);
-    }
-
     let teamOutput = teams.map(t => ({
       id: t.id,
       name: t.name,
       season: t.season,
-      athletes: teamAthletes.get(t.id)
+      athletes: t.athletes
     }));
 
     console.log(teamOutput);

@@ -1,7 +1,7 @@
 import * as React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NavigationPanel from "./NavigationPanel";
-import { NavigationPanelStates, Team, User } from "../util/types";
+import { NavigationPanelStates, Team, User, Athlete } from "../util/types";
 import { pageStyles } from "../styles/react/PageStyle";
 import { Switch, Route, RouteComponentProps } from "react-router-dom";
 import {
@@ -29,6 +29,8 @@ interface PageProps {
     teams: Team[];
     setSelectedAthlete: (id: string) => void;
     currentUser: User;
+    currentRoster: Athlete[];
+    getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
 export default function Page(props: PageProps & RouteComponentProps) {
@@ -45,6 +47,8 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     selectedTeam={props.selectedTeam}
                     setSelectedAthlete={props.setSelectedAthlete}
                     currentUser={props.currentUser}
+                    currentRoster={props.currentRoster}
+                    getCurrentRoster={props.getCurrentRoster}
                 ></TopBar>
             </div>
             <div className={classes.pageBodyContainer}>

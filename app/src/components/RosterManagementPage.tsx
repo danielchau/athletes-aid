@@ -34,12 +34,14 @@ import Tab from "@material-ui/core/Tab";
 import AthleteList from "./AthleteList";
 import { getAllAthletes } from "../actions/AthleteAction";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import FetchingScreen from "./FetchingScreen";
+import { fetchCurrentRosterEndpoint } from "../actions/TeamAction";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
     selectedTeam: Team;
     teams: Team[];
-    getTeams: (id: string) => void;
+    getTeams: (id: string) => Promise<Team[]>;
     currentUser: User;
     setSelectedTeam: any;
 }
@@ -47,6 +49,7 @@ interface RosterManagementPageProps {
 export default function RosterManagementPage(props: RosterManagementPageProps) {
     const classes = rosterManagementPageStyles({});
     const [selectedTeam, setSelectedTeam] = React.useState<Team | null>(null);
+    const [currentRoster, setCurrentRoster] = React.useState<Athlete[]>(null);
     const [teamName, setTeamName] = React.useState<string | null>("");
     const [season, setSeason] = React.useState<string | null>("");
     const [existingAthletesChecked, setExistingAthletesChecked] = React.useState(new Set<string>());
@@ -58,6 +61,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     };
     const [allAthletes, setAllAthletes] = React.useState<ListAthlete[]>([]);
     const [isFetching, setIsFetching] = React.useState<string>("");
+    const [isRosterFetching, setIsRosterFetching] = React.useState<boolean>(false);
 
     React.useEffect(() => {
         getAllAthletes("").then((response: ListAthlete[] | null) => {
@@ -75,14 +79,33 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                     props.setSelectedTeam(newSelectedTeam[0]);
                 }
                 setSelectedTeam(newSelectedTeam[0]);
+                setIsRosterFetching(true);
+                fetchCurrentRosterEndpoint(newSelectedTeam[0].athleteIds).then(
+                    (athletes: Athlete[]) => {
+                        setCurrentRoster(athletes);
+                        setIsRosterFetching(false);
+                    }
+                );
             }
         }
-        setIsFetching("");
     }, [props.teams]);
+
+    React.useEffect(() => {
+        setIsFetching("");
+    }, [currentRoster]);
 
     const handleTeamSelected = (event: React.ChangeEvent<{ value: string }>) => {
         let team = props.teams.filter(team => team.id === event.target.value);
         setSelectedTeam(team.length > 0 ? team[0] : null);
+        if (team.length > 0) {
+            setIsRosterFetching(true);
+            fetchCurrentRosterEndpoint(team[0].athleteIds).then((athletes: Athlete[]) => {
+                setCurrentRoster(athletes);
+                setIsRosterFetching(false);
+            });
+        } else {
+            setCurrentRoster(null);
+        }
         setTeamName(null);
         setSeason(null);
     };
@@ -113,6 +136,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
 
     const handleAddTeam = () => {
         setSelectedTeam(null);
+        setCurrentRoster(null);
         setTeamName("");
         setSeason("");
     };
@@ -126,7 +150,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     };
 
     const handleAthleteDelete = () => {
-        let athleteIds = selectedTeam.athletes
+        let athleteIds = currentRoster
             .filter(a => !existingAthletesChecked.has(a.id))
             .map(a => a.id);
         setIsFetching("delete");
@@ -141,7 +165,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         let allAthleteMap = new Map<string, string>();
         allAthletes.forEach(a => allAthleteMap.set(a.name + a.birthdate, a.id));
         let rosterAthleteSet = new Set<string>();
-        selectedTeam.athletes.forEach(a => rosterAthleteSet.add(a.id));
+        currentRoster.forEach(a => rosterAthleteSet.add(a.id));
 
         if (tab == 0) {
             athleteIds = newAthletes
@@ -205,7 +229,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
 
     const filterNewAthletes = () => {
         let rosterAthletes = new Set();
-        selectedTeam.athletes.forEach(a => rosterAthletes.add(a.id));
+        currentRoster.forEach(a => rosterAthletes.add(a.id));
         return allAthletes.filter(a => !rosterAthletes.has(a.id));
     };
 
@@ -310,17 +334,21 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                         <>
                             <Paper className={classes.card}>
                                 <div className={classes.athletesContainer}>
-                                    <AthleteList
-                                        athletes={
-                                            !!selectedTeam
-                                                ? transformExistingAthletesToList(
-                                                      selectedTeam.athletes
-                                                  )
-                                                : []
-                                        }
-                                        handleToggle={handleExistingAthletesToggle}
-                                        checked={existingAthletesChecked}
-                                    />
+                                    {isRosterFetching ? (
+                                        <div className={classes.athletesList}>
+                                            <FetchingScreen />
+                                        </div>
+                                    ) : (
+                                        <AthleteList
+                                            athletes={
+                                                !!selectedTeam
+                                                    ? transformExistingAthletesToList(currentRoster)
+                                                    : []
+                                            }
+                                            handleToggle={handleExistingAthletesToggle}
+                                            checked={existingAthletesChecked}
+                                        />
+                                    )}
                                     <Divider light />
                                     <Button
                                         variant="contained"
@@ -385,7 +413,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                             <div className={classes.addedAthletes}>
                                                 <AddAthleteTable
                                                     athletes={newAthletes}
-                                                    rosterAthletes={selectedTeam.athletes}
+                                                    rosterAthletes={currentRoster}
                                                     allAthletes={allAthletes}
                                                     setAllAthletes={setAllAthletes}
                                                     getTeams={props.getTeams}

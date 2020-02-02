@@ -21,6 +21,8 @@ interface TopBarProps {
     selectedTeam: Team;
     setSelectedAthlete: (id: string) => void;
     currentUser: User;
+    currentRoster: Athlete[];
+    getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
 export default function TopBar(props: TopBarProps) {
@@ -33,11 +35,14 @@ export default function TopBar(props: TopBarProps) {
             if (event.type == "blur") {
                 setAutocompleteOpen(false);
             } else if (event.type == "click" || (event.type == "keydown" && event.keyCode == 13)) {
-                let selectedAthlete = props.selectedTeam.athletes.filter(a => value == a.name);
+                let selectedAthlete = props.currentRoster.filter(a => value == a.name);
                 if (selectedAthlete.length > 0) {
                     props.setSelectedAthlete(selectedAthlete[0].id);
                 }
             } else {
+                if (!!!props.currentRoster) {
+                    props.getCurrentRoster(props.selectedTeam.athleteIds);
+                }
                 if (autocompleteValue != value) {
                     setAutocompleteValue(value);
                     if (value != "" && !autocompleteOpen) {
@@ -85,7 +90,7 @@ export default function TopBar(props: TopBarProps) {
                             </div>
                             <Autocomplete
                                 id="athlete-select"
-                                options={props.selectedTeam.athletes}
+                                options={!!props.currentRoster ? props.currentRoster : []}
                                 getOptionLabel={(option: Athlete) => option.name}
                                 classes={{
                                     root: classes.inputRoot,
