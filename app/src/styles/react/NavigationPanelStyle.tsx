@@ -67,6 +67,15 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
         secondaryLabel: {
             fontWeight: 300,
             fontSize: 11
+        },
+        roleContainer: {
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            padding: "8px 16px"
+        },
+        labelContainer: {
+            paddingLeft: "32px"
         }
     })
 );

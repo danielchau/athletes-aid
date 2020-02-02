@@ -31,7 +31,7 @@ export function setInjuriesEndingDate(endingDate: Date) {
     };
 }
 
-function transformJSONToInjury(json: any[]): Injury[] {
+export function transformJSONToInjury(json: any[]): Injury[] {
     return json.map((injury: any) => {
         return {
             id: injury.id,
@@ -62,11 +62,11 @@ function transformJSONToInjury(json: any[]): Injury[] {
     });
 }
 
-async function fetchInjuries(startDate: Date, endDate: Date, teamName: string): Promise<Injury[]> {
+async function fetchInjuries(startDate: Date, endDate: Date, teamId: string): Promise<Injury[]> {
     let params: any = {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
-        teamName: teamName
+        teamId: teamId
     };
     let query = Object.keys(params)
         .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))

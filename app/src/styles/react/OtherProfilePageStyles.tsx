@@ -5,14 +5,6 @@ export const otherProfilePageStyles = makeStyles((theme: Theme) =>
         root: {
             display: "flex",
             width: "100%"
-        },
-        progressContainer: {
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignSelf: "center",
-            alignItems: "center"
         }
     })
 );

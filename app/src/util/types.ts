@@ -1,3 +1,5 @@
+import { UserPermissions } from "./permissions";
+
 export const TOGGLE_NAVIGATION_PANEL = "TOGGLE_NAVIGATION_PANEL";
 export const SET_SELECTED_TEAM = "SET_SELECTED_TEAM";
 export enum NavigationPanelStates {
@@ -20,7 +22,7 @@ export interface Team {
     id: string;
     name: string;
     season: string;
-    athletes: Athlete[];
+    athleteIds: string[];
 }
 
 export interface Athlete {
@@ -49,7 +51,7 @@ export interface AthleteProfile {
 
 export interface User {
     athleteProfile: AthleteProfile;
-    permissions: string[];
+    permissions: UserPermissions;
 }
 
 export interface EmergencyContact {
@@ -143,4 +145,12 @@ export type setCurrentUserTypes = SetCurrentUser;
 interface SetCurrentUser {
     type: typeof SET_CURRENT_USER;
     currentUser: User;
+}
+
+export const GET_CURRENT_ROSTER = "GET_CURRENT_ROSTER";
+
+export type setCurrentRosterTypes = SetCurrentRoster;
+interface SetCurrentRoster {
+    type: typeof GET_CURRENT_ROSTER;
+    currentRoster: Athlete[];
 }

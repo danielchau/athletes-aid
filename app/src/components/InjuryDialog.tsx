@@ -61,7 +61,7 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                     props.getAthleteInjuries(
                         props.startingDate,
                         props.endingDate,
-                        props.selectedTeam.name
+                        props.selectedTeam.id
                     );
                     setInjury(injury);
                     setNewNote("");

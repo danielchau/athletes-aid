@@ -1,7 +1,7 @@
 import * as React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NavigationPanel from "./NavigationPanel";
-import { NavigationPanelStates, Team, User } from "../util/types";
+import { NavigationPanelStates, Team, User, Athlete } from "../util/types";
 import { pageStyles } from "../styles/react/PageStyle";
 import { Switch, Route, RouteComponentProps } from "react-router-dom";
 import {
@@ -29,6 +29,8 @@ interface PageProps {
     teams: Team[];
     setSelectedAthlete: (id: string) => void;
     currentUser: User;
+    currentRoster: Athlete[];
+    getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
 export default function Page(props: PageProps & RouteComponentProps) {
@@ -44,6 +46,9 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     handleDrawerClose={props.handleDrawerClose}
                     selectedTeam={props.selectedTeam}
                     setSelectedAthlete={props.setSelectedAthlete}
+                    currentUser={props.currentUser}
+                    currentRoster={props.currentRoster}
+                    getCurrentRoster={props.getCurrentRoster}
                 ></TopBar>
             </div>
             <div className={classes.pageBodyContainer}>
@@ -56,6 +61,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     location={props.location}
                     match={props.match}
                     teams={props.teams}
+                    currentUser={props.currentUser}
                 />
                 <Switch>
                     <Route path={myProfilePath}>
@@ -64,24 +70,34 @@ export default function Page(props: PageProps & RouteComponentProps) {
                             canEdit={true}
                         ></ProfilePageContainer>
                     </Route>
-                    <Route path={rosterPath}>
-                        <RosterPageContainer></RosterPageContainer>
-                    </Route>
-                    <Route path={injuryLoggingPath}>
-                        <InjuryLoggingPageContainer
-                            existingInjury={null}
-                            callbackUponFinishing={null}
-                        ></InjuryLoggingPageContainer>
-                    </Route>
-                    <Route path={rosterManagementPath}>
-                        <RosterManagementPageContainer></RosterManagementPageContainer>
-                    </Route>
-                    <Route path={profilePath}>
-                        <OtherProfilePageContainer />
-                    </Route>
-                    <Route path={injuriesPath}>
-                        <InjuriesPageContainer></InjuriesPageContainer>
-                    </Route>
+                    {props.currentUser.permissions.pages.roster && (
+                        <Route path={rosterPath}>
+                            <RosterPageContainer></RosterPageContainer>
+                        </Route>
+                    )}
+                    {props.currentUser.permissions.pages.logging && (
+                        <Route path={injuryLoggingPath}>
+                            <InjuryLoggingPageContainer
+                                existingInjury={null}
+                                callbackUponFinishing={null}
+                            ></InjuryLoggingPageContainer>
+                        </Route>
+                    )}
+                    {props.currentUser.permissions.pages.rosterManagement && (
+                        <Route path={rosterManagementPath}>
+                            <RosterManagementPageContainer></RosterManagementPageContainer>
+                        </Route>
+                    )}
+                    {props.currentUser.permissions.pages.profiles && (
+                        <Route path={profilePath}>
+                            <OtherProfilePageContainer />
+                        </Route>
+                    )}
+                    {props.currentUser.permissions.pages.injuries && (
+                        <Route path={injuriesPath}>
+                            <InjuriesPageContainer></InjuriesPageContainer>
+                        </Route>
+                    )}
                 </Switch>
             </div>
         </div>

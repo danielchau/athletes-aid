@@ -5,7 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import SearchIcon from "@material-ui/icons/Search";
-import { NavigationPanelStates, Team, Athlete } from "../util/types";
+import { NavigationPanelStates, Team, Athlete, User } from "../util/types";
 import { topBarStyles } from "../styles/react/TopBarStyle";
 import { TextField } from "@material-ui/core";
 import Autocomplete, { RenderOptionState } from "@material-ui/lab/Autocomplete";
@@ -20,6 +20,9 @@ interface TopBarProps {
     handleDrawerClose: any;
     selectedTeam: Team;
     setSelectedAthlete: (id: string) => void;
+    currentUser: User;
+    currentRoster: Athlete[];
+    getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
 export default function TopBar(props: TopBarProps) {
@@ -32,11 +35,14 @@ export default function TopBar(props: TopBarProps) {
             if (event.type == "blur") {
                 setAutocompleteOpen(false);
             } else if (event.type == "click" || (event.type == "keydown" && event.keyCode == 13)) {
-                let selectedAthlete = props.selectedTeam.athletes.filter(a => value == a.name);
+                let selectedAthlete = props.currentRoster.filter(a => value == a.name);
                 if (selectedAthlete.length > 0) {
                     props.setSelectedAthlete(selectedAthlete[0].id);
                 }
             } else {
+                if (!!!props.currentRoster) {
+                    props.getCurrentRoster(props.selectedTeam.athleteIds);
+                }
                 if (autocompleteValue != value) {
                     setAutocompleteValue(value);
                     if (value != "" && !autocompleteOpen) {
@@ -77,40 +83,42 @@ export default function TopBar(props: TopBarProps) {
                         />
                         <img className={classes.appLogo} src={Logo} />
                     </div>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon color="secondary" />
+                    {props.currentUser.permissions.canSeeSearchBar && (
+                        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon color="secondary" />
+                            </div>
+                            <Autocomplete
+                                id="athlete-select"
+                                options={!!props.currentRoster ? props.currentRoster : []}
+                                getOptionLabel={(option: Athlete) => option.name}
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput
+                                }}
+                                renderOption={(option: Athlete, state: RenderOptionState) => (
+                                    <Link className={classes.option} to={profilePath}>
+                                        {option.name}
+                                    </Link>
+                                )}
+                                renderInput={params => (
+                                    <TextField
+                                        {...params}
+                                        inputProps={{
+                                            ...params.inputProps,
+                                            autoComplete: "off"
+                                        }}
+                                        variant="outlined"
+                                        placeholder="Search Athlete..."
+                                    />
+                                )}
+                                autoComplete
+                                disableOpenOnFocus
+                                onInputChange={onAutocompleteInputChange}
+                                open={autocompleteOpen}
+                            />
                         </div>
-                        <Autocomplete
-                            id="athlete-select"
-                            options={props.selectedTeam.athletes}
-                            getOptionLabel={(option: Athlete) => option.name}
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput
-                            }}
-                            renderOption={(option: Athlete, state: RenderOptionState) => (
-                                <Link className={classes.option} to={profilePath}>
-                                    {option.name}
-                                </Link>
-                            )}
-                            renderInput={params => (
-                                <TextField
-                                    {...params}
-                                    inputProps={{
-                                        ...params.inputProps,
-                                        autoComplete: "off"
-                                    }}
-                                    variant="outlined"
-                                    placeholder="Search Athlete..."
-                                />
-                            )}
-                            autoComplete
-                            disableOpenOnFocus
-                            onInputChange={onAutocompleteInputChange}
-                            open={autocompleteOpen}
-                        />
-                    </div>
+                    )}
                 </Toolbar>
             </AppBar>
         </>

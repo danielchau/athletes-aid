@@ -1,4 +1,5 @@
 import { AthleteProfile, ListAthlete, SET_SELECTED_ATHLETE } from "../util/types";
+import { transformJSONToInjury } from "./InjuriesAction";
 
 export async function addAthleteToDb(athlete: AthleteProfile, createdBy: string) {
     return await fetchAddAthlete(athlete, createdBy);
@@ -129,7 +130,7 @@ async function fetchAthlete(athleteId: string): Promise<AthleteProfile | null> {
                         email: ""
                     },
                     files: [],
-                    injuries: data.injuries
+                    injuries: transformJSONToInjury(data.injuries)
                 };
             }
         })

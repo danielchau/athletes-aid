@@ -5,19 +5,22 @@ import { AppState } from "..";
 import { NavigationPanelStates, Team } from "../util/types";
 import { withRouter } from "react-router-dom";
 import { setSelectedAthlete } from "../actions/AthleteAction";
+import { fetchCurrentRoster } from "../actions/TeamAction";
 
 const mapStateToProps = (state: AppState) => ({
     state: state.navigationPanelReducer,
     selectedTeam: state.selectedTeamReducer,
     teams: state.teamsReducer,
-    currentUser: state.currentUserReducer
+    currentUser: state.currentUserReducer,
+    currentRoster: state.currentRosterReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setSelectedTeam: (team: Team) => dispatch(setSelectedTeam(team)),
     handleDrawerClose: () => dispatch(toggleNavigationPanel(NavigationPanelStates.closed)),
     handleDrawerOpen: () => dispatch(toggleNavigationPanel(NavigationPanelStates.open)),
-    setSelectedAthlete: (id: string) => dispatch(setSelectedAthlete(id))
+    setSelectedAthlete: (id: string) => dispatch(setSelectedAthlete(id)),
+    getCurrentRoster: (athleteIds: string[]) => dispatch(fetchCurrentRoster(athleteIds))
 });
 
 const PageContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(Page));
