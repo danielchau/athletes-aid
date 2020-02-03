@@ -140,3 +140,34 @@ async function fetchPostInjuryNote(
             return null;
         });
 }
+
+export async function setInjuryStatus(injuryId: string, status: boolean) {
+    return await fetchInjuryStatus(injuryId, status);
+}
+
+async function fetchInjuryStatus(injuryId: string, status: boolean): Promise<Injury | null> {
+    return fetch("./injuryActive", {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            injuryId: injuryId,
+            active: status
+        })
+    })
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                console.log(response);
+                return transformJSONToInjury([response.data.injury])[0];
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
