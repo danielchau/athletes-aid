@@ -136,3 +136,24 @@ export const getInjury = async (req: Request, res: Response) => {
     return res.status(500).send("Failed to get Injury");
   }
 };
+
+export const setActive = async (req: Request, res: Response) => {
+  try {
+    let injury = new Injury();
+    injury = await injuryModel.getInjury(req.body.injuryId);
+    
+    injury.active = req.body.active;
+    injury = await injuryModel.updateInjury(injury);
+
+    let response = {
+      message: "Injury active status updated",
+      data: {
+        injury: injury
+      }
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e);
+    return res.status(500).send("Failed to update Injury");
+  }
+};
