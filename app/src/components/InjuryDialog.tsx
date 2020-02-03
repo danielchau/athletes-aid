@@ -90,7 +90,10 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                 }}
                 fullWidth
                 open={props.injuryOpen}
-                onClose={props.handleInjuryClose}
+                onClose={() => {
+                    setIsEditing(false);
+                    props.handleInjuryClose();
+                }}
                 TransitionComponent={Transition}
             >
                 <DialogTitle className={classes.dialogTitle}>
