@@ -16,10 +16,10 @@ import Paper from "@material-ui/core/Paper";
 import InjuryLoggingPageContainer from "../containers/InjuryLoggingPageContainer";
 import { TransitionProps } from "@material-ui/core/transitions";
 import { injuryDialogStyles } from "../styles/react/InjuryDialogStyles";
-import { Injury, InjuryNote, AthleteInjuries, Team, User } from "../util/types";
+import { Injury, InjuryNote, AthleteInjuries, Team, User, Athlete } from "../util/types";
 import SendIcon from "@material-ui/icons/Send";
 import { TextField, Switch } from "@material-ui/core";
-import { postInjuryNote } from "../actions/InjuriesAction";
+import { postInjuryNote, setInjuryStatus } from "../actions/InjuriesAction";
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
@@ -34,6 +34,7 @@ interface InjuryDialogProps {
     endingDate: Date;
     selectedTeam: Team;
     currentUser: User;
+    getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
 export default function InjuryDialog(props: InjuryDialogProps) {
@@ -70,6 +71,14 @@ export default function InjuryDialog(props: InjuryDialogProps) {
         }
     };
 
+    const onActiveSwitch = () => {
+        setInjuryStatus(props.injury.id, !injury.active).then(injury => {
+            props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.id);
+            setInjury(injury);
+            props.getCurrentRoster(props.selectedTeam.athleteIds);
+        });
+    };
+
     return (
         <div>
             <Dialog
@@ -81,7 +90,10 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                 }}
                 fullWidth
                 open={props.injuryOpen}
-                onClose={props.handleInjuryClose}
+                onClose={() => {
+                    setIsEditing(false);
+                    props.handleInjuryClose();
+                }}
                 TransitionComponent={Transition}
             >
                 <DialogTitle className={classes.dialogTitle}>
@@ -115,7 +127,7 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                             <div className={classes.activeSwitchContainer}>
                                 <p style={{ fontWeight: 300 }}>Not Active</p>
                                 <div style={{ marginTop: "5px" }}>
-                                    <Switch checked={injury.active} onChange={() => {}} />
+                                    <Switch checked={injury.active} onChange={onActiveSwitch} />
                                 </div>
                                 <p style={{ fontWeight: 300 }}>Active</p>
                             </div>

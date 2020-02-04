@@ -18,7 +18,7 @@ import {
     injuriesDataTableToolbarStyles,
     injuriesDataTableStyles
 } from "../styles/react/InjuriesDataTableStyles";
-import { Injury, AthleteInjuries, Team, User } from "../util/types";
+import { Injury, AthleteInjuries, Team, User, Athlete } from "../util/types";
 
 interface EnhancedTableProps {
     classes: ReturnType<typeof injuriesDataTableStyles>;
@@ -40,6 +40,7 @@ interface InjuriesDataTableProps {
     endingDate: Date;
     selectedTeam: Team;
     currentUser: User;
+    getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
 interface EnhancedTableToolbarProps {
@@ -194,7 +195,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     i.status.toString(),
                     i.mechanism.toString(),
                     `"` + i.injuryDescription.replace(/"/g, `'`).toString() + `"`,
-                    `"` + i.otherNotes.toString().replace(/"/g, `'`) + `"`
+                    `"` + JSON.stringify(i.otherNotes).replace(/"/g, `'`) + `"`
                 ];
                 csvContent += values + "\r\n";
             });
@@ -324,6 +325,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     endingDate={props.endingDate}
                     selectedTeam={props.selectedTeam}
                     currentUser={props.currentUser}
+                    getCurrentRoster={props.getCurrentRoster}
                 ></InjuryDialog>
             )}
         </div>

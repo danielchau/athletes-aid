@@ -6,6 +6,7 @@ import {
 } from "../actions/InjuriesAction";
 import InjuriesPage from "../components/InjuriesPage";
 import { AppState } from "..";
+import { fetchCurrentRoster } from "../actions/TeamAction";
 
 const mapStateToProps = (state: AppState) => ({
     athleteInjuries: state.injuriesReducer,
@@ -20,7 +21,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     getAthleteInjuries: (startDate: Date, endDate: Date, team: string) =>
         dispatch(fetchAthleteInjuries(startDate, endDate, team)),
     setStartingDate: (startingDate: Date) => dispatch(setInjuriesStartingDate(startingDate)),
-    setEndingDate: (endingDate: Date) => dispatch(setInjuriesEndingDate(endingDate))
+    setEndingDate: (endingDate: Date) => dispatch(setInjuriesEndingDate(endingDate)),
+    getCurrentRoster: (athleteIds: string[]) => dispatch(fetchCurrentRoster(athleteIds))
 });
 
 const InjuriesPageContainer = connect(mapStateToProps, mapDispatchToProps)(InjuriesPage);

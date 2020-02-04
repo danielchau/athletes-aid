@@ -1,5 +1,12 @@
 import React from "react";
-import { User, NavigationPanelStates, AthleteInjuries, Team, AthleteProfile } from "../util/types";
+import {
+    User,
+    NavigationPanelStates,
+    AthleteInjuries,
+    Team,
+    AthleteProfile,
+    Athlete
+} from "../util/types";
 import { profilePageStyles } from "../styles/react/ProfilePageStyles";
 import { Avatar, Typography, Divider, Paper, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
@@ -17,6 +24,7 @@ interface ProfilePageProps {
     startingDate: Date;
     endingDate: Date;
     selectedTeam: Team;
+    getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
 export default function ProfilePage(props: ProfilePageProps) {
@@ -89,6 +97,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                         endingDate={props.endingDate}
                         selectedTeam={props.selectedTeam}
                         currentUser={props.currentUser}
+                        getCurrentRoster={props.getCurrentRoster}
                     ></InjuriesDataTable>
                 </div>
             </div>
