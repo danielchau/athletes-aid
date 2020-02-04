@@ -37,8 +37,9 @@ app.post("/injuryActive", injuryController.setActive);
 
 import * as athleteController from "./controllers/athlete";
 app.post("/athlete", athleteController.postAthlete);
-app.get("/allAthletes", athleteController.getAllAthletes);
 app.get("/athlete", athleteController.getAthlete);
+app.put("/athlete", athleteController.putAthlete);
+app.get("/allAthletes", athleteController.getAllAthletes);
 
 // Routes
 app.get("/*", (req, res) => {
