@@ -25,6 +25,11 @@ interface TopBarProps {
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
+/**
+ * Top Bar is a consistent component of the application that is on the very top.
+ * It has the application logo and name and a search bar to search for athletes on the top right.
+ * @param props
+ */
 export default function TopBar(props: TopBarProps) {
     const classes = topBarStyles({});
     const [autocompleteValue, setAutocompleteValue] = React.useState<string>("");

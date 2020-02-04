@@ -1,5 +1,9 @@
 import * as XLSX from "xlsx";
 
+/**
+ * Transforms file data into JSON structure with excel contents.
+ * @param data
+ */
 export var ExcelToJSON = function(data: any) {
     var workbook = XLSX.read(data, {
         type: "binary"

@@ -1,5 +1,8 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
+/**
+ * React styles for the Injury Dialog popup.
+ */
 export const injuryDialogStyles = makeStyles((theme: Theme) =>
     createStyles({
         appBar: {

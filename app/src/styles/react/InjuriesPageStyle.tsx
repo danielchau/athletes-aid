@@ -1,5 +1,8 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
+/**
+ * React styles for the Injuries Page.
+ */
 export const injuriesPageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {

@@ -1,6 +1,9 @@
 import { Injury } from "./types";
 import { AdminPermissions, TrainerPermissions, CoachPermissions } from "./permissions";
 
+/**
+ * Mock data for the User until we get authentication setup.
+ */
 export const mockUser = {
     athleteProfile: {
         id: "1",

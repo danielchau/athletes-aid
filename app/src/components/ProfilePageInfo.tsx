@@ -10,6 +10,10 @@ interface ProfilePageInfo {
     isEditing: boolean;
 }
 
+/**
+ * Renders all of the basic information for an athlete on their profile.
+ * @param props
+ */
 export default function ProfilePageInfo(props: ProfilePageInfo) {
     const classes = profilePageStyles({});
     const [birthdate, setBirthdate] = React.useState<string>(props.currentAthlete.birthdate);
@@ -105,6 +109,11 @@ interface ProfileAttributeProps {
     onChange: any;
 }
 
+/**
+ * Renders an attribute on an athlete page.
+ * Two states: Editing and not editing.
+ * @param props
+ */
 function ProfileAttribute(props: ProfileAttributeProps) {
     const inputStyle = {
         marginTop: "-2px",

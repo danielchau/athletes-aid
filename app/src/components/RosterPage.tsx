@@ -18,6 +18,11 @@ interface RosterPageProps {
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
+/**
+ * Roster Page dispalys all of the athletes on the selected team and provides navigation to the
+ * athletes profiles.
+ * @param props
+ */
 export default function RosterPage(props: RosterPageProps & RouteComponentProps) {
     const classes = rosterPageStyles({});
     const [isFetching, setIsFetching] = React.useState<boolean>(true);

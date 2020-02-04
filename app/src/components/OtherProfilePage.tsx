@@ -11,11 +11,19 @@ interface OtherProfilePageProps {
     currentUser: User;
 }
 
+/**
+ * Other Profile Page is a container that displays an athlete page for athletes other than the
+ * user.
+ * @param props
+ */
 export default function OtherProfilePage(props: OtherProfilePageProps) {
     const classes = otherProfilePageStyles({});
     const [isFetching, setIsFetching] = React.useState<boolean>(true);
     const [currentAthlete, setCurrentAthlete] = React.useState<AthleteProfile | null>(null);
 
+    /**
+     * Fetch the athlete profile if the id is valid.
+     */
     React.useEffect(() => {
         if (props.selectedAthleteId != "") {
             getAthlete(props.selectedAthleteId).then((response: AthleteProfile | null) => {

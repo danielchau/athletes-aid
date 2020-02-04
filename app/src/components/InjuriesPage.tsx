@@ -25,15 +25,28 @@ interface InjuriesProps {
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
+/**
+ * Injuries page displays information regarding injuries within a certain query range.
+ * It consists of two date pickers to set the range and simple statistics on the injuries shown.
+ * @param props
+ */
 export default function InjuriesPage(props: InjuriesProps) {
     const classes = injuriesPageStyles({});
     const [injuryOpen, setInjuryOpen] = React.useState(false);
     const [isFetching, setIsFetching] = React.useState(false);
 
+    /**
+     * If athleteInjuries changes then that means the query is done and we can set the fetching
+     * progress bar to not show.
+     */
     React.useEffect(() => {
         setIsFetching(false);
     }, [props.athleteInjuries]);
 
+    /**
+     * If the selected team changes and it is a valid name, then fetch for the newly selected teams
+     * roster and update the page.
+     */
     React.useEffect(() => {
         if (props.selectedTeam.name != "") {
             setIsFetching(true);
@@ -109,52 +122,25 @@ export default function InjuriesPage(props: InjuriesProps) {
                     </Paper>
                     {isFetching && <LinearProgress color="secondary" />}
                 </Grid>
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <div className={classes.primaryStatisticContainer}>
-                            <div className={classes.primaryStatisticValue}>
-                                {props.athleteInjuries.injuries.length}
+                {[
+                    [props.athleteInjuries.injuries.length, "Total Filed Reports"],
+                    [
+                        props.athleteInjuries.injuries.filter(i => i.active).length,
+                        "Total Active Reports"
+                    ],
+                    [getAverageSeverity(props.athleteInjuries.injuries), "Average Severity"],
+                    [getTotalPlayersOut(props.athleteInjuries.injuries), "Players Out"]
+                ].map(([val, title]) => (
+                    <Grid item xs={3}>
+                        <Paper className={classes.paper}>
+                            <div className={classes.primaryStatisticContainer}>
+                                <div className={classes.primaryStatisticValue}>{val}</div>
+                                <Divider light />
+                                <div className={classes.primaryStatisticLabel}>{title}</div>
                             </div>
-                            <Divider light />
-                            <div className={classes.primaryStatisticLabel}>Total Filed Reports</div>
-                        </div>
-                    </Paper>
-                </Grid>
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <div className={classes.primaryStatisticContainer}>
-                            <div className={classes.primaryStatisticValue}>
-                                {props.athleteInjuries.injuries.filter(i => i.active).length}
-                            </div>
-                            <Divider light />
-                            <div className={classes.primaryStatisticLabel}>
-                                Total Active Reports
-                            </div>
-                        </div>
-                    </Paper>
-                </Grid>
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <div className={classes.primaryStatisticContainer}>
-                            <div className={classes.primaryStatisticValue}>
-                                {getAverageSeverity(props.athleteInjuries.injuries)}
-                            </div>
-                            <Divider light />
-                            <div className={classes.primaryStatisticLabel}>Average Severity</div>
-                        </div>
-                    </Paper>
-                </Grid>
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <div className={classes.primaryStatisticContainer}>
-                            <div className={classes.primaryStatisticValue}>
-                                {getTotalPlayersOut(props.athleteInjuries.injuries)}
-                            </div>
-                            <Divider light />
-                            <div className={classes.primaryStatisticLabel}>Players Out</div>
-                        </div>
-                    </Paper>
-                </Grid>
+                        </Paper>
+                    </Grid>
+                ))}
                 <Grid item xs={12} style={{ width: "100%" }}>
                     <Paper className={classes.paper} style={{ width: "100%" }}>
                         <InjuriesDataTable
@@ -176,6 +162,10 @@ export default function InjuriesPage(props: InjuriesProps) {
     );
 }
 
+/**
+ * Calculate the average severity of the injuries provided.
+ * @param injuries
+ */
 function getAverageSeverity(injuries: Injury[]): string {
     if (injuries.length == 0) {
         return "0";
@@ -185,6 +175,10 @@ function getAverageSeverity(injuries: Injury[]): string {
     return (sum / injuries.length).toFixed(1);
 }
 
+/**
+ * Get the amount of injuries that sideline (out) athletes.
+ * @param injuries
+ */
 function getTotalPlayersOut(injuries: Injury[]): number {
     let addedAthletes = new Set();
     return injuries.filter(i => {

@@ -1,6 +1,9 @@
 import React from "react";
 import { CircularProgress } from "@material-ui/core";
 
+/**
+ * Fetching Screen is a full container render of a circular progress spinner.
+ */
 export default function FetchingScreen() {
     return (
         <div

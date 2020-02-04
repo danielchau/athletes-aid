@@ -1,11 +1,27 @@
 import { UserPermissions } from "./permissions";
 
+/**
+ * Constants for types of actions available for Redux Reducers.
+ */
 export const TOGGLE_NAVIGATION_PANEL = "TOGGLE_NAVIGATION_PANEL";
 export const SET_SELECTED_TEAM = "SET_SELECTED_TEAM";
+export const SET_SELECTED_ATHLETE = "SET_SELECTED_ATHLETE";
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const GET_CURRENT_ROSTER = "GET_CURRENT_ROSTER";
+export const GET_TEAMS = "GET_TEAMS";
+export const GET_ATHLETE_INJURIES = "GET_ATHLETE_INJURIES";
+export const SET_STARTING_DATE = "SET_STARTING_DATE";
+export const SET_ENDING_DATE = "SET_ENDING_DATE";
+
 export enum NavigationPanelStates {
     open,
     closed
 }
+
+/**
+ * Interfaces for Redux Reducers.
+ */
+
 export type NavigationPanelTypes = ToggleNavAction;
 interface ToggleNavAction {
     type: typeof TOGGLE_NAVIGATION_PANEL;
@@ -18,53 +34,29 @@ interface SetSelectedTeam {
     team: Team;
 }
 
-export interface Team {
-    id: string;
-    name: string;
-    season: string;
-    athleteIds: string[];
+export type SetSelectedAthleteTypes = SetSelectedAthlete;
+interface SetSelectedAthlete {
+    type: typeof SET_SELECTED_ATHLETE;
+    athleteId: string;
 }
 
-export interface Athlete {
-    id: string;
-    name: string;
-    injuries: Injury[];
+export type setCurrentUserTypes = SetCurrentUser;
+interface SetCurrentUser {
+    type: typeof SET_CURRENT_USER;
+    currentUser: User;
 }
 
-export interface AthleteProfile {
-    id: string;
-    profilePicture: string;
-    name: string;
-    birthdate: string;
-    schoolYear: number;
-    gender: string;
-    weight: number;
-    height: number;
-    email: string;
-    cellPhone: string;
-    homePhone: string;
-    healthCardNumber: string;
-    emergencyContact: EmergencyContact;
-    files: string[];
-    injuries: Injury[];
+export type setCurrentRosterTypes = SetCurrentRoster;
+interface SetCurrentRoster {
+    type: typeof GET_CURRENT_ROSTER;
+    currentRoster: Athlete[];
 }
 
-export interface User {
-    athleteProfile: AthleteProfile;
-    permissions: UserPermissions;
+export type TeamsTypes = GetTeamsAction;
+interface GetTeamsAction {
+    type: typeof GET_TEAMS;
+    teams: Team[];
 }
-
-export interface EmergencyContact {
-    id: string;
-    name: string;
-    cellPhone: string;
-    homePhone: string;
-    email: string;
-}
-
-export const GET_ATHLETE_INJURIES = "GET_ATHLETE_INJURIES";
-export const SET_STARTING_DATE = "SET_STARTING_DATE";
-export const SET_ENDING_DATE = "SET_ENDING_DATE";
 
 export type AthleteInjuriesTypes = GetAthleteInjuriesAction;
 interface GetAthleteInjuriesAction {
@@ -84,12 +76,83 @@ interface SetInjuriesEndingDate {
     endingDate: Date;
 }
 
+/**
+ * Represents a sports team.
+ */
+export interface Team {
+    id: string;
+    name: string;
+    season: string;
+    athleteIds: string[];
+}
+
+/**
+ * Bare information for an athlete.
+ */
+export interface Athlete {
+    id: string;
+    name: string;
+    injuries: Injury[];
+}
+
+/**
+ * Detailed information for an athlete.
+ */
+export interface AthleteProfile {
+    id: string;
+    profilePicture: string;
+    name: string;
+    birthdate: string;
+    schoolYear: number;
+    gender: string;
+    weight: number;
+    height: number;
+    email: string;
+    cellPhone: string;
+    homePhone: string;
+    healthCardNumber: string;
+    emergencyContact: EmergencyContact;
+    files: string[];
+    injuries: Injury[];
+}
+
+/**
+ * Athlete information needed for athlete list in roster management.
+ */
+export interface ListAthlete {
+    id: string;
+    name: string;
+    birthdate: string | null;
+}
+
+/**
+ * Represents the user logged into the application.
+ */
+export interface User {
+    athleteProfile: AthleteProfile;
+    permissions: UserPermissions;
+}
+
+export interface EmergencyContact {
+    id: string;
+    name: string;
+    cellPhone: string;
+    homePhone: string;
+    email: string;
+}
+
+/**
+ * Used to hold information on injury queries on an athlete.
+ */
 export interface AthleteInjuries {
     injuries: Injury[];
     startDate: string;
     endDate: string;
 }
 
+/**
+ * Represents an athlete injury
+ */
 export interface Injury {
     id: string;
     active: boolean;
@@ -111,46 +174,24 @@ export interface Injury {
     otherNotes: InjuryNote[];
 }
 
+/**
+ * Represents notes that live on an injury.
+ */
 export interface InjuryNote {
     createdBy: string;
     createdOn: Date;
     content: string;
 }
 
-export const GET_TEAMS = "GET_TEAMS";
+/**
+ * Types and interfaces for the data table
+ */
 
-export type TeamsTypes = GetTeamsAction;
-interface GetTeamsAction {
-    type: typeof GET_TEAMS;
-    teams: Team[];
-}
+export type Order = "asc" | "desc";
 
-export interface ListAthlete {
-    id: string;
-    name: string;
-    birthdate: string | null;
-}
-
-export const SET_SELECTED_ATHLETE = "SET_SELECTED_ATHLETE";
-
-export type SetSelectedAthleteTypes = SetSelectedAthlete;
-interface SetSelectedAthlete {
-    type: typeof SET_SELECTED_ATHLETE;
-    athleteId: string;
-}
-
-export const SET_CURRENT_USER = "SET_CURRENT_USER";
-
-export type setCurrentUserTypes = SetCurrentUser;
-interface SetCurrentUser {
-    type: typeof SET_CURRENT_USER;
-    currentUser: User;
-}
-
-export const GET_CURRENT_ROSTER = "GET_CURRENT_ROSTER";
-
-export type setCurrentRosterTypes = SetCurrentRoster;
-interface SetCurrentRoster {
-    type: typeof GET_CURRENT_ROSTER;
-    currentRoster: Athlete[];
+export interface HeadCell {
+    disablePadding: boolean;
+    id: keyof Injury;
+    label: string;
+    numeric: boolean;
 }

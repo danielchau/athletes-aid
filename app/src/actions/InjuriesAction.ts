@@ -1,4 +1,9 @@
 import { GET_ATHLETE_INJURIES, SET_STARTING_DATE, Injury, SET_ENDING_DATE } from "../util/types";
+
+/**
+ * REDUX ACTIONS
+ */
+
 export function getAthleteInjuries(startDate: Date, endDate: Date, team: string, data: any) {
     return {
         type: GET_ATHLETE_INJURIES,
@@ -31,36 +36,9 @@ export function setInjuriesEndingDate(endingDate: Date) {
     };
 }
 
-export function transformJSONToInjury(json: any[]): Injury[] {
-    return json.map((injury: any) => {
-        return {
-            id: injury.id,
-            active: injury.active,
-            createdOn: new Date(injury.createdAt),
-            createdBy: injury.createdBy,
-            teamName: injury.teamName,
-            athleteName: injury.athleteName,
-            injuryDate: new Date(injury.injuryDate),
-            isSportsRelated: injury.isSportsRelated,
-            eventType: injury.eventType,
-            position: injury.position,
-            sideOfBody: injury.sideOfBody,
-            locationOnBody: injury.locationOnBody,
-            injuryType: injury.injuryType,
-            severity: injury.severity,
-            status: injury.status,
-            mechanism: injury.mechanism,
-            injuryDescription: injury.injuryDescription,
-            otherNotes: !!injury.otherNotes
-                ? injury.otherNotes.map((n: any) => ({
-                      createdBy: !!n.createdBy ? n.createdBy : "",
-                      createdOn: new Date(n.createdOn),
-                      content: n.content
-                  }))
-                : []
-        };
-    });
-}
+/**
+ * FETCH ACTIONS TO SERVER
+ */
 
 async function fetchInjuries(startDate: Date, endDate: Date, teamId: string): Promise<Injury[]> {
     let params: any = {
@@ -170,4 +148,38 @@ async function fetchInjuryStatus(injuryId: string, status: boolean): Promise<Inj
             console.log("Fetch Error", err);
             return null;
         });
+}
+
+/**
+ * Util function to turn JSON data from the server to match Injury data structure on frontend.
+ */
+export function transformJSONToInjury(json: any[]): Injury[] {
+    return json.map((injury: any) => {
+        return {
+            id: injury.id,
+            active: injury.active,
+            createdOn: new Date(injury.createdAt),
+            createdBy: injury.createdBy,
+            teamName: injury.teamName,
+            athleteName: injury.athleteName,
+            injuryDate: new Date(injury.injuryDate),
+            isSportsRelated: injury.isSportsRelated,
+            eventType: injury.eventType,
+            position: injury.position,
+            sideOfBody: injury.sideOfBody,
+            locationOnBody: injury.locationOnBody,
+            injuryType: injury.injuryType,
+            severity: injury.severity,
+            status: injury.status,
+            mechanism: injury.mechanism,
+            injuryDescription: injury.injuryDescription,
+            otherNotes: !!injury.otherNotes
+                ? injury.otherNotes.map((n: any) => ({
+                      createdBy: !!n.createdBy ? n.createdBy : "",
+                      createdOn: new Date(n.createdOn),
+                      content: n.content
+                  }))
+                : []
+        };
+    });
 }

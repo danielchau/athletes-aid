@@ -43,6 +43,11 @@ interface NavigationPanelProps {
     currentUser: User;
 }
 
+/**
+ * Navigation Panel displays navigation on the left side of the screen.
+ * The contents depend on what role the user is.
+ * @param props
+ */
 export default function NavigationPanel(props: NavigationPanelProps & RouteComponentProps) {
     const classes = navigationPanelStyles({});
     const [teamToggleAnchorEl, setTeamToggleAnchorEl] = React.useState<null | HTMLElement>(null);

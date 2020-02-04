@@ -1,5 +1,8 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
+/**
+ * React styles for the Profile Page.
+ */
 export const profilePageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
