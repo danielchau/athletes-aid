@@ -20,7 +20,7 @@ class EmergencyContact {
   @attribute()
   name: string;
   @attribute()
-  address: string;
+  email: string;
   @attribute()
   phone: number;
 }

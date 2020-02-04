@@ -1,7 +1,7 @@
 import { Athlete } from "./schema/Athlete";
 import mapper from "./mapper";
 
-export async function putAthlete(athlete: Athlete): Promise<string> {
+export async function postAthlete(athlete: Athlete): Promise<string> {
   return mapper.put(athlete).then((data: Athlete) => {
     return data.id;
   });
@@ -17,17 +17,15 @@ export async function getAthlete(athleteId: string): Promise<Athlete> {
 }
 
 /**
- * Add an athlete to a team
+ * Update athlete info
  *
- * @param {Athlete} athlete The id of the team to add an athlete to
- * @return {Athlete} A string containing the team id
+ * @param {Athlete} athlete The id of the athlete to update
+ * @return {Athlete} the updated athlete info
  */
-export async function updateAthlete(
-  athlete: Athlete,
-): Promise<Athlete> {
-    return mapper.update(athlete).then(data => {
-      return data;
-    });
+export async function updateAthlete(athlete: Athlete): Promise<Athlete> {
+  return mapper.update(athlete).then(data => {
+    return data;
+  });
 }
 
 export async function getAllAthletes(): Promise<Array<Athlete>> {
