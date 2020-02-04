@@ -1,6 +1,9 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { drawerWidth } from "../../constants/constants";
 
+/**
+ * React styles for the left Navigation Panel.
+ */
 export const navigationPanelStyles = makeStyles((theme: Theme) =>
     createStyles({
         drawer: {

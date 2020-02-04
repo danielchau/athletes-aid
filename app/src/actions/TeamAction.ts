@@ -2,6 +2,10 @@ import { GET_TEAMS, Athlete, Team, GET_CURRENT_ROSTER } from "../util/types";
 import download from "downloadjs";
 import { transformJSONToInjury } from "./InjuriesAction";
 
+/**
+ * REDUX ACTIONS
+ */
+
 export function getTeams(athleteId: string, data: any) {
     return {
         type: GET_TEAMS,
@@ -15,6 +19,17 @@ export function getTeams(athleteId: string, data: any) {
         })
     };
 }
+
+export function getCurrentRoster(athletes: Athlete[]) {
+    return {
+        type: GET_CURRENT_ROSTER,
+        currentRoster: athletes
+    };
+}
+
+/**
+ * FETCH ACTIONS TO SERVER
+ */
 
 export function fetchTeams(athleteId: string) {
     return async (dispatch: any) => {
@@ -130,30 +145,6 @@ async function fetchUpdateTeamAthletes(id: string, athletes: string[]) {
         });
 }
 
-export function getAthleteTemplate() {
-    fetch("./athleteTemplate", {
-        method: "get"
-    })
-        .then(async function(response: any) {
-            if (response.status !== 200) {
-                console.log("Looks like there was a problem. Status Code: " + response.status);
-            } else {
-                const blob = await response.blob();
-                download(blob, "addAthleteTemplate.csv");
-            }
-        })
-        .catch(function(err: Error) {
-            console.log("Fetch Error", err);
-        });
-}
-
-export function getCurrentRoster(athletes: Athlete[]) {
-    return {
-        type: GET_CURRENT_ROSTER,
-        currentRoster: athletes
-    };
-}
-
 export function fetchCurrentRoster(athleteIds: string[]) {
     return async (dispatch: any) => {
         const athletes = await fetchCurrentRosterEndpoint(athleteIds);
@@ -183,4 +174,21 @@ export async function fetchCurrentRosterEndpoint(athleteIds: string[]): Promise<
 
     console.log(athletes);
     return athletes;
+}
+
+export function getAthleteTemplate() {
+    fetch("./athleteTemplate", {
+        method: "get"
+    })
+        .then(async function(response: any) {
+            if (response.status !== 200) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+            } else {
+                const blob = await response.blob();
+                download(blob, "addAthleteTemplate.csv");
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+        });
 }

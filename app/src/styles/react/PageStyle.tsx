@@ -1,6 +1,8 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import { drawerWidth } from "../../constants/constants";
 
+/**
+ * React styles for the Main Page which routes to all other pages.
+ */
 export const pageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {

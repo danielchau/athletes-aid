@@ -37,6 +37,11 @@ interface InjuryDialogProps {
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
+/**
+ * Injury Dialog displays information on a certain injury.
+ * Features: Editing, adding notes, setting active state.
+ * @param props
+ */
 export default function InjuryDialog(props: InjuryDialogProps) {
     const classes = injuryDialogStyles({});
     const [isEditing, setIsEditing] = React.useState(false);
@@ -142,47 +147,23 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                                     {injury.teamName}
                                 </p>
                                 <Divider light></Divider>
-                                <p>
-                                    <b>Injury Date: </b>
-                                    {injury.injuryDate.toDateString()}
-                                </p>
-                                <p>
-                                    <b>Is Sport Related: </b>
-                                    {injury.isSportsRelated ? "Yes" : "No"}
-                                </p>
-                                <p>
-                                    <b>Event Type: </b>
-                                    {injury.eventType}
-                                </p>
-                                <p>
-                                    <b>Position: </b>
-                                    {injury.position}
-                                </p>
-                                <p>
-                                    <b>Side Of Body: </b>
-                                    {injury.sideOfBody}
-                                </p>
-                                <p>
-                                    <b>Location On Body: </b>
-                                    {injury.locationOnBody}
-                                </p>
-                                <p>
-                                    <b>Injury Type: </b>
-                                    {injury.injuryType}
-                                </p>
-                                <p>
-                                    <b>Severity: </b>
-                                    {injury.severity}
-                                </p>
-                                <Divider light></Divider>
-                                <p>
-                                    <b>Status: </b>
-                                    {injury.status}
-                                </p>
-                                <p>
-                                    <b>Mechanism Of Injury: </b>
-                                    {injury.mechanism}
-                                </p>
+                                {[
+                                    ["Injury Date: ", injury.injuryDate.toDateString()],
+                                    ["Is Sport Related: ", injury.isSportsRelated ? "Yes" : "No"],
+                                    ["Event Type: ", injury.eventType],
+                                    ["Position: ", injury.position],
+                                    ["Side Of Body: ", injury.sideOfBody],
+                                    ["Location On Body: ", injury.locationOnBody],
+                                    ["Injury Type: ", injury.injuryType],
+                                    ["Severity: ", injury.severity],
+                                    ["Status: ", injury.status],
+                                    ["Mechanism of Injury: ", injury.mechanism]
+                                ].map((title, val) => (
+                                    <p>
+                                        <b>{title}</b>
+                                        {val}
+                                    </p>
+                                ))}
                             </Paper>
                             {injury.otherNotes.map((note: InjuryNote, i: number) => (
                                 <Paper key={i} className={classes.notePaper}>

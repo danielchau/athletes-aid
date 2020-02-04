@@ -5,6 +5,10 @@ import {
     Team
 } from "../util/types";
 
+/**
+ * REDUX ACTIONS
+ */
+
 export function toggleNavigationPanel(state: NavigationPanelStates) {
     return { type: TOGGLE_NAVIGATION_PANEL, state };
 }

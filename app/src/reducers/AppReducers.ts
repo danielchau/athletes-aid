@@ -5,6 +5,9 @@ import { teamsReducer, currentRosterReducer } from "./InitialReducer";
 import { currentUserReducer } from "./UserReducer";
 import { combineReducers } from "redux";
 
+/**
+ * The Root Reducer combines all Redux Reducers for use in containers.
+ */
 const rootReducer = combineReducers({
     navigationPanelReducer,
     selectedTeamReducer,

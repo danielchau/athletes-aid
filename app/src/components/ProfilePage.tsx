@@ -27,6 +27,11 @@ interface ProfilePageProps {
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
+/**
+ * Profile page displays an athlete profile which includes:
+ * Basic information, files and forms, and a data table of the injuries related to the athlete.
+ * @param props
+ */
 export default function ProfilePage(props: ProfilePageProps) {
     const classes = profilePageStyles({});
     const [injuryOpen, setInjuryOpen] = React.useState(false);

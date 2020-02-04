@@ -1,6 +1,9 @@
 import { makeStyles, Theme, createStyles, fade } from "@material-ui/core/styles";
 import { drawerWidth } from "../../constants/constants";
 
+/**
+ * React styles for the Top Bar of the app which contains the app name and search bar.
+ */
 export const topBarStyles = makeStyles((theme: Theme) =>
     createStyles({
         appBar: {

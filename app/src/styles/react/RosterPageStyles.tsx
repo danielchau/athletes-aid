@@ -1,5 +1,8 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
+/**
+ * React styles for the Roster Page.
+ */
 export const rosterPageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {

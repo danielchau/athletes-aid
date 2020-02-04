@@ -61,6 +61,11 @@ type StringChangeEvent = React.ChangeEvent<{ value: string }>;
 type StringTextContentChangeEvent = React.ChangeEvent<{ textContent: string }>;
 type NumberChangeEvent = React.ChangeEvent<{ value: number }>;
 
+/**
+ * Injury Logging Step Content displays the content depending on what stage of the logging process
+ * the user is at.
+ * @param props
+ */
 export default function InjuryLoggingStepContent(props: InjuryLoggingStepContentProps) {
     const classes = injuryLoggingStepContentStyles({});
 

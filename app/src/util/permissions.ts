@@ -1,3 +1,6 @@
+/**
+ * UserPermissions is used to determine the user's role inside the app and what they can view.
+ */
 export interface UserPermissions {
     label: string;
     pages: PagePermissions;
@@ -6,6 +9,9 @@ export interface UserPermissions {
     canSeeInjuryDetails: boolean;
 }
 
+/**
+ * PagePermissions controls which pages a user can see.
+ */
 interface PagePermissions {
     profiles: boolean;
     roster: boolean;
@@ -14,6 +20,9 @@ interface PagePermissions {
     rosterManagement: boolean;
 }
 
+/**
+ * Admins have full permissions.
+ */
 export const AdminPermissions: UserPermissions = {
     label: "Administrator",
     pages: {
@@ -28,6 +37,9 @@ export const AdminPermissions: UserPermissions = {
     canSeeInjuryDetails: true
 };
 
+/**
+ * Trainers can only see relevant teems but have access to all pages.
+ */
 export const TrainerPermissions: UserPermissions = {
     label: "Trainer",
     pages: {
@@ -42,6 +54,9 @@ export const TrainerPermissions: UserPermissions = {
     canSeeInjuryDetails: true
 };
 
+/**
+ * Athletes can only see their own profile and log their own injuries.
+ */
 export const AthletePermissions: UserPermissions = {
     label: "Athlete",
     pages: {
@@ -56,6 +71,9 @@ export const AthletePermissions: UserPermissions = {
     canSeeInjuryDetails: true
 };
 
+/**
+ * Coaches can only see surface level information on their roster.
+ */
 export const CoachPermissions: UserPermissions = {
     label: "Coach",
     pages: {

@@ -22,9 +22,19 @@ interface AddAthleteTableProps {
     currentUser: User;
 }
 
+/**
+ * Add Athlete Table is used in the roster management page to display athletes that are uploaded
+ * from the bulk addition spreadsheet.
+ * @param props
+ */
 export default function AddAthleteTable(props: AddAthleteTableProps) {
     const classes = addAthleteTableStyles({});
 
+    /**
+     * Determines if the player exists on the team or the database and renders an appropriate icon
+     * displaying the state.
+     * @param athlete
+     */
     const doesPlayerExist = (athlete: AthleteProfile) => {
         let athleteInDatabase = props.allAthletes.filter(
             a => a.name == athlete.name && a.birthdate == athlete.birthdate
@@ -32,18 +42,22 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
 
         if (athleteInDatabase.length > 0) {
             if (props.rosterAthletes.filter(a => a.id == athleteInDatabase[0].id).length > 0) {
+                // Render an (X) if the player already exists on the team
                 return (
                     <IconButton disabled style={{ color: "#db2e2e" }}>
                         <HighlightOffIcon />
                     </IconButton>
                 );
             }
+            // Render a checkmark if the player is not on the team but is already in the database
             return (
                 <IconButton disabled style={{ color: "#0055B7" }}>
                     <DoneIcon />
                 </IconButton>
             );
         } else {
+            // Render a person add icon if the player is not yet in the database.
+            // This icon is clickable to add the athlete to the database.
             return (
                 <IconButton onClick={() => addAthlete(athlete)} style={{ color: "#F2A71E" }}>
                     <PersonAddIcon />
@@ -52,6 +66,10 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
         }
     };
 
+    /**
+     * Add an athlete to the database that doesn't exist on it yet.
+     * @param athlete: AthletProfile that contains necessary information to create entry in db.
+     */
     const addAthlete = (athlete: AthleteProfile) => {
         addAthleteToDb(athlete, props.currentUser.athleteProfile.name).then(
             (athleteId: string | null) => {
@@ -82,42 +100,24 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                                 <TableCell>
                                     <b>Athlete Name</b>
                                 </TableCell>
-                                <TableCell align="right">
-                                    <b>Birthdate</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>School Year</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>Gender</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>Weight (lbs)</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>Height (inches)</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>Email</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>Cell Phone</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>Home Phone</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>Emergency Contact Name</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>Emergency Contact Cell Phone</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>Emergency Contact Home Phone</b>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <b>Emergency Contact Email</b>
-                                </TableCell>
+                                {[
+                                    "Birthdate",
+                                    "School Year",
+                                    "Gender",
+                                    "Weight (lbs)",
+                                    "Height (inches)",
+                                    "Email",
+                                    "Cell Phone",
+                                    "Home Phone",
+                                    "Emergency Contact Name",
+                                    "Emergency Contact Cell Phone",
+                                    "Emergency Contact Home Phone",
+                                    "Emergency Contact Email"
+                                ].map((val: string) => (
+                                    <TableCell align="right">
+                                        <b>{val}</b>
+                                    </TableCell>
+                                ))}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -129,24 +129,22 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                                     <TableCell component="th" scope="row">
                                         {row.name}
                                     </TableCell>
-                                    <TableCell align="right">{row.birthdate}</TableCell>
-                                    <TableCell align="right">{row.schoolYear}</TableCell>
-                                    <TableCell align="right">{row.gender}</TableCell>
-                                    <TableCell align="right">{row.weight}</TableCell>
-                                    <TableCell align="right">{row.height}</TableCell>
-                                    <TableCell align="right">{row.email}</TableCell>
-                                    <TableCell align="right">{row.cellPhone}</TableCell>
-                                    <TableCell align="right">{row.homePhone}</TableCell>
-                                    <TableCell align="right">{row.emergencyContact.name}</TableCell>
-                                    <TableCell align="right">
-                                        {row.emergencyContact.cellPhone}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {row.emergencyContact.homePhone}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {row.emergencyContact.email}
-                                    </TableCell>
+                                    {[
+                                        row.birthdate,
+                                        row.schoolYear,
+                                        row.gender,
+                                        row.weight,
+                                        row.height,
+                                        row.email,
+                                        row.cellPhone,
+                                        row.homePhone,
+                                        row.emergencyContact.name,
+                                        row.emergencyContact.cellPhone,
+                                        row.emergencyContact.homePhone,
+                                        row.emergencyContact.email
+                                    ].map((val: string) => (
+                                        <TableCell align="right">{val}</TableCell>
+                                    ))}
                                 </TableRow>
                             ))}
                         </TableBody>

@@ -26,6 +26,10 @@ interface AppStates {
     isLoading: boolean;
 }
 
+/**
+ * Application container that does the initial rendering.
+ * Do initial actions and fetches here that need to be done on initial application laod.
+ */
 class App extends React.Component<AppProps, AppStates> {
     constructor(props: AppProps) {
         super(props);
@@ -104,6 +108,9 @@ export const store = createStore(
     applyMiddleware(thunkMiddleware)
 );
 
+/**
+ * Material UI Theme for the app.
+ */
 const THEME = createMuiTheme({
     typography: {
         fontFamily: '"Klavika", "Roboto", "Helvetica", "Arial", sans-serif'

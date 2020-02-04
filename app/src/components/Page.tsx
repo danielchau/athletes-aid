@@ -33,6 +33,11 @@ interface PageProps {
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
+/**
+ * Page is the parent conatiner for all of the pages and handles routing and rendering of the
+ * top bar and the navigation panel.
+ * @param props
+ */
 export default function Page(props: PageProps & RouteComponentProps) {
     const classes = pageStyles({});
 

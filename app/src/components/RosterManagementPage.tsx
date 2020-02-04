@@ -46,6 +46,10 @@ interface RosterManagementPageProps {
     setSelectedTeam: any;
 }
 
+/**
+ * Roster Management Page displays information on how to add teams and edit them.
+ * @param props
+ */
 export default function RosterManagementPage(props: RosterManagementPageProps) {
     const classes = rosterManagementPageStyles({});
     const [selectedTeam, setSelectedTeam] = React.useState<Team | null>(null);
@@ -63,6 +67,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const [isFetching, setIsFetching] = React.useState<string>("");
     const [isRosterFetching, setIsRosterFetching] = React.useState<boolean>(false);
 
+    /**
+     * Get all athletes in the database so that admin knows who they can add individually.
+     */
     React.useEffect(() => {
         getAllAthletes("").then((response: ListAthlete[] | null) => {
             if (!!response) {
@@ -71,6 +78,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         });
     }, []);
 
+    /**
+     * If the teams change, update the relevant states.
+     */
     React.useEffect(() => {
         if (!!selectedTeam) {
             let newSelectedTeam = props.teams.filter(t => t.id == selectedTeam.id);
@@ -94,6 +104,10 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setIsFetching("");
     }, [currentRoster]);
 
+    /**
+     * Set the state depending on what team has been selected or if a new team is being created.
+     * @param event
+     */
     const handleTeamSelected = (event: React.ChangeEvent<{ value: string }>) => {
         let team = props.teams.filter(team => team.id === event.target.value);
         setSelectedTeam(team.length > 0 ? team[0] : null);
@@ -110,6 +124,10 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setSeason(null);
     };
 
+    /**
+     * Left side roster: toggle the checkbox of the athlete.
+     * @param value
+     */
     const handleExistingAthletesToggle = (value: string) => {
         const newChecked = new Set(existingAthletesChecked);
 
@@ -122,6 +140,10 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setExistingAthletesChecked(newChecked);
     };
 
+    /**
+     * Right side athletes: toggle the checkbox of the athlete.
+     * @param value
+     */
     const handleNewAthletesToggle = (value: string) => {
         const newChecked = new Set(newAthletesChecked);
 
@@ -149,6 +171,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setSeason(event.target.value);
     };
 
+    /**
+     * Send a server request to delete selected athletes off the team.
+     */
     const handleAthleteDelete = () => {
         let athleteIds = currentRoster
             .filter(a => !existingAthletesChecked.has(a.id))
@@ -160,6 +185,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         });
     };
 
+    /**
+     * SEnd a server request to add selected athletes to a team.
+     */
     const handleAddAthletes = () => {
         let athleteIds = [];
         let allAthleteMap = new Map<string, string>();
@@ -185,6 +213,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         });
     };
 
+    /**
+     * Send a server request to save edited information about an existing team or create a new team.
+     */
     const handleSave = () => {
         setIsFetching("teamUpdate");
         if (!!selectedTeam) {

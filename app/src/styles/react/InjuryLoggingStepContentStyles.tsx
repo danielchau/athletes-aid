@@ -1,5 +1,8 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
+/**
+ * React styles for the content inside of the Injury Logging Page steps.
+ */
 export const injuryLoggingStepContentStyles = makeStyles((theme: Theme) =>
     createStyles({
         formControl: {

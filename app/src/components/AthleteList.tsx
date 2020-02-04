@@ -15,6 +15,12 @@ interface AthleteListProps {
     handleToggle: (val: any) => void;
 }
 
+/**
+ * Athlete List displays athletes and their birthdate (if present) in a list format.
+ * Athletes are selectable on click of the checkbox.
+ * Pass in a custom on click function if you wish to add functionality to the toggle.
+ * @param props
+ */
 export default function AthleteList(props: AthleteListProps) {
     const classes = rosterManagementPageStyles({});
     return (

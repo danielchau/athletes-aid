@@ -1,10 +1,8 @@
-import {
-    makeStyles,
-    Theme,
-    createStyles,
-    lighten
-} from "@material-ui/core/styles";
+import { makeStyles, Theme, createStyles, lighten } from "@material-ui/core/styles";
 
+/**
+ * React styles for the Injury Data Table.
+ */
 export const injuriesDataTableStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -39,6 +37,9 @@ export const injuriesDataTableStyles = makeStyles((theme: Theme) =>
     })
 );
 
+/**
+ * React styles for the Injury Data Table Toolbar Header.
+ */
 export const injuriesDataTableToolbarStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -49,10 +50,7 @@ export const injuriesDataTableToolbarStyles = makeStyles((theme: Theme) =>
             theme.palette.type === "light"
                 ? {
                       color: theme.palette.primary.main,
-                      backgroundColor: lighten(
-                          theme.palette.primary.light,
-                          0.85
-                      )
+                      backgroundColor: lighten(theme.palette.primary.light, 0.85)
                   }
                 : {
                       color: theme.palette.text.primary,

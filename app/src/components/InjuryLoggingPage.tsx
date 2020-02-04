@@ -29,6 +29,10 @@ interface InjuryLoggingPageProps {
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
+/**
+ * Injury Logging Page displays fields needed to log an injury.
+ * @param props
+ */
 export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const classes = injuryLoggingPageStyles({});
     const [activeStep, setActiveStep] = React.useState(0);

@@ -18,17 +18,8 @@ import {
     injuriesDataTableToolbarStyles,
     injuriesDataTableStyles
 } from "../styles/react/InjuriesDataTableStyles";
-import { Injury, AthleteInjuries, Team, User, Athlete } from "../util/types";
-
-interface EnhancedTableProps {
-    classes: ReturnType<typeof injuriesDataTableStyles>;
-    numSelected: number;
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Injury) => void;
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
-    order: Order;
-    orderBy: string;
-    rowCount: number;
-}
+import { Injury, AthleteInjuries, Team, User, Athlete, Order } from "../util/types";
+import { headCells } from "../constants/constants";
 
 interface InjuriesDataTableProps {
     injuries: Injury[];
@@ -43,60 +34,26 @@ interface InjuriesDataTableProps {
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
 
+interface EnhancedTableProps {
+    classes: ReturnType<typeof injuriesDataTableStyles>;
+    numSelected: number;
+    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Injury) => void;
+    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+    order: Order;
+    orderBy: string;
+    rowCount: number;
+}
+
 interface EnhancedTableToolbarProps {
     numSelected: number;
     onExport: () => void;
     currentUser: User;
 }
 
-type Order = "asc" | "desc";
-
-interface HeadCell {
-    disablePadding: boolean;
-    id: keyof Injury;
-    label: string;
-    numeric: boolean;
-}
-
-const headCells: HeadCell[] = [
-    {
-        id: "athleteName",
-        numeric: false,
-        disablePadding: true,
-        label: "Athlete Name"
-    },
-    {
-        id: "injuryDate",
-        numeric: true,
-        disablePadding: false,
-        label: "Injury Date"
-    },
-    {
-        id: "locationOnBody",
-        numeric: true,
-        disablePadding: false,
-        label: "Body Location"
-    },
-    {
-        id: "injuryType",
-        numeric: true,
-        disablePadding: false,
-        label: "Injury Type"
-    },
-    {
-        id: "severity",
-        numeric: true,
-        disablePadding: false,
-        label: "Severity"
-    },
-    {
-        id: "status",
-        numeric: true,
-        disablePadding: false,
-        label: "Status"
-    }
-];
-
+/**
+ * Injury data table to display injuries within a query or for an athlete.
+ * @param props
+ */
 export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const classes = injuriesDataTableStyles({});
     const [order, setOrder] = React.useState<Order>("asc");
@@ -107,12 +64,21 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+    /**
+     * Sort the table data by a certain property.
+     * @param _
+     * @param property
+     */
     const handleRequestSort = (_: React.MouseEvent<unknown>, property: keyof Injury) => {
         const isDesc = orderBy === property && order === "desc";
         setOrder(isDesc ? "asc" : "desc");
         setOrderBy(property);
     };
 
+    /**
+     * Select all rows.
+     * @param event
+     */
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
             const newSelecteds = props.injuries.map(n => n.id);
@@ -122,6 +88,11 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         setSelectedInjuries([]);
     };
 
+    /**
+     * Handle checkbox selection of a single row.
+     * @param event
+     * @param name
+     */
     const handleSelection = (event: React.MouseEvent<unknown>, name: string) => {
         event.stopPropagation();
         const selectedIndex = selectedInjuries.indexOf(name);
@@ -143,6 +114,11 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         setSelectedInjuries(newSelected);
     };
 
+    /**
+     * Trigger the injury dialog to open upon clicking on an injury row.
+     * @param _
+     * @param name
+     */
     const handleRowClick = (_: React.MouseEvent<unknown>, name: string) => {
         let selectedInjury = props.injuries.filter(i => i.id == name)[0];
         if (!!selectedInjury) {
@@ -169,6 +145,9 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const emptyRows =
         rowsPerPage - Math.min(rowsPerPage, props.injuries.length - page * rowsPerPage);
 
+    /**
+     * Export the selected athletes to a csv containing the injury information.
+     */
     const onExport = () => {
         let headers =
             "Active,Created On,Created By,Team Name,Athlete Name,Injury Date," +
@@ -332,6 +311,10 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     );
 }
 
+/**
+ * Enhanced Table Head displays the header of the data table.
+ * @param props
+ */
 function EnhancedTableHead(props: EnhancedTableProps) {
     const {
         classes,
@@ -384,6 +367,10 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     );
 }
 
+/**
+ * Enhanced Table Toolbar displays information about selection count and handles exporting.
+ * @param props
+ */
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
     const classes = injuriesDataTableToolbarStyles({});
     const { numSelected } = props;

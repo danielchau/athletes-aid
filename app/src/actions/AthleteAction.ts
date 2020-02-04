@@ -1,6 +1,18 @@
 import { AthleteProfile, ListAthlete, SET_SELECTED_ATHLETE } from "../util/types";
 import { transformJSONToInjury } from "./InjuriesAction";
 
+/**
+ * REDUX ACTIONS
+ */
+
+export function setSelectedAthlete(athleteId: string) {
+    return { type: SET_SELECTED_ATHLETE, athleteId };
+}
+
+/**
+ * FETCH ACTIONS TO SERVER
+ */
+
 export async function addAthleteToDb(athlete: AthleteProfile, createdBy: string) {
     return await fetchAddAthlete(athlete, createdBy);
 }
@@ -138,8 +150,4 @@ async function fetchAthlete(athleteId: string): Promise<AthleteProfile | null> {
             console.log("Fetch Error", err);
             return null;
         });
-}
-
-export function setSelectedAthlete(athleteId: string) {
-    return { type: SET_SELECTED_ATHLETE, athleteId };
 }

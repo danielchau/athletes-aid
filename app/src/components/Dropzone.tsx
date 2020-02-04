@@ -8,7 +8,15 @@ interface MyDropzoneProps {
     setNewAthletes: any;
 }
 
+/**
+ * Dropzone is an area that files can be uploaded to.
+ * File has to be of the format of the one that is available for download in the previous component.
+ * @param props
+ */
 export default function MyDropzone(props: MyDropzoneProps) {
+    /**
+     * Transforms a file from the drag and drop to an array of athletesProfiles.
+     */
     const onDrop = useCallback(acceptedFiles => {
         acceptedFiles.forEach((file: any) => {
             const reader = new FileReader();
@@ -16,7 +24,6 @@ export default function MyDropzone(props: MyDropzoneProps) {
             reader.onabort = () => console.log("file reading was aborted");
             reader.onerror = () => console.log("file reading has failed");
             reader.onload = () => {
-                // Do whatever you want with the file contents
                 const binaryStr = reader.result;
                 let jsonObject = ExcelToJSON(binaryStr);
                 let athletes = jsonObject.map((entry: any, i: number) => {

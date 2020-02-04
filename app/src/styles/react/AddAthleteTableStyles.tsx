@@ -1,5 +1,8 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
+/**
+ * React styles for the Add Athletes Table.
+ */
 export const addAthleteTableStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
