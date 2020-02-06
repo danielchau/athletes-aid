@@ -72,6 +72,61 @@ export const postInjury = async (req: Request, res: Response) => {
   }
 };
 
+export const updateInjury = async (req: Request, res: Response) => {
+  Logger.Info(req);
+  try {
+    let injury: Injury = await injuryModel.getInjury(req.body.injuryId);
+
+    injury.createdBy = req.body.createdBy || injury.createdBy;
+
+    injury.active = req.body.active || injury.active;
+
+    injury.teamName = req.body.teamName || injury.teamName;
+
+    injury.teamId = req.body.teamId || injury.teamId;
+
+    injury.athleteName = req.body.athleteName || injury.athleteName;
+
+    injury.athleteId = req.body.athleteId || injury.athleteId;
+
+    injury.injuryDate = req.body.injuryDate || injury.injuryDate;
+
+    injury.isSportsRelated = req.body.isSportsRelated || injury.isSportsRelated;
+
+    injury.eventType = req.body.eventType || injury.eventType;
+
+    injury.position = req.body.position || injury.position;
+
+    injury.sideOfBody = req.body.sideOfBody || injury.sideOfBody;
+
+    injury.locationOnBody = req.body.locationOnBody || injury.locationOnBody;
+
+    injury.injuryType = req.body.injuryType || injury.injuryType;
+
+    injury.severity = req.body.severity || injury.severity;
+
+    injury.status = req.body.status || injury.status;
+
+    injury.mechanism = req.body.mechanism || injury.mechanism;
+
+    injury.injuryDescription =
+      req.body.injuryDescription || injury.injuryDescription;
+
+    let updatedInjury: Injury = await injuryModel.updateInjury(injury);
+
+    let response = {
+      message: "Injury Updated",
+      data: {
+        injury: updatedInjury
+      }
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e);
+    return res.status(500).send("Failed to update injury");
+  }
+};
+
 export const getInjuriesByRange = async (req: Request, res: Response) => {
   try {
     let injuries = new Array<Injury>();
@@ -141,7 +196,7 @@ export const setActive = async (req: Request, res: Response) => {
   try {
     let injury = new Injury();
     injury = await injuryModel.getInjury(req.body.injuryId);
-    
+
     injury.active = req.body.active;
     injury = await injuryModel.updateInjury(injury);
 

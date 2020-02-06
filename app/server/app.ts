@@ -34,6 +34,7 @@ app.get("/singleInjury", injuryController.getInjury);
 app.post("/injuryNote", injuryController.postInjuryNote);
 app.get("/injuriesInDateRange", injuryController.getInjuriesByRange);
 app.post("/injuryActive", injuryController.setActive);
+app.put("/singleInjury", injuryController.updateInjury);
 
 import * as athleteController from "./controllers/athlete";
 app.post("/athlete", athleteController.postAthlete);
