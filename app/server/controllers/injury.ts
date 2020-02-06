@@ -77,40 +77,69 @@ export const updateInjury = async (req: Request, res: Response) => {
   try {
     let injury: Injury = await injuryModel.getInjury(req.body.injuryId);
 
-    injury.createdBy = req.body.createdBy || injury.createdBy;
+    if (req.body)
+      injury.createdBy =
+        req.body.createdBy != undefined ? req.body.createdBy : injury.createdBy;
 
-    injury.active = req.body.active || injury.active;
+    injury.active =
+      req.body.active != undefined ? req.body.active : injury.active;
 
-    injury.teamName = req.body.teamName || injury.teamName;
+    injury.teamName =
+      req.body.teamName != undefined ? req.body.teamName : injury.teamName;
 
-    injury.teamId = req.body.teamId || injury.teamId;
+    injury.teamId =
+      req.body.teamId != undefined ? req.body.teamId : injury.teamId;
 
-    injury.athleteName = req.body.athleteName || injury.athleteName;
+    injury.athleteName =
+      req.body.athleteName != undefined
+        ? req.body.athleteName
+        : injury.athleteName;
 
-    injury.athleteId = req.body.athleteId || injury.athleteId;
+    injury.athleteId =
+      req.body.athleteId != undefined ? req.body.athleteId : injury.athleteId;
 
-    injury.injuryDate = req.body.injuryDate || injury.injuryDate;
+    injury.injuryDate =
+      req.body.injuryId != undefined ? req.body.injuryDate : injury.injuryDate;
 
-    injury.isSportsRelated = req.body.isSportsRelated || injury.isSportsRelated;
+    injury.isSportsRelated =
+      req.body.isSportsRelated != undefined
+        ? req.body.isSportsRelated
+        : injury.isSportsRelated;
 
-    injury.eventType = req.body.eventType || injury.eventType;
+    injury.eventType =
+      req.body.eventType != undefined ? req.body.eventType : injury.eventType;
 
-    injury.position = req.body.position || injury.position;
+    injury.position =
+      req.body.position != undefined ? req.body.position : injury.position;
 
-    injury.sideOfBody = req.body.sideOfBody || injury.sideOfBody;
+    injury.sideOfBody =
+      req.body.sideOfBody != undefined
+        ? req.body.sideOfBody
+        : injury.sideOfBody;
 
-    injury.locationOnBody = req.body.locationOnBody || injury.locationOnBody;
+    injury.locationOnBody =
+      req.body.locationOnBody != undefined
+        ? req.body.locationOnBody
+        : injury.locationOnBody;
 
-    injury.injuryType = req.body.injuryType || injury.injuryType;
+    injury.injuryType =
+      req.body.injuryType != undefined
+        ? req.body.injuryType
+        : injury.injuryType;
 
-    injury.severity = req.body.severity || injury.severity;
+    injury.severity =
+      req.body.severity != undefined ? req.body.severity : injury.severity;
 
-    injury.status = req.body.status || injury.status;
+    injury.status =
+      req.body.status != undefined ? req.body.status : injury.status;
 
-    injury.mechanism = req.body.mechanism || injury.mechanism;
+    injury.mechanism =
+      req.body.mechanism != undefined ? req.body.mechanism : injury.mechanism;
 
     injury.injuryDescription =
-      req.body.injuryDescription || injury.injuryDescription;
+      req.body.injuryDescription != undefined
+        ? req.body.injuryDescription
+        : injury.injuryDescription;
 
     let updatedInjury: Injury = await injuryModel.updateInjury(injury);
 
