@@ -99,7 +99,7 @@ export const updateInjury = async (req: Request, res: Response) => {
       req.body.athleteId != undefined ? req.body.athleteId : injury.athleteId;
 
     injury.injuryDate =
-      req.body.injuryId != undefined ? req.body.injuryDate : injury.injuryDate;
+      req.body.injuryDate != undefined ? req.body.injuryDate : injury.injuryDate;
 
     injury.isSportsRelated =
       req.body.isSportsRelated != undefined
