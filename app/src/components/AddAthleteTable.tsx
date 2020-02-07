@@ -81,7 +81,6 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                             birthdate: athlete.birthdate
                         })
                     );
-                    props.getTeams("");
                 }
             }
         );
