@@ -22,7 +22,7 @@ class EmergencyContact {
   @attribute()
   email: string;
   @attribute()
-  phone: number;
+  phone: string;
 }
 
 @table("Athletes")

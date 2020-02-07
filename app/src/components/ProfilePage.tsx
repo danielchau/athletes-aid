@@ -14,6 +14,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import InjuriesDataTable from "./InjuriesDataTable";
 import clsx from "clsx";
 import ProfilePageInfo from "./ProfilePageInfo";
+import FetchingScreen from "./FetchingScreen";
 
 interface ProfilePageProps {
     state: NavigationPanelStates;
@@ -36,6 +37,7 @@ export default function ProfilePage(props: ProfilePageProps) {
     const classes = profilePageStyles({});
     const [injuryOpen, setInjuryOpen] = React.useState(false);
     const [isEditing, setIsEditing] = React.useState<boolean>(false);
+    const [isUpdating, setIsUpdating] = React.useState<boolean>(false);
 
     const handleInjuryOpen = () => {
         setInjuryOpen(true);
@@ -47,6 +49,9 @@ export default function ProfilePage(props: ProfilePageProps) {
 
     const onEditClick = () => {
         setIsEditing(!isEditing);
+        if (isEditing) {
+            setIsUpdating(true);
+        }
     };
 
     return (
@@ -57,30 +62,41 @@ export default function ProfilePage(props: ProfilePageProps) {
             })}
         >
             <div className={classes.leftCol}>
-                {props.canEdit && (
-                    <IconButton
-                        style={{ color: isEditing ? "#0055B7" : "#F2A71E", position: "absolute" }}
-                        onClick={onEditClick}
-                    >
-                        {isEditing ? <CheckIcon /> : <EditIcon />}
-                    </IconButton>
-                )}
-                {props.currentAthlete.profilePicture == "" ? (
-                    <Avatar className={classes.profilePicture}>
-                        {props.currentAthlete.name.substr(0, 1)}
-                    </Avatar>
-                ) : (
-                    <Avatar
-                        className={classes.profilePicture}
-                        src={props.currentAthlete.profilePicture}
-                    ></Avatar>
-                )}
-                <Typography className={classes.name} variant="h4">
-                    {props.currentAthlete.name}
-                </Typography>
-                <Divider light />
-                <ProfilePageInfo currentAthlete={props.currentAthlete} isEditing={isEditing} />
-                <Divider light />
+                {isUpdating && <FetchingScreen />}
+                <div style={{ visibility: isUpdating ? "hidden" : "visible" }}>
+                    {props.canEdit && (
+                        <IconButton
+                            style={{
+                                color: isEditing ? "#0055B7" : "#F2A71E",
+                                position: "absolute"
+                            }}
+                            onClick={onEditClick}
+                        >
+                            {isEditing ? <CheckIcon /> : <EditIcon />}
+                        </IconButton>
+                    )}
+                    {props.currentAthlete.profilePicture == "" ? (
+                        <Avatar className={classes.profilePicture}>
+                            {props.currentAthlete.name.substr(0, 1)}
+                        </Avatar>
+                    ) : (
+                        <Avatar
+                            className={classes.profilePicture}
+                            src={props.currentAthlete.profilePicture}
+                        ></Avatar>
+                    )}
+                    <Typography className={classes.name} variant="h4">
+                        {props.currentAthlete.name}
+                    </Typography>
+                    <Divider light />
+                    <ProfilePageInfo
+                        currentAthlete={props.currentAthlete}
+                        isEditing={isEditing}
+                        setIsUpdating={setIsUpdating}
+                        currentUser={props.currentUser}
+                    />
+                    <Divider light />
+                </div>
             </div>
             <div className={classes.rightCol}>
                 <Typography className={classes.heading} variant="h5">

@@ -23,36 +23,7 @@ async function fetchAddAthlete(athlete: AthleteProfile, createdBy: string): Prom
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            createdBy: createdBy,
-            firstName: athlete.name.substring(0, athlete.name.indexOf(" ")),
-            lastName: athlete.name.substring(athlete.name.indexOf(" ") + 1),
-            birthDate: new Date(athlete.birthdate),
-            yearInSchool: athlete.schoolYear,
-            gender: athlete.gender,
-            weight: athlete.weight,
-            height: athlete.height,
-            email: athlete.email,
-            cellPhone: athlete.cellPhone,
-            homePhone: athlete.homePhone,
-            address: "",
-            emailNotifications: true,
-            textNotifications: true,
-            healthPlan: "",
-            memberId: 0,
-            groupNumber: 0,
-            provincialHealthCardNumber: 0,
-            province: "",
-            primaryPhysician: "",
-            emergencyContact: {
-                name: athlete.emergencyContact.name,
-                address: "",
-                phone: 0 // athlete.emergencyContact.cellPhone
-            },
-            injuries: [],
-            teams: [],
-            notes: []
-        })
+        body: transformAthleteProfileToJSON(athlete, createdBy, false)
     })
         .then(response => response.json())
         .then((response: any) => {
@@ -60,6 +31,34 @@ async function fetchAddAthlete(athlete: AthleteProfile, createdBy: string): Prom
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
+                return response.data.id;
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
+
+export async function updateAthlete(athlete: AthleteProfile, createdBy: string) {
+    return await putAthlete(athlete, createdBy);
+}
+
+async function putAthlete(athlete: AthleteProfile, createdBy: string): Promise<string | null> {
+    return fetch("./athlete", {
+        method: "put",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: transformAthleteProfileToJSON(athlete, createdBy, true)
+    })
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                console.log(response.data);
                 return response.data.id;
             }
         })
@@ -137,9 +136,8 @@ async function fetchAthlete(athleteId: string): Promise<AthleteProfile | null> {
                     healthCardNumber: data.healthPlan,
                     emergencyContact: {
                         name: data.emergencyContact.name,
-                        cellPhone: data.emergencyContact.phone.toString(),
-                        homePhone: "",
-                        email: ""
+                        phone: !!data.emergencyContact.phone ? data.emergencyContact.phone : "",
+                        email: !!data.emergencyContact.email ? data.emergencyContact.email : ""
                     },
                     files: [],
                     injuries: transformJSONToInjury(data.injuries)
@@ -151,3 +149,41 @@ async function fetchAthlete(athleteId: string): Promise<AthleteProfile | null> {
             return null;
         });
 }
+
+const transformAthleteProfileToJSON = (
+    athlete: AthleteProfile,
+    createdBy: string,
+    hasId: boolean
+) => {
+    return JSON.stringify({
+        id: hasId ? athlete.id : undefined,
+        createdBy: createdBy,
+        firstName: athlete.name.substring(0, athlete.name.indexOf(" ")),
+        lastName: athlete.name.substring(athlete.name.indexOf(" ") + 1),
+        birthDate: new Date(athlete.birthdate),
+        yearInSchool: athlete.schoolYear,
+        gender: athlete.gender,
+        weight: athlete.weight,
+        height: athlete.height,
+        email: athlete.email,
+        cellPhone: athlete.cellPhone,
+        homePhone: athlete.homePhone,
+        address: "",
+        emailNotifications: true,
+        textNotifications: true,
+        healthPlan: "",
+        memberId: 0,
+        groupNumber: 0,
+        provincialHealthCardNumber: 0,
+        province: "",
+        primaryPhysician: "",
+        emergencyContact: {
+            name: athlete.emergencyContact.name,
+            email: athlete.emergencyContact.email,
+            phone: athlete.emergencyContact.phone
+        },
+        injuries: athlete.injuries.map(i => i.id),
+        teams: [],
+        notes: []
+    });
+};
