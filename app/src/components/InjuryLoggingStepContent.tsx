@@ -274,7 +274,7 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                             </MenuItem>
                             {severities.map((severity: number, i: number) => (
                                 <MenuItem key={i} value={severity}>
-                                    {severity}
+                                    {severity} - {severityDescriptions[i]}
                                 </MenuItem>
                             ))}
                         </Select>

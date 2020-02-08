@@ -204,7 +204,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                     {activeStep === steps.length ? (
                         <div className={classes.completedContainer}>
                             <Typography variant="h4" className={classes.instructions}>
-                                All steps completed.
+                                All steps completed. Injury is Logged.
                             </Typography>
                             <Button variant="contained" color="primary" onClick={handleReset}>
                                 Log Another Injury

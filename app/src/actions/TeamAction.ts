@@ -9,21 +9,42 @@ import { transformJSONToInjury } from "./InjuriesAction";
 export function getTeams(athleteId: string, data: any) {
     return {
         type: GET_TEAMS,
-        teams: data.data.teamOutput.map((d: any) => {
-            return {
-                id: d.id,
-                name: d.name,
-                season: d.season,
-                athleteIds: d.athletes
-            };
-        })
+        teams: data.data.teamOutput
+            .map((d: any) => {
+                return {
+                    id: d.id,
+                    name: d.name,
+                    season: d.season,
+                    athleteIds: d.athletes
+                };
+            })
+            .sort((a: Team, b: Team) => {
+                if (a.name < b.name) {
+                    return 1;
+                } else if (a.name > b.name) {
+                    return -1;
+                } else {
+                    if (a.season < b.season) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            })
     };
 }
 
 export function getCurrentRoster(athletes: Athlete[]) {
     return {
         type: GET_CURRENT_ROSTER,
-        currentRoster: athletes
+        currentRoster: athletes.sort((a, b) => {
+            if (a.name < b.name) {
+                return 1;
+            } else if (a.name > b.name) {
+                return -1;
+            }
+            return 0;
+        })
     };
 }
 
