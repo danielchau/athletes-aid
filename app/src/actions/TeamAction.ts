@@ -20,14 +20,14 @@ export function getTeams(athleteId: string, data: any) {
             })
             .sort((a: Team, b: Team) => {
                 if (a.name < b.name) {
-                    return 1;
-                } else if (a.name > b.name) {
                     return -1;
+                } else if (a.name > b.name) {
+                    return 1;
                 } else {
                     if (a.season < b.season) {
-                        return 1;
-                    } else {
                         return -1;
+                    } else {
+                        return 1;
                     }
                 }
             })
@@ -39,9 +39,9 @@ export function getCurrentRoster(athletes: Athlete[]) {
         type: GET_CURRENT_ROSTER,
         currentRoster: athletes.sort((a, b) => {
             if (a.name < b.name) {
-                return 1;
-            } else if (a.name > b.name) {
                 return -1;
+            } else if (a.name > b.name) {
+                return 1;
             }
             return 0;
         })

@@ -20,7 +20,8 @@ import {
     injuryTypes,
     severities,
     playerStatuses,
-    mechanismsOfInjury
+    mechanismsOfInjury,
+    severityDescriptions
 } from "../constants/constants";
 
 interface InjuryLoggingStepContentProps {
