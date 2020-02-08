@@ -165,7 +165,6 @@ export function transformJSONToInjury(json: any[]): Injury[] {
             injuryDate: new Date(injury.injuryDate),
             isSportsRelated: injury.isSportsRelated,
             eventType: injury.eventType,
-            position: injury.position,
             sideOfBody: injury.sideOfBody,
             locationOnBody: injury.locationOnBody,
             injuryType: injury.injuryType,

@@ -162,7 +162,6 @@ export interface Injury {
     injuryDate: Date;
     isSportsRelated: boolean;
     eventType: string;
-    position: string;
     sideOfBody: string;
     locationOnBody: string;
     injuryType: string;

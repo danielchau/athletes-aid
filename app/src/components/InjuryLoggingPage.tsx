@@ -51,9 +51,6 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const [selectedEventType, setSelectedEventType] = React.useState(
         !!props.existingInjury ? props.existingInjury.eventType : ""
     );
-    const [selectedPosition, setSelectedPosition] = React.useState(
-        !!props.existingInjury ? props.existingInjury.position : ""
-    );
     const [selectedSideOfBody, setSelectedSideOfBody] = React.useState(
         !!props.existingInjury ? props.existingInjury.sideOfBody : ""
     );
@@ -123,7 +120,6 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                         injuryDate: selectedDate.toString(),
                         isSportsRelated: isSportsRelated,
                         eventType: selectedEventType,
-                        position: selectedPosition,
                         sideOfBody: selectedSideOfBody,
                         locationOnBody: selectedLocationOnBody,
                         injuryType: selectedInjuryType,
@@ -147,7 +143,6 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                     setSelectedDate(new Date());
                     setIsSportsRelated(false);
                     setSelectedEventType("");
-                    setSelectedPosition("");
                     setSelectedSideOfBody("");
                     setSelectedLocationOnBody("");
                     setSelectedInjuryType("");
@@ -231,8 +226,6 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                                     setIsSportsRelated={setIsSportsRelated}
                                     selectedEventType={selectedEventType}
                                     setSelectedEventType={setSelectedEventType}
-                                    selectedPosition={selectedPosition}
-                                    setSelectedPosition={setSelectedPosition}
                                     selectedSideOfBody={selectedSideOfBody}
                                     setSelectedSideOfBody={setSelectedSideOfBody}
                                     selectedLocationOnBody={selectedLocationOnBody}

@@ -15,7 +15,6 @@ import { injuryLoggingStepContentStyles } from "../styles/react/InjuryLoggingSte
 import { Athlete, Team, Injury } from "../util/types";
 import {
     eventTypes,
-    positions,
     sidesOfBody,
     bodyLocations,
     injuryTypes,
@@ -37,8 +36,6 @@ interface InjuryLoggingStepContentProps {
     setIsSportsRelated: any;
     selectedEventType: string;
     setSelectedEventType: any;
-    selectedPosition: string;
-    setSelectedPosition: any;
     selectedSideOfBody: string;
     setSelectedSideOfBody: any;
     selectedLocationOnBody: string;
@@ -80,9 +77,6 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
     };
     const handleEventTypeChange = (event: StringChangeEvent) => {
         props.setSelectedEventType(event.target.value);
-    };
-    const handlePositionChange = (event: StringChangeEvent) => {
-        props.setSelectedPosition(event.target.value);
     };
     const handleSideOfBodyChange = (event: StringChangeEvent) => {
         props.setSelectedSideOfBody(event.target.value);
@@ -209,24 +203,6 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                             {eventTypes.map((event: string, i: number) => (
                                 <MenuItem key={i} value={event}>
                                     {event}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <FormControl className={classes.formControl} variant="outlined">
-                        <InputLabel id="position-select-label">Position</InputLabel>
-                        <Select
-                            labelWidth={60}
-                            id="position-select"
-                            value={props.selectedPosition}
-                            onChange={handlePositionChange}
-                        >
-                            <MenuItem value="" disabled>
-                                Select position of athlete...
-                            </MenuItem>
-                            {positions.map((position: string, i: number) => (
-                                <MenuItem key={i} value={position}>
-                                    {position}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -404,10 +380,6 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                     <p>
                         <b>Event Type: </b>
                         {props.selectedEventType}
-                    </p>
-                    <p>
-                        <b>Position: </b>
-                        {props.selectedPosition}
                     </p>
                     <p>
                         <b>Side Of Body: </b>

@@ -20,6 +20,8 @@ import {
 } from "../styles/react/InjuriesDataTableStyles";
 import { Injury, AthleteInjuries, Team, User, Athlete, Order } from "../util/types";
 import { headCells } from "../constants/constants";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import { Button } from "@material-ui/core";
 
 interface InjuriesDataTableProps {
     injuries: Injury[];
@@ -151,7 +153,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const onExport = () => {
         let headers =
             "Active,Created On,Created By,Team Name,Athlete Name,Injury Date," +
-            "Is Sports Related,Event Type,Position,Side Of Body,Location On Body," +
+            "Is Sports Related,Event Type,Side Of Body,Location On Body," +
             "Injury Type,Severity,Status,Mechanism,Injury Description,Other Notes,\r\n";
         let csvContent = "data:text/csv;charset=utf-8," + headers;
         props.injuries
@@ -166,7 +168,6 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     i.injuryDate.toDateString(),
                     i.isSportsRelated.toString(),
                     i.eventType.toString(),
-                    i.position.toString(),
                     i.sideOfBody.toString(),
                     i.locationOnBody.toString(),
                     i.injuryType.toString(),
@@ -383,18 +384,10 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         >
             {numSelected > 0 ? (
                 <>
-                    <Typography className={classes.title} color="inherit" variant="subtitle1">
-                        {numSelected} selected{" "}
-                        {props.currentUser.permissions.canSeeInjuryDetails && (
-                            <Typography
-                                className={classes.export}
-                                variant="subtitle1"
-                                onClick={props.onExport}
-                            >
-                                (export)
-                            </Typography>
-                        )}
-                    </Typography>
+                    <Button className={classes.export} color="inherit" onClick={props.onExport}>
+                        <GetAppIcon style={{ paddingRight: "4px" }} />
+                        <Typography variant="subtitle1">Export {numSelected} selected</Typography>
+                    </Button>
                 </>
             ) : (
                 <Typography className={classes.title} variant="h6" id="tableTitle">

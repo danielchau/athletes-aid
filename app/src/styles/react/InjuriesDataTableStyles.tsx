@@ -60,9 +60,9 @@ export const injuriesDataTableToolbarStyles = makeStyles((theme: Theme) =>
             flex: "1 1 100%"
         },
         export: {
-            cursor: "pointer",
+            margin: "auto",
             color: theme.palette.secondary.main,
-            display: "inline"
+            display: "flex"
         }
     })
 );

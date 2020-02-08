@@ -28,8 +28,6 @@ export const drawerWidth: number = 240;
  * Constants used for prepopulated dropdowns when logging injuries.
  */
 export const eventTypes: string[] = ["Game", "Practice", "Personal"];
-// These should be sport dependant
-export const positions: string[] = ["Position 1", "Position 2"];
 export const sidesOfBody: string[] = ["Bilateral", "Left", "Midline", "Right", "Not On Body"];
 export const bodyLocations: string[] = [
     "Abdominals",
