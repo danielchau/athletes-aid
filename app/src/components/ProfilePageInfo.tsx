@@ -1,13 +1,16 @@
 import React from "react";
-import { AthleteProfile } from "../util/types";
+import { AthleteProfile, User } from "../util/types";
 import { Typography, Divider, TextField } from "@material-ui/core";
 import { profilePageStyles } from "../styles/react/ProfilePageStyles";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { updateAthlete } from "../actions/AthleteAction";
 
 interface ProfilePageInfo {
     currentAthlete: AthleteProfile;
     isEditing: boolean;
+    setIsUpdating: any;
+    currentUser: User;
 }
 
 /**
@@ -16,6 +19,7 @@ interface ProfilePageInfo {
  */
 export default function ProfilePageInfo(props: ProfilePageInfo) {
     const classes = profilePageStyles({});
+    const [isInitialRender, setIsInitialRender] = React.useState<boolean>(true);
     const [birthdate, setBirthdate] = React.useState<string>(props.currentAthlete.birthdate);
     const [schoolYear, setSchoolYear] = React.useState<string>(
         props.currentAthlete.schoolYear.toString()
@@ -35,12 +39,42 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
     const [ecEmail, setEcEmail] = React.useState<string>(
         props.currentAthlete.emergencyContact.email
     );
-    const [ecCellPhone, setEcCellPhone] = React.useState<string>(
-        props.currentAthlete.emergencyContact.cellPhone
+    const [ecPhone, setEcPhone] = React.useState<string>(
+        props.currentAthlete.emergencyContact.phone
     );
-    const [ecHomePhone, setEcHomePhone] = React.useState<string>(
-        props.currentAthlete.emergencyContact.homePhone
-    );
+
+    React.useEffect(() => {
+        if (!props.isEditing && !isInitialRender) {
+            updateAthlete(
+                {
+                    id: props.currentAthlete.id,
+                    profilePicture: props.currentAthlete.profilePicture,
+                    name: props.currentAthlete.name,
+                    birthdate: birthdate,
+                    schoolYear: Number(schoolYear),
+                    gender: gender,
+                    weight: Number(weight),
+                    height: Number(height),
+                    email: email,
+                    cellPhone: cellPhone,
+                    homePhone: homePhone,
+                    healthCardNumber: healthCardNo,
+                    emergencyContact: {
+                        id: props.currentAthlete.emergencyContact.id,
+                        name: ecName,
+                        phone: ecPhone,
+                        email: ecEmail
+                    },
+                    files: props.currentAthlete.files,
+                    injuries: props.currentAthlete.injuries
+                },
+                props.currentUser.athleteProfile.name
+            ).then(_ => {
+                props.setIsUpdating(false);
+            });
+        }
+        setIsInitialRender(false);
+    }, [props.isEditing]);
 
     return (
         <>
@@ -87,8 +121,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
             {[
                 ["Name", ecName, setEcName],
                 ["Email", ecEmail, setEcEmail],
-                ["Cell Phone", ecCellPhone, setEcCellPhone],
-                ["Home Phone", ecHomePhone, setEcHomePhone]
+                ["Phone", ecPhone, setEcPhone]
             ].map(([category, value, event], i: number) => (
                 <ProfileAttribute
                     key={i}

@@ -136,8 +136,7 @@ export interface User {
 export interface EmergencyContact {
     id: string;
     name: string;
-    cellPhone: string;
-    homePhone: string;
+    phone: string;
     email: string;
 }
 
@@ -163,7 +162,6 @@ export interface Injury {
     injuryDate: Date;
     isSportsRelated: boolean;
     eventType: string;
-    position: string;
     sideOfBody: string;
     locationOnBody: string;
     injuryType: string;

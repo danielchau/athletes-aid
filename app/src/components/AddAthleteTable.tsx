@@ -81,7 +81,6 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                             birthdate: athlete.birthdate
                         })
                     );
-                    props.getTeams("");
                 }
             }
         );
@@ -110,8 +109,7 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                                     "Cell Phone",
                                     "Home Phone",
                                     "Emergency Contact Name",
-                                    "Emergency Contact Cell Phone",
-                                    "Emergency Contact Home Phone",
+                                    "Emergency Contact Phone",
                                     "Emergency Contact Email"
                                 ].map((val: string) => (
                                     <TableCell align="right">
@@ -139,8 +137,7 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                                         row.cellPhone,
                                         row.homePhone,
                                         row.emergencyContact.name,
-                                        row.emergencyContact.cellPhone,
-                                        row.emergencyContact.homePhone,
+                                        row.emergencyContact.phone,
                                         row.emergencyContact.email
                                     ].map((val: string) => (
                                         <TableCell align="right">{val}</TableCell>

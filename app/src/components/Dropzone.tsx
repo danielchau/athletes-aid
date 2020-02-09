@@ -43,8 +43,7 @@ export default function MyDropzone(props: MyDropzoneProps) {
                         emergencyContact: {
                             id: "e" + i,
                             name: entry["Emergency Contact Name"],
-                            cellPhone: entry["Emergency Contact Cell Phone"],
-                            homePhone: entry["Emergency Contact Home Phone"],
+                            phone: entry["Emergency Contact Phone"],
                             email: entry["Emergency Contact Email"]
                         },
                         files: [],

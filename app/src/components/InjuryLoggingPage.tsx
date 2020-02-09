@@ -14,6 +14,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { Team, Injury, User, Athlete } from "../util/types";
 import { postInjury, postInjuryNote } from "../actions/InjuriesAction";
 import FetchingScreen from "./FetchingScreen";
+import { bodyLocations, injuryTypes } from "../constants/constants";
 
 function getSteps() {
     return ["Injury Details", "Further Details", "Review"];
@@ -39,6 +40,14 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const steps = getSteps();
     const [isLogging, setIsLogging] = React.useState(false);
 
+    const isLocationOther = () => {
+        return bodyLocations.some(l => l == props.existingInjury.locationOnBody);
+    };
+
+    const isTypeOther = () => {
+        return injuryTypes.some(t => t == props.existingInjury.injuryType);
+    };
+
     const [selectedAthlete, setSelectedAthlete] = React.useState(
         !!props.existingInjury ? props.existingInjury.athleteName : ""
     );
@@ -51,17 +60,24 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const [selectedEventType, setSelectedEventType] = React.useState(
         !!props.existingInjury ? props.existingInjury.eventType : ""
     );
-    const [selectedPosition, setSelectedPosition] = React.useState(
-        !!props.existingInjury ? props.existingInjury.position : ""
-    );
     const [selectedSideOfBody, setSelectedSideOfBody] = React.useState(
         !!props.existingInjury ? props.existingInjury.sideOfBody : ""
     );
     const [selectedLocationOnBody, setSelectedLocationOnBody] = React.useState(
-        !!props.existingInjury ? props.existingInjury.locationOnBody : ""
+        !!props.existingInjury
+            ? isLocationOther()
+                ? "Other"
+                : props.existingInjury.locationOnBody
+            : ""
+    );
+    const [selectedLocationOnBodyOther, setSelectedLocationOnBodyOther] = React.useState(
+        !!props.existingInjury && isLocationOther() ? props.existingInjury.locationOnBody : ""
     );
     const [selectedInjuryType, setSelectedInjuryType] = React.useState(
-        !!props.existingInjury ? props.existingInjury.injuryType : ""
+        !!props.existingInjury ? (isTypeOther() ? "Other" : props.existingInjury.injuryType) : ""
+    );
+    const [selectedInjuryTypeOther, setSelectedInjuryTypeOther] = React.useState(
+        !!props.existingInjury && isTypeOther() ? props.existingInjury.injuryType : ""
     );
     const [selectedSeverity, setSelectedSeverity] = React.useState(
         !!props.existingInjury ? props.existingInjury.severity : 0
@@ -123,10 +139,15 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                         injuryDate: selectedDate.toString(),
                         isSportsRelated: isSportsRelated,
                         eventType: selectedEventType,
-                        position: selectedPosition,
                         sideOfBody: selectedSideOfBody,
-                        locationOnBody: selectedLocationOnBody,
-                        injuryType: selectedInjuryType,
+                        locationOnBody:
+                            selectedLocationOnBody == "Other"
+                                ? selectedLocationOnBodyOther
+                                : selectedLocationOnBody,
+                        injuryType:
+                            selectedInjuryType == "Other"
+                                ? selectedInjuryTypeOther
+                                : selectedInjuryType,
                         severity: selectedSeverity.toString(),
                         status: selectedStatus,
                         mechanism: selectedMechanismOfInjury,
@@ -147,10 +168,11 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                     setSelectedDate(new Date());
                     setIsSportsRelated(false);
                     setSelectedEventType("");
-                    setSelectedPosition("");
                     setSelectedSideOfBody("");
                     setSelectedLocationOnBody("");
+                    setSelectedLocationOnBodyOther("");
                     setSelectedInjuryType("");
+                    setSelectedInjuryTypeOther("");
                     setSelectedSeverity(0);
                     setSelectedStatus("");
                     setSelectedMechanismOfInjury("");
@@ -164,7 +186,9 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                 (selectedAthlete == "" ||
                     selectedEventType == "" ||
                     selectedLocationOnBody == "" ||
-                    selectedInjuryType == "")
+                    selectedInjuryType == "" ||
+                    (selectedLocationOnBody == "Other" && selectedLocationOnBodyOther == "") ||
+                    (selectedInjuryType == "Other" && selectedInjuryTypeOther == ""))
             ) {
                 setHasError(true);
             } else if (
@@ -209,7 +233,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                     {activeStep === steps.length ? (
                         <div className={classes.completedContainer}>
                             <Typography variant="h4" className={classes.instructions}>
-                                All steps completed.
+                                All steps completed. Injury is Logged.
                             </Typography>
                             <Button variant="contained" color="primary" onClick={handleReset}>
                                 Log Another Injury
@@ -231,14 +255,16 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                                     setIsSportsRelated={setIsSportsRelated}
                                     selectedEventType={selectedEventType}
                                     setSelectedEventType={setSelectedEventType}
-                                    selectedPosition={selectedPosition}
-                                    setSelectedPosition={setSelectedPosition}
                                     selectedSideOfBody={selectedSideOfBody}
                                     setSelectedSideOfBody={setSelectedSideOfBody}
                                     selectedLocationOnBody={selectedLocationOnBody}
                                     setSelectedLocationOnBody={setSelectedLocationOnBody}
+                                    selectedLocationOnBodyOther={selectedLocationOnBodyOther}
+                                    setSelectedLocationOnBodyOther={setSelectedLocationOnBodyOther}
                                     selectedInjuryType={selectedInjuryType}
                                     setSelectedInjuryType={setSelectedInjuryType}
+                                    selectedInjuryTypeOther={selectedInjuryTypeOther}
+                                    setSelectedInjuryTypeOther={setSelectedInjuryTypeOther}
                                     selectedSeverity={selectedSeverity}
                                     setSelectedSeverity={setSelectedSeverity}
                                     selectedStatus={selectedStatus}

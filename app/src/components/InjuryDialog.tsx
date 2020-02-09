@@ -151,7 +151,6 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                                     ["Injury Date: ", injury.injuryDate.toDateString()],
                                     ["Is Sport Related: ", injury.isSportsRelated ? "Yes" : "No"],
                                     ["Event Type: ", injury.eventType],
-                                    ["Position: ", injury.position],
                                     ["Side Of Body: ", injury.sideOfBody],
                                     ["Location On Body: ", injury.locationOnBody],
                                     ["Injury Type: ", injury.injuryType],

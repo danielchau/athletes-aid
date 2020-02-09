@@ -28,8 +28,6 @@ export const drawerWidth: number = 240;
  * Constants used for prepopulated dropdowns when logging injuries.
  */
 export const eventTypes: string[] = ["Game", "Practice", "Personal"];
-// These should be sport dependant
-export const positions: string[] = ["Position 1", "Position 2"];
 export const sidesOfBody: string[] = ["Bilateral", "Left", "Midline", "Right", "Not On Body"];
 export const bodyLocations: string[] = [
     "Abdominals",
@@ -71,6 +69,19 @@ export const injuryTypes: string[] = [
     "Other"
 ];
 export const severities: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+export const severityDescriptions: string[] = [
+    "no severity",
+    "no pain and minimal discomfort",
+    "no pain and mild discomfort",
+    "no pain but discomfort",
+    "mild pain/discomfort",
+    "mild/medium pain/discomfort",
+    "medium pain/discomfort",
+    "medium/major pain/discomfort",
+    "major pain/discomfort",
+    "extreme pain/discomfort",
+    "extremely severe (life threatenting)"
+];
 export const playerStatuses: string[] = ["Out", "Mod", "RTP"];
 export const mechanismsOfInjury: string[] = [
     "Direct contact with another athlete",

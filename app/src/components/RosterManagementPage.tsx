@@ -92,7 +92,16 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                 setIsRosterFetching(true);
                 fetchCurrentRosterEndpoint(newSelectedTeam[0].athleteIds).then(
                     (athletes: Athlete[]) => {
-                        setCurrentRoster(athletes);
+                        setCurrentRoster(
+                            athletes.sort((a, b) => {
+                                if (a.name < b.name) {
+                                    return -1;
+                                } else if (a.name > b.name) {
+                                    return 1;
+                                }
+                                return 0;
+                            })
+                        );
                         setIsRosterFetching(false);
                     }
                 );
@@ -114,7 +123,16 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         if (team.length > 0) {
             setIsRosterFetching(true);
             fetchCurrentRosterEndpoint(team[0].athleteIds).then((athletes: Athlete[]) => {
-                setCurrentRoster(athletes);
+                setCurrentRoster(
+                    athletes.sort((a, b) => {
+                        if (a.name < b.name) {
+                            return -1;
+                        } else if (a.name > b.name) {
+                            return 1;
+                        }
+                        return 0;
+                    })
+                );
                 setIsRosterFetching(false);
             });
         } else {

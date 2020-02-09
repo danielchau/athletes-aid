@@ -116,7 +116,8 @@ export default function InjuriesPage(props: InjuriesProps) {
                                 className={classes.dateTimeButton}
                                 onClick={onInjuriesDateChange}
                             >
-                                <ArrowForwardIosIcon />
+                                Get Injuries
+                                <ArrowForwardIosIcon style={{ paddingLeft: "4px" }} />
                             </Button>
                         </form>
                     </Paper>
