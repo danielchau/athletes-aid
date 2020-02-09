@@ -12,7 +12,7 @@ import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import DoneIcon from "@material-ui/icons/Done";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Team, Injury, User, Athlete } from "../util/types";
-import { postInjury, postInjuryNote } from "../actions/InjuriesAction";
+import { postInjury, postInjuryNote, updateInjury } from "../actions/InjuriesAction";
 import FetchingScreen from "./FetchingScreen";
 import { bodyLocations, injuryTypes } from "../constants/constants";
 
@@ -23,7 +23,7 @@ function getSteps() {
 interface InjuryLoggingPageProps {
     selectedTeam: Team;
     existingInjury: Injury | null;
-    callbackUponFinishing: any;
+    callbackUponFinishing: (injury: Injury) => void;
     currentUser: User;
     getTeams: (id: string) => void;
     currentRoster: Athlete[];
@@ -122,38 +122,43 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
         }
     }, [props.selectedTeam]);
 
+    const transformToAthleteInfo = (hasInjuryId: boolean) => {
+        return JSON.stringify({
+            injuryId: hasInjuryId ? props.existingInjury.id : undefined,
+            athleteId: props.currentRoster.filter(a => a.name == selectedAthlete)[0].id,
+            createdBy: props.currentUser.athleteProfile.name,
+            active: true,
+            teamName: props.selectedTeam.name,
+            teamId: props.selectedTeam.id,
+            athleteName: selectedAthlete,
+            injuryDate: selectedDate.toString(),
+            isSportsRelated: isSportsRelated,
+            eventType: selectedEventType,
+            sideOfBody: selectedSideOfBody,
+            locationOnBody:
+                selectedLocationOnBody == "Other"
+                    ? selectedLocationOnBodyOther
+                    : selectedLocationOnBody,
+            injuryType:
+                selectedInjuryType == "Other" ? selectedInjuryTypeOther : selectedInjuryType,
+            severity: selectedSeverity.toString(),
+            status: selectedStatus,
+            mechanism: selectedMechanismOfInjury,
+            injuryDescription: injuryDescription
+        });
+    };
+
     const handleNext = () => {
         if (activeStep == steps.length - 1) {
             if (!!props.callbackUponFinishing) {
-                props.callbackUponFinishing();
+                setIsLogging(true);
+                updateInjury(transformToAthleteInfo(true)).then((injury: Injury | null) => {
+                    setIsLogging(false);
+                    props.callbackUponFinishing(injury);
+                });
             } else {
                 setIsLogging(true);
-                postInjury(
-                    JSON.stringify({
-                        athleteId: props.currentRoster.filter(a => a.name == selectedAthlete)[0].id,
-                        createdBy: props.currentUser.athleteProfile.name,
-                        active: true,
-                        teamName: props.selectedTeam.name,
-                        teamId: props.selectedTeam.id,
-                        athleteName: selectedAthlete,
-                        injuryDate: selectedDate.toString(),
-                        isSportsRelated: isSportsRelated,
-                        eventType: selectedEventType,
-                        sideOfBody: selectedSideOfBody,
-                        locationOnBody:
-                            selectedLocationOnBody == "Other"
-                                ? selectedLocationOnBodyOther
-                                : selectedLocationOnBody,
-                        injuryType:
-                            selectedInjuryType == "Other"
-                                ? selectedInjuryTypeOther
-                                : selectedInjuryType,
-                        severity: selectedSeverity.toString(),
-                        status: selectedStatus,
-                        mechanism: selectedMechanismOfInjury,
-                        injuryDescription: injuryDescription
-                    })
-                ).then((id: string | null) => {
+                postInjury(transformToAthleteInfo(false)).then((id: string | null) => {
                     if (!!id) {
                         postInjuryNote(id, otherNotes, props.currentUser.athleteProfile.name).then(
                             _ => {

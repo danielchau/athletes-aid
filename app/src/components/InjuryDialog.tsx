@@ -52,8 +52,12 @@ export default function InjuryDialog(props: InjuryDialogProps) {
         setInjury(props.injury);
     }, [props.injury]);
 
-    const handleIsEditing = () => {
+    const handleIsEditing = (injury: Injury) => {
         setIsEditing(!isEditing);
+        if (isEditing && !!injury) {
+            props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.id);
+            setInjury(injury);
+        }
     };
 
     const handleNewNoteChange = (event: React.ChangeEvent<{ value: string }>) => {
@@ -115,7 +119,7 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                             <Typography variant="h6" className={classes.title}>
                                 {injury.athleteName}
                             </Typography>
-                            <IconButton color="inherit" onClick={handleIsEditing}>
+                            <IconButton color="inherit" onClick={() => handleIsEditing(null)}>
                                 {isEditing ? <CancelIcon /> : <EditIcon />}
                             </IconButton>
                         </Toolbar>
@@ -157,7 +161,7 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                                     ["Severity: ", injury.severity],
                                     ["Status: ", injury.status],
                                     ["Mechanism of Injury: ", injury.mechanism]
-                                ].map((title, val) => (
+                                ].map(([title, val]) => (
                                     <p>
                                         <b>{title}</b>
                                         {val}
