@@ -1,5 +1,5 @@
 import * as React from 'react'
-import TopBar from '../src/components/TopBar'
+import OtherProfilePage from '../src/components/OtherProfilePage'
 import renderer from 'react-test-renderer'
 
 let date: Date = new Date("2019-01-01");
@@ -79,11 +79,7 @@ const mockUser = {
     permissions: mockUserPermissions
 }
 
-const mockFunction = function () {
-    return true
-}
-
-it('TopBar renders correctly', () => {
-  const tree = renderer.create(<TopBar state={false} handleDrawerOpen={mockFunction} handleDrawerClose={mockFunction} currentUser={mockUser} state={false} />).toJSON()
+it('OtherProfilePage renders correctly', () => {
+  const tree = renderer.create(<OtherProfilePage selectedAthleteId={"Test selectedAthleteId"} currentUser={mockUser} />).toJSON()
   expect(tree).toMatchSnapshot()
 })

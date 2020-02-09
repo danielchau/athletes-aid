@@ -1,5 +1,5 @@
 import * as React from 'react'
-import TopBar from '../src/components/TopBar'
+import AddAthleteTable from '../src/components/AddAthleteTable'
 import renderer from 'react-test-renderer'
 
 let date: Date = new Date("2019-01-01");
@@ -39,7 +39,7 @@ const mockInjury = {
     otherNotes: [mockInjuryNote]
 }
 
-const mockAthleteProfile = {
+const mockAthleteProfiles = [{
     id: "Test id",
     profilePicture: "Test profilePicture",
     name: "Test name",
@@ -55,35 +55,26 @@ const mockAthleteProfile = {
     emergencyContact: mockEmergencyContact,
     files: ["Test files"],
     injuries: [mockInjury]
-}
+}]
 
-const mockPagePermissions = {
-    profiles: true,
-    roster: true,
-    logging: true,
-    injuries: true,
-    rosterManagement: true
-}
+const mockAthletes = [{
+    id: "Test id",
+    name: "Test name",
+    injuries: [mockInjury]
+}]
 
-
-const mockUserPermissions = {
-    label: "Test label",
-    pages: mockPagePermissions,
-    canSeeSearchBar: true,
-    canEditOtherProfiles: true,
-    canSeeInjuryDetails: true
-}
+const mockListAthletes = [{
+    id: "Test id",
+    name: "Test name",
+    birthdate: null
+}]
 
 const mockUser = {
-    athleteProfile: mockAthleteProfile,
-    permissions: mockUserPermissions
+    athleteProfile: {},
+    permissions: {}
 }
 
-const mockFunction = function () {
-    return true
-}
-
-it('TopBar renders correctly', () => {
-  const tree = renderer.create(<TopBar state={false} handleDrawerOpen={mockFunction} handleDrawerClose={mockFunction} currentUser={mockUser} state={false} />).toJSON()
+it('AddAthleteTable renders correctly', () => {
+  const tree = renderer.create(<AddAthleteTable athletes={mockAthleteProfiles} rosterAthletes={mockAthletes} allAthletes={mockListAthletes} currentUser={mockUser} />).toJSON()
   expect(tree).toMatchSnapshot()
 })

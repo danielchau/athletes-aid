@@ -1,5 +1,5 @@
 import * as React from 'react'
-import TopBar from '../src/components/TopBar'
+import RosterManagementPage from '../src/components/RosterManagementPage'
 import renderer from 'react-test-renderer'
 
 let date: Date = new Date("2019-01-01");
@@ -79,11 +79,14 @@ const mockUser = {
     permissions: mockUserPermissions
 }
 
-const mockFunction = function () {
-    return true
-}
+const mockTeams = [{
+    id: "Test id",
+    name: "Test name",
+    season: "Test season",
+    athleteIds: ["Test athleteIds 1", "Test athleteIds 2"]
+}]
 
-it('TopBar renders correctly', () => {
-  const tree = renderer.create(<TopBar state={false} handleDrawerOpen={mockFunction} handleDrawerClose={mockFunction} currentUser={mockUser} state={false} />).toJSON()
+it('RosterManagementPage renders correctly', () => {
+  const tree = renderer.create(<RosterManagementPage state={false} teams={mockTeams} currentUser={mockUser} />).toJSON()
   expect(tree).toMatchSnapshot()
 })

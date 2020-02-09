@@ -1,5 +1,5 @@
 import * as React from 'react'
-import InjuriesPage from '../src/components/InjuriesPage'
+import InjuryDialog from '../src/components/InjuryDialog'
 import renderer from 'react-test-renderer'
 
 let date: Date = new Date("2019-01-01");
@@ -31,16 +31,6 @@ const mockInjury = {
     otherNotes: [mockInjuryNote]
 }
 
-const mockAthleteInjuries = {
-    injuries: [mockInjury],
-    startDate: "Test startDate",
-    endDate: "Test endDate"
-}
-
-const mockGetAthleteInjuries = function (startDate: Date, endDate: Date, team: string) {
-    return mockAthleteInjuries
-}
-
 const mockTeam = {
     id: "Test id",
     name: "Test name",
@@ -53,15 +43,21 @@ const mockUser = {
     permissions: {}
 }
 
-/*
-Needs to be fixed.
-
-it('InjuriesPage renders correctly', () => {
-  const tree = renderer.create(<InjuriesPage athleteInjuries={mockAthleteInjuries} getAthleteInjuries={mockGetAthleteInjuries} startingDate="2019-01-01" endingDate="2019-01-01" selectedTeam={mockTeam} state={false} currentUser={mockUser} />).toJSON()
+it('InjuryDialog renders correctly', () => {
+  const tree = renderer.create(<InjuryDialog injury={mockInjury} selectedTeam={mockTeam} currentUser={mockUser} />).toJSON()
   expect(tree).toMatchSnapshot()
 })
-*/
 
-test('TODO', () => {
-  expect(true).toBe(true)
-})
+/*
+InjuryDialogProps {
+    injury: Injury;
+    injuryOpen: boolean;
+    handleInjuryClose: any;
+    getAthleteInjuries: (startDate: Date, endDate: Date, team: string) => AthleteInjuries;
+    startingDate: Date;
+    endingDate: Date;
+    selectedTeam: Team;
+    currentUser: User;
+    getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
+}
+*/
