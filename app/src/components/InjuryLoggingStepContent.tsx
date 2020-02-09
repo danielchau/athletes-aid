@@ -41,8 +41,12 @@ interface InjuryLoggingStepContentProps {
     setSelectedSideOfBody: any;
     selectedLocationOnBody: string;
     setSelectedLocationOnBody: any;
+    selectedLocationOnBodyOther: string;
+    setSelectedLocationOnBodyOther: any;
     selectedInjuryType: string;
     setSelectedInjuryType: any;
+    selectedInjuryTypeOther: string;
+    setSelectedInjuryTypeOther: any;
     selectedSeverity: number;
     setSelectedSeverity: any;
     selectedStatus: string;
@@ -85,8 +89,14 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
     const handleLocationOnBodyChange = (event: StringChangeEvent) => {
         props.setSelectedLocationOnBody(event.target.value);
     };
+    const handleLocationOnBodyOtherChange = (event: StringChangeEvent) => {
+        props.setSelectedLocationOnBodyOther(event.target.value);
+    };
     const handleInjuryTypeChange = (event: StringChangeEvent) => {
         props.setSelectedInjuryType(event.target.value);
+    };
+    const handleInjuryTypeOtherChange = (event: StringChangeEvent) => {
+        props.setSelectedInjuryTypeOther(event.target.value);
     };
     const handleSeverityChange = (event: NumberChangeEvent) => {
         props.setSelectedSeverity(event.target.value);
@@ -244,6 +254,17 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                             ))}
                         </Select>
                     </FormControl>
+                    {props.selectedLocationOnBody == "Other" && (
+                        <TextField
+                            id="body-location-other"
+                            className={classes.formControl}
+                            label="Location On Body (Other) *"
+                            variant="outlined"
+                            disabled={props.selectedLocationOnBody != "Other"}
+                            value={props.selectedLocationOnBodyOther}
+                            onChange={handleLocationOnBodyOtherChange}
+                        />
+                    )}
                     <FormControl className={classes.formControl} variant="outlined">
                         <InputLabel id="injury-type-select-label">Injury Type *</InputLabel>
                         <Select
@@ -262,6 +283,17 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                             ))}
                         </Select>
                     </FormControl>
+                    {props.selectedInjuryType == "Other" && (
+                        <TextField
+                            id="injury-type-other"
+                            className={classes.formControl}
+                            label="Injury Type (Other) *"
+                            variant="outlined"
+                            disabled={props.selectedInjuryType != "Other"}
+                            value={props.selectedInjuryTypeOther}
+                            onChange={handleInjuryTypeOtherChange}
+                        />
+                    )}
                     <FormControl className={classes.formControl} variant="outlined">
                         <InputLabel id="severity-select-label">Severity *</InputLabel>
                         <Select
