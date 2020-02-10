@@ -83,6 +83,33 @@ async function fetchPostInjury(athleteInfo: any): Promise<string | null> {
         });
 }
 
+export async function updateInjury(athleteInfo: any) {
+    return await fetchUpdateInjury(athleteInfo);
+}
+
+async function fetchUpdateInjury(athleteInfo: any): Promise<Injury | null> {
+    return fetch("./singleInjury", {
+        method: "put",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: athleteInfo
+    })
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                return transformJSONToInjury([response.data.injury])[0];
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
+
 export async function postInjuryNote(injuryId: string, content: string, createdBy: string) {
     return await fetchPostInjuryNote(injuryId, content, createdBy);
 }
