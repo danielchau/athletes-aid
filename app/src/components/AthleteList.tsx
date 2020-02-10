@@ -57,35 +57,37 @@ export default function AthleteList(props: AthleteListProps) {
                 value={autocompleteVal}
                 onChange={handleAutocompleteChange}
             />
-            <List dense>
-                {athletes.map((athlete: ListAthlete, idx: number) => {
-                    const labelId = `checkbox-list-name-label-${athlete.name}`;
-                    const birthdateId = `checkbox-list-birthdate-label-${idx}`;
-                    return (
-                        <ListItem key={athlete.id} button>
-                            <ListItemAvatar>
-                                <Avatar alt={`Avatar n°${athlete.id}`}>
-                                    {athlete.name.slice(0, 1)}
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText id={labelId} primary={athlete.name} />
-                            {!!athlete.birthdate && (
-                                <ListItemText id={birthdateId} primary={athlete.birthdate} />
-                            )}
-                            <ListItemSecondaryAction>
-                                <Checkbox
-                                    edge="end"
-                                    onChange={() => props.handleToggle(athlete.id)}
-                                    checked={props.checked.has(athlete.id)}
-                                    inputProps={{
-                                        "aria-labelledby": labelId
-                                    }}
-                                />
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    );
-                })}
-            </List>
+            <div className={classes.innerList}>
+                <List dense>
+                    {athletes.map((athlete: ListAthlete, idx: number) => {
+                        const labelId = `checkbox-list-name-label-${athlete.name}`;
+                        const birthdateId = `checkbox-list-birthdate-label-${idx}`;
+                        return (
+                            <ListItem key={athlete.id} button>
+                                <ListItemAvatar>
+                                    <Avatar alt={`Avatar n°${athlete.id}`}>
+                                        {athlete.name.slice(0, 1)}
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText id={labelId} primary={athlete.name} />
+                                {!!athlete.birthdate && (
+                                    <ListItemText id={birthdateId} primary={athlete.birthdate} />
+                                )}
+                                <ListItemSecondaryAction>
+                                    <Checkbox
+                                        edge="end"
+                                        onChange={() => props.handleToggle(athlete.id)}
+                                        checked={props.checked.has(athlete.id)}
+                                        inputProps={{
+                                            "aria-labelledby": labelId
+                                        }}
+                                    />
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            </div>
         </div>
     );
 }
