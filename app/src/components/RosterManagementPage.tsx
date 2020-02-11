@@ -66,6 +66,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const [allAthletes, setAllAthletes] = React.useState<ListAthlete[]>([]);
     const [isFetching, setIsFetching] = React.useState<string>("");
     const [isRosterFetching, setIsRosterFetching] = React.useState<boolean>(false);
+    const [isCreatingNewTeam, setIsCreatingNewTeam] = React.useState<boolean>(false);
 
     /**
      * Get all athletes in the database so that admin knows who they can add individually.
@@ -77,6 +78,18 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
             }
         });
     }, []);
+
+    React.useEffect(() => {
+        if (isCreatingNewTeam) {
+            setCurrentRoster([]);
+            setSelectedTeam(
+                props.teams.filter((t: Team) => {
+                    return t.name == teamName && t.season == season;
+                })[0]
+            );
+            setIsCreatingNewTeam(false);
+        }
+    }, [props.teams]);
 
     /**
      * If the teams change, update the relevant states.
@@ -244,6 +257,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         } else {
             createTeam(teamName, season).then(_ => {
                 props.getTeams("");
+                setIsCreatingNewTeam(true);
                 setIsFetching("");
             });
         }

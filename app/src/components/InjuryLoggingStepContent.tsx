@@ -74,6 +74,10 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
     const handleAthleteChange = (event: StringTextContentChangeEvent) => {
         props.setSelectedAthlete(event.target.textContent);
     };
+    const handleAthleteInputChange = (_: any, value: string) => {
+        props.setSelectedAthlete(value);
+    };
+
     const handleDateChange = (date: Date) => {
         props.setSelectedDate(date);
     };
@@ -159,6 +163,7 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                                 options={props.currentRoster}
                                 getOptionLabel={(option: Athlete) => option.name}
                                 onChange={handleAthleteChange}
+                                onInputChange={handleAthleteInputChange}
                                 inputValue={props.selectedAthlete}
                                 renderInput={params => (
                                     <TextField
