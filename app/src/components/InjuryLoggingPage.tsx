@@ -114,8 +114,8 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     React.useEffect(() => {
         if (
             !!props.currentRoster &&
-            JSON.stringify(props.currentRoster.map(a => a.id)) !=
-                JSON.stringify(props.selectedTeam.athleteIds)
+            JSON.stringify(props.currentRoster.map(a => a.id).sort()) !=
+                JSON.stringify(props.selectedTeam.athleteIds.sort())
         ) {
             setIsFetching(true);
             props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
@@ -161,7 +161,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
             } else {
                 setIsLogging(true);
                 postInjury(transformToAthleteInfo()).then((id: string | null) => {
-                    if (!!id) {
+                    if (!!id && otherNotes != "") {
                         postInjuryNote(id, otherNotes, props.currentUser.athleteProfile.name).then(
                             _ => {
                                 props.getTeams("");
