@@ -8,6 +8,7 @@ export const rosterPageName: string = "Roster";
 export const injuryLoggingPageName: string = "Injury Logging";
 export const injuriesPageName: string = "Injuries";
 export const rosterManagementPageName: string = "Roster Management";
+export const userManagementPageName: string = "User Management";
 
 /**
  * URL Redirect paths for navigation
@@ -18,6 +19,7 @@ export const rosterPath: string = "/roster";
 export const injuryLoggingPath: string = "/logging";
 export const injuriesPath: string = "/";
 export const rosterManagementPath: string = "/rostermanagement";
+export const userManagementPath: string = "/usermanagement";
 
 /**
  * Drawer width of the navigation panel

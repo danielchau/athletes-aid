@@ -10,7 +10,8 @@ import {
     injuryLoggingPath,
     injuriesPath,
     rosterManagementPath,
-    profilePath
+    profilePath,
+    userManagementPath
 } from "../constants/constants";
 import TopBar from "./TopBar";
 import InjuriesPageContainer from "../containers/InjuriesPageContainer";
@@ -19,6 +20,7 @@ import RosterManagementPageContainer from "../containers/RosterManagementPageCon
 import ProfilePageContainer from "../containers/ProfilePageContainer";
 import RosterPageContainer from "../containers/RosterPageContainer";
 import OtherProfilePageContainer from "../containers/OtherProfilePageContainer";
+import UserManagementPageContainer from "../containers/UserManagementPageContainer";
 
 interface PageProps {
     state: NavigationPanelStates;
@@ -91,6 +93,11 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     {props.currentUser.permissions.pages.rosterManagement && (
                         <Route path={rosterManagementPath}>
                             <RosterManagementPageContainer></RosterManagementPageContainer>
+                        </Route>
+                    )}
+                    {props.currentUser.permissions.pages.userManagement && (
+                        <Route path={userManagementPath}>
+                            <UserManagementPageContainer />
                         </Route>
                     )}
                     {props.currentUser.permissions.pages.profiles && (
