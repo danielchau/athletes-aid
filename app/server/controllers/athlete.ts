@@ -181,36 +181,35 @@ export const getAllAthletes = async (req: Request, res: Response) => {
     Logger.Info(e);
     return res.status(500).send("Failed to get athletes");
   }
+};
+
 export const postFile = async (req: Request, res: Response) => {
   Logger.Info(req);
 
-  let fileLocation = "";
-  let fileKey = "";
-
   try {
-    await athleteModel.upload(req, res, error => {
-      if (error) {
-        Logger.Info(error);
-      } else {
-        fileLocation = req.file.location;
-        fileKey = req.file.filename;
-      }
-    });
+    let returnFile: athleteModel.fileReturn = await athleteModel.postFile(
+      req.file,
+      req.body.userId
+    );
 
     let response = {
       message: "File Uploaded",
-      data: {
-        location: fileLocation,
-        key: fileKey
-      }
+      data: returnFile
     };
     res.json(response);
   } catch (e) {
-    Logger.Info(e);
-    return res.status(500).send("Failed to create file");
+    Logger.Info(e, true);
+    return res.status(500).send("Failed to upload file");
   }
 };
 
 export const getFile = async (req: Request, res: Response) => {
-  await athleteModel.retrieveFile(req.body.filename, res);
+  try {
+    let fileLocation = await athleteModel.getFile(req.query.key);
+
+    return res.download(fileLocation);
+  } catch (e) {
+    Logger.Info(e, true);
+    return res.status(500).send("Failed to get file");
+  }
 };

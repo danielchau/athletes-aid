@@ -1,11 +1,14 @@
 import { Athlete } from "./schema/Athlete";
 import mapper from "./mapper";
+import { S3Client } from "./s3client";
 
-import s3 from "./s3upload";
-import * as multer from "multer";
-import * as multerS3 from "multer-s3";
 import { Logger } from "@overnightjs/logger";
 import { loggerModeArr } from "@overnightjs/logger/lib/constants";
+import { GetObjectResponse } from "aws-sdk/clients/mediastoredata";
+
+import path from "path";
+
+import * as fs from "fs";
 
 export async function postAthlete(athlete: Athlete): Promise<string> {
   return mapper.put(athlete).then((data: Athlete) => {
@@ -40,35 +43,63 @@ export async function getAllAthletes(): Promise<Array<Athlete>> {
     athletes.push(entry);
   }
   return athletes;
+}
 
-  
-export const upload = (req: any, res: any, next: (error: any) => void) => {
-  console.log(req.body);
-
-  multer
-    .default({
-      storage: multerS3.default({
-        s3: s3,
-        bucket: "athletes-aid-user-files",
-        key: function(req, file, cb) {
-          cb(null, `${Date.now().toString()} - ${file.originalname}`);
-        }
-      })
-    })
-    .array("upload", 1);
+export type fileReturn = {
+  tag: string;
+  filePath: string;
 };
 
-export async function retrieveFile(filename: string, res: Response) {
-  const getParams = {
+export async function postFile(
+  file: Express.Multer.File,
+  userId: string
+): Promise<fileReturn> {
+  const s3Client = new S3Client();
+  let fileName = `${userId}/${Date.now()}-${file.originalname}`;
+
+  const s3PutRequest: AWS.S3.Types.PutObjectRequest = {
     Bucket: "athletes-aid-user-files",
-    Key: filename
+    Key: fileName,
+    Body: file.buffer
   };
 
-  s3.getObject(getParams, function(err, data) {
-    if (err) {
-      return res.status(400).send({ success: false, err: err });
-    } else {
-      return res.send(data.Body);
-    }
-  });
+  const s3Response = await s3Client.put(s3PutRequest);
+
+  let athlete = await getAthlete(athleteId);
+
+  if (!athlete.files) {
+    athlete.files = Array<File>();
+  }
+  athlete.files.push(fileName);
+
+  return { tag: s3Response.ETag, filePath: fileName };
+}
+
+export async function getFile(key: string): Promise<string> {
+  const s3Client = new S3Client();
+
+  const s3GetRequest: AWS.S3.Types.GetObjectRequest = {
+    Bucket: "athletes-aid-user-files",
+    Key: key
+  };
+
+  const s3Response = await s3Client.get(s3GetRequest);
+  //let fileLocation = `../../dist/${key}`;
+
+  let keyArray = key.split("/");
+
+  console.log(keyArray);
+
+  key = keyArray[keyArray.length - 1];
+
+  console.log(key);
+
+  const DIST_DIR = path.join(__dirname, "../../dist"); // NEW
+  let fileLocation = path.join(DIST_DIR, key); // NEW
+
+  fs.writeFileSync(fileLocation, s3Response.Body);
+
+  console.log(fileLocation);
+
+  return fileLocation;
 }

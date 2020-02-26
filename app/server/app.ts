@@ -1,6 +1,10 @@
 import express from "express";
 import path from "path";
 import bodyParser from "body-parser";
+import * as multer from "multer";
+
+var storage = multer.memoryStorage();
+var upload = multer.default({ storage: storage });
 
 //paths
 const DIST_DIR = path.join(__dirname, "../dist"); // NEW
@@ -41,7 +45,12 @@ app.post("/athlete", athleteController.postAthlete);
 app.get("/athlete", athleteController.getAthlete);
 app.put("/athlete", athleteController.putAthlete);
 app.get("/allAthletes", athleteController.getAllAthletes);
-app.post("/uploadFile", athleteController.postFile);
+app.post(
+  "/uploadFile",
+  upload.single("fileUpload"),
+  athleteController.postFile
+);
+app.get("/file", athleteController.getFile);
 
 // Routes
 app.get("/*", (req, res) => {
