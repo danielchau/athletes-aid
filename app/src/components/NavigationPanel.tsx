@@ -15,6 +15,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import HealingIcon from "@material-ui/icons/Healing";
 import SettingsIcon from "@material-ui/icons/Settings";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStation";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import clsx from "clsx";
 import { Link, RouteComponentProps } from "react-router-dom";
@@ -30,7 +31,9 @@ import {
     rosterPath,
     injuryLoggingPath,
     injuriesPath,
-    rosterManagementPath
+    rosterManagementPath,
+    userManagementPath,
+    userManagementPageName
 } from "../constants/constants";
 import { Typography } from "@material-ui/core";
 
@@ -176,6 +179,23 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                             <ListItemText
                                 className={classes.drawerListItemText}
                                 primary={rosterManagementPageName}
+                            />
+                        </ListItem>
+                    </Link>
+                )}
+                {props.currentUser.permissions.pages.userManagement && (
+                    <Link className={classes.link} to={userManagementPath}>
+                        <ListItem
+                            button
+                            key={userManagementPageName}
+                            selected={props.location.pathname == userManagementPath}
+                        >
+                            <ListItemIcon className={classes.itemIcon}>
+                                <TransferWithinAStationIcon></TransferWithinAStationIcon>
+                            </ListItemIcon>
+                            <ListItemText
+                                className={classes.drawerListItemText}
+                                primary={userManagementPageName}
                             />
                         </ListItem>
                     </Link>

@@ -31,6 +31,7 @@ export default function RosterPage(props: RosterPageProps & RouteComponentProps)
         if (!!props.currentRoster) {
             setIsFetching(false);
         } else {
+            setIsFetching(true);
             props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
                 setIsFetching(false);
             });
@@ -40,9 +41,10 @@ export default function RosterPage(props: RosterPageProps & RouteComponentProps)
     React.useEffect(() => {
         if (
             !!props.currentRoster &&
-            JSON.stringify(props.currentRoster.map(a => a.id)) !=
-                JSON.stringify(props.selectedTeam.athleteIds)
+            JSON.stringify(props.currentRoster.map(a => a.id).sort()) !=
+                JSON.stringify(props.selectedTeam.athleteIds.sort())
         ) {
+            setIsFetching(true);
             props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
                 setIsFetching(false);
             });

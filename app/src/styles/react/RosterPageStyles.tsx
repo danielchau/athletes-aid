@@ -10,14 +10,21 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
             padding: "16px",
             height: "100%",
             display: "flex",
-            justifyContent: "center"
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center"
         },
         tableContainer: {
             width: "100%",
-            height: "100%",
+            height: "calc(100% - 72px)",
             maxWidth: "1000px",
             padding: "16px",
             backgroundColor: "rgba(0, 33, 69, 0.05)"
+        },
+        searchBar: {
+            width: "100%",
+            maxWidth: "1000px",
+            marginBottom: "16px"
         },
         table: {
             width: "100%"
@@ -32,6 +39,9 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
         tableRow: {
             cursor: "pointer",
             textDecoration: "none"
+        },
+        dropdownMenu: {
+            padding: "10px"
         }
     })
 );

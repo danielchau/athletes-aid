@@ -104,6 +104,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
         if (!!props.currentRoster) {
             setIsFetching(false);
         } else {
+            setIsFetching(true);
             props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
                 setIsFetching(false);
             });
@@ -113,21 +114,22 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     React.useEffect(() => {
         if (
             !!props.currentRoster &&
-            JSON.stringify(props.currentRoster.map(a => a.id)) !=
-                JSON.stringify(props.selectedTeam.athleteIds)
+            JSON.stringify(props.currentRoster.map(a => a.id).sort()) !=
+                JSON.stringify(props.selectedTeam.athleteIds.sort())
         ) {
+            setIsFetching(true);
             props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
                 setIsFetching(false);
             });
         }
     }, [props.selectedTeam]);
 
-    const transformToAthleteInfo = (hasInjuryId: boolean) => {
+    const transformToAthleteInfo = () => {
         return JSON.stringify({
-            injuryId: hasInjuryId ? props.existingInjury.id : undefined,
+            injuryId: !!props.existingInjury ? props.existingInjury.id : undefined,
             athleteId: props.currentRoster.filter(a => a.name == selectedAthlete)[0].id,
             createdBy: props.currentUser.athleteProfile.name,
-            active: true,
+            active: !!props.existingInjury ? props.existingInjury.active : true,
             teamName: props.selectedTeam.name,
             teamId: props.selectedTeam.id,
             athleteName: selectedAthlete,
@@ -152,14 +154,14 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
         if (activeStep == steps.length - 1) {
             if (!!props.callbackUponFinishing) {
                 setIsLogging(true);
-                updateInjury(transformToAthleteInfo(true)).then((injury: Injury | null) => {
+                updateInjury(transformToAthleteInfo()).then((injury: Injury | null) => {
                     setIsLogging(false);
                     props.callbackUponFinishing(injury);
                 });
             } else {
                 setIsLogging(true);
-                postInjury(transformToAthleteInfo(false)).then((id: string | null) => {
-                    if (!!id) {
+                postInjury(transformToAthleteInfo()).then((id: string | null) => {
+                    if (!!id && otherNotes != "") {
                         postInjuryNote(id, otherNotes, props.currentUser.athleteProfile.name).then(
                             _ => {
                                 props.getTeams("");

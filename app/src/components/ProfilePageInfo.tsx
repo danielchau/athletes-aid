@@ -44,6 +44,20 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
     );
 
     React.useEffect(() => {
+        setBirthdate(props.currentAthlete.birthdate);
+        setSchoolYear(props.currentAthlete.schoolYear.toString());
+        setGender(props.currentAthlete.gender.toString());
+        setWeight(props.currentAthlete.weight.toString());
+        setEmail(props.currentAthlete.email);
+        setCellPhone(props.currentAthlete.cellPhone);
+        setHomePhone(props.currentAthlete.homePhone);
+        setHealthCardNo(props.currentAthlete.healthCardNumber);
+        setEcName(props.currentAthlete.emergencyContact.name);
+        setEcEmail(props.currentAthlete.emergencyContact.email);
+        setEcPhone(props.currentAthlete.emergencyContact.phone);
+    }, [props.currentAthlete]);
+
+    React.useEffect(() => {
         if (!props.isEditing && !isInitialRender) {
             updateAthlete(
                 {

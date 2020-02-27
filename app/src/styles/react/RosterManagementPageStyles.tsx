@@ -89,6 +89,11 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
         },
         athletesList: {
             flex: "1 1 auto",
+            overflow: "hidden",
+            height: "100%"
+        },
+        innerList: {
+            height: "100%",
             overflow: "auto"
         },
         existingAthletesButton: {
@@ -150,7 +155,7 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
         newAthleteContainer: {
             height: "100%",
             width: "100%",
-            overflow: "scroll",
+            overflow: "hidden",
             flexGrow: 1
         }
     })
