@@ -24,7 +24,7 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             })
         },
         leftCol: {
-            width: "30%",
+            width: "100%",
             height: "100%",
             borderRightWidth: 2,
             borderRightColor: "#EAEAEA",
@@ -34,7 +34,7 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
         rightCol: {
-            width: "70%",
+            width: "100%",
             height: "100%",
             padding: "16px",
             overflow: "scroll",
@@ -52,7 +52,9 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             color: "#fff",
             backgroundColor: "#6f8296",
             maxWidth: "300px",
-            maxHeight: "300px"
+            maxHeight: "300px",
+            minWidth: "175px",
+            minHeight: "175px"
         },
         name: {
             textAlign: "center",

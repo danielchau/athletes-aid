@@ -8,7 +8,7 @@ import {
     Athlete
 } from "../util/types";
 import { profilePageStyles } from "../styles/react/ProfilePageStyles";
-import { Avatar, Typography, Divider, Paper, IconButton } from "@material-ui/core";
+import { Avatar, Typography, Divider, Paper, IconButton, Grid } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
 import InjuriesDataTable from "./InjuriesDataTable";
@@ -61,67 +61,73 @@ export default function ProfilePage(props: ProfilePageProps) {
                 [classes.drawerClosed]: !(props.state === NavigationPanelStates.open)
             })}
         >
-            <div className={classes.leftCol}>
-                {isUpdating && <FetchingScreen />}
-                <div style={{ visibility: isUpdating ? "hidden" : "visible" }}>
-                    {props.canEdit && (
-                        <IconButton
-                            style={{
-                                color: isEditing ? "#0055B7" : "#F2A71E",
-                                position: "absolute"
-                            }}
-                            onClick={onEditClick}
-                        >
-                            {isEditing ? <CheckIcon /> : <EditIcon />}
-                        </IconButton>
-                    )}
-                    {props.currentAthlete.profilePicture == "" ? (
-                        <Avatar className={classes.profilePicture}>
-                            {props.currentAthlete.name.substr(0, 1)}
-                        </Avatar>
-                    ) : (
-                        <Avatar
-                            className={classes.profilePicture}
-                            src={props.currentAthlete.profilePicture}
-                        ></Avatar>
-                    )}
-                    <Typography className={classes.name} variant="h4">
-                        {props.currentAthlete.name}
-                    </Typography>
-                    <Divider light />
-                    <ProfilePageInfo
-                        currentAthlete={props.currentAthlete}
-                        isEditing={isEditing}
-                        setIsUpdating={setIsUpdating}
-                        currentUser={props.currentUser}
-                    />
-                    <Divider light />
-                </div>
-            </div>
-            <div className={classes.rightCol}>
-                <Typography className={classes.heading} variant="h5">
-                    Files / Forms
-                </Typography>
-                <Paper className={classes.fileContent}></Paper>
-                <Divider light />
-                <Typography className={classes.heading} variant="h5">
-                    Injuries
-                </Typography>
-                <div className={classes.injuryDataTableContainer}>
-                    <InjuriesDataTable
-                        injuries={props.currentAthlete.injuries}
-                        injuryOpen={injuryOpen}
-                        handleInjuryOpen={handleInjuryOpen}
-                        handleInjuryClose={handleInjuryClose}
-                        getAthleteInjuries={props.getAthleteInjuries}
-                        startingDate={props.startingDate}
-                        endingDate={props.endingDate}
-                        selectedTeam={props.selectedTeam}
-                        currentUser={props.currentUser}
-                        getCurrentRoster={props.getCurrentRoster}
-                    ></InjuriesDataTable>
-                </div>
-            </div>
+            <Grid container spacing={0}>
+                <Grid item xs={12} sm={12} md={4}>
+                    <div className={classes.leftCol}>
+                        {isUpdating && <FetchingScreen />}
+                        <div style={{ visibility: isUpdating ? "hidden" : "visible" }}>
+                            {props.canEdit && (
+                                <IconButton
+                                    style={{
+                                        color: isEditing ? "#0055B7" : "#F2A71E",
+                                        position: "absolute"
+                                    }}
+                                    onClick={onEditClick}
+                                >
+                                    {isEditing ? <CheckIcon /> : <EditIcon />}
+                                </IconButton>
+                            )}
+                            {props.currentAthlete.profilePicture == "" ? (
+                                <Avatar className={classes.profilePicture}>
+                                    {props.currentAthlete.name.substr(0, 1)}
+                                </Avatar>
+                            ) : (
+                                <Avatar
+                                    className={classes.profilePicture}
+                                    src={props.currentAthlete.profilePicture}
+                                ></Avatar>
+                            )}
+                            <Typography className={classes.name} variant="h4">
+                                {props.currentAthlete.name}
+                            </Typography>
+                            <Divider light />
+                            <ProfilePageInfo
+                                currentAthlete={props.currentAthlete}
+                                isEditing={isEditing}
+                                setIsUpdating={setIsUpdating}
+                                currentUser={props.currentUser}
+                            />
+                            <Divider light />
+                        </div>
+                    </div>
+                </Grid>
+                <Grid item xs={12} sm={12} md={8}>
+                    <div className={classes.rightCol}>
+                        <Typography className={classes.heading} variant="h5">
+                            Files / Forms
+                        </Typography>
+                        <Paper className={classes.fileContent}></Paper>
+                        <Divider light />
+                        <Typography className={classes.heading} variant="h5">
+                            Injuries
+                        </Typography>
+                        <div className={classes.injuryDataTableContainer}>
+                            <InjuriesDataTable
+                                injuries={props.currentAthlete.injuries}
+                                injuryOpen={injuryOpen}
+                                handleInjuryOpen={handleInjuryOpen}
+                                handleInjuryClose={handleInjuryClose}
+                                getAthleteInjuries={props.getAthleteInjuries}
+                                startingDate={props.startingDate}
+                                endingDate={props.endingDate}
+                                selectedTeam={props.selectedTeam}
+                                currentUser={props.currentUser}
+                                getCurrentRoster={props.getCurrentRoster}
+                            ></InjuriesDataTable>
+                        </div>
+                    </div>
+                </Grid>
+            </Grid>
         </div>
     );
 }
