@@ -11,6 +11,7 @@ import { AthleteInjuries, Injury, Team, NavigationPanelStates, User, Athlete } f
 import clsx from "clsx";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import BodyVisualization from "./BodyVisualization";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
@@ -123,25 +124,32 @@ export default function InjuriesPage(props: InjuriesProps) {
                     </Paper>
                     {isFetching && <LinearProgress color="secondary" />}
                 </Grid>
-                {[
-                    [props.athleteInjuries.injuries.length, "Total Filed Reports"],
-                    [
-                        props.athleteInjuries.injuries.filter(i => i.active).length,
-                        "Total Active Reports"
-                    ],
-                    [getAverageSeverity(props.athleteInjuries.injuries), "Average Severity"],
-                    [getTotalPlayersOut(props.athleteInjuries.injuries), "Players Out"]
-                ].map(([val, title]) => (
-                    <Grid item xs={3}>
-                        <Paper className={classes.paper}>
-                            <div className={classes.primaryStatisticContainer}>
-                                <div className={classes.primaryStatisticValue}>{val}</div>
-                                <Divider light />
-                                <div className={classes.primaryStatisticLabel}>{title}</div>
-                            </div>
-                        </Paper>
-                    </Grid>
-                ))}
+                <Grid container spacing={3} className={classes.statContainer}>
+                    {[
+                        [props.athleteInjuries.injuries.length, "Total Filed Reports"],
+                        [
+                            props.athleteInjuries.injuries.filter(i => i.active).length,
+                            "Total Active Reports"
+                        ],
+                        [getAverageSeverity(props.athleteInjuries.injuries), "Average Severity"],
+                        [getTotalPlayersOut(props.athleteInjuries.injuries), "Players Out"]
+                    ].map(([val, title]) => (
+                        <Grid item xs={6}>
+                            <Paper className={classes.paper}>
+                                <div className={classes.primaryStatisticContainer}>
+                                    <div className={classes.primaryStatisticValue}>{val}</div>
+                                    <Divider light />
+                                    <div className={classes.primaryStatisticLabel}>{title}</div>
+                                </div>
+                            </Paper>
+                        </Grid>
+                    ))}
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper className={classes.vizPaper}>
+                        <BodyVisualization injuries={props.athleteInjuries.injuries} />
+                    </Paper>
+                </Grid>
                 <Grid item xs={12} style={{ width: "100%" }}>
                     <Paper className={classes.paper} style={{ width: "100%" }}>
                         <InjuriesDataTable
