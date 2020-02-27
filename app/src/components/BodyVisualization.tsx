@@ -176,7 +176,7 @@ export default function BodyVisualization(props: BodyVisualizationProps) {
 
     return (
         <div className={classes.root}>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} style={{ height: "100%", margin: "0px" }}>
                 <Grid item xs={6} className={classes.imageContainer}>
                     <img className={classes.image} src={Body}></img>
                     {props.injuries.map(i => (

@@ -10,11 +10,11 @@ export const bodyVisualizationStyles = makeStyles((theme: Theme) =>
             height: "100%"
         },
         imageContainer: {
-            position: "relative"
+            position: "relative",
+            alignSelf: "center"
         },
         image: {
-            width: "100%",
-            height: "100%"
+            width: "100%"
         },
         dot: {
             height: "15px",

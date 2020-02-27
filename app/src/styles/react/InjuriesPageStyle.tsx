@@ -33,7 +33,8 @@ export const injuriesPageStyles = makeStyles((theme: Theme) =>
             backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
         vizPaper: {
-            padding: theme.spacing(2)
+            padding: theme.spacing(2),
+            height: "100%"
         },
         primaryStatisticContainer: {
             display: "flex",

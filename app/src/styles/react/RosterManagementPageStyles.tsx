@@ -45,7 +45,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
         introButton: {
             border: "solid 1px",
             borderColor: "rgb(0,0,0,0.30)",
-            width: "56px"
+            width: "56px",
+            height: "56px"
         },
         paperContent: {
             flexGrow: 1,
@@ -77,10 +78,9 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             marginTop: "8px"
         },
         card: {
-            width: "calc(50% - 8px)",
             height: "100%",
-            marginRight: "8px",
-            overflow: "auto"
+            overflow: "auto",
+            marginRight: "8px"
         },
         athletesContainer: {
             display: "flex",
@@ -112,7 +112,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             flexDirection: "column",
             display: "flex",
             alignContent: "center",
-            height: "calc(100% - 100px)"
+            height: "calc(100% - 100px)",
+            minHeight: "500px"
         },
         saveButton: {
             margin: "8px",
