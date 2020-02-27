@@ -396,7 +396,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                         </div>
                     ) : (
                         <Grid container spacing={0}>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={6} className={classes.gridItem}>
                                 <Paper className={classes.card}>
                                     <div className={classes.athletesContainer}>
                                         {isRosterFetching ? (
@@ -444,7 +444,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                     </div>
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={6} className={classes.gridItem}>
                                 <Paper className={classes.card}>
                                     <div className={classes.athletesContainer}>
                                         <Tabs

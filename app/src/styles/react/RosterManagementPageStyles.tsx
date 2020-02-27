@@ -77,6 +77,16 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             overflow: "auto",
             marginTop: "8px"
         },
+        gridItem: {
+            [theme.breakpoints.down("sm")]: {
+                maxHeight: "600px",
+                marginBottom: "8px"
+            },
+            [theme.breakpoints.up("md")]: {
+                height: "100%",
+                overflow: "auto"
+            }
+        },
         card: {
             height: "100%",
             overflow: "auto",
@@ -93,7 +103,7 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             height: "100%"
         },
         innerList: {
-            height: "100%",
+            height: "calc(100% - 56px)",
             overflow: "auto"
         },
         existingAthletesButton: {
