@@ -15,6 +15,7 @@ import InjuriesDataTable from "./InjuriesDataTable";
 import clsx from "clsx";
 import ProfilePageInfo from "./ProfilePageInfo";
 import FetchingScreen from "./FetchingScreen";
+import BodyVisualization from "./BodyVisualization";
 
 interface ProfilePageProps {
     state: NavigationPanelStates;
@@ -62,7 +63,7 @@ export default function ProfilePage(props: ProfilePageProps) {
             })}
         >
             <Grid container spacing={0}>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={4} className={classes.gridItem}>
                     <div className={classes.leftCol}>
                         {isUpdating && <FetchingScreen />}
                         <div style={{ visibility: isUpdating ? "hidden" : "visible" }}>
@@ -101,7 +102,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                         </div>
                     </div>
                 </Grid>
-                <Grid item xs={12} sm={12} md={8}>
+                <Grid item xs={12} sm={12} md={8} className={classes.gridItem}>
                     <div className={classes.rightCol}>
                         <Typography className={classes.heading} variant="h5">
                             Files / Forms
@@ -125,6 +126,10 @@ export default function ProfilePage(props: ProfilePageProps) {
                                 getCurrentRoster={props.getCurrentRoster}
                             ></InjuriesDataTable>
                         </div>
+                        <Divider light />
+                        <Paper className={classes.vizPaper}>
+                            <BodyVisualization injuries={props.currentAthlete.injuries} />
+                        </Paper>
                     </div>
                 </Grid>
             </Grid>

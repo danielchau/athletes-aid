@@ -76,6 +76,18 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
         injuryDataTableContainer: {
             marginTop: "-16px",
             width: "100%"
+        },
+        vizPaper: {
+            padding: theme.spacing(2),
+            marginTop: "8px"
+        },
+        gridItem: {
+            [theme.breakpoints.down("sm")]: {
+                height: undefined
+            },
+            [theme.breakpoints.up("md")]: {
+                height: "100%"
+            }
         }
     })
 );

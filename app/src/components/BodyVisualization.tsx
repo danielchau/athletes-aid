@@ -3,7 +3,7 @@ import { Injury } from "../util/types";
 import { bodyVisualizationStyles } from "../styles/react/BodyVisualizationStyles";
 // @ts-ignore
 import Body from "../util/body.jpg";
-import { Grid, Typography, Divider } from "@material-ui/core";
+import { Grid, Typography, Divider, Switch, FormControlLabel } from "@material-ui/core";
 
 interface BodyVisualizationProps {
     injuries: Injury[];
@@ -11,6 +11,25 @@ interface BodyVisualizationProps {
 
 export default function BodyVisualization(props: BodyVisualizationProps) {
     const classes = bodyVisualizationStyles({});
+    const [showInactive, setShowInactive] = React.useState<boolean>(true);
+    const [injuries, setInjuries] = React.useState<Injury[]>(props.injuries);
+
+    React.useEffect(() => {
+        if (showInactive) {
+            setInjuries(props.injuries);
+        } else {
+            setInjuries(props.injuries.filter(i => i.active));
+        }
+    }, [props.injuries]);
+
+    const onSwitch = (_: any, checked: boolean) => {
+        setShowInactive(checked);
+        if (checked) {
+            setInjuries(props.injuries);
+        } else {
+            setInjuries(props.injuries.filter(i => i.active));
+        }
+    };
 
     const getStyles = (injury: Injury | string, isLegend: boolean) => {
         let color = "";
@@ -151,7 +170,7 @@ export default function BodyVisualization(props: BodyVisualizationProps) {
     const getLegend = () => {
         let injuryLocations = new Map();
 
-        props.injuries.forEach(i => {
+        injuries.forEach(i => {
             if (injuryLocations.has(i.locationOnBody)) {
                 injuryLocations.set(i.locationOnBody, injuryLocations.get(i.locationOnBody) + 1);
             } else {
@@ -167,7 +186,7 @@ export default function BodyVisualization(props: BodyVisualizationProps) {
                         " (" +
                         injuryLocations.get(i) +
                         " / " +
-                        (injuryLocations.get(i) / props.injuries.length) * 100 +
+                        (injuryLocations.get(i) / injuries.length) * 100 +
                         "%)"}
                 </Typography>
             </div>
@@ -179,14 +198,18 @@ export default function BodyVisualization(props: BodyVisualizationProps) {
             <Grid container spacing={3} style={{ height: "100%", margin: "0px" }}>
                 <Grid item xs={6} className={classes.imageContainer}>
                     <img className={classes.image} src={Body}></img>
-                    {props.injuries.map(i => (
+                    {injuries.map(i => (
                         <div className={classes.dot} style={getStyles(i, false)} />
                     ))}
                 </Grid>
                 <Grid item xs={6} className={classes.legendContainer}>
                     <Typography variant="h6">Injuries Breakdown</Typography>
                     <Divider light style={{ marginBottom: "8px" }} />
-                    {getLegend()}
+                    <div className={classes.legendItemContainer}>{getLegend()}</div>
+                    <FormControlLabel
+                        control={<Switch checked={showInactive} onChange={onSwitch} />}
+                        label="Show Inactive Injuries"
+                    />
                 </Grid>
             </Grid>
         </div>

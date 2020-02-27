@@ -23,7 +23,13 @@ export const bodyVisualizationStyles = makeStyles((theme: Theme) =>
             borderRadius: "15px"
         },
         legendContainer: {
-            borderLeft: "#dedede solid 1px"
+            borderLeft: "#dedede solid 1px",
+            display: "flex",
+            flexDirection: "column"
+        },
+        legendItemContainer: {
+            flexGrow: 1,
+            overflow: "auto"
         },
         legendItem: {
             display: "flex",
