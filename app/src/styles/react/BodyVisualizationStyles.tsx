@@ -17,10 +17,10 @@ export const bodyVisualizationStyles = makeStyles((theme: Theme) =>
             width: "100%"
         },
         dot: {
-            height: "10px",
-            width: "10px",
+            height: "15px",
+            width: "15px",
             position: "absolute",
-            borderRadius: "10px"
+            borderRadius: "15px"
         },
         legendContainer: {
             borderLeft: "#dedede solid 1px"
