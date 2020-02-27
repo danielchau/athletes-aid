@@ -84,7 +84,7 @@ export default function InjuriesPage(props: InjuriesProps) {
             })}
         >
             <Grid container spacing={3} className={classes.grid}>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={12} md={12}>
                     <Paper className={classes.paper}>
                         <form noValidate className={classes.dateTimeContainer}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -124,7 +124,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                     </Paper>
                     {isFetching && <LinearProgress color="secondary" />}
                 </Grid>
-                <Grid container spacing={3} className={classes.statContainer}>
+                <Grid container spacing={3} xs={12} sm={12} md={6} style={{ margin: "0px" }}>
                     {[
                         [props.athleteInjuries.injuries.length, "Total Filed Reports"],
                         [
@@ -134,7 +134,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                         [getAverageSeverity(props.athleteInjuries.injuries), "Average Severity"],
                         [getTotalPlayersOut(props.athleteInjuries.injuries), "Players Out"]
                     ].map(([val, title]) => (
-                        <Grid item xs={6}>
+                        <Grid item xs={12} sm={6} md={6}>
                             <Paper className={classes.paper}>
                                 <div className={classes.primaryStatisticContainer}>
                                     <div className={classes.primaryStatisticValue}>{val}</div>
@@ -145,12 +145,12 @@ export default function InjuriesPage(props: InjuriesProps) {
                         </Grid>
                     ))}
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={12} md={6}>
                     <Paper className={classes.vizPaper}>
                         <BodyVisualization injuries={props.athleteInjuries.injuries} />
                     </Paper>
                 </Grid>
-                <Grid item xs={12} style={{ width: "100%" }}>
+                <Grid item xs={12} sm={12} md={12} style={{ width: "100%" }}>
                     <Paper className={classes.paper} style={{ width: "100%" }}>
                         <InjuriesDataTable
                             injuries={props.athleteInjuries.injuries}

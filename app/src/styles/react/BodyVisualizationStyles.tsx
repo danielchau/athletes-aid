@@ -27,7 +27,8 @@ export const bodyVisualizationStyles = makeStyles((theme: Theme) =>
         },
         legendItem: {
             display: "flex",
-            color: "rgba(0, 0, 0, 0.54)"
+            color: "rgba(0, 0, 0, 0.54)",
+            marginBottom: "2px"
         },
         dotLegend: {
             height: "10px",

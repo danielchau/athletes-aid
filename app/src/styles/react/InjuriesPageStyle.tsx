@@ -26,10 +26,6 @@ export const injuriesPageStyles = makeStyles((theme: Theme) =>
         grid: {
             backgroundColor: "#fff"
         },
-        statContainer: {
-            margin: "0px",
-            width: "50%"
-        },
         paper: {
             padding: theme.spacing(2),
             textAlign: "center",
