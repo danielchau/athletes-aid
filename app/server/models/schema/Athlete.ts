@@ -111,5 +111,5 @@ export class Athlete {
   notes?: Array<AthleteNote>;
 
   @attribute()
-  availableFiles?: Array<File>;
+  availableFiles?: Array<String>;
 }

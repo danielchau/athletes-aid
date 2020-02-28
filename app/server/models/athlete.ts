@@ -20,7 +20,6 @@ export async function getAthlete(athleteId: string): Promise<Athlete> {
   return mapper
     .get(Object.assign(new Athlete(), { id: athleteId }))
     .then((athlete: Athlete) => {
-      console.log(athlete);
       return athlete;
     });
 }
@@ -65,41 +64,36 @@ export async function postFile(
 
   const s3Response = await s3Client.put(s3PutRequest);
 
-  let athlete = await getAthlete(athleteId);
+  let athlete = await getAthlete(userId);
 
-  if (!athlete.files) {
-    athlete.files = Array<File>();
+  if (!athlete.availableFiles) {
+    athlete.availableFiles = Array<String>();
   }
-  athlete.files.push(fileName);
+  athlete.availableFiles.push(fileName);
+
+  mapper.update(athlete);
 
   return { tag: s3Response.ETag, filePath: fileName };
 }
 
-export async function getFile(key: string): Promise<string> {
+export async function getFile(key: string, userId: string): Promise<string> {
   const s3Client = new S3Client();
+
+  let fileName = `${userId}/${key}`
 
   const s3GetRequest: AWS.S3.Types.GetObjectRequest = {
     Bucket: "athletes-aid-user-files",
-    Key: key
+    Key: fileName
   };
-
   const s3Response = await s3Client.get(s3GetRequest);
-  //let fileLocation = `../../dist/${key}`;
 
   let keyArray = key.split("/");
-
-  console.log(keyArray);
-
   key = keyArray[keyArray.length - 1];
-
-  console.log(key);
 
   const DIST_DIR = path.join(__dirname, "../../dist"); // NEW
   let fileLocation = path.join(DIST_DIR, key); // NEW
 
   fs.writeFileSync(fileLocation, s3Response.Body);
-
-  console.log(fileLocation);
 
   return fileLocation;
 }

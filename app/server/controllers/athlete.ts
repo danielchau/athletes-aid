@@ -6,6 +6,8 @@ import { Logger } from "@overnightjs/logger";
 import * as athleteModel from "../models/athlete";
 import * as injuryModel from "../models/injury";
 
+import * as fs from "fs";
+
 export const postAthlete = async (req: Request, res: Response) => {
   Logger.Info(req);
 
@@ -205,9 +207,13 @@ export const postFile = async (req: Request, res: Response) => {
 
 export const getFile = async (req: Request, res: Response) => {
   try {
-    let fileLocation = await athleteModel.getFile(req.query.key);
+    let fileLocation = await athleteModel.getFile(req.query.key, req.query.userId);
 
-    return res.download(fileLocation);
+    return res.download(fileLocation, () => {
+      fs.unlink(fileLocation, (err) => {
+        if (err) throw err;
+      });
+    });
   } catch (e) {
     Logger.Info(e, true);
     return res.status(500).send("Failed to get file");

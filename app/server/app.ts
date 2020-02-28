@@ -46,7 +46,7 @@ app.get("/athlete", athleteController.getAthlete);
 app.put("/athlete", athleteController.putAthlete);
 app.get("/allAthletes", athleteController.getAllAthletes);
 app.post(
-  "/uploadFile",
+  "/file",
   upload.single("fileUpload"),
   athleteController.postFile
 );
