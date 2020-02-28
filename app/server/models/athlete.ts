@@ -2,10 +2,6 @@ import { Athlete } from "./schema/Athlete";
 import mapper from "./mapper";
 import { S3Client } from "./s3client";
 
-import { Logger } from "@overnightjs/logger";
-import { loggerModeArr } from "@overnightjs/logger/lib/constants";
-import { GetObjectResponse } from "aws-sdk/clients/mediastoredata";
-
 import path from "path";
 
 import * as fs from "fs";
