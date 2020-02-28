@@ -51,6 +51,7 @@ app.post(
   athleteController.postFile
 );
 app.get("/file", athleteController.getFile);
+app.delete("/file", athleteController.deleteFile);
 
 // Routes
 app.get("/*", (req, res) => {

@@ -36,4 +36,18 @@ export class S3Client {
       });
     });
   }
+
+  public async delete(
+    request: AWS.S3.Types.DeleteObjectRequest
+  ): Promise<AWS.S3.Types.DeleteObjectOutput> {
+    return new Promise((resolve, reject) => {
+      this.client.deleteObject(request, (error, data) => {
+        if (error) {
+          return reject(error);
+        }
+
+        return resolve(data);
+      });
+    });
+  }
 }

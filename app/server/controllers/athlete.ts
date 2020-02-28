@@ -219,3 +219,17 @@ export const getFile = async (req: Request, res: Response) => {
     return res.status(500).send("Failed to get file");
   }
 };
+
+export const deleteFile = async (req: Request, res: Response) => {
+  try {
+    await athleteModel.deleteFile(req.query.key, req.query.userId);
+
+    let response = {
+      message: "File Deleted"
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e, true);
+    return res.status(500).send("Failed to get file");
+  }
+};

@@ -97,3 +97,20 @@ export async function getFile(key: string, userId: string): Promise<string> {
 
   return fileLocation;
 }
+
+export async function deleteFile(key: string, userId: string): Promise<any> {
+  const s3Client = new S3Client();
+
+  let fileName = `${userId}/${key}`
+
+  const s3DeleteRequest: AWS.S3.Types.DeleteObjectRequest = {
+    Bucket: "athletes-aid-user-files",
+    Key: fileName
+  };
+  await s3Client.delete(s3DeleteRequest);
+
+  let athlete = await getAthlete(userId);
+  athlete.availableFiles = athlete.availableFiles.filter(e => e !== fileName);
+  mapper.update(athlete);
+
+}
