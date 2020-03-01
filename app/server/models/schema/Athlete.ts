@@ -110,11 +110,6 @@ export class Athlete {
   @attribute({ memberType: embed(AthleteNote) })
   notes?: Array<AthleteNote>;
 
-  //TODO: still not sure about the best way to store files
-  //looking into incorporating S3
-  //@attribute()
-  ///availableFiles: ;
-
-  //@attribute()
-  //otherFiles: ;
+  @attribute()
+  availableFiles?: Array<String>;
 }
