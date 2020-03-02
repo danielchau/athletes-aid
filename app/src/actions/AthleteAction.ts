@@ -1,5 +1,6 @@
 import { AthleteProfile, ListAthlete, SET_SELECTED_ATHLETE } from "../util/types";
 import { transformJSONToInjury } from "./InjuriesAction";
+import download from "downloadjs";
 
 /**
  * REDUX ACTIONS
@@ -139,9 +140,82 @@ async function fetchAthlete(athleteId: string): Promise<AthleteProfile | null> {
                         phone: !!data.emergencyContact.phone ? data.emergencyContact.phone : "",
                         email: !!data.emergencyContact.email ? data.emergencyContact.email : ""
                     },
-                    files: [],
+                    files: !!data.availableFiles
+                        ? data.availableFiles.map((f: string) => f.split("/")[1])
+                        : [],
                     injuries: transformJSONToInjury(data.injuries)
                 };
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
+
+export async function addFileToAthlete(file: FormData) {
+    return await fetchFileAdd(file);
+}
+
+async function fetchFileAdd(file: FormData): Promise<string | null> {
+    return fetch("./file", {
+        method: "post",
+        body: file
+    })
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                return response.data.filePath;
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
+
+export function fetchAthleteFile(athleteId: string, file: string) {
+    let params: any = {
+        userId: athleteId,
+        key: file
+    };
+    let query = Object.keys(params)
+        .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+        .join("&");
+
+    fetch("./file?" + query)
+        .then(async function(response: any) {
+            if (response.status !== 200) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+            } else {
+                const blob = await response.blob();
+                download(blob, file);
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+        });
+}
+
+export async function deleteAthleteFile(athleteId: string, file: string): Promise<string | null> {
+    let params: any = {
+        userId: athleteId,
+        key: file
+    };
+    let query = Object.keys(params)
+        .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+        .join("&");
+
+    return fetch("./file?" + query, { method: "delete" })
+        .then(function(response: any) {
+            if (response.status !== 200) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                return "Success";
             }
         })
         .catch(function(err: Error) {

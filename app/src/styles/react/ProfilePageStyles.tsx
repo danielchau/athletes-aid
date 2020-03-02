@@ -71,7 +71,11 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             height: "200px",
             width: "100%",
             marginBottom: "16px",
-            backgroundColor: "rgba(0, 33, 69, 0.05)"
+            backgroundColor: "rgba(0, 33, 69, 0.05)",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            overflow: "auto"
         },
         injuryDataTableContainer: {
             marginTop: "-16px",
