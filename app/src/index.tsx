@@ -14,6 +14,10 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
 import { setCurrentUser } from "./actions/UserAction";
 import { mockUser } from "./util/mockData";
+// @ts-ignore
+import Login from "./util/CWLLogin.png";
+// @ts-ignore
+import Logo from "./util/logoBlue.png";
 
 interface AppProps {
     teams: Team[];
@@ -24,6 +28,7 @@ interface AppProps {
 
 interface AppStates {
     isLoading: boolean;
+    isAuthenticating: boolean;
 }
 
 /**
@@ -33,12 +38,7 @@ interface AppStates {
 class App extends React.Component<AppProps, AppStates> {
     constructor(props: AppProps) {
         super(props);
-        this.state = { isLoading: true };
-    }
-
-    componentDidMount() {
-        this.props.getTeams("");
-        this.props.setCurrentUser(mockUser);
+        this.state = { isLoading: false, isAuthenticating: true };
     }
 
     shouldComponentUpdate(nextProps: AppProps, nextState: AppStates) {
@@ -52,14 +52,22 @@ class App extends React.Component<AppProps, AppStates> {
     }
 
     componentDidUpdate() {
-        this.props.setTeam(this.props.teams[0]);
-        setTimeout(() => {
-            this.setState({ isLoading: false });
-        }, 750);
+        if (this.state.isLoading) {
+            this.props.setTeam(this.props.teams[0]);
+            setTimeout(() => {
+                this.setState({ isLoading: false });
+            }, 750);
+        }
+    }
+
+    onLoginPress() {
+        this.props.getTeams("");
+        this.props.setCurrentUser(mockUser);
+        this.setState({ isLoading: true, isAuthenticating: false });
     }
 
     render() {
-        if (this.state.isLoading) {
+        if (this.state.isLoading || this.state.isAuthenticating) {
             return (
                 <div
                     style={{
@@ -76,7 +84,16 @@ class App extends React.Component<AppProps, AppStates> {
                         style={{ width: "60px" }}
                         src="https://s3.amazonaws.com/streamlineathletes.com/assets/programs/22/university-british-columbia_track-field_thunderbirds_logo.png"
                     />
-                    <CircularProgress size={40} color={"secondary"} />
+                    <img style={{ width: "300px", paddingBottom: "16px" }} src={Logo} />
+                    {this.state.isAuthenticating ? (
+                        <img
+                            style={{ cursor: "pointer" }}
+                            src={Login}
+                            onClick={this.onLoginPress.bind(this)}
+                        />
+                    ) : (
+                        <CircularProgress size={40} color={"secondary"} />
+                    )}
                 </div>
             );
         }

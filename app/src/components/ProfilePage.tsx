@@ -8,7 +8,15 @@ import {
     Athlete
 } from "../util/types";
 import { profilePageStyles } from "../styles/react/ProfilePageStyles";
-import { Avatar, Typography, Divider, Paper, IconButton, Grid } from "@material-ui/core";
+import {
+    Avatar,
+    Typography,
+    Divider,
+    Paper,
+    IconButton,
+    Grid,
+    CircularProgress
+} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
 import InjuriesDataTable from "./InjuriesDataTable";
@@ -16,6 +24,11 @@ import clsx from "clsx";
 import ProfilePageInfo from "./ProfilePageInfo";
 import FetchingScreen from "./FetchingScreen";
 import BodyVisualization from "./BodyVisualization";
+import AddIcon from "@material-ui/icons/Add";
+import DescriptionIcon from "@material-ui/icons/Description";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { addFileToAthlete, fetchAthleteFile, deleteAthleteFile } from "../actions/AthleteAction";
 
 interface ProfilePageProps {
     state: NavigationPanelStates;
@@ -39,6 +52,8 @@ export default function ProfilePage(props: ProfilePageProps) {
     const [injuryOpen, setInjuryOpen] = React.useState(false);
     const [isEditing, setIsEditing] = React.useState<boolean>(false);
     const [isUpdating, setIsUpdating] = React.useState<boolean>(false);
+    const [files, setFiles] = React.useState<string[]>(props.currentAthlete.files);
+    const [isLoadingFiles, setIsLoadingFiles] = React.useState<boolean>(false);
 
     const handleInjuryOpen = () => {
         setInjuryOpen(true);
@@ -52,6 +67,23 @@ export default function ProfilePage(props: ProfilePageProps) {
         setIsEditing(!isEditing);
         if (isEditing) {
             setIsUpdating(true);
+        }
+    };
+
+    const onFileInputChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            let file = new FormData();
+            setIsLoadingFiles(true);
+            file.append("fileUpload", event.target.files[0]);
+            file.append("userId", props.currentAthlete.id);
+            addFileToAthlete(file).then((f: string) => {
+                if (!!f) {
+                    let tempFiles = files.slice();
+                    tempFiles.push(f.split("/")[1]);
+                    setFiles(tempFiles);
+                    setIsLoadingFiles(false);
+                }
+            });
         }
     };
 
@@ -107,7 +139,43 @@ export default function ProfilePage(props: ProfilePageProps) {
                         <Typography className={classes.heading} variant="h5">
                             Files / Forms
                         </Typography>
-                        <Paper className={classes.fileContent}></Paper>
+                        <Paper className={classes.fileContent}>
+                            {files.map(f => (
+                                <File
+                                    userId={props.currentAthlete.id}
+                                    file={f}
+                                    files={files}
+                                    setFiles={setFiles}
+                                    canEdit={props.currentUser.permissions.canEditOtherProfiles}
+                                />
+                            ))}
+                            {props.currentUser.permissions.canEditOtherProfiles && (
+                                <form
+                                    encType="multipart/form-data"
+                                    onChange={onFileInputChange}
+                                    style={{ margin: "16px" }}
+                                >
+                                    <input
+                                        id="icon-button-file"
+                                        type="file"
+                                        style={{ display: "none" }}
+                                    />
+                                    <label htmlFor="icon-button-file">
+                                        <IconButton
+                                            color="primary"
+                                            component="span"
+                                            disabled={isLoadingFiles}
+                                        >
+                                            {isLoadingFiles ? (
+                                                <CircularProgress />
+                                            ) : (
+                                                <AddIcon fontSize="large" />
+                                            )}
+                                        </IconButton>
+                                    </label>
+                                </form>
+                            )}
+                        </Paper>
                         <Divider light />
                         <Typography className={classes.heading} variant="h5">
                             Injuries
@@ -133,6 +201,65 @@ export default function ProfilePage(props: ProfilePageProps) {
                     </div>
                 </Grid>
             </Grid>
+        </div>
+    );
+}
+
+interface FileProps {
+    userId: string;
+    file: string;
+    files: string[];
+    setFiles: any;
+    canEdit: boolean;
+}
+
+function File(props: FileProps) {
+    return (
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                alignSelf: "center",
+                padding: "16px",
+                height: "100%",
+                position: "relative",
+                border: "1px solid #fff",
+                borderRadius: "5px",
+                marginRight: "8px"
+            }}
+        >
+            <IconButton
+                color="secondary"
+                component="span"
+                style={{ position: "absolute", top: "5px", left: "5px" }}
+                onClick={() => fetchAthleteFile(props.userId, props.file)}
+            >
+                <GetAppIcon fontSize="small" />
+            </IconButton>
+            {props.canEdit && (
+                <IconButton
+                    component="span"
+                    style={{ position: "absolute", top: "5px", right: "5px", color: "#d13f3f" }}
+                    onClick={() => {
+                        deleteAthleteFile(props.userId, props.file).then((s: string | null) => {
+                            if (typeof s == "string") {
+                                let tempFiles = props.files.slice();
+                                tempFiles.splice(props.files.indexOf(props.file), 1);
+                                props.setFiles(tempFiles);
+                            }
+                        });
+                    }}
+                >
+                    <DeleteIcon fontSize="small" />
+                </IconButton>
+            )}
+            <DescriptionIcon style={{ flexGrow: 1, width: "auto", color: "#808080" }} />
+            <Typography
+                style={{ textAlign: "center", maxWidth: "150px", overflow: "hidden" }}
+                variant="body2"
+            >
+                {props.file}
+            </Typography>
         </div>
     );
 }
