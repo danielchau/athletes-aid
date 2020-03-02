@@ -8,7 +8,15 @@ import {
     Athlete
 } from "../util/types";
 import { profilePageStyles } from "../styles/react/ProfilePageStyles";
-import { Avatar, Typography, Divider, Paper, IconButton, Grid } from "@material-ui/core";
+import {
+    Avatar,
+    Typography,
+    Divider,
+    Paper,
+    IconButton,
+    Grid,
+    CircularProgress
+} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
 import InjuriesDataTable from "./InjuriesDataTable";
@@ -45,6 +53,7 @@ export default function ProfilePage(props: ProfilePageProps) {
     const [isEditing, setIsEditing] = React.useState<boolean>(false);
     const [isUpdating, setIsUpdating] = React.useState<boolean>(false);
     const [files, setFiles] = React.useState<string[]>(props.currentAthlete.files);
+    const [isLoadingFiles, setIsLoadingFiles] = React.useState<boolean>(false);
 
     const handleInjuryOpen = () => {
         setInjuryOpen(true);
@@ -64,6 +73,7 @@ export default function ProfilePage(props: ProfilePageProps) {
     const onFileInputChange = (event: React.ChangeEvent<HTMLFormElement>) => {
         if (event.target.files && event.target.files[0]) {
             let file = new FormData();
+            setIsLoadingFiles(true);
             file.append("fileUpload", event.target.files[0]);
             file.append("userId", props.currentAthlete.id);
             addFileToAthlete(file).then((f: string) => {
@@ -71,6 +81,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                     let tempFiles = files.slice();
                     tempFiles.push(f.split("/")[1]);
                     setFiles(tempFiles);
+                    setIsLoadingFiles(false);
                 }
             });
         }
@@ -135,24 +146,35 @@ export default function ProfilePage(props: ProfilePageProps) {
                                     file={f}
                                     files={files}
                                     setFiles={setFiles}
+                                    canEdit={props.currentUser.permissions.canEditOtherProfiles}
                                 />
                             ))}
-                            <form
-                                encType="multipart/form-data"
-                                onChange={onFileInputChange}
-                                style={{ margin: "16px" }}
-                            >
-                                <input
-                                    id="icon-button-file"
-                                    type="file"
-                                    style={{ display: "none" }}
-                                />
-                                <label htmlFor="icon-button-file">
-                                    <IconButton color="primary" component="span">
-                                        <AddIcon fontSize="large" />
-                                    </IconButton>
-                                </label>
-                            </form>
+                            {props.currentUser.permissions.canEditOtherProfiles && (
+                                <form
+                                    encType="multipart/form-data"
+                                    onChange={onFileInputChange}
+                                    style={{ margin: "16px" }}
+                                >
+                                    <input
+                                        id="icon-button-file"
+                                        type="file"
+                                        style={{ display: "none" }}
+                                    />
+                                    <label htmlFor="icon-button-file">
+                                        <IconButton
+                                            color="primary"
+                                            component="span"
+                                            disabled={isLoadingFiles}
+                                        >
+                                            {isLoadingFiles ? (
+                                                <CircularProgress />
+                                            ) : (
+                                                <AddIcon fontSize="large" />
+                                            )}
+                                        </IconButton>
+                                    </label>
+                                </form>
+                            )}
                         </Paper>
                         <Divider light />
                         <Typography className={classes.heading} variant="h5">
@@ -188,6 +210,7 @@ interface FileProps {
     file: string;
     files: string[];
     setFiles: any;
+    canEdit: boolean;
 }
 
 function File(props: FileProps) {
@@ -213,21 +236,23 @@ function File(props: FileProps) {
             >
                 <GetAppIcon fontSize="small" />
             </IconButton>
-            <IconButton
-                component="span"
-                style={{ position: "absolute", top: "5px", right: "5px", color: "#d13f3f" }}
-                onClick={() => {
-                    deleteAthleteFile(props.userId, props.file).then((s: string | null) => {
-                        if (typeof s == "string") {
-                            let tempFiles = props.files.slice();
-                            tempFiles.splice(props.files.indexOf(props.file), 1);
-                            props.setFiles(tempFiles);
-                        }
-                    });
-                }}
-            >
-                <DeleteIcon fontSize="small" />
-            </IconButton>
+            {props.canEdit && (
+                <IconButton
+                    component="span"
+                    style={{ position: "absolute", top: "5px", right: "5px", color: "#d13f3f" }}
+                    onClick={() => {
+                        deleteAthleteFile(props.userId, props.file).then((s: string | null) => {
+                            if (typeof s == "string") {
+                                let tempFiles = props.files.slice();
+                                tempFiles.splice(props.files.indexOf(props.file), 1);
+                                props.setFiles(tempFiles);
+                            }
+                        });
+                    }}
+                >
+                    <DeleteIcon fontSize="small" />
+                </IconButton>
+            )}
             <DescriptionIcon style={{ flexGrow: 1, width: "auto", color: "#808080" }} />
             <Typography
                 style={{ textAlign: "center", maxWidth: "150px", overflow: "hidden" }}
