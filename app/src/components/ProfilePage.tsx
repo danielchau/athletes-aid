@@ -15,7 +15,8 @@ import {
     Paper,
     IconButton,
     Grid,
-    CircularProgress
+    CircularProgress,
+    Tooltip
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
@@ -100,15 +101,17 @@ export default function ProfilePage(props: ProfilePageProps) {
                         {isUpdating && <FetchingScreen />}
                         <div style={{ visibility: isUpdating ? "hidden" : "visible" }}>
                             {props.canEdit && (
-                                <IconButton
-                                    style={{
-                                        color: isEditing ? "#0055B7" : "#F2A71E",
-                                        position: "absolute"
-                                    }}
-                                    onClick={onEditClick}
-                                >
-                                    {isEditing ? <CheckIcon /> : <EditIcon />}
-                                </IconButton>
+                                <Tooltip title={isEditing ? "Save" : "Edit"}>
+                                    <IconButton
+                                        style={{
+                                            color: isEditing ? "#0055B7" : "#F2A71E",
+                                            position: "absolute"
+                                        }}
+                                        onClick={onEditClick}
+                                    >
+                                        {isEditing ? <CheckIcon /> : <EditIcon />}
+                                    </IconButton>
+                                </Tooltip>
                             )}
                             {props.currentAthlete.profilePicture == "" ? (
                                 <Avatar className={classes.profilePicture}>
@@ -161,17 +164,19 @@ export default function ProfilePage(props: ProfilePageProps) {
                                         style={{ display: "none" }}
                                     />
                                     <label htmlFor="icon-button-file">
-                                        <IconButton
-                                            color="primary"
-                                            component="span"
-                                            disabled={isLoadingFiles}
-                                        >
-                                            {isLoadingFiles ? (
-                                                <CircularProgress />
-                                            ) : (
-                                                <AddIcon fontSize="large" />
-                                            )}
-                                        </IconButton>
+                                        <Tooltip title="Upload file">
+                                            <IconButton
+                                                color="primary"
+                                                component="span"
+                                                disabled={isLoadingFiles}
+                                            >
+                                                {isLoadingFiles ? (
+                                                    <CircularProgress />
+                                                ) : (
+                                                    <AddIcon fontSize="large" />
+                                                )}
+                                            </IconButton>
+                                        </Tooltip>
                                     </label>
                                 </form>
                             )}
