@@ -12,6 +12,7 @@ import clsx from "clsx";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import BodyVisualization from "./BodyVisualization";
+import { Tooltip } from "@material-ui/core";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
@@ -111,15 +112,17 @@ export default function InjuriesPage(props: InjuriesProps) {
                                     onChange={onChangeEndingDate}
                                 />
                             </MuiPickersUtilsProvider>
-                            <Button
-                                variant="outlined"
-                                aria-label="go"
-                                className={classes.dateTimeButton}
-                                onClick={onInjuriesDateChange}
-                            >
-                                Get Injuries
-                                <ArrowForwardIosIcon style={{ paddingLeft: "4px" }} />
-                            </Button>
+                            <Tooltip title="Search athletes in time range">
+                                <Button
+                                    variant="outlined"
+                                    aria-label="go"
+                                    className={classes.dateTimeButton}
+                                    onClick={onInjuriesDateChange}
+                                >
+                                    Get Injuries
+                                    <ArrowForwardIosIcon style={{ paddingLeft: "4px" }} />
+                                </Button>
+                            </Tooltip>
                         </form>
                     </Paper>
                     {isFetching && <LinearProgress color="secondary" />}

@@ -36,7 +36,7 @@ import { getAllAthletes } from "../actions/AthleteAction";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FetchingScreen from "./FetchingScreen";
 import { fetchCurrentRosterEndpoint } from "../actions/TeamAction";
-import { Grid } from "@material-ui/core";
+import { Grid, Tooltip } from "@material-ui/core";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
@@ -327,13 +327,15 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                     </Select>
                 </FormControl>
                 <Typography className={classes.introText}>or add a new one:</Typography>
-                <IconButton
-                    aria-label="add"
-                    className={classes.introButton}
-                    onClick={handleAddTeam}
-                >
-                    <AddIcon />
-                </IconButton>
+                <Tooltip title="Create new team">
+                    <IconButton
+                        aria-label="add"
+                        className={classes.introButton}
+                        onClick={handleAddTeam}
+                    >
+                        <AddIcon />
+                    </IconButton>
+                </Tooltip>
             </Paper>
             <Paper className={classes.paperContent}>
                 <div className={classes.teamInfoContainer}>

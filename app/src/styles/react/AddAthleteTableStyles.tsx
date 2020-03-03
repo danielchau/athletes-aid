@@ -32,6 +32,11 @@ export const addAthleteTableStyles = makeStyles((theme: Theme) =>
         },
         tableRow: {
             cursor: "pointer"
+        },
+        tooltip: {
+            backgroundColor: "#fff",
+            color: "#4f4f4f",
+            boxShadow: theme.shadows[1]
         }
     })
 );
