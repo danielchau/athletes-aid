@@ -33,6 +33,13 @@ export const injuriesDataTableStyles = makeStyles((theme: Theme) =>
             position: "absolute",
             top: 20,
             width: 1
+        },
+        statusIndicator: {
+            width: "20px",
+            height: "20px",
+            borderRadius: "20px",
+            marginRight: "8px",
+            border: "1px solid #828282"
         }
     })
 );

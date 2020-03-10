@@ -189,6 +189,12 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         link.click(); // This will download the data file named "my_data.csv".
     };
 
+    const getStatusColor = (status: string) => {
+        if (status == "Out") return "#b50d0d";
+        if (status == "Mod") return "#f0da37";
+        else return "#2cb030";
+    };
+
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
@@ -259,7 +265,15 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                             </TableCell>
                                             <TableCell align="right">{row.injuryType}</TableCell>
                                             <TableCell align="right">{row.severity}</TableCell>
-                                            <TableCell align="right">{row.status}</TableCell>
+                                            <TableCell align="right" style={{ display: "flex" }}>
+                                                {row.status}{" "}
+                                                <div
+                                                    className={classes.statusIndicator}
+                                                    style={{
+                                                        backgroundColor: getStatusColor(row.status)
+                                                    }}
+                                                />
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}
