@@ -134,7 +134,10 @@ async function fetchAthlete(athleteId: string): Promise<AthleteProfile | null> {
                     email: !!data.email ? data.email : "",
                     cellPhone: !!data.cellPhone ? data.cellPhone : "",
                     homePhone: !!data.homePhone ? data.homePhone : "",
-                    healthCardNumber: !!data.healthCardNumber ? data.healthCardNumber : "",
+                    healthCardNumber: !!data.provincialHealthCardNumber
+                        ? data.provincialHealthCardNumber
+                        : "",
+                    studentNumber: !!data.studentNumber ? data.studentNumber : "",
                     emergencyContact: {
                         name: !!data.emergencyContact.name ? data.emergencyContact.name : "",
                         phone: !!data.emergencyContact.phone ? data.emergencyContact.phone : "",
@@ -248,7 +251,8 @@ const transformAthleteProfileToJSON = (
         healthPlan: "",
         memberId: 0,
         groupNumber: 0,
-        provincialHealthCardNumber: 0,
+        provincialHealthCardNumber: athlete.healthCardNumber,
+        studentNumber: athlete.studentNumber,
         province: "",
         primaryPhysician: "",
         emergencyContact: {

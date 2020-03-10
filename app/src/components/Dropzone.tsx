@@ -48,7 +48,8 @@ export default function MyDropzone(props: MyDropzoneProps) {
                         email: entry["E-mail*"],
                         cellPhone: entry["Cell Phone"],
                         homePhone: entry["Home Phone"],
-                        healthCardNumber: "",
+                        healthCardNumber: entry["Health Card Number"],
+                        studentNumber: entry["Student Number"],
                         emergencyContact: {
                             id: "e" + i,
                             name: entry["Emergency Contact Name"],

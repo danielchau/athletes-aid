@@ -49,6 +49,8 @@ export const postAthlete = async (req: Request, res: Response) => {
 
       provincialHealthCardNumber: req.body.provincialHealthCardNumber,
 
+      studentNumber: req.body.studentNumber,
+
       province: req.body.province,
 
       primaryPhysician: req.body.primaryPhysician,
@@ -143,6 +145,8 @@ export const putAthlete = async (req: Request, res: Response) => {
       groupNumber: req.body.groupNumber,
 
       provincialHealthCardNumber: req.body.provincialHealthCardNumber,
+
+      studentNumber: req.body.studentNumber,
 
       province: req.body.province,
 

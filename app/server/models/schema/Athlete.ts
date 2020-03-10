@@ -90,7 +90,10 @@ export class Athlete {
   groupNumber: number;
 
   @attribute()
-  provincialHealthCardnumber: number;
+  provincialHealthCardnumber: string;
+
+  @attribute()
+  studentNumber: string;
 
   @attribute()
   province: string;
