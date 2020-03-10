@@ -73,10 +73,12 @@ export default function InjuriesPage(props: InjuriesProps) {
     };
 
     const onChangeStartingDate = (date: Date) => {
+        date.setHours(23, 59, 59, 999);
         props.setStartingDate(date);
     };
 
     const onChangeEndingDate = (date: Date) => {
+        date.setHours(0, 0, 0, 0);
         props.setEndingDate(date);
     };
 
