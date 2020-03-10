@@ -29,10 +29,10 @@ export default function MyDropzone(props: MyDropzoneProps) {
                 let hasError = false;
                 let athletes = jsonObject.map((entry: any, i: number) => {
                     if (
-                        entry["Athlete First Name*"] == "" ||
-                        entry["Athlete Last Name*"] == "" ||
-                        entry["Gender*"] == "" ||
-                        entry["E-mail*"] == ""
+                        !!!entry["Athlete First Name*"] ||
+                        !!!entry["Athlete Last Name*"] ||
+                        !!!entry["Gender*"] ||
+                        !!!entry["E-mail*"]
                     ) {
                         hasError = true;
                     }

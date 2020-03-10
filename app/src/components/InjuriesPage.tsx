@@ -148,7 +148,7 @@ export default function InjuriesPage(props: InjuriesProps) {
                 </Grid>
                 <Grid container spacing={3} xs={12} sm={12} md={6} style={{ margin: "0px" }}>
                     {[
-                        [injuries.length, "Total Filed Reports"],
+                        [props.athleteInjuries.injuries.length, "Total Filed Reports"],
                         [injuries.filter(i => i.active).length, "Total Active Reports"],
                         [getAverageSeverity(injuries), "Average Severity"],
                         [getTotalPlayersOut(injuries), "Players Out"]

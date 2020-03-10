@@ -170,6 +170,7 @@ export interface Injury {
     mechanism: string;
     injuryDescription: string;
     otherNotes: InjuryNote[];
+    specialNotes: InjuryNote[];
 }
 
 /**

@@ -19,9 +19,9 @@ import {
     injuriesDataTableStyles
 } from "../styles/react/InjuriesDataTableStyles";
 import { Injury, AthleteInjuries, Team, User, Athlete, Order } from "../util/types";
-import { headCells } from "../constants/constants";
+import { headCells, severityDescriptions } from "../constants/constants";
 import GetAppIcon from "@material-ui/icons/GetApp";
-import { Button } from "@material-ui/core";
+import { Button, Tooltip } from "@material-ui/core";
 
 interface InjuriesDataTableProps {
     injuries: Injury[];
@@ -59,7 +59,7 @@ interface EnhancedTableToolbarProps {
 export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const classes = injuriesDataTableStyles({});
     const [order, setOrder] = React.useState<Order>("asc");
-    const [orderBy, setOrderBy] = React.useState<keyof Injury>("athleteName");
+    const [orderBy, setOrderBy] = React.useState<keyof Injury>("status");
     const [selectedInjuries, setSelectedInjuries] = React.useState<string[]>([]);
     const [selectedInjury, setSelectedInjury] = React.useState<Injury | null>(null);
     const [page, setPage] = React.useState(0);
@@ -175,7 +175,8 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     i.status.toString(),
                     i.mechanism.toString(),
                     `"` + i.injuryDescription.replace(/"/g, `'`).toString() + `"`,
-                    `"` + JSON.stringify(i.otherNotes).replace(/"/g, `'`) + `"`
+                    `"` + JSON.stringify(i.otherNotes).replace(/"/g, `'`) + `"`,
+                    `"` + JSON.stringify(i.specialNotes).replace(/"/g, `'`) + `"`
                 ];
                 csvContent += values + "\r\n";
             });
@@ -257,14 +258,24 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                             >
                                                 {row.athleteName}
                                             </TableCell>
-                                            <TableCell align="right">
-                                                {row.injuryDate.toLocaleDateString()}
-                                            </TableCell>
+                                            <Tooltip
+                                                title={row.injuryDate.toDateString()}
+                                                placement="bottom-end"
+                                            >
+                                                <TableCell align="right">
+                                                    {row.injuryDate.toLocaleDateString()}
+                                                </TableCell>
+                                            </Tooltip>
                                             <TableCell align="right">
                                                 {row.locationOnBody}
                                             </TableCell>
                                             <TableCell align="right">{row.injuryType}</TableCell>
-                                            <TableCell align="right">{row.severity}</TableCell>
+                                            <Tooltip
+                                                title={severityDescriptions[row.severity]}
+                                                placement="bottom-end"
+                                            >
+                                                <TableCell align="right">{row.severity}</TableCell>
+                                            </Tooltip>
                                             <TableCell align="right" style={{ display: "flex" }}>
                                                 {row.status}{" "}
                                                 <div
