@@ -186,7 +186,7 @@ export default function BodyVisualization(props: BodyVisualizationProps) {
                         " (" +
                         injuryLocations.get(i) +
                         " / " +
-                        (injuryLocations.get(i) / injuries.length) * 100 +
+                        Math.round((injuryLocations.get(i) / injuries.length) * 100).toFixed(2) +
                         "%)"}
                 </Typography>
             </div>
