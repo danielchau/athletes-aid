@@ -203,6 +203,28 @@ export const postInjuryNote = async (req: Request, res: Response) => {
   }
 };
 
+export const postInjurySpecialNote = async (req: Request, res: Response) => {
+    try {
+        const injuryNote = Object.assign(new InjuryNote(), {
+            createdBy: req.body.createdBy,
+            content: req.body.content
+        });
+
+        let injury: Injury = await injuryModel.addInjurySpecialNote(injuryNote, req.body.injuryId);
+
+        let response = {
+            message: "Injury Special Note Added",
+            data: {
+                injury: injury
+            }
+        };
+        res.json(response);
+    } catch (e) {
+        Logger.Info(e);
+        return res.status(500).send("Failed to add note");
+    }
+};
+
 export const getInjury = async (req: Request, res: Response) => {
   try {
     let injury = new Injury();

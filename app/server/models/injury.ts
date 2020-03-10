@@ -83,6 +83,38 @@ export async function addInjuryNote(
 }
 
 /**
+ * Adds an InjuryNote to an existing Injury from DynamoDB
+ *
+ * @param {string} injuryId The ID of the injury
+ * @param {InjuryNote} injuryId The InjuryNote to add to the injury
+ * @return {Promise} A promise which resolves with the injury
+ */
+export async function addInjurySpecialNote(
+  injuryNote: InjuryNote,
+  injuryId: string
+): Promise<Injury> {
+  let injury: Injury;
+
+  for await (const entry of mapper.query(Injury, { id: injuryId })) {
+    injury = entry;
+  }
+
+  if (injury) {
+    if (!injury.specialNotes) {
+      injury.specialNotes = Array<InjuryNote>();
+    }
+
+    injury.specialNotes.push(injuryNote);
+
+    return mapper.update(injury).then(injury => {
+      return injury;
+    });
+  } else {
+    throw new Error("Injury does not exist");
+  }
+}
+
+/**
  * Retrieves a Injury from DynamoDB
  *
  * @param {string} injuryId The ID of the injury
