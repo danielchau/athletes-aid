@@ -34,6 +34,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
     const [healthCardNo, setHealthCardNo] = React.useState<string>(
         props.currentAthlete.healthCardNumber
     );
+    const [studentNo, setStudentNo] = React.useState<string>(props.currentAthlete.studentNumber);
 
     const [ecName, setEcName] = React.useState<string>(props.currentAthlete.emergencyContact.name);
     const [ecEmail, setEcEmail] = React.useState<string>(
@@ -52,6 +53,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
         setCellPhone(props.currentAthlete.cellPhone);
         setHomePhone(props.currentAthlete.homePhone);
         setHealthCardNo(props.currentAthlete.healthCardNumber);
+        setStudentNo(props.currentAthlete.studentNumber);
         setEcName(props.currentAthlete.emergencyContact.name);
         setEcEmail(props.currentAthlete.emergencyContact.email);
         setEcPhone(props.currentAthlete.emergencyContact.phone);
@@ -73,6 +75,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
                     cellPhone: cellPhone,
                     homePhone: homePhone,
                     healthCardNumber: healthCardNo,
+                    studentNumber: studentNo,
                     emergencyContact: {
                         id: props.currentAthlete.emergencyContact.id,
                         name: ecName,
@@ -118,6 +121,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
                 ["Email", email, setEmail],
                 ["Cell Phone", cellPhone, setCellPhone],
                 ["Home Phone", homePhone, setHomePhone],
+                ["Student Number", studentNo, setStudentNo],
                 ["Health Card Number", healthCardNo, setHealthCardNo]
             ].map(([category, value, event], i: number) => (
                 <ProfileAttribute

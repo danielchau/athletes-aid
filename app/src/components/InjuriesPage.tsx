@@ -12,7 +12,7 @@ import clsx from "clsx";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import BodyVisualization from "./BodyVisualization";
-import { Tooltip } from "@material-ui/core";
+import { Tooltip, Switch, FormControlLabel } from "@material-ui/core";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
@@ -36,6 +36,8 @@ export default function InjuriesPage(props: InjuriesProps) {
     const classes = injuriesPageStyles({});
     const [injuryOpen, setInjuryOpen] = React.useState(false);
     const [isFetching, setIsFetching] = React.useState(false);
+    const [showInactive, setShowInactive] = React.useState<boolean>(true);
+    const [injuries, setInjuries] = React.useState<Injury[]>(props.athleteInjuries.injuries);
 
     /**
      * If athleteInjuries changes then that means the query is done and we can set the fetching
@@ -43,6 +45,7 @@ export default function InjuriesPage(props: InjuriesProps) {
      */
     React.useEffect(() => {
         setIsFetching(false);
+        setInjuries(props.athleteInjuries.injuries);
     }, [props.athleteInjuries]);
 
     /**
@@ -70,11 +73,22 @@ export default function InjuriesPage(props: InjuriesProps) {
     };
 
     const onChangeStartingDate = (date: Date) => {
+        date.setHours(23, 59, 59, 999);
         props.setStartingDate(date);
     };
 
     const onChangeEndingDate = (date: Date) => {
+        date.setHours(0, 0, 0, 0);
         props.setEndingDate(date);
+    };
+
+    const onSwitch = (_: any, checked: boolean) => {
+        setShowInactive(checked);
+        if (checked) {
+            setInjuries(props.athleteInjuries.injuries);
+        } else {
+            setInjuries(props.athleteInjuries.injuries.filter(i => i.active));
+        }
     };
 
     return (
@@ -123,6 +137,11 @@ export default function InjuriesPage(props: InjuriesProps) {
                                     <ArrowForwardIosIcon style={{ paddingLeft: "4px" }} />
                                 </Button>
                             </Tooltip>
+                            <FormControlLabel
+                                style={{ marginLeft: "20px", marginTop: "6px" }}
+                                control={<Switch checked={showInactive} onChange={onSwitch} />}
+                                label="Show Inactive Injuries"
+                            />
                         </form>
                     </Paper>
                     {isFetching && <LinearProgress color="secondary" />}
@@ -130,12 +149,9 @@ export default function InjuriesPage(props: InjuriesProps) {
                 <Grid container spacing={3} xs={12} sm={12} md={6} style={{ margin: "0px" }}>
                     {[
                         [props.athleteInjuries.injuries.length, "Total Filed Reports"],
-                        [
-                            props.athleteInjuries.injuries.filter(i => i.active).length,
-                            "Total Active Reports"
-                        ],
-                        [getAverageSeverity(props.athleteInjuries.injuries), "Average Severity"],
-                        [getTotalPlayersOut(props.athleteInjuries.injuries), "Players Out"]
+                        [injuries.filter(i => i.active).length, "Total Active Reports"],
+                        [getAverageSeverity(injuries), "Average Severity"],
+                        [getTotalPlayersOut(injuries), "Players Out"]
                     ].map(([val, title]) => (
                         <Grid item xs={12} sm={6} md={6}>
                             <Paper className={classes.paper}>
@@ -150,13 +166,13 @@ export default function InjuriesPage(props: InjuriesProps) {
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
                     <Paper className={classes.vizPaper}>
-                        <BodyVisualization injuries={props.athleteInjuries.injuries} />
+                        <BodyVisualization injuries={injuries} />
                     </Paper>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} style={{ width: "100%" }}>
                     <Paper className={classes.paper} style={{ width: "100%" }}>
                         <InjuriesDataTable
-                            injuries={props.athleteInjuries.injuries}
+                            injuries={injuries}
                             injuryOpen={injuryOpen}
                             handleInjuryOpen={handleInjuryOpen}
                             handleInjuryClose={handleInjuryClose}

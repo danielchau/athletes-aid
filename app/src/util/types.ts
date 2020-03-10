@@ -111,6 +111,7 @@ export interface AthleteProfile {
     cellPhone: string;
     homePhone: string;
     healthCardNumber: string;
+    studentNumber: string;
     emergencyContact: EmergencyContact;
     files: string[];
     injuries: Injury[];
@@ -170,6 +171,7 @@ export interface Injury {
     mechanism: string;
     injuryDescription: string;
     otherNotes: InjuryNote[];
+    specialNotes: InjuryNote[];
 }
 
 /**

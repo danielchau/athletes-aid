@@ -18,7 +18,7 @@ import { TransitionProps } from "@material-ui/core/transitions";
 import { injuryDialogStyles } from "../styles/react/InjuryDialogStyles";
 import { Injury, InjuryNote, AthleteInjuries, Team, User, Athlete } from "../util/types";
 import SendIcon from "@material-ui/icons/Send";
-import { TextField, Switch } from "@material-ui/core";
+import { TextField, Switch, Tabs, Tab } from "@material-ui/core";
 import { postInjuryNote, setInjuryStatus } from "../actions/InjuriesAction";
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
@@ -47,6 +47,10 @@ export default function InjuryDialog(props: InjuryDialogProps) {
     const [isEditing, setIsEditing] = React.useState(false);
     const [newNote, setNewNote] = React.useState<string>("");
     const [injury, setInjury] = React.useState<Injury>(props.injury);
+    const [tab, setTab] = React.useState<number>(0);
+    const handleTabChange = (_: React.ChangeEvent, newValue: any) => {
+        setTab(newValue);
+    };
 
     React.useEffect(() => {
         setInjury(props.injury);
@@ -66,17 +70,20 @@ export default function InjuryDialog(props: InjuryDialogProps) {
 
     const onSendClick = () => {
         if (newNote != "") {
-            postInjuryNote(props.injury.id, newNote, props.currentUser.athleteProfile.name).then(
-                injury => {
-                    props.getAthleteInjuries(
-                        props.startingDate,
-                        props.endingDate,
-                        props.selectedTeam.id
-                    );
-                    setInjury(injury);
-                    setNewNote("");
-                }
-            );
+            postInjuryNote(
+                props.injury.id,
+                newNote,
+                props.currentUser.athleteProfile.name,
+                tab == 1
+            ).then(injury => {
+                props.getAthleteInjuries(
+                    props.startingDate,
+                    props.endingDate,
+                    props.selectedTeam.id
+                );
+                setInjury(injury);
+                setNewNote("");
+            });
         }
     };
 
@@ -168,41 +175,66 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                                     </p>
                                 ))}
                             </Paper>
-                            {injury.otherNotes.map((note: InjuryNote, i: number) => (
-                                <Paper key={i} className={classes.notePaper}>
-                                    <div className={classes.noteContainer}>
-                                        <ChatBubbleOutlineIcon className={classes.noteIcon} />
-                                        <div>
-                                            <b>
-                                                {note.createdOn
-                                                    .toISOString()
-                                                    .slice(0, 19)
-                                                    .replace(/-/g, "/")
-                                                    .replace("T", " ")}{" "}
-                                                | {note.createdBy}
-                                            </b>
-                                            <Divider light />
-                                            {note.content}
-                                        </div>
-                                    </div>
-                                </Paper>
-                            ))}
-                            <div className={classes.newNoteContainer}>
-                                <TextField
-                                    id="other-notes"
-                                    className={classes.newNote}
-                                    label="Enter new note..."
-                                    multiline
-                                    rows="3"
-                                    margin="normal"
-                                    variant="outlined"
-                                    value={newNote}
-                                    onChange={handleNewNoteChange}
-                                />
-                                <IconButton className={classes.sendButton} onClick={onSendClick}>
-                                    <SendIcon />
-                                </IconButton>
-                            </div>
+
+                            <Paper className={classes.dialogContentPaper}>
+                                <Tabs
+                                    className={classes.tabRoot}
+                                    value={tab}
+                                    onChange={handleTabChange}
+                                    indicatorColor="secondary"
+                                    centered
+                                    variant="fullWidth"
+                                >
+                                    <Tab label="Notes" />
+                                    <Tab label="Specialist Notes" />
+                                </Tabs>
+                                <div className={classes.newNoteContainer}>
+                                    <TextField
+                                        id="other-notes"
+                                        className={classes.newNote}
+                                        label="Enter new note..."
+                                        multiline
+                                        rows="3"
+                                        margin="normal"
+                                        variant="outlined"
+                                        value={newNote}
+                                        onChange={handleNewNoteChange}
+                                    />
+                                    <IconButton
+                                        className={classes.sendButton}
+                                        onClick={onSendClick}
+                                    >
+                                        <SendIcon />
+                                    </IconButton>
+                                </div>
+                                <div className={classes.notesContainer}>
+                                    {(tab == 0 ? injury.otherNotes : injury.specialNotes)
+                                        .sort(
+                                            (a, b) => b.createdOn.getTime() - a.createdOn.getTime()
+                                        )
+                                        .map((note: InjuryNote, i: number) => (
+                                            <Paper key={i} className={classes.notePaper}>
+                                                <div className={classes.noteContainer}>
+                                                    <ChatBubbleOutlineIcon
+                                                        className={classes.noteIcon}
+                                                    />
+                                                    <div>
+                                                        <b>
+                                                            {note.createdOn
+                                                                .toISOString()
+                                                                .slice(0, 19)
+                                                                .replace(/-/g, "/")
+                                                                .replace("T", " ")}{" "}
+                                                            | {note.createdBy}
+                                                        </b>
+                                                        <Divider light />
+                                                        {note.content}
+                                                    </div>
+                                                </div>
+                                            </Paper>
+                                        ))}
+                                </div>
+                            </Paper>
                         </div>
                     )}
                 </DialogContent>

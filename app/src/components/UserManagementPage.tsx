@@ -60,6 +60,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                         cellPhone: "",
                         homePhone: "",
                         healthCardNumber: "",
+                        studentNumber: "",
                         emergencyContact: {
                             id: "",
                             name: "",

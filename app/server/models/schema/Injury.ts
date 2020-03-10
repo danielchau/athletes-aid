@@ -77,4 +77,7 @@ export class Injury {
 
   @attribute({ memberType: embed(InjuryNote) })
   otherNotes?: Array<InjuryNote>;
+
+  @attribute({ memberType: embed(InjuryNote) })
+  specialNotes?: Array<InjuryNote>;
 }

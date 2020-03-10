@@ -162,11 +162,14 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                 setIsLogging(true);
                 postInjury(transformToAthleteInfo()).then((id: string | null) => {
                     if (!!id && otherNotes != "") {
-                        postInjuryNote(id, otherNotes, props.currentUser.athleteProfile.name).then(
-                            _ => {
-                                props.getTeams("");
-                            }
-                        );
+                        postInjuryNote(
+                            id,
+                            otherNotes,
+                            props.currentUser.athleteProfile.name,
+                            false
+                        ).then(_ => {
+                            props.getTeams("");
+                        });
                     }
 
                     setIsLogging(false);
