@@ -138,13 +138,8 @@ export default function InjuriesPage(props: InjuriesProps) {
                                 </Button>
                             </Tooltip>
                             <FormControlLabel
-                                control={
-                                    <Switch
-                                        style={{ marginLeft: "20px", marginTop: "6px" }}
-                                        checked={showInactive}
-                                        onChange={onSwitch}
-                                    />
-                                }
+                                style={{ marginLeft: "20px", marginTop: "6px" }}
+                                control={<Switch checked={showInactive} onChange={onSwitch} />}
                                 label="Show Inactive Injuries"
                             />
                         </form>
