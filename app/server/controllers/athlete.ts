@@ -6,6 +6,8 @@ import { Logger } from "@overnightjs/logger";
 import * as athleteModel from "../models/athlete";
 import * as injuryModel from "../models/injury";
 
+import * as fs from "fs";
+
 export const postAthlete = async (req: Request, res: Response) => {
   Logger.Info(req);
 
@@ -46,6 +48,8 @@ export const postAthlete = async (req: Request, res: Response) => {
       groupNumber: req.body.groupNumber,
 
       provincialHealthCardNumber: req.body.provincialHealthCardNumber,
+
+      studentNumber: req.body.studentNumber,
 
       province: req.body.province,
 
@@ -142,6 +146,8 @@ export const putAthlete = async (req: Request, res: Response) => {
 
       provincialHealthCardNumber: req.body.provincialHealthCardNumber,
 
+      studentNumber: req.body.studentNumber,
+
       province: req.body.province,
 
       primaryPhysician: req.body.primaryPhysician,
@@ -180,5 +186,54 @@ export const getAllAthletes = async (req: Request, res: Response) => {
   } catch (e) {
     Logger.Info(e);
     return res.status(500).send("Failed to get athletes");
+  }
+};
+
+export const postFile = async (req: Request, res: Response) => {
+  Logger.Info(req);
+
+  try {
+    let returnFile: athleteModel.fileReturn = await athleteModel.postFile(
+      req.file,
+      req.body.userId
+    );
+
+    let response = {
+      message: "File Uploaded",
+      data: returnFile
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e, true);
+    return res.status(500).send("Failed to upload file");
+  }
+};
+
+export const getFile = async (req: Request, res: Response) => {
+  try {
+    let fileLocation = await athleteModel.getFile(req.query.key, req.query.userId);
+
+    return res.download(fileLocation, () => {
+      fs.unlink(fileLocation, (err) => {
+        if (err) throw err;
+      });
+    });
+  } catch (e) {
+    Logger.Info(e, true);
+    return res.status(500).send("Failed to get file");
+  }
+};
+
+export const deleteFile = async (req: Request, res: Response) => {
+  try {
+    await athleteModel.deleteFile(req.query.key, req.query.userId);
+
+    let response = {
+      message: "File Deleted"
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e, true);
+    return res.status(500).send("Failed to get file");
   }
 };

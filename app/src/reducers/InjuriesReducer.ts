@@ -25,7 +25,7 @@ export function injuriesReducer(
 }
 
 export function startingDateReducer(
-    state: Date = new Date(),
+    state: Date = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
     action: InjuriesStartingDate
 ) {
     switch (action.type) {
@@ -36,10 +36,7 @@ export function startingDateReducer(
     }
 }
 
-export function endingDateReducer(
-    state: Date = new Date(),
-    action: InjuriesEndingDate
-) {
+export function endingDateReducer(state: Date = new Date(), action: InjuriesEndingDate) {
     switch (action.type) {
         case SET_ENDING_DATE:
             return action.endingDate;

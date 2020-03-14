@@ -83,16 +83,49 @@ async function fetchPostInjury(athleteInfo: any): Promise<string | null> {
         });
 }
 
-export async function postInjuryNote(injuryId: string, content: string, createdBy: string) {
-    return await fetchPostInjuryNote(injuryId, content, createdBy);
+export async function updateInjury(athleteInfo: any) {
+    return await fetchUpdateInjury(athleteInfo);
+}
+
+async function fetchUpdateInjury(athleteInfo: any): Promise<Injury | null> {
+    return fetch("./singleInjury", {
+        method: "put",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: athleteInfo
+    })
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                return transformJSONToInjury([response.data.injury])[0];
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
+
+export async function postInjuryNote(
+    injuryId: string,
+    content: string,
+    createdBy: string,
+    isSpecial: boolean
+) {
+    return await fetchPostInjuryNote(injuryId, content, createdBy, isSpecial);
 }
 
 async function fetchPostInjuryNote(
     injuryId: string,
     content: string,
-    createdBy: string
+    createdBy: string,
+    isSpecial: boolean
 ): Promise<Injury | null> {
-    return fetch("./injuryNote", {
+    return fetch(isSpecial ? "./injurySpecialNote" : "./injuryNote", {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -165,7 +198,6 @@ export function transformJSONToInjury(json: any[]): Injury[] {
             injuryDate: new Date(injury.injuryDate),
             isSportsRelated: injury.isSportsRelated,
             eventType: injury.eventType,
-            position: injury.position,
             sideOfBody: injury.sideOfBody,
             locationOnBody: injury.locationOnBody,
             injuryType: injury.injuryType,
@@ -175,6 +207,13 @@ export function transformJSONToInjury(json: any[]): Injury[] {
             injuryDescription: injury.injuryDescription,
             otherNotes: !!injury.otherNotes
                 ? injury.otherNotes.map((n: any) => ({
+                      createdBy: !!n.createdBy ? n.createdBy : "",
+                      createdOn: new Date(n.createdOn),
+                      content: n.content
+                  }))
+                : [],
+            specialNotes: !!injury.specialNotes
+                ? injury.specialNotes.map((n: any) => ({
                       createdBy: !!n.createdBy ? n.createdBy : "",
                       createdOn: new Date(n.createdOn),
                       content: n.content

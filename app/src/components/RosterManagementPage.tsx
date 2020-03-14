@@ -36,6 +36,7 @@ import { getAllAthletes } from "../actions/AthleteAction";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FetchingScreen from "./FetchingScreen";
 import { fetchCurrentRosterEndpoint } from "../actions/TeamAction";
+import { Grid, Tooltip } from "@material-ui/core";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
@@ -66,6 +67,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const [allAthletes, setAllAthletes] = React.useState<ListAthlete[]>([]);
     const [isFetching, setIsFetching] = React.useState<string>("");
     const [isRosterFetching, setIsRosterFetching] = React.useState<boolean>(false);
+    const [isCreatingNewTeam, setIsCreatingNewTeam] = React.useState<boolean>(false);
 
     /**
      * Get all athletes in the database so that admin knows who they can add individually.
@@ -77,6 +79,18 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
             }
         });
     }, []);
+
+    React.useEffect(() => {
+        if (isCreatingNewTeam) {
+            setCurrentRoster([]);
+            setSelectedTeam(
+                props.teams.filter((t: Team) => {
+                    return t.name == teamName && t.season == season;
+                })[0]
+            );
+            setIsCreatingNewTeam(false);
+        }
+    }, [props.teams]);
 
     /**
      * If the teams change, update the relevant states.
@@ -92,7 +106,16 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                 setIsRosterFetching(true);
                 fetchCurrentRosterEndpoint(newSelectedTeam[0].athleteIds).then(
                     (athletes: Athlete[]) => {
-                        setCurrentRoster(athletes);
+                        setCurrentRoster(
+                            athletes.sort((a, b) => {
+                                if (a.name < b.name) {
+                                    return -1;
+                                } else if (a.name > b.name) {
+                                    return 1;
+                                }
+                                return 0;
+                            })
+                        );
                         setIsRosterFetching(false);
                     }
                 );
@@ -114,7 +137,16 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         if (team.length > 0) {
             setIsRosterFetching(true);
             fetchCurrentRosterEndpoint(team[0].athleteIds).then((athletes: Athlete[]) => {
-                setCurrentRoster(athletes);
+                setCurrentRoster(
+                    athletes.sort((a, b) => {
+                        if (a.name < b.name) {
+                            return -1;
+                        } else if (a.name > b.name) {
+                            return 1;
+                        }
+                        return 0;
+                    })
+                );
                 setIsRosterFetching(false);
             });
         } else {
@@ -226,6 +258,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         } else {
             createTeam(teamName, season).then(_ => {
                 props.getTeams("");
+                setIsCreatingNewTeam(true);
                 setIsFetching("");
             });
         }
@@ -294,13 +327,15 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                     </Select>
                 </FormControl>
                 <Typography className={classes.introText}>or add a new one:</Typography>
-                <IconButton
-                    aria-label="add"
-                    className={classes.introButton}
-                    onClick={handleAddTeam}
-                >
-                    <AddIcon />
-                </IconButton>
+                <Tooltip title="Create new team">
+                    <IconButton
+                        aria-label="add"
+                        className={classes.introButton}
+                        onClick={handleAddTeam}
+                    >
+                        <AddIcon />
+                    </IconButton>
+                </Tooltip>
             </Paper>
             <Paper className={classes.paperContent}>
                 <div className={classes.teamInfoContainer}>
@@ -362,126 +397,135 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                             </Typography>
                         </div>
                     ) : (
-                        <>
-                            <Paper className={classes.card}>
-                                <div className={classes.athletesContainer}>
-                                    {isRosterFetching ? (
-                                        <div className={classes.athletesList}>
-                                            <FetchingScreen />
-                                        </div>
-                                    ) : (
-                                        <AthleteList
-                                            athletes={
-                                                !!selectedTeam
-                                                    ? transformExistingAthletesToList(currentRoster)
-                                                    : []
-                                            }
-                                            handleToggle={handleExistingAthletesToggle}
-                                            checked={existingAthletesChecked}
-                                        />
-                                    )}
-                                    <Divider light />
-                                    <Button
-                                        variant="contained"
-                                        className={classes.existingAthletesButton}
-                                        onClick={handleAthleteDelete}
-                                        color="primary"
-                                        disabled={
-                                            existingAthletesChecked.size == 0 ||
-                                            isFetching == "delete"
-                                        }
-                                    >
-                                        {isFetching == "delete" ? (
-                                            <CircularProgress size={24} color={"secondary"} />
+                        <Grid container spacing={0}>
+                            <Grid item xs={12} sm={12} md={6} className={classes.gridItem}>
+                                <Paper className={classes.card}>
+                                    <div className={classes.athletesContainer}>
+                                        {isRosterFetching ? (
+                                            <div className={classes.athletesList}>
+                                                <FetchingScreen />
+                                            </div>
                                         ) : (
-                                            <>
-                                                Delete
-                                                {existingAthletesChecked.size > 0
-                                                    ? " (" +
-                                                      existingAthletesChecked.size +
-                                                      " selected)"
-                                                    : ""}
-                                                <DeleteIcon />
-                                            </>
-                                        )}
-                                    </Button>
-                                </div>
-                            </Paper>
-                            <Paper className={classes.card}>
-                                <div className={classes.athletesContainer}>
-                                    <Tabs
-                                        className={classes.tabRoot}
-                                        value={tab}
-                                        onChange={handleTabChange}
-                                        indicatorColor="secondary"
-                                        centered
-                                        variant="fullWidth"
-                                    >
-                                        <Tab label="Bulk Addition" />
-                                        <Tab label="Individual Addition" />
-                                    </Tabs>
-                                    {tab == 0 ? (
-                                        <div className={classes.uploadPrompt}>
-                                            <div className={classes.fileDownload}>
-                                                <Typography>
-                                                    Please upload a filled spreadsheet found{" "}
-                                                    <a
-                                                        className={classes.downloadLink}
-                                                        onClick={getAthleteTemplate}
-                                                    >
-                                                        here
-                                                    </a>{" "}
-                                                    below.
-                                                </Typography>
-                                            </div>
-                                            <Divider light />
-                                            <div className={classes.dropzone}>
-                                                <MyDropzone
-                                                    setNewAthletes={setNewAthletes}
-                                                ></MyDropzone>
-                                            </div>
-                                            <Divider light />
-                                            <div className={classes.addedAthletes}>
-                                                <AddAthleteTable
-                                                    athletes={newAthletes}
-                                                    rosterAthletes={currentRoster}
-                                                    allAthletes={allAthletes}
-                                                    setAllAthletes={setAllAthletes}
-                                                    getTeams={props.getTeams}
-                                                    currentUser={props.currentUser}
-                                                ></AddAthleteTable>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className={classes.newAthleteContainer}>
                                             <AthleteList
-                                                athletes={filterNewAthletes()}
-                                                handleToggle={handleNewAthletesToggle}
-                                                checked={newAthletesChecked}
+                                                athletes={
+                                                    !!selectedTeam
+                                                        ? transformExistingAthletesToList(
+                                                              currentRoster
+                                                          )
+                                                        : []
+                                                }
+                                                handleToggle={handleExistingAthletesToggle}
+                                                checked={existingAthletesChecked}
                                             />
-                                        </div>
-                                    )}
-                                    <div>
+                                        )}
+                                        <Divider light />
                                         <Button
                                             variant="contained"
-                                            disabled={determineAddButtonState()}
-                                            className={classes.newAthletesButton}
-                                            onClick={handleAddAthletes}
+                                            className={classes.existingAthletesButton}
+                                            onClick={handleAthleteDelete}
                                             color="primary"
+                                            disabled={
+                                                existingAthletesChecked.size == 0 ||
+                                                isFetching == "delete"
+                                            }
                                         >
-                                            {isFetching == "add" ? (
+                                            {isFetching == "delete" ? (
                                                 <CircularProgress size={24} color={"secondary"} />
                                             ) : (
                                                 <>
-                                                    Add Athletes
-                                                    <AddIcon />
+                                                    Delete
+                                                    {existingAthletesChecked.size > 0
+                                                        ? " (" +
+                                                          existingAthletesChecked.size +
+                                                          " selected)"
+                                                        : ""}
+                                                    <DeleteIcon />
                                                 </>
                                             )}
                                         </Button>
                                     </div>
-                                </div>
-                            </Paper>
-                        </>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} className={classes.gridItem}>
+                                <Paper className={classes.card}>
+                                    <div className={classes.athletesContainer}>
+                                        <Tabs
+                                            className={classes.tabRoot}
+                                            value={tab}
+                                            onChange={handleTabChange}
+                                            indicatorColor="secondary"
+                                            centered
+                                            variant="fullWidth"
+                                        >
+                                            <Tab label="Bulk Addition" />
+                                            <Tab label="Individual Addition" />
+                                        </Tabs>
+                                        {tab == 0 ? (
+                                            <div className={classes.uploadPrompt}>
+                                                <div className={classes.fileDownload}>
+                                                    <Typography>
+                                                        Please upload a filled spreadsheet found{" "}
+                                                        <a
+                                                            className={classes.downloadLink}
+                                                            onClick={getAthleteTemplate}
+                                                        >
+                                                            here
+                                                        </a>{" "}
+                                                        below.
+                                                    </Typography>
+                                                </div>
+                                                <Divider light />
+                                                <div className={classes.dropzone}>
+                                                    <MyDropzone
+                                                        setNewAthletes={setNewAthletes}
+                                                    ></MyDropzone>
+                                                </div>
+                                                <Divider light />
+                                                <div className={classes.addedAthletes}>
+                                                    <AddAthleteTable
+                                                        athletes={newAthletes}
+                                                        rosterAthletes={currentRoster}
+                                                        allAthletes={allAthletes}
+                                                        setAllAthletes={setAllAthletes}
+                                                        getTeams={props.getTeams}
+                                                        currentUser={props.currentUser}
+                                                    ></AddAthleteTable>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className={classes.newAthleteContainer}>
+                                                <AthleteList
+                                                    athletes={filterNewAthletes()}
+                                                    handleToggle={handleNewAthletesToggle}
+                                                    checked={newAthletesChecked}
+                                                />
+                                            </div>
+                                        )}
+                                        <div>
+                                            <Button
+                                                variant="contained"
+                                                disabled={determineAddButtonState()}
+                                                className={classes.newAthletesButton}
+                                                onClick={handleAddAthletes}
+                                                color="primary"
+                                            >
+                                                {isFetching == "add" ? (
+                                                    <CircularProgress
+                                                        size={24}
+                                                        color={"secondary"}
+                                                    />
+                                                ) : (
+                                                    <>
+                                                        Add Athletes
+                                                        <AddIcon />
+                                                    </>
+                                                )}
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </Paper>
+                            </Grid>
+                        </Grid>
                     )}
                 </div>
             </Paper>

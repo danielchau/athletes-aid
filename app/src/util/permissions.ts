@@ -18,6 +18,7 @@ interface PagePermissions {
     logging: boolean;
     injuries: boolean;
     rosterManagement: boolean;
+    userManagement: boolean;
 }
 
 /**
@@ -30,7 +31,8 @@ export const AdminPermissions: UserPermissions = {
         roster: true,
         logging: true,
         injuries: true,
-        rosterManagement: true
+        rosterManagement: true,
+        userManagement: true
     },
     canSeeSearchBar: true,
     canEditOtherProfiles: true,
@@ -47,7 +49,8 @@ export const TrainerPermissions: UserPermissions = {
         roster: true,
         logging: true,
         injuries: true,
-        rosterManagement: false
+        rosterManagement: false,
+        userManagement: false
     },
     canSeeSearchBar: true,
     canEditOtherProfiles: false,
@@ -64,7 +67,8 @@ export const AthletePermissions: UserPermissions = {
         roster: false,
         logging: true,
         injuries: false,
-        rosterManagement: false
+        rosterManagement: false,
+        userManagement: false
     },
     canSeeSearchBar: false,
     canEditOtherProfiles: false,
@@ -81,7 +85,8 @@ export const CoachPermissions: UserPermissions = {
         roster: true,
         logging: false,
         injuries: false,
-        rosterManagement: false
+        rosterManagement: false,
+        userManagement: false
     },
     canSeeSearchBar: true,
     canEditOtherProfiles: false,

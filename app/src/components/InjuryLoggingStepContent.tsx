@@ -15,13 +15,13 @@ import { injuryLoggingStepContentStyles } from "../styles/react/InjuryLoggingSte
 import { Athlete, Team, Injury } from "../util/types";
 import {
     eventTypes,
-    positions,
     sidesOfBody,
     bodyLocations,
     injuryTypes,
     severities,
     playerStatuses,
-    mechanismsOfInjury
+    mechanismsOfInjury,
+    severityDescriptions
 } from "../constants/constants";
 
 interface InjuryLoggingStepContentProps {
@@ -37,14 +37,16 @@ interface InjuryLoggingStepContentProps {
     setIsSportsRelated: any;
     selectedEventType: string;
     setSelectedEventType: any;
-    selectedPosition: string;
-    setSelectedPosition: any;
     selectedSideOfBody: string;
     setSelectedSideOfBody: any;
     selectedLocationOnBody: string;
     setSelectedLocationOnBody: any;
+    selectedLocationOnBodyOther: string;
+    setSelectedLocationOnBodyOther: any;
     selectedInjuryType: string;
     setSelectedInjuryType: any;
+    selectedInjuryTypeOther: string;
+    setSelectedInjuryTypeOther: any;
     selectedSeverity: number;
     setSelectedSeverity: any;
     selectedStatus: string;
@@ -72,6 +74,10 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
     const handleAthleteChange = (event: StringTextContentChangeEvent) => {
         props.setSelectedAthlete(event.target.textContent);
     };
+    const handleAthleteInputChange = (_: any, value: string) => {
+        props.setSelectedAthlete(value);
+    };
+
     const handleDateChange = (date: Date) => {
         props.setSelectedDate(date);
     };
@@ -81,17 +87,20 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
     const handleEventTypeChange = (event: StringChangeEvent) => {
         props.setSelectedEventType(event.target.value);
     };
-    const handlePositionChange = (event: StringChangeEvent) => {
-        props.setSelectedPosition(event.target.value);
-    };
     const handleSideOfBodyChange = (event: StringChangeEvent) => {
         props.setSelectedSideOfBody(event.target.value);
     };
     const handleLocationOnBodyChange = (event: StringChangeEvent) => {
         props.setSelectedLocationOnBody(event.target.value);
     };
+    const handleLocationOnBodyOtherChange = (event: StringChangeEvent) => {
+        props.setSelectedLocationOnBodyOther(event.target.value);
+    };
     const handleInjuryTypeChange = (event: StringChangeEvent) => {
         props.setSelectedInjuryType(event.target.value);
+    };
+    const handleInjuryTypeOtherChange = (event: StringChangeEvent) => {
+        props.setSelectedInjuryTypeOther(event.target.value);
     };
     const handleSeverityChange = (event: NumberChangeEvent) => {
         props.setSelectedSeverity(event.target.value);
@@ -154,6 +163,7 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                                 options={props.currentRoster}
                                 getOptionLabel={(option: Athlete) => option.name}
                                 onChange={handleAthleteChange}
+                                onInputChange={handleAthleteInputChange}
                                 inputValue={props.selectedAthlete}
                                 renderInput={params => (
                                     <TextField
@@ -214,24 +224,6 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                         </Select>
                     </FormControl>
                     <FormControl className={classes.formControl} variant="outlined">
-                        <InputLabel id="position-select-label">Position</InputLabel>
-                        <Select
-                            labelWidth={60}
-                            id="position-select"
-                            value={props.selectedPosition}
-                            onChange={handlePositionChange}
-                        >
-                            <MenuItem value="" disabled>
-                                Select position of athlete...
-                            </MenuItem>
-                            {positions.map((position: string, i: number) => (
-                                <MenuItem key={i} value={position}>
-                                    {position}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <FormControl className={classes.formControl} variant="outlined">
                         <InputLabel id="side-of-body-select-label">Side Of Body</InputLabel>
                         <Select
                             labelWidth={100}
@@ -267,6 +259,17 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                             ))}
                         </Select>
                     </FormControl>
+                    {props.selectedLocationOnBody == "Other" && (
+                        <TextField
+                            id="body-location-other"
+                            className={classes.formControl}
+                            label="Location On Body (Other) *"
+                            variant="outlined"
+                            disabled={props.selectedLocationOnBody != "Other"}
+                            value={props.selectedLocationOnBodyOther}
+                            onChange={handleLocationOnBodyOtherChange}
+                        />
+                    )}
                     <FormControl className={classes.formControl} variant="outlined">
                         <InputLabel id="injury-type-select-label">Injury Type *</InputLabel>
                         <Select
@@ -285,6 +288,17 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                             ))}
                         </Select>
                     </FormControl>
+                    {props.selectedInjuryType == "Other" && (
+                        <TextField
+                            id="injury-type-other"
+                            className={classes.formControl}
+                            label="Injury Type (Other) *"
+                            variant="outlined"
+                            disabled={props.selectedInjuryType != "Other"}
+                            value={props.selectedInjuryTypeOther}
+                            onChange={handleInjuryTypeOtherChange}
+                        />
+                    )}
                     <FormControl className={classes.formControl} variant="outlined">
                         <InputLabel id="severity-select-label">Severity *</InputLabel>
                         <Select
@@ -298,7 +312,7 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                             </MenuItem>
                             {severities.map((severity: number, i: number) => (
                                 <MenuItem key={i} value={severity}>
-                                    {severity}
+                                    {severity} - {severityDescriptions[i]}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -404,10 +418,6 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                     <p>
                         <b>Event Type: </b>
                         {props.selectedEventType}
-                    </p>
-                    <p>
-                        <b>Position: </b>
-                        {props.selectedPosition}
                     </p>
                     <p>
                         <b>Side Of Body: </b>

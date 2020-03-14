@@ -19,11 +19,11 @@ export const mockUser = {
         cellPhone: "647-960-9029",
         homePhone: "905-403-8062",
         healthCardNumber: "XXXX000XX0000",
+        studentNumber: "12345678",
         emergencyContact: {
             id: "2",
             name: "Mark Number",
-            cellPhone: "647-960-9029",
-            homePhone: "905-403-8062",
+            phone: "647-960-9029",
             email: "mark_number@live.com"
         },
         files: [] as string[],

@@ -26,7 +26,16 @@ export default function MyDropzone(props: MyDropzoneProps) {
             reader.onload = () => {
                 const binaryStr = reader.result;
                 let jsonObject = ExcelToJSON(binaryStr);
+                let hasError = false;
                 let athletes = jsonObject.map((entry: any, i: number) => {
+                    if (
+                        !!!entry["Athlete First Name*"] ||
+                        !!!entry["Athlete Last Name*"] ||
+                        !!!entry["Gender*"] ||
+                        !!!entry["E-mail*"]
+                    ) {
+                        hasError = true;
+                    }
                     return {
                         id: i,
                         profilePicture: "",
@@ -39,19 +48,23 @@ export default function MyDropzone(props: MyDropzoneProps) {
                         email: entry["E-mail*"],
                         cellPhone: entry["Cell Phone"],
                         homePhone: entry["Home Phone"],
-                        healthCardNumber: "",
+                        healthCardNumber: entry["Health Card Number"],
+                        studentNumber: entry["Student Number"],
                         emergencyContact: {
                             id: "e" + i,
                             name: entry["Emergency Contact Name"],
-                            cellPhone: entry["Emergency Contact Cell Phone"],
-                            homePhone: entry["Emergency Contact Home Phone"],
+                            phone: entry["Emergency Contact Phone"],
                             email: entry["Emergency Contact Email"]
                         },
                         files: [],
                         injuries: []
                     };
                 });
-                props.setNewAthletes(athletes);
+                if (hasError) {
+                    alert("Please fill out all the required columns in the spreadsheet.");
+                } else {
+                    props.setNewAthletes(athletes);
+                }
             };
             reader.readAsBinaryString(file);
         });

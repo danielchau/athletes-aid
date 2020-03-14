@@ -19,7 +19,9 @@ import {
     injuriesDataTableStyles
 } from "../styles/react/InjuriesDataTableStyles";
 import { Injury, AthleteInjuries, Team, User, Athlete, Order } from "../util/types";
-import { headCells } from "../constants/constants";
+import { headCells, severityDescriptions } from "../constants/constants";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import { Button, Tooltip } from "@material-ui/core";
 
 interface InjuriesDataTableProps {
     injuries: Injury[];
@@ -57,7 +59,7 @@ interface EnhancedTableToolbarProps {
 export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const classes = injuriesDataTableStyles({});
     const [order, setOrder] = React.useState<Order>("asc");
-    const [orderBy, setOrderBy] = React.useState<keyof Injury>("athleteName");
+    const [orderBy, setOrderBy] = React.useState<keyof Injury>("status");
     const [selectedInjuries, setSelectedInjuries] = React.useState<string[]>([]);
     const [selectedInjury, setSelectedInjury] = React.useState<Injury | null>(null);
     const [page, setPage] = React.useState(0);
@@ -151,7 +153,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const onExport = () => {
         let headers =
             "Active,Created On,Created By,Team Name,Athlete Name,Injury Date," +
-            "Is Sports Related,Event Type,Position,Side Of Body,Location On Body," +
+            "Is Sports Related,Event Type,Side Of Body,Location On Body," +
             "Injury Type,Severity,Status,Mechanism,Injury Description,Other Notes,\r\n";
         let csvContent = "data:text/csv;charset=utf-8," + headers;
         props.injuries
@@ -166,7 +168,6 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     i.injuryDate.toDateString(),
                     i.isSportsRelated.toString(),
                     i.eventType.toString(),
-                    i.position.toString(),
                     i.sideOfBody.toString(),
                     i.locationOnBody.toString(),
                     i.injuryType.toString(),
@@ -174,7 +175,8 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     i.status.toString(),
                     i.mechanism.toString(),
                     `"` + i.injuryDescription.replace(/"/g, `'`).toString() + `"`,
-                    `"` + JSON.stringify(i.otherNotes).replace(/"/g, `'`) + `"`
+                    `"` + JSON.stringify(i.otherNotes).replace(/"/g, `'`) + `"`,
+                    `"` + JSON.stringify(i.specialNotes).replace(/"/g, `'`) + `"`
                 ];
                 csvContent += values + "\r\n";
             });
@@ -186,6 +188,12 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         document.body.appendChild(link); // Required for FF
 
         link.click(); // This will download the data file named "my_data.csv".
+    };
+
+    const getStatusColor = (status: string) => {
+        if (status == "Out") return "#b50d0d";
+        if (status == "Mod") return "#f0da37";
+        else return "#2cb030";
     };
 
     return (
@@ -250,15 +258,33 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                             >
                                                 {row.athleteName}
                                             </TableCell>
-                                            <TableCell align="right">
-                                                {row.injuryDate.toLocaleDateString()}
-                                            </TableCell>
+                                            <Tooltip
+                                                title={row.injuryDate.toDateString()}
+                                                placement="bottom-end"
+                                            >
+                                                <TableCell align="right">
+                                                    {row.injuryDate.toLocaleDateString()}
+                                                </TableCell>
+                                            </Tooltip>
                                             <TableCell align="right">
                                                 {row.locationOnBody}
                                             </TableCell>
                                             <TableCell align="right">{row.injuryType}</TableCell>
-                                            <TableCell align="right">{row.severity}</TableCell>
-                                            <TableCell align="right">{row.status}</TableCell>
+                                            <Tooltip
+                                                title={severityDescriptions[row.severity]}
+                                                placement="bottom-end"
+                                            >
+                                                <TableCell align="right">{row.severity}</TableCell>
+                                            </Tooltip>
+                                            <TableCell align="right" style={{ display: "flex" }}>
+                                                {row.status}{" "}
+                                                <div
+                                                    className={classes.statusIndicator}
+                                                    style={{
+                                                        backgroundColor: getStatusColor(row.status)
+                                                    }}
+                                                />
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -383,18 +409,10 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         >
             {numSelected > 0 ? (
                 <>
-                    <Typography className={classes.title} color="inherit" variant="subtitle1">
-                        {numSelected} selected{" "}
-                        {props.currentUser.permissions.canSeeInjuryDetails && (
-                            <Typography
-                                className={classes.export}
-                                variant="subtitle1"
-                                onClick={props.onExport}
-                            >
-                                (export)
-                            </Typography>
-                        )}
-                    </Typography>
+                    <Button className={classes.export} color="inherit" onClick={props.onExport}>
+                        <GetAppIcon style={{ paddingRight: "4px" }} />
+                        <Typography variant="subtitle1">Export {numSelected} selected</Typography>
+                    </Button>
                 </>
             ) : (
                 <Typography className={classes.title} variant="h6" id="tableTitle">

@@ -22,7 +22,7 @@ class EmergencyContact {
   @attribute()
   email: string;
   @attribute()
-  phone: number;
+  phone: string;
 }
 
 @table("Athletes")
@@ -90,7 +90,10 @@ export class Athlete {
   groupNumber: number;
 
   @attribute()
-  provincialHealthCardnumber: number;
+  provincialHealthCardnumber: string;
+
+  @attribute()
+  studentNumber: string;
 
   @attribute()
   province: string;
@@ -110,11 +113,6 @@ export class Athlete {
   @attribute({ memberType: embed(AthleteNote) })
   notes?: Array<AthleteNote>;
 
-  //TODO: still not sure about the best way to store files
-  //looking into incorporating S3
-  //@attribute()
-  ///availableFiles: ;
-
-  //@attribute()
-  //otherFiles: ;
+  @attribute()
+  availableFiles?: Array<String>;
 }

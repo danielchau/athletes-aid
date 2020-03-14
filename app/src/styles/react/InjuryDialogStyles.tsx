@@ -72,6 +72,14 @@ export const injuryDialogStyles = makeStyles((theme: Theme) =>
             alignContent: "center",
             alignSelf: "center",
             paddingBottom: "8px"
+        },
+        notesContainer: {
+            maxHeight: "800px",
+            overflow: "auto"
+        },
+        tabRoot: {
+            backgroundColor: "rgb(234, 234, 234)",
+            borderRadius: "3px"
         }
     })
 );
