@@ -30,7 +30,9 @@ var SamlStrategy: any = new saml.Strategy(
     // Service Provider private key
     decryptionPvk: fs.readFileSync(__dirname + "/cert/key.pem", "utf8"),
     // Identity Provider's public key
-    cert: fs.readFileSync(__dirname + "/cert/cert_idp.pem", "utf8")
+    cert: fs.readFileSync(__dirname + "/cert/cert_idp.pem", "utf8"),
+    
+    identifierFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
   },
   function(profile: any, done: any): any {
     console.log(profile);
