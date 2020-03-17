@@ -11,6 +11,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import EditIcon from "@material-ui/icons/Edit";
 import CancelIcon from "@material-ui/icons/Cancel";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import UpdateIcon from "@material-ui/icons/Update";
 import Slide from "@material-ui/core/Slide";
 import Paper from "@material-ui/core/Paper";
 import InjuryLoggingPageContainer from "../containers/InjuryLoggingPageContainer";
@@ -213,12 +214,25 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                                             (a, b) => b.createdOn.getTime() - a.createdOn.getTime()
                                         )
                                         .map((note: InjuryNote, i: number) => (
-                                            <Paper key={i} className={classes.notePaper}>
+                                            <Paper
+                                                key={i}
+                                                className={classes.notePaper}
+                                                style={{
+                                                    backgroundColor:
+                                                        note.createdBy != "Update"
+                                                            ? "#ffffff"
+                                                            : "#dae2eb"
+                                                }}
+                                            >
                                                 <div className={classes.noteContainer}>
-                                                    <ChatBubbleOutlineIcon
-                                                        className={classes.noteIcon}
-                                                    />
-                                                    <div>
+                                                    {note.createdBy != "Update" ? (
+                                                        <ChatBubbleOutlineIcon
+                                                            className={classes.noteIcon}
+                                                        />
+                                                    ) : (
+                                                        <UpdateIcon className={classes.noteIcon} />
+                                                    )}
+                                                    <div style={{ whiteSpace: "pre-line" }}>
                                                         <b>
                                                             {note.createdOn
                                                                 .toISOString()

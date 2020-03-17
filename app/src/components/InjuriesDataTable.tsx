@@ -154,7 +154,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         let headers =
             "Active,Created On,Created By,Team Name,Athlete Name,Injury Date," +
             "Is Sports Related,Event Type,Side Of Body,Location On Body," +
-            "Injury Type,Severity,Status,Mechanism,Injury Description,Other Notes,\r\n";
+            "Injury Type,Severity,Status,Mechanism,Injury Description,Other Notes,Special Notes,\r\n";
         let csvContent = "data:text/csv;charset=utf-8," + headers;
         props.injuries
             .filter(i => selectedInjuries.indexOf(i.id) !== -1)
@@ -175,8 +175,44 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     i.status.toString(),
                     i.mechanism.toString(),
                     `"` + i.injuryDescription.replace(/"/g, `'`).toString() + `"`,
-                    `"` + JSON.stringify(i.otherNotes).replace(/"/g, `'`) + `"`,
+                    `"` +
+                        JSON.stringify(i.otherNotes)
+                            .replace(/"/g, `'`)
+                            .replace("\n", ",") +
+                        `"`,
                     `"` + JSON.stringify(i.specialNotes).replace(/"/g, `'`) + `"`
+                ];
+                csvContent += values + "\r\n";
+            });
+
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "my_data.csv");
+        document.body.appendChild(link); // Required for FF
+
+        link.click(); // This will download the data file named "my_data.csv".
+    };
+
+    const onCoachExport = () => {
+        let headers =
+            "Active,Created On,Created By,Team Name,Athlete Name,Injury Date," +
+            "Side Of Body,Location On Body,Severity,Status,\r\n";
+        let csvContent = "data:text/csv;charset=utf-8," + headers;
+        props.injuries
+            .filter(i => selectedInjuries.indexOf(i.id) !== -1)
+            .map(i => {
+                let values = [
+                    i.active.toString(),
+                    i.createdOn.toDateString(),
+                    i.createdBy.toString(),
+                    i.teamName.toString(),
+                    i.athleteName.toString(),
+                    i.injuryDate.toDateString(),
+                    i.sideOfBody.toString(),
+                    i.locationOnBody.toString(),
+                    i.severity.toString(),
+                    i.status.toString()
                 ];
                 csvContent += values + "\r\n";
             });
@@ -201,7 +237,9 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
             <Paper className={classes.paper}>
                 <EnhancedTableToolbar
                     numSelected={selectedInjuries.length}
-                    onExport={onExport}
+                    onExport={
+                        props.currentUser.permissions.canSeeInjuryDetails ? onExport : onCoachExport
+                    }
                     currentUser={props.currentUser}
                 />
                 <div className={classes.tableWrapper}>

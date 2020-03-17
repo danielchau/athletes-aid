@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { injuryLoggingPageStyles } from "../styles/react/InjuryLoggingPageStyles";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
@@ -156,7 +156,90 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                 setIsLogging(true);
                 updateInjury(transformToAthleteInfo()).then((injury: Injury | null) => {
                     setIsLogging(false);
-                    props.callbackUponFinishing(injury);
+                    let updates = "";
+                    if (props.existingInjury.injuryDate.getDate() != injury.injuryDate.getDate()) {
+                        updates +=
+                            "Injury Date: " +
+                            props.existingInjury.injuryDate.getDate() +
+                            " → " +
+                            injury.injuryDate.getDate() +
+                            "\n";
+                    }
+                    if (props.existingInjury.isSportsRelated != injury.isSportsRelated) {
+                        updates +=
+                            "Is Sports Related: " +
+                            props.existingInjury.isSportsRelated +
+                            " → " +
+                            injury.isSportsRelated +
+                            "\n";
+                    }
+                    if (props.existingInjury.eventType != injury.eventType) {
+                        updates +=
+                            "Event Type: " +
+                            props.existingInjury.eventType +
+                            " → " +
+                            injury.eventType +
+                            "\n";
+                    }
+                    if (props.existingInjury.sideOfBody != injury.sideOfBody) {
+                        updates +=
+                            "Side of Body: " +
+                            props.existingInjury.sideOfBody +
+                            " → " +
+                            injury.sideOfBody +
+                            "\n";
+                    }
+                    if (props.existingInjury.locationOnBody != injury.locationOnBody) {
+                        updates +=
+                            "Location on Body: " +
+                            props.existingInjury.locationOnBody +
+                            " → " +
+                            injury.locationOnBody +
+                            "\n";
+                    }
+                    if (props.existingInjury.injuryType != injury.injuryType) {
+                        updates +=
+                            "Injury Type: " +
+                            props.existingInjury.injuryType +
+                            " → " +
+                            injury.injuryType +
+                            "\n";
+                    }
+                    if (props.existingInjury.severity != injury.severity) {
+                        updates +=
+                            "Severity: " +
+                            props.existingInjury.severity +
+                            " → " +
+                            injury.severity +
+                            "\n";
+                    }
+                    if (props.existingInjury.status != injury.status) {
+                        updates +=
+                            "Status: " + props.existingInjury.status + " → " + injury.status + "\n";
+                    }
+                    if (props.existingInjury.mechanism != injury.mechanism) {
+                        updates +=
+                            "Mechanism: " +
+                            props.existingInjury.mechanism +
+                            " → " +
+                            injury.mechanism +
+                            "\n";
+                    }
+                    if (props.existingInjury.injuryDescription != injury.injuryDescription) {
+                        updates +=
+                            "Description: " +
+                            props.existingInjury.injuryDescription +
+                            " → " +
+                            injury.injuryDescription +
+                            "\n";
+                    }
+                    if (updates != "") {
+                        postInjuryNote(injury.id, updates, "Update", false).then(inj => {
+                            props.callbackUponFinishing(inj);
+                        });
+                    } else {
+                        props.callbackUponFinishing(injury);
+                    }
                 });
             } else {
                 setIsLogging(true);

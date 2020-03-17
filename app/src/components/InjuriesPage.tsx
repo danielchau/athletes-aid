@@ -12,7 +12,10 @@ import clsx from "clsx";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import BodyVisualization from "./BodyVisualization";
-import { Tooltip, Switch, FormControlLabel } from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/Help";
+import { Tooltip, Switch, FormControlLabel, IconButton } from "@material-ui/core";
+import HelpDialog from "./HelpDialog";
+import { injuriesPageName } from "../constants/constants";
 
 interface InjuriesProps {
     athleteInjuries: AthleteInjuries;
@@ -38,6 +41,7 @@ export default function InjuriesPage(props: InjuriesProps) {
     const [isFetching, setIsFetching] = React.useState(false);
     const [showInactive, setShowInactive] = React.useState<boolean>(true);
     const [injuries, setInjuries] = React.useState<Injury[]>(props.athleteInjuries.injuries);
+    const [open, setOpen] = React.useState(false);
 
     /**
      * If athleteInjuries changes then that means the query is done and we can set the fetching
@@ -98,6 +102,15 @@ export default function InjuriesPage(props: InjuriesProps) {
                 [classes.drawerClosed]: !(props.state === NavigationPanelStates.open)
             })}
         >
+            <Tooltip title="Help">
+                <IconButton
+                    style={{ position: "absolute", top: "68px", right: "4px" }}
+                    onClick={() => setOpen(true)}
+                >
+                    <HelpIcon />
+                </IconButton>
+            </Tooltip>
+            <HelpDialog open={open} setOpen={setOpen} page={injuriesPageName} />
             <Grid container spacing={3} className={classes.grid}>
                 <Grid item xs={12} sm={12} md={12}>
                     <Paper className={classes.paper}>

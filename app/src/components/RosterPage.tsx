@@ -7,9 +7,12 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Athlete, Team } from "../util/types";
-import { profilePath } from "../constants/constants";
+import { profilePath, rosterPageName } from "../constants/constants";
 import { Link, RouteComponentProps } from "react-router-dom";
 import FetchingScreen from "./FetchingScreen";
+import HelpIcon from "@material-ui/icons/Help";
+import { Tooltip, IconButton } from "@material-ui/core";
+import HelpDialog from "./HelpDialog";
 
 interface RosterPageProps {
     selectedTeam: Team;
@@ -26,6 +29,7 @@ interface RosterPageProps {
 export default function RosterPage(props: RosterPageProps & RouteComponentProps) {
     const classes = rosterPageStyles({});
     const [isFetching, setIsFetching] = React.useState<boolean>(true);
+    const [open, setOpen] = React.useState(false);
 
     React.useEffect(() => {
         if (!!props.currentRoster) {
@@ -88,6 +92,15 @@ export default function RosterPage(props: RosterPageProps & RouteComponentProps)
                 <FetchingScreen />
             ) : (
                 <Paper className={classes.tableContainer}>
+                    <Tooltip title="Help">
+                        <IconButton
+                            style={{ position: "absolute", top: "68px", right: "4px" }}
+                            onClick={() => setOpen(true)}
+                        >
+                            <HelpIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <HelpDialog open={open} setOpen={setOpen} page={rosterPageName} />
                     <div className={classes.tableBodyContainer}>
                         <Table stickyHeader className={classes.tableBody}>
                             <TableHead>

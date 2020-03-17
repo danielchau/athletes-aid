@@ -16,7 +16,10 @@ import {
     UserPermissions,
     AthletePermissions
 } from "../util/permissions";
-import { FormControl, Select, MenuItem, TextField } from "@material-ui/core";
+import { FormControl, Select, MenuItem, TextField, Tooltip, IconButton } from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/Help";
+import HelpDialog from "./HelpDialog";
+import { userManagementPageName } from "../constants/constants";
 
 interface UserManagementPageProps {
     currentUser: User;
@@ -34,6 +37,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
     const [isFetching, setIsFetching] = React.useState<boolean>(true);
     const [autocompleteVal, setAutocompleteVal] = React.useState<string>("");
     const [allUsers, setAllUsers] = React.useState<User[]>([]);
+    const [open, setOpen] = React.useState(false);
 
     React.useEffect(() => {
         if (isFirstRender) {
@@ -118,6 +122,15 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                 <FetchingScreen />
             ) : (
                 <Paper className={classes.tableContainer}>
+                    <Tooltip title="Help">
+                        <IconButton
+                            style={{ position: "absolute", top: "68px", right: "4px" }}
+                            onClick={() => setOpen(true)}
+                        >
+                            <HelpIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <HelpDialog open={open} setOpen={setOpen} page={userManagementPageName} />
                     <div className={classes.tableBodyContainer}>
                         <Table stickyHeader className={classes.tableBody}>
                             <TableHead>
