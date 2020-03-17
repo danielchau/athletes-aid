@@ -37,6 +37,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import FetchingScreen from "./FetchingScreen";
 import { fetchCurrentRosterEndpoint } from "../actions/TeamAction";
 import { Grid, Tooltip } from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/Help";
+import { rosterManagementPageName } from "../constants/constants";
+import HelpDialog from "./HelpDialog";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
@@ -68,6 +71,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const [isFetching, setIsFetching] = React.useState<string>("");
     const [isRosterFetching, setIsRosterFetching] = React.useState<boolean>(false);
     const [isCreatingNewTeam, setIsCreatingNewTeam] = React.useState<boolean>(false);
+    const [open, setOpen] = React.useState(false);
 
     /**
      * Get all athletes in the database so that admin knows who they can add individually.
@@ -304,6 +308,15 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                 [classes.drawerClosed]: !(props.state === NavigationPanelStates.open)
             })}
         >
+            <Tooltip title="Help">
+                <IconButton
+                    style={{ position: "absolute", top: "68px", right: "4px" }}
+                    onClick={() => setOpen(true)}
+                >
+                    <HelpIcon />
+                </IconButton>
+            </Tooltip>
+            <HelpDialog open={open} setOpen={setOpen} page={rosterManagementPageName} />
             <Paper className={classes.introPaper}>
                 <Typography className={classes.introText}>
                     Edit one of your current teams:

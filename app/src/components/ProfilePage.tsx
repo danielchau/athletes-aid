@@ -30,6 +30,9 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { addFileToAthlete, fetchAthleteFile, deleteAthleteFile } from "../actions/AthleteAction";
+import HelpIcon from "@material-ui/icons/Help";
+import { profilePageName } from "../constants/constants";
+import HelpDialog from "./HelpDialog";
 
 interface ProfilePageProps {
     state: NavigationPanelStates;
@@ -55,6 +58,7 @@ export default function ProfilePage(props: ProfilePageProps) {
     const [isUpdating, setIsUpdating] = React.useState<boolean>(false);
     const [files, setFiles] = React.useState<string[]>(props.currentAthlete.files);
     const [isLoadingFiles, setIsLoadingFiles] = React.useState<boolean>(false);
+    const [open, setOpen] = React.useState(false);
 
     const handleInjuryOpen = () => {
         setInjuryOpen(true);
@@ -95,6 +99,15 @@ export default function ProfilePage(props: ProfilePageProps) {
                 [classes.drawerClosed]: !(props.state === NavigationPanelStates.open)
             })}
         >
+            <Tooltip title="Help">
+                <IconButton
+                    style={{ position: "absolute", top: "68px", right: "4px" }}
+                    onClick={() => setOpen(true)}
+                >
+                    <HelpIcon />
+                </IconButton>
+            </Tooltip>
+            <HelpDialog open={open} setOpen={setOpen} page={profilePageName} />
             <Grid container spacing={0}>
                 <Grid item xs={12} sm={12} md={4} className={classes.gridItem}>
                     <div className={classes.leftCol}>

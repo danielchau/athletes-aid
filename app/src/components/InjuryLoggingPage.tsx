@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { injuryLoggingPageStyles } from "../styles/react/InjuryLoggingPageStyles";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
