@@ -234,8 +234,8 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                             "\n";
                     }
                     if (updates != "") {
-                        postInjuryNote(injury.id, updates, "Update", false).then(_ => {
-                            props.callbackUponFinishing(injury);
+                        postInjuryNote(injury.id, updates, "Update", false).then(inj => {
+                            props.callbackUponFinishing(inj);
                         });
                     } else {
                         props.callbackUponFinishing(injury);
