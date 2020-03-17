@@ -19,7 +19,8 @@ const ATHLETE_CSV = path.join(DIST_DIR, "athleteBulkTemplate.csv");
 var SamlStrategy: any = new saml.Strategy(
   {
     path: "/login/callback",
-    entryPoint: "https://authentication.stg.id.ubc.ca",
+    entryPoint:
+      "https://authentication.stg.id.ubc.ca/idp/profile/SAML2/Redirect/SSO",
     issuer: "http://athletes-aid-dev.ca-central-1.elasticbeanstalk.com",
     host: "athletes-aid-dev.ca-central-1.elasticbeanstalk.com",
     signatureAlgorithm: "sha256",
@@ -44,8 +45,13 @@ app.set("port", process.env.PORT || 3000);
 app.use(express.static(DIST_DIR)); // NEW
 app.use(bodyParser.json({ limit: "5mb" }));
 app.use(cookieParser());
-app.use(bodyParser());
-app.use(session({ secret: "hello" }));
+app.use(
+  session({
+    secret: "hello",
+    resave: false,
+    saveUninitialized: true
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
