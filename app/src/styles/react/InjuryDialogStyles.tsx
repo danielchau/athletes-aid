@@ -37,7 +37,6 @@ export const injuryDialogStyles = makeStyles((theme: Theme) =>
             marginBottom: "8px"
         },
         notePaper: {
-            backgroundColor: "#ffffff",
             padding: "8px",
             marginBottom: "8px"
         },

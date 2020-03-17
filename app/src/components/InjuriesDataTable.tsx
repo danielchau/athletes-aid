@@ -175,7 +175,11 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     i.status.toString(),
                     i.mechanism.toString(),
                     `"` + i.injuryDescription.replace(/"/g, `'`).toString() + `"`,
-                    `"` + JSON.stringify(i.otherNotes).replace(/"/g, `'`) + `"`,
+                    `"` +
+                        JSON.stringify(i.otherNotes)
+                            .replace(/"/g, `'`)
+                            .replace("\n", ",") +
+                        `"`,
                     `"` + JSON.stringify(i.specialNotes).replace(/"/g, `'`) + `"`
                 ];
                 csvContent += values + "\r\n";
