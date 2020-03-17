@@ -6,7 +6,7 @@ import passport from "passport";
 import * as saml from "passport-saml";
 import * as fs from "fs";
 import cookieParser from "cookie-parser";
-import session from 'express-session';
+import session from "express-session";
 
 var storage = multer.memoryStorage();
 var upload = multer.default({ storage: storage });
@@ -16,11 +16,13 @@ const DIST_DIR = path.join(__dirname, "../dist"); // NEW
 const HTML_FILE = path.join(DIST_DIR, "index.html"); // NEW
 const ATHLETE_CSV = path.join(DIST_DIR, "athleteBulkTemplate.csv");
 
-var SamlStrategy :any  = new saml.Strategy(
+var SamlStrategy: any = new saml.Strategy(
   {
     path: "/login/callback",
     entryPoint: "https://authentication.stg.id.ubc.ca",
-    issuer: "passport-saml",
+    issuer: "http://athletes-aid-dev.ca-central-1.elasticbeanstalk.com",
+    host: "athletes-aid-dev.ca-central-1.elasticbeanstalk.com",
+    signatureAlgorithm: "sha256",
 
     logoutUrl: "https://authentication.ubc.ca/idp/profile/SAML2/POST/SLO",
 
@@ -32,11 +34,9 @@ var SamlStrategy :any  = new saml.Strategy(
   function(profile: any, done: any): any {
     console.log(profile);
   }
-)
-
-passport.use(
-  SamlStrategy
 );
+
+passport.use(SamlStrategy);
 
 const app = express();
 
@@ -45,7 +45,7 @@ app.use(express.static(DIST_DIR)); // NEW
 app.use(bodyParser.json({ limit: "5mb" }));
 app.use(cookieParser());
 app.use(bodyParser());
-app.use(session({secret: "hello"}));
+app.use(session({ secret: "hello" }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -55,47 +55,46 @@ app.get("/athleteTemplate", function(req, res) {
 
 //login stuff
 
-function ensureAuthenticated(req: { isAuthenticated: () => any; }, res: { redirect: (arg0: string) => any; }, next: () => any) {
-  if (req.isAuthenticated())
-    return next();
-  else
-    return res.redirect('/login');
+function ensureAuthenticated(
+  req: { isAuthenticated: () => any },
+  res: { redirect: (arg0: string) => any },
+  next: () => any
+) {
+  if (req.isAuthenticated()) return next();
+  else return res.redirect("/login");
 }
 
-app.get('/',
-  ensureAuthenticated, 
+app.get("/", ensureAuthenticated, function(req, res) {
+  res.send("Authenticated");
+});
+
+app.get(
+  "/login",
+  passport.authenticate("saml", { failureRedirect: "/login/fail" }),
   function(req, res) {
-    res.send('Authenticated');
+    res.redirect("/");
   }
 );
 
-app.get('/login',
-  passport.authenticate('saml', { failureRedirect: '/login/fail' }),
-  function (req, res) {
-    res.redirect('/');
+app.post(
+  "/login/callback",
+  passport.authenticate("saml", { failureRedirect: "/login/fail" }),
+  function(req, res) {
+    res.redirect("/");
   }
 );
 
-app.post('/login/callback',
-   passport.authenticate('saml', { failureRedirect: '/login/fail' }),
-  function(req, res) {
-    res.redirect('/');
-  }
-);
+app.get("/login/fail", function(req, res) {
+  res.status(401).send("Login failed");
+});
 
-app.get('/login/fail', 
-  function(req, res) {
-    res.status(401).send('Login failed');
-  }
-);
-
-app.get('/metadata', 
-  function(req, res) {
-    const decryptionCert = fs.readFileSync(__dirname + '/cert/cert.pem', 'utf8');
-    res.type('application/xml');
-    res.status(200).send(SamlStrategy.generateServiceProviderMetadata(decryptionCert));
-  }
-);
+app.get("/metadata", function(req, res) {
+  const decryptionCert = fs.readFileSync(__dirname + "/cert/cert.pem", "utf8");
+  res.type("application/xml");
+  res
+    .status(200)
+    .send(SamlStrategy.generateServiceProviderMetadata(decryptionCert));
+});
 
 // Controllers (route handlers)
 import * as teamController from "./controllers/team";
