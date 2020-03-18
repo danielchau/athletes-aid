@@ -14,14 +14,20 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen
-            })
+            }),
+            [theme.breakpoints.down("xs")]: {
+                width: "100vw"
+            }
         },
         drawerClosed: {
             width: "calc(100vw - 72px)",
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen
-            })
+            }),
+            [theme.breakpoints.down("xs")]: {
+                width: "100vw"
+            }
         },
         leftCol: {
             width: "100%",

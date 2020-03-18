@@ -9,7 +9,11 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
         drawer: {
             width: drawerWidth,
             flexShrink: 0,
-            whiteSpace: "nowrap"
+            whiteSpace: "nowrap",
+            [theme.breakpoints.down("xs")]: {
+                width: "100%",
+                backgroundColor: "transparent"
+            }
         },
         drawerOpen: {
             width: drawerWidth,
@@ -17,7 +21,11 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen
             }),
-            backgroundColor: "#fafafa"
+            backgroundColor: "#fafafa",
+            [theme.breakpoints.down("xs")]: {
+                width: "100%",
+                height: "487px"
+            }
         },
         drawerClose: {
             transition: theme.transitions.create("width", {
@@ -29,7 +37,11 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.up("sm")]: {
                 width: theme.spacing(9) + 1
             },
-            backgroundColor: "#fafafa"
+            backgroundColor: "#fafafa",
+            [theme.breakpoints.down("xs")]: {
+                width: "100%",
+                height: "487px"
+            }
         },
         toolbar: {
             display: "flex",
@@ -37,7 +49,10 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             justifyContent: "flex-end",
             padding: theme.spacing(0, 1),
             backgroundColor: "#002145",
-            ...theme.mixins.toolbar
+            ...theme.mixins.toolbar,
+            [theme.breakpoints.down("xs")]: {
+                justifyContent: "center"
+            }
         },
         content: {
             flexGrow: 1,
