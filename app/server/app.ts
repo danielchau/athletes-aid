@@ -31,7 +31,7 @@ var SamlStrategy: any = new saml.Strategy(
     decryptionPvk: fs.readFileSync(__dirname + "/cert/key.pem", "utf8"),
     // Identity Provider's public key
     cert: fs.readFileSync(__dirname + "/cert/cert_idp.pem", "utf8"),
-    
+
     identifierFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
   },
   function(profile: any, done: any): any {
@@ -97,11 +97,12 @@ app.get("/login/fail", function(req, res) {
 });
 
 app.get("/metadata", function(req, res) {
-  const decryptionCert = fs.readFileSync(__dirname + "/cert/cert.pem", "utf8");
+  //const decryptionCert = fs.readFileSync(__dirname + "/cert/cert.pem", "utf8");
+
+  const metadata = fs.readFileSync(__dirname + "/metadata.xml", "utf8");
+
   res.type("application/xml");
-  res
-    .status(200)
-    .send(SamlStrategy.generateServiceProviderMetadata(decryptionCert));
+  res.status(200).send(metadata);
 });
 
 // Controllers (route handlers)
