@@ -35,6 +35,7 @@ var SamlStrategy: any = new saml.Strategy(
     identifierFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
   },
   function(profile: any, done: any): any {
+    console.log("profile:");
     console.log(profile);
     return done(null, profile);
   }
@@ -97,8 +98,6 @@ app.post(
   "/login/callback",
   passport.authenticate("saml", { failureRedirect: "/login/fail" }),
   function(req, res) {
-    console.log("/login/callback endpoint:");
-    console.log(req);
     res.redirect("/");
   }
 );
