@@ -36,6 +36,7 @@ var SamlStrategy: any = new saml.Strategy(
   },
   function(profile: any, done: any): any {
     console.log(profile);
+    return done(null, profile);
   }
 );
 
@@ -46,6 +47,8 @@ const app = express();
 app.set("port", process.env.PORT || 3000);
 app.use(express.static(DIST_DIR)); // NEW
 app.use(bodyParser.json({ limit: "5mb" }));
+app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
   session({
@@ -57,11 +60,17 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
 app.get("/athleteTemplate", function(req, res) {
   res.download(ATHLETE_CSV);
 });
-
-//login stuff
 
 function ensureAuthenticated(
   req: { isAuthenticated: () => any },
@@ -88,11 +97,14 @@ app.post(
   "/login/callback",
   passport.authenticate("saml", { failureRedirect: "/login/fail" }),
   function(req, res) {
+    console.log("/login/callback endpoint:");
+    console.log(req);
     res.redirect("/");
   }
 );
 
 app.get("/login/fail", function(req, res) {
+  console.log("Login failed");
   res.status(401).send("Login failed");
 });
 
