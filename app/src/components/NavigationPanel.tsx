@@ -4,6 +4,7 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -36,6 +37,7 @@ import {
     userManagementPageName
 } from "../constants/constants";
 import { Typography } from "@material-ui/core";
+import withWidth, { WithWidthProps, isWidthDown } from "@material-ui/core/withWidth";
 
 interface NavigationPanelProps {
     state: NavigationPanelStates;
@@ -51,9 +53,15 @@ interface NavigationPanelProps {
  * The contents depend on what role the user is.
  * @param props
  */
-export default function NavigationPanel(props: NavigationPanelProps & RouteComponentProps) {
+function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & WithWidthProps) {
     const classes = navigationPanelStyles({});
     const [teamToggleAnchorEl, setTeamToggleAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    React.useEffect(() => {
+        if (props.width == "xs" && props.state === NavigationPanelStates.open) {
+            props.handleDrawerClose();
+        }
+    }, [props.width]);
 
     const handleClickTeamToggle = (event: React.MouseEvent<HTMLElement>) => {
         setTeamToggleAnchorEl(event.currentTarget);
@@ -68,13 +76,23 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
         setTeamToggleAnchorEl(null);
     };
 
+    const handleListClick = () => {
+        if (isWidthDown("xs", props.width)) {
+            props.handleDrawerClose();
+        }
+    };
+
     return (
         <Drawer
-            variant="permanent"
-            className={clsx(classes.drawer, {
-                [classes.drawerOpen]: props.state === NavigationPanelStates.open,
-                [classes.drawerClose]: !(props.state === NavigationPanelStates.open)
-            })}
+            variant={isWidthDown("xs", props.width) ? "temporary" : "permanent"}
+            anchor={isWidthDown("xs", props.width) ? "top" : "left"}
+            className={clsx(
+                {
+                    [classes.drawerOpen]: props.state === NavigationPanelStates.open,
+                    [classes.drawerClose]: !(props.state === NavigationPanelStates.open)
+                },
+                classes.drawer
+            )}
             classes={{
                 paper: clsx({
                     [classes.drawerOpen]: props.state === NavigationPanelStates.open,
@@ -85,7 +103,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
         >
             <div className={classes.toolbar}>
                 <IconButton style={{ color: "#fff" }} onClick={props.handleDrawerClose}>
-                    <ChevronLeftIcon />
+                    {isWidthDown("xs", props.width) ? <KeyboardArrowUpIcon /> : <ChevronLeftIcon />}
                 </IconButton>
             </div>
             <Divider />
@@ -105,6 +123,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                         button
                         key={profilePageName}
                         selected={props.location.pathname == myProfilePath}
+                        onClick={handleListClick}
                     >
                         <ListItemIcon className={classes.itemIcon}>
                             <PersonIcon></PersonIcon>
@@ -121,6 +140,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                             button
                             key={rosterPageName}
                             selected={props.location.pathname == rosterPath}
+                            onClick={handleListClick}
                         >
                             <ListItemIcon className={classes.itemIcon}>
                                 <GroupIcon></GroupIcon>
@@ -138,6 +158,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                             button
                             key={injuryLoggingPageName}
                             selected={props.location.pathname == injuryLoggingPath}
+                            onClick={handleListClick}
                         >
                             <ListItemIcon className={classes.itemIcon}>
                                 <DescriptionIcon></DescriptionIcon>
@@ -155,6 +176,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                             button
                             key={injuriesPageName}
                             selected={props.location.pathname == injuriesPath}
+                            onClick={handleListClick}
                         >
                             <ListItemIcon className={classes.itemIcon}>
                                 <HealingIcon></HealingIcon>
@@ -172,6 +194,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                             button
                             key={rosterManagementPageName}
                             selected={props.location.pathname == rosterManagementPath}
+                            onClick={handleListClick}
                         >
                             <ListItemIcon className={classes.itemIcon}>
                                 <SettingsIcon></SettingsIcon>
@@ -189,6 +212,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                             button
                             key={userManagementPageName}
                             selected={props.location.pathname == userManagementPath}
+                            onClick={handleListClick}
                         >
                             <ListItemIcon className={classes.itemIcon}>
                                 <TransferWithinAStationIcon></TransferWithinAStationIcon>
@@ -257,3 +281,5 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
         </Drawer>
     );
 }
+
+export default withWidth()(NavigationPanel);
