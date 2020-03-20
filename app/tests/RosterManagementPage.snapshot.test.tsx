@@ -1,6 +1,7 @@
 import * as React from 'react'
 import RosterManagementPage from '../src/components/RosterManagementPage'
 import renderer from 'react-test-renderer'
+import "babel-polyfill"
 
 let date: Date = new Date("2019-01-01");
 
@@ -87,6 +88,6 @@ const mockTeams = [{
 }]
 
 it('RosterManagementPage renders correctly', () => {
-  const tree = renderer.create(<RosterManagementPage state={false} teams={mockTeams} currentUser={mockUser} />).toJSON()
+  const tree = renderer.create(<RosterManagementPage state={false} teams={mockTeams} currentUser={mockUser} setSelectedTeam={false} />).toJSON()
   expect(tree).toMatchSnapshot()
 })

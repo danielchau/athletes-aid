@@ -64,7 +64,7 @@ exports[`RosterManagementPage renders correctly 1`] = `
         </svg>
         <fieldset
           aria-hidden={true}
-          className="PrivateNotchedOutline-root-169 MuiOutlinedInput-notchedOutline"
+          className="PrivateNotchedOutline-root-171 MuiOutlinedInput-notchedOutline"
           style={
             Object {
               "paddingLeft": 27,
@@ -72,7 +72,7 @@ exports[`RosterManagementPage renders correctly 1`] = `
           }
         >
           <legend
-            className="PrivateNotchedOutline-legend-170"
+            className="PrivateNotchedOutline-legend-172"
             style={
               Object {
                 "width": 0.01,
@@ -96,6 +96,7 @@ exports[`RosterManagementPage renders correctly 1`] = `
       or add a new one:
     </p>
     <button
+      aria-describedby={null}
       aria-label="add"
       className="MuiButtonBase-root MuiIconButton-root makeStyles-introButton-7"
       disabled={false}
@@ -107,11 +108,13 @@ exports[`RosterManagementPage renders correctly 1`] = `
       onKeyUp={[Function]}
       onMouseDown={[Function]}
       onMouseLeave={[Function]}
+      onMouseOver={[Function]}
       onMouseUp={[Function]}
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
       tabIndex={0}
+      title="Create new team"
       type="button"
     >
       <span
@@ -129,6 +132,9 @@ exports[`RosterManagementPage renders correctly 1`] = `
           />
         </svg>
       </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
     </button>
   </div>
   <div
@@ -169,7 +175,7 @@ exports[`RosterManagementPage renders correctly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-169 MuiOutlinedInput-notchedOutline"
+            className="PrivateNotchedOutline-root-171 MuiOutlinedInput-notchedOutline"
             style={
               Object {
                 "paddingLeft": 8,
@@ -177,7 +183,7 @@ exports[`RosterManagementPage renders correctly 1`] = `
             }
           >
             <legend
-              className="PrivateNotchedOutline-legend-170"
+              className="PrivateNotchedOutline-legend-172"
               style={
                 Object {
                   "width": 0.01,
@@ -227,7 +233,7 @@ exports[`RosterManagementPage renders correctly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-169 MuiOutlinedInput-notchedOutline"
+            className="PrivateNotchedOutline-root-171 MuiOutlinedInput-notchedOutline"
             style={
               Object {
                 "paddingLeft": 8,
@@ -235,7 +241,7 @@ exports[`RosterManagementPage renders correctly 1`] = `
             }
           >
             <legend
-              className="PrivateNotchedOutline-legend-170"
+              className="PrivateNotchedOutline-legend-172"
               style={
                 Object {
                   "width": 0.01,
@@ -254,7 +260,7 @@ exports[`RosterManagementPage renders correctly 1`] = `
         </div>
       </div>
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-saveButton-19 MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-saveButton-21 MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -276,6 +282,9 @@ exports[`RosterManagementPage renders correctly 1`] = `
         >
           Create
         </span>
+        <span
+          className="MuiTouchRipple-root"
+        />
       </button>
     </div>
     <hr
@@ -285,10 +294,10 @@ exports[`RosterManagementPage renders correctly 1`] = `
       className="makeStyles-athleteContentContainer-12"
     >
       <div
-        className="makeStyles-createPromptContainer-24"
+        className="makeStyles-createPromptContainer-26"
       >
         <p
-          className="MuiTypography-root makeStyles-createPrompt-25 MuiTypography-body1"
+          className="MuiTypography-root makeStyles-createPrompt-27 MuiTypography-body1"
         >
           Please create a team or select an existing one before adding/modifying athletes.
         </p>
