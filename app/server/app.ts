@@ -69,7 +69,7 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-app.get("/athleteTemplate", function(req, res) {
+app.get("/athleteTemplate", ensureAuthenticated, function(req, res) {
   res.download(ATHLETE_CSV);
 });
 
@@ -119,31 +119,44 @@ app.get("/metadata", function(req, res) {
 // Controllers (route handlers)
 import * as teamController from "./controllers/team";
 
-app.post("/team", teamController.postTeam);
-app.get("/team", teamController.getTeam);
-app.put("/team", teamController.modifyTeam);
-app.delete("/team", teamController.deleteTeam);
-app.get("/teams", teamController.getAllTeams);
+app.post("/team", ensureAuthenticated, teamController.postTeam);
+app.get("/team", ensureAuthenticated, teamController.getTeam);
+app.put("/team", ensureAuthenticated, teamController.modifyTeam);
+app.delete("/team", ensureAuthenticated, teamController.deleteTeam);
+app.get("/teams", ensureAuthenticated, teamController.getAllTeams);
 
 // import * as userController from "./controllers/user";
 
 import * as injuryController from "./controllers/injury";
-app.post("/singleInjury", injuryController.postInjury);
-app.get("/singleInjury", injuryController.getInjury);
-app.post("/injuryNote", injuryController.postInjuryNote);
-app.post("/injurySpecialNote", injuryController.postInjurySpecialNote);
-app.get("/injuriesInDateRange", injuryController.getInjuriesByRange);
-app.post("/injuryActive", injuryController.setActive);
-app.put("/singleInjury", injuryController.updateInjury);
+app.post("/singleInjury", ensureAuthenticated, injuryController.postInjury);
+app.get("/singleInjury", ensureAuthenticated, injuryController.getInjury);
+app.post("/injuryNote", ensureAuthenticated, injuryController.postInjuryNote);
+app.post(
+  "/injurySpecialNote",
+  ensureAuthenticated,
+  injuryController.postInjurySpecialNote
+);
+app.get(
+  "/injuriesInDateRange",
+  ensureAuthenticated,
+  injuryController.getInjuriesByRange
+);
+app.post("/injuryActive", ensureAuthenticated, injuryController.setActive);
+app.put("/singleInjury", ensureAuthenticated, injuryController.updateInjury);
 
 import * as athleteController from "./controllers/athlete";
-app.post("/athlete", athleteController.postAthlete);
-app.get("/athlete", athleteController.getAthlete);
-app.put("/athlete", athleteController.putAthlete);
-app.get("/allAthletes", athleteController.getAllAthletes);
-app.post("/file", upload.single("fileUpload"), athleteController.postFile);
-app.get("/file", athleteController.getFile);
-app.delete("/file", athleteController.deleteFile);
+app.post("/athlete", ensureAuthenticated, athleteController.postAthlete);
+app.get("/athlete", ensureAuthenticated, athleteController.getAthlete);
+app.put("/athlete", ensureAuthenticated, athleteController.putAthlete);
+app.get("/allAthletes", ensureAuthenticated, athleteController.getAllAthletes);
+app.post(
+  "/file",
+  ensureAuthenticated,
+  upload.single("fileUpload"),
+  athleteController.postFile
+);
+app.get("/file", ensureAuthenticated, athleteController.getFile);
+app.delete("/file", ensureAuthenticated, athleteController.deleteFile);
 
 // Routes
 app.get("/*", (req, res) => {
