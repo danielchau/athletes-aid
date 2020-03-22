@@ -1,5 +1,5 @@
 import * as React from 'react'
-import InjuryDialog from '../src/components/InjuryDialog'
+import BodyVisualization from '../src/components/BodyVisualization'
 import renderer from 'react-test-renderer'
 
 let date: Date = new Date("2019-01-01");
@@ -32,6 +32,6 @@ const mockInjuries = [{
 }]
 
 it('BodyVisualization renders correctly', () => {
-  const tree = renderer.create(<InjuryDialog injuries={mockInjuries} />).toJSON()
+  const tree = renderer.create(<BodyVisualization injuries={mockInjuries} />).toJSON()
   expect(tree).toMatchSnapshot()
 })

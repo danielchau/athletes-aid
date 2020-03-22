@@ -1,0 +1,1915 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavigationPanel renders correctly 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <NavigationPanel
+      currentUser={
+        Object {
+          "athleteProfile": Object {},
+          "permissions": Object {
+            "pages": Object {
+              "roster": "Test roster",
+            },
+          },
+        }
+      }
+      location="test"
+      selectedTeam={
+        Object {
+          "athleteIds": Array [
+            "Test athleteId1",
+            "Test athleteId2",
+          ],
+          "id": "Test id",
+          "name": "Test name",
+          "season": "Test season",
+        }
+      }
+      state={false}
+      teams={
+        Array [
+          Object {
+            "athleteIds": Array [
+              "Test athleteId1",
+              "Test athleteId2",
+            ],
+            "id": "Test id",
+            "name": "Test name",
+            "season": "Test season",
+          },
+        ]
+      }
+    >
+      <WithStyles(ForwardRef(Drawer))
+        className="makeStyles-drawer-1 makeStyles-drawerClose-3"
+        classes={
+          Object {
+            "paper": "makeStyles-drawerClose-3",
+          }
+        }
+        open={false}
+        variant="permanent"
+      >
+        <ForwardRef(Drawer)
+          className="makeStyles-drawer-1 makeStyles-drawerClose-3"
+          classes={
+            Object {
+              "docked": "MuiDrawer-docked",
+              "modal": "MuiDrawer-modal",
+              "paper": "MuiDrawer-paper makeStyles-drawerClose-3",
+              "paperAnchorBottom": "MuiDrawer-paperAnchorBottom",
+              "paperAnchorDockedBottom": "MuiDrawer-paperAnchorDockedBottom",
+              "paperAnchorDockedLeft": "MuiDrawer-paperAnchorDockedLeft",
+              "paperAnchorDockedRight": "MuiDrawer-paperAnchorDockedRight",
+              "paperAnchorDockedTop": "MuiDrawer-paperAnchorDockedTop",
+              "paperAnchorLeft": "MuiDrawer-paperAnchorLeft",
+              "paperAnchorRight": "MuiDrawer-paperAnchorRight",
+              "paperAnchorTop": "MuiDrawer-paperAnchorTop",
+              "root": "MuiDrawer-root",
+            }
+          }
+          open={false}
+          variant="permanent"
+        >
+          <div
+            className="MuiDrawer-root MuiDrawer-docked makeStyles-drawer-1 makeStyles-drawerClose-3"
+          >
+            <WithStyles(ForwardRef(Paper))
+              className="MuiDrawer-paper makeStyles-drawerClose-3 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft"
+              elevation={0}
+              square={true}
+            >
+              <ForwardRef(Paper)
+                className="MuiDrawer-paper makeStyles-drawerClose-3 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft"
+                classes={
+                  Object {
+                    "elevation0": "MuiPaper-elevation0",
+                    "elevation1": "MuiPaper-elevation1",
+                    "elevation10": "MuiPaper-elevation10",
+                    "elevation11": "MuiPaper-elevation11",
+                    "elevation12": "MuiPaper-elevation12",
+                    "elevation13": "MuiPaper-elevation13",
+                    "elevation14": "MuiPaper-elevation14",
+                    "elevation15": "MuiPaper-elevation15",
+                    "elevation16": "MuiPaper-elevation16",
+                    "elevation17": "MuiPaper-elevation17",
+                    "elevation18": "MuiPaper-elevation18",
+                    "elevation19": "MuiPaper-elevation19",
+                    "elevation2": "MuiPaper-elevation2",
+                    "elevation20": "MuiPaper-elevation20",
+                    "elevation21": "MuiPaper-elevation21",
+                    "elevation22": "MuiPaper-elevation22",
+                    "elevation23": "MuiPaper-elevation23",
+                    "elevation24": "MuiPaper-elevation24",
+                    "elevation3": "MuiPaper-elevation3",
+                    "elevation4": "MuiPaper-elevation4",
+                    "elevation5": "MuiPaper-elevation5",
+                    "elevation6": "MuiPaper-elevation6",
+                    "elevation7": "MuiPaper-elevation7",
+                    "elevation8": "MuiPaper-elevation8",
+                    "elevation9": "MuiPaper-elevation9",
+                    "outlined": "MuiPaper-outlined",
+                    "root": "MuiPaper-root",
+                    "rounded": "MuiPaper-rounded",
+                  }
+                }
+                elevation={0}
+                square={true}
+              >
+                <div
+                  className="MuiPaper-root MuiDrawer-paper makeStyles-drawerClose-3 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
+                >
+                  <div
+                    className="makeStyles-toolbar-4"
+                  >
+                    <WithStyles(ForwardRef(IconButton))
+                      style={
+                        Object {
+                          "color": "#fff",
+                        }
+                      }
+                    >
+                      <ForwardRef(IconButton)
+                        classes={
+                          Object {
+                            "colorInherit": "MuiIconButton-colorInherit",
+                            "colorPrimary": "MuiIconButton-colorPrimary",
+                            "colorSecondary": "MuiIconButton-colorSecondary",
+                            "disabled": "Mui-disabled",
+                            "edgeEnd": "MuiIconButton-edgeEnd",
+                            "edgeStart": "MuiIconButton-edgeStart",
+                            "label": "MuiIconButton-label",
+                            "root": "MuiIconButton-root",
+                            "sizeSmall": "MuiIconButton-sizeSmall",
+                          }
+                        }
+                        style={
+                          Object {
+                            "color": "#fff",
+                          }
+                        }
+                      >
+                        <WithStyles(ForwardRef(ButtonBase))
+                          centerRipple={true}
+                          className="MuiIconButton-root"
+                          disabled={false}
+                          focusRipple={true}
+                          style={
+                            Object {
+                              "color": "#fff",
+                            }
+                          }
+                        >
+                          <ForwardRef(ButtonBase)
+                            centerRipple={true}
+                            className="MuiIconButton-root"
+                            classes={
+                              Object {
+                                "disabled": "Mui-disabled",
+                                "focusVisible": "Mui-focusVisible",
+                                "root": "MuiButtonBase-root",
+                              }
+                            }
+                            disabled={false}
+                            focusRipple={true}
+                            style={
+                              Object {
+                                "color": "#fff",
+                              }
+                            }
+                          >
+                            <button
+                              className="MuiButtonBase-root MuiIconButton-root"
+                              disabled={false}
+                              onBlur={[Function]}
+                              onDragLeave={[Function]}
+                              onFocus={[Function]}
+                              onKeyDown={[Function]}
+                              onKeyUp={[Function]}
+                              onMouseDown={[Function]}
+                              onMouseLeave={[Function]}
+                              onMouseUp={[Function]}
+                              onTouchEnd={[Function]}
+                              onTouchMove={[Function]}
+                              onTouchStart={[Function]}
+                              style={
+                                Object {
+                                  "color": "#fff",
+                                }
+                              }
+                              tabIndex={0}
+                              type="button"
+                            >
+                              <span
+                                className="MuiIconButton-label"
+                              >
+                                <ForwardRef>
+                                  <WithStyles(ForwardRef(SvgIcon))>
+                                    <ForwardRef(SvgIcon)
+                                      classes={
+                                        Object {
+                                          "colorAction": "MuiSvgIcon-colorAction",
+                                          "colorDisabled": "MuiSvgIcon-colorDisabled",
+                                          "colorError": "MuiSvgIcon-colorError",
+                                          "colorPrimary": "MuiSvgIcon-colorPrimary",
+                                          "colorSecondary": "MuiSvgIcon-colorSecondary",
+                                          "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                                          "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                                          "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                                          "root": "MuiSvgIcon-root",
+                                        }
+                                      }
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        className="MuiSvgIcon-root"
+                                        focusable="false"
+                                        role="presentation"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                                        />
+                                      </svg>
+                                    </ForwardRef(SvgIcon)>
+                                  </WithStyles(ForwardRef(SvgIcon))>
+                                </ForwardRef>
+                              </span>
+                              <NoSsr>
+                                <WithStyles(memo)
+                                  center={true}
+                                >
+                                  <ForwardRef(TouchRipple)
+                                    center={true}
+                                    classes={
+                                      Object {
+                                        "child": "MuiTouchRipple-child",
+                                        "childLeaving": "MuiTouchRipple-childLeaving",
+                                        "childPulsate": "MuiTouchRipple-childPulsate",
+                                        "ripple": "MuiTouchRipple-ripple",
+                                        "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                                        "rippleVisible": "MuiTouchRipple-rippleVisible",
+                                        "root": "MuiTouchRipple-root",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className="MuiTouchRipple-root"
+                                    >
+                                      <TransitionGroup
+                                        childFactory={[Function]}
+                                        component={null}
+                                        exit={true}
+                                      />
+                                    </span>
+                                  </ForwardRef(TouchRipple)>
+                                </WithStyles(memo)>
+                              </NoSsr>
+                            </button>
+                          </ForwardRef(ButtonBase)>
+                        </WithStyles(ForwardRef(ButtonBase))>
+                      </ForwardRef(IconButton)>
+                    </WithStyles(ForwardRef(IconButton))>
+                  </div>
+                  <WithStyles(ForwardRef(Divider))>
+                    <ForwardRef(Divider)
+                      classes={
+                        Object {
+                          "absolute": "MuiDivider-absolute",
+                          "flexItem": "MuiDivider-flexItem",
+                          "inset": "MuiDivider-inset",
+                          "light": "MuiDivider-light",
+                          "middle": "MuiDivider-middle",
+                          "root": "MuiDivider-root",
+                          "vertical": "MuiDivider-vertical",
+                        }
+                      }
+                    >
+                      <hr
+                        className="MuiDivider-root"
+                      />
+                    </ForwardRef(Divider)>
+                  </WithStyles(ForwardRef(Divider))>
+                  <WithStyles(ForwardRef(List))>
+                    <ForwardRef(List)
+                      classes={
+                        Object {
+                          "dense": "MuiList-dense",
+                          "padding": "MuiList-padding",
+                          "root": "MuiList-root",
+                          "subheader": "MuiList-subheader",
+                        }
+                      }
+                    >
+                      <ul
+                        className="MuiList-root MuiList-padding"
+                      >
+                        <div
+                          className="makeStyles-roleContainer-14"
+                        >
+                          <ForwardRef
+                            className="makeStyles-itemIcon-11"
+                          >
+                            <WithStyles(ForwardRef(SvgIcon))
+                              className="makeStyles-itemIcon-11"
+                            >
+                              <ForwardRef(SvgIcon)
+                                className="makeStyles-itemIcon-11"
+                                classes={
+                                  Object {
+                                    "colorAction": "MuiSvgIcon-colorAction",
+                                    "colorDisabled": "MuiSvgIcon-colorDisabled",
+                                    "colorError": "MuiSvgIcon-colorError",
+                                    "colorPrimary": "MuiSvgIcon-colorPrimary",
+                                    "colorSecondary": "MuiSvgIcon-colorSecondary",
+                                    "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                                    "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                                    "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                                    "root": "MuiSvgIcon-root",
+                                  }
+                                }
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  className="MuiSvgIcon-root makeStyles-itemIcon-11"
+                                  focusable="false"
+                                  role="presentation"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
+                                  />
+                                </svg>
+                              </ForwardRef(SvgIcon)>
+                            </WithStyles(ForwardRef(SvgIcon))>
+                          </ForwardRef>
+                          <div
+                            className="makeStyles-labelContainer-15"
+                          >
+                            <WithStyles(ForwardRef(Typography))
+                              className="makeStyles-primaryLabel-12"
+                            >
+                              <ForwardRef(Typography)
+                                className="makeStyles-primaryLabel-12"
+                                classes={
+                                  Object {
+                                    "alignCenter": "MuiTypography-alignCenter",
+                                    "alignJustify": "MuiTypography-alignJustify",
+                                    "alignLeft": "MuiTypography-alignLeft",
+                                    "alignRight": "MuiTypography-alignRight",
+                                    "body1": "MuiTypography-body1",
+                                    "body2": "MuiTypography-body2",
+                                    "button": "MuiTypography-button",
+                                    "caption": "MuiTypography-caption",
+                                    "colorError": "MuiTypography-colorError",
+                                    "colorInherit": "MuiTypography-colorInherit",
+                                    "colorPrimary": "MuiTypography-colorPrimary",
+                                    "colorSecondary": "MuiTypography-colorSecondary",
+                                    "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                                    "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                                    "displayBlock": "MuiTypography-displayBlock",
+                                    "displayInline": "MuiTypography-displayInline",
+                                    "gutterBottom": "MuiTypography-gutterBottom",
+                                    "h1": "MuiTypography-h1",
+                                    "h2": "MuiTypography-h2",
+                                    "h3": "MuiTypography-h3",
+                                    "h4": "MuiTypography-h4",
+                                    "h5": "MuiTypography-h5",
+                                    "h6": "MuiTypography-h6",
+                                    "noWrap": "MuiTypography-noWrap",
+                                    "overline": "MuiTypography-overline",
+                                    "paragraph": "MuiTypography-paragraph",
+                                    "root": "MuiTypography-root",
+                                    "srOnly": "MuiTypography-srOnly",
+                                    "subtitle1": "MuiTypography-subtitle1",
+                                    "subtitle2": "MuiTypography-subtitle2",
+                                  }
+                                }
+                              >
+                                <p
+                                  className="MuiTypography-root makeStyles-primaryLabel-12 MuiTypography-body1"
+                                >
+                                  Profile Type
+                                </p>
+                              </ForwardRef(Typography)>
+                            </WithStyles(ForwardRef(Typography))>
+                            <WithStyles(ForwardRef(Typography))
+                              className="makeStyles-secondaryLabel-13"
+                            >
+                              <ForwardRef(Typography)
+                                className="makeStyles-secondaryLabel-13"
+                                classes={
+                                  Object {
+                                    "alignCenter": "MuiTypography-alignCenter",
+                                    "alignJustify": "MuiTypography-alignJustify",
+                                    "alignLeft": "MuiTypography-alignLeft",
+                                    "alignRight": "MuiTypography-alignRight",
+                                    "body1": "MuiTypography-body1",
+                                    "body2": "MuiTypography-body2",
+                                    "button": "MuiTypography-button",
+                                    "caption": "MuiTypography-caption",
+                                    "colorError": "MuiTypography-colorError",
+                                    "colorInherit": "MuiTypography-colorInherit",
+                                    "colorPrimary": "MuiTypography-colorPrimary",
+                                    "colorSecondary": "MuiTypography-colorSecondary",
+                                    "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                                    "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                                    "displayBlock": "MuiTypography-displayBlock",
+                                    "displayInline": "MuiTypography-displayInline",
+                                    "gutterBottom": "MuiTypography-gutterBottom",
+                                    "h1": "MuiTypography-h1",
+                                    "h2": "MuiTypography-h2",
+                                    "h3": "MuiTypography-h3",
+                                    "h4": "MuiTypography-h4",
+                                    "h5": "MuiTypography-h5",
+                                    "h6": "MuiTypography-h6",
+                                    "noWrap": "MuiTypography-noWrap",
+                                    "overline": "MuiTypography-overline",
+                                    "paragraph": "MuiTypography-paragraph",
+                                    "root": "MuiTypography-root",
+                                    "srOnly": "MuiTypography-srOnly",
+                                    "subtitle1": "MuiTypography-subtitle1",
+                                    "subtitle2": "MuiTypography-subtitle2",
+                                  }
+                                }
+                              >
+                                <p
+                                  className="MuiTypography-root makeStyles-secondaryLabel-13 MuiTypography-body1"
+                                />
+                              </ForwardRef(Typography)>
+                            </WithStyles(ForwardRef(Typography))>
+                          </div>
+                        </div>
+                        <WithStyles(ForwardRef(Divider))
+                          light={true}
+                        >
+                          <ForwardRef(Divider)
+                            classes={
+                              Object {
+                                "absolute": "MuiDivider-absolute",
+                                "flexItem": "MuiDivider-flexItem",
+                                "inset": "MuiDivider-inset",
+                                "light": "MuiDivider-light",
+                                "middle": "MuiDivider-middle",
+                                "root": "MuiDivider-root",
+                                "vertical": "MuiDivider-vertical",
+                              }
+                            }
+                            light={true}
+                          >
+                            <hr
+                              className="MuiDivider-root MuiDivider-light"
+                            />
+                          </ForwardRef(Divider)>
+                        </WithStyles(ForwardRef(Divider))>
+                        <Link
+                          className="makeStyles-link-7"
+                          to="/myprofile"
+                        >
+                          <LinkAnchor
+                            className="makeStyles-link-7"
+                            href="/myprofile"
+                            navigate={[Function]}
+                          >
+                            <a
+                              className="makeStyles-link-7"
+                              href="/myprofile"
+                              onClick={[Function]}
+                            >
+                              <WithStyles(ForwardRef(ListItem))
+                                button={true}
+                                key="My Profile"
+                                selected={false}
+                              >
+                                <ForwardRef(ListItem)
+                                  button={true}
+                                  classes={
+                                    Object {
+                                      "alignItemsFlexStart": "MuiListItem-alignItemsFlexStart",
+                                      "button": "MuiListItem-button",
+                                      "container": "MuiListItem-container",
+                                      "dense": "MuiListItem-dense",
+                                      "disabled": "Mui-disabled",
+                                      "divider": "MuiListItem-divider",
+                                      "focusVisible": "Mui-focusVisible",
+                                      "gutters": "MuiListItem-gutters",
+                                      "root": "MuiListItem-root",
+                                      "secondaryAction": "MuiListItem-secondaryAction",
+                                      "selected": "Mui-selected",
+                                    }
+                                  }
+                                  selected={false}
+                                >
+                                  <WithStyles(ForwardRef(ButtonBase))
+                                    className="MuiListItem-root MuiListItem-gutters MuiListItem-button"
+                                    component="div"
+                                    disabled={false}
+                                    focusVisibleClassName="Mui-focusVisible"
+                                  >
+                                    <ForwardRef(ButtonBase)
+                                      className="MuiListItem-root MuiListItem-gutters MuiListItem-button"
+                                      classes={
+                                        Object {
+                                          "disabled": "Mui-disabled",
+                                          "focusVisible": "Mui-focusVisible",
+                                          "root": "MuiButtonBase-root",
+                                        }
+                                      }
+                                      component="div"
+                                      disabled={false}
+                                      focusVisibleClassName="Mui-focusVisible"
+                                    >
+                                      <div
+                                        aria-disabled={false}
+                                        className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"
+                                        onBlur={[Function]}
+                                        onDragLeave={[Function]}
+                                        onFocus={[Function]}
+                                        onKeyDown={[Function]}
+                                        onKeyUp={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseLeave={[Function]}
+                                        onMouseUp={[Function]}
+                                        onTouchEnd={[Function]}
+                                        onTouchMove={[Function]}
+                                        onTouchStart={[Function]}
+                                        role="button"
+                                        tabIndex={0}
+                                      >
+                                        <WithStyles(ForwardRef(ListItemIcon))
+                                          className="makeStyles-itemIcon-11"
+                                          key=".0"
+                                        >
+                                          <ForwardRef(ListItemIcon)
+                                            className="makeStyles-itemIcon-11"
+                                            classes={
+                                              Object {
+                                                "alignItemsFlexStart": "MuiListItemIcon-alignItemsFlexStart",
+                                                "root": "MuiListItemIcon-root",
+                                              }
+                                            }
+                                          >
+                                            <div
+                                              className="MuiListItemIcon-root makeStyles-itemIcon-11"
+                                            >
+                                              <ForwardRef>
+                                                <WithStyles(ForwardRef(SvgIcon))>
+                                                  <ForwardRef(SvgIcon)
+                                                    classes={
+                                                      Object {
+                                                        "colorAction": "MuiSvgIcon-colorAction",
+                                                        "colorDisabled": "MuiSvgIcon-colorDisabled",
+                                                        "colorError": "MuiSvgIcon-colorError",
+                                                        "colorPrimary": "MuiSvgIcon-colorPrimary",
+                                                        "colorSecondary": "MuiSvgIcon-colorSecondary",
+                                                        "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                                                        "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                                                        "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                                                        "root": "MuiSvgIcon-root",
+                                                      }
+                                                    }
+                                                  >
+                                                    <svg
+                                                      aria-hidden="true"
+                                                      className="MuiSvgIcon-root"
+                                                      focusable="false"
+                                                      role="presentation"
+                                                      viewBox="0 0 24 24"
+                                                    >
+                                                      <path
+                                                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                                                      />
+                                                    </svg>
+                                                  </ForwardRef(SvgIcon)>
+                                                </WithStyles(ForwardRef(SvgIcon))>
+                                              </ForwardRef>
+                                            </div>
+                                          </ForwardRef(ListItemIcon)>
+                                        </WithStyles(ForwardRef(ListItemIcon))>
+                                        <WithStyles(ForwardRef(ListItemText))
+                                          className="makeStyles-drawerListItemText-6"
+                                          key=".1"
+                                          primary="My Profile"
+                                        >
+                                          <ForwardRef(ListItemText)
+                                            className="makeStyles-drawerListItemText-6"
+                                            classes={
+                                              Object {
+                                                "dense": "MuiListItemText-dense",
+                                                "inset": "MuiListItemText-inset",
+                                                "multiline": "MuiListItemText-multiline",
+                                                "primary": "MuiListItemText-primary",
+                                                "root": "MuiListItemText-root",
+                                                "secondary": "MuiListItemText-secondary",
+                                              }
+                                            }
+                                            primary="My Profile"
+                                          >
+                                            <div
+                                              className="MuiListItemText-root makeStyles-drawerListItemText-6"
+                                            >
+                                              <WithStyles(ForwardRef(Typography))
+                                                className="MuiListItemText-primary"
+                                                component="span"
+                                                display="block"
+                                                variant="body1"
+                                              >
+                                                <ForwardRef(Typography)
+                                                  className="MuiListItemText-primary"
+                                                  classes={
+                                                    Object {
+                                                      "alignCenter": "MuiTypography-alignCenter",
+                                                      "alignJustify": "MuiTypography-alignJustify",
+                                                      "alignLeft": "MuiTypography-alignLeft",
+                                                      "alignRight": "MuiTypography-alignRight",
+                                                      "body1": "MuiTypography-body1",
+                                                      "body2": "MuiTypography-body2",
+                                                      "button": "MuiTypography-button",
+                                                      "caption": "MuiTypography-caption",
+                                                      "colorError": "MuiTypography-colorError",
+                                                      "colorInherit": "MuiTypography-colorInherit",
+                                                      "colorPrimary": "MuiTypography-colorPrimary",
+                                                      "colorSecondary": "MuiTypography-colorSecondary",
+                                                      "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                                                      "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                                                      "displayBlock": "MuiTypography-displayBlock",
+                                                      "displayInline": "MuiTypography-displayInline",
+                                                      "gutterBottom": "MuiTypography-gutterBottom",
+                                                      "h1": "MuiTypography-h1",
+                                                      "h2": "MuiTypography-h2",
+                                                      "h3": "MuiTypography-h3",
+                                                      "h4": "MuiTypography-h4",
+                                                      "h5": "MuiTypography-h5",
+                                                      "h6": "MuiTypography-h6",
+                                                      "noWrap": "MuiTypography-noWrap",
+                                                      "overline": "MuiTypography-overline",
+                                                      "paragraph": "MuiTypography-paragraph",
+                                                      "root": "MuiTypography-root",
+                                                      "srOnly": "MuiTypography-srOnly",
+                                                      "subtitle1": "MuiTypography-subtitle1",
+                                                      "subtitle2": "MuiTypography-subtitle2",
+                                                    }
+                                                  }
+                                                  component="span"
+                                                  display="block"
+                                                  variant="body1"
+                                                >
+                                                  <span
+                                                    className="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
+                                                  >
+                                                    My Profile
+                                                  </span>
+                                                </ForwardRef(Typography)>
+                                              </WithStyles(ForwardRef(Typography))>
+                                            </div>
+                                          </ForwardRef(ListItemText)>
+                                        </WithStyles(ForwardRef(ListItemText))>
+                                        <NoSsr>
+                                          <WithStyles(memo)
+                                            center={false}
+                                          >
+                                            <ForwardRef(TouchRipple)
+                                              center={false}
+                                              classes={
+                                                Object {
+                                                  "child": "MuiTouchRipple-child",
+                                                  "childLeaving": "MuiTouchRipple-childLeaving",
+                                                  "childPulsate": "MuiTouchRipple-childPulsate",
+                                                  "ripple": "MuiTouchRipple-ripple",
+                                                  "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                                                  "rippleVisible": "MuiTouchRipple-rippleVisible",
+                                                  "root": "MuiTouchRipple-root",
+                                                }
+                                              }
+                                            >
+                                              <span
+                                                className="MuiTouchRipple-root"
+                                              >
+                                                <TransitionGroup
+                                                  childFactory={[Function]}
+                                                  component={null}
+                                                  exit={true}
+                                                />
+                                              </span>
+                                            </ForwardRef(TouchRipple)>
+                                          </WithStyles(memo)>
+                                        </NoSsr>
+                                      </div>
+                                    </ForwardRef(ButtonBase)>
+                                  </WithStyles(ForwardRef(ButtonBase))>
+                                </ForwardRef(ListItem)>
+                              </WithStyles(ForwardRef(ListItem))>
+                            </a>
+                          </LinkAnchor>
+                        </Link>
+                        <Link
+                          className="makeStyles-link-7"
+                          to="/roster"
+                        >
+                          <LinkAnchor
+                            className="makeStyles-link-7"
+                            href="/roster"
+                            navigate={[Function]}
+                          >
+                            <a
+                              className="makeStyles-link-7"
+                              href="/roster"
+                              onClick={[Function]}
+                            >
+                              <WithStyles(ForwardRef(ListItem))
+                                button={true}
+                                key="Roster"
+                                selected={false}
+                              >
+                                <ForwardRef(ListItem)
+                                  button={true}
+                                  classes={
+                                    Object {
+                                      "alignItemsFlexStart": "MuiListItem-alignItemsFlexStart",
+                                      "button": "MuiListItem-button",
+                                      "container": "MuiListItem-container",
+                                      "dense": "MuiListItem-dense",
+                                      "disabled": "Mui-disabled",
+                                      "divider": "MuiListItem-divider",
+                                      "focusVisible": "Mui-focusVisible",
+                                      "gutters": "MuiListItem-gutters",
+                                      "root": "MuiListItem-root",
+                                      "secondaryAction": "MuiListItem-secondaryAction",
+                                      "selected": "Mui-selected",
+                                    }
+                                  }
+                                  selected={false}
+                                >
+                                  <WithStyles(ForwardRef(ButtonBase))
+                                    className="MuiListItem-root MuiListItem-gutters MuiListItem-button"
+                                    component="div"
+                                    disabled={false}
+                                    focusVisibleClassName="Mui-focusVisible"
+                                  >
+                                    <ForwardRef(ButtonBase)
+                                      className="MuiListItem-root MuiListItem-gutters MuiListItem-button"
+                                      classes={
+                                        Object {
+                                          "disabled": "Mui-disabled",
+                                          "focusVisible": "Mui-focusVisible",
+                                          "root": "MuiButtonBase-root",
+                                        }
+                                      }
+                                      component="div"
+                                      disabled={false}
+                                      focusVisibleClassName="Mui-focusVisible"
+                                    >
+                                      <div
+                                        aria-disabled={false}
+                                        className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"
+                                        onBlur={[Function]}
+                                        onDragLeave={[Function]}
+                                        onFocus={[Function]}
+                                        onKeyDown={[Function]}
+                                        onKeyUp={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseLeave={[Function]}
+                                        onMouseUp={[Function]}
+                                        onTouchEnd={[Function]}
+                                        onTouchMove={[Function]}
+                                        onTouchStart={[Function]}
+                                        role="button"
+                                        tabIndex={0}
+                                      >
+                                        <WithStyles(ForwardRef(ListItemIcon))
+                                          className="makeStyles-itemIcon-11"
+                                          key=".0"
+                                        >
+                                          <ForwardRef(ListItemIcon)
+                                            className="makeStyles-itemIcon-11"
+                                            classes={
+                                              Object {
+                                                "alignItemsFlexStart": "MuiListItemIcon-alignItemsFlexStart",
+                                                "root": "MuiListItemIcon-root",
+                                              }
+                                            }
+                                          >
+                                            <div
+                                              className="MuiListItemIcon-root makeStyles-itemIcon-11"
+                                            >
+                                              <ForwardRef>
+                                                <WithStyles(ForwardRef(SvgIcon))>
+                                                  <ForwardRef(SvgIcon)
+                                                    classes={
+                                                      Object {
+                                                        "colorAction": "MuiSvgIcon-colorAction",
+                                                        "colorDisabled": "MuiSvgIcon-colorDisabled",
+                                                        "colorError": "MuiSvgIcon-colorError",
+                                                        "colorPrimary": "MuiSvgIcon-colorPrimary",
+                                                        "colorSecondary": "MuiSvgIcon-colorSecondary",
+                                                        "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                                                        "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                                                        "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                                                        "root": "MuiSvgIcon-root",
+                                                      }
+                                                    }
+                                                  >
+                                                    <svg
+                                                      aria-hidden="true"
+                                                      className="MuiSvgIcon-root"
+                                                      focusable="false"
+                                                      role="presentation"
+                                                      viewBox="0 0 24 24"
+                                                    >
+                                                      <path
+                                                        d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+                                                      />
+                                                    </svg>
+                                                  </ForwardRef(SvgIcon)>
+                                                </WithStyles(ForwardRef(SvgIcon))>
+                                              </ForwardRef>
+                                            </div>
+                                          </ForwardRef(ListItemIcon)>
+                                        </WithStyles(ForwardRef(ListItemIcon))>
+                                        <WithStyles(ForwardRef(ListItemText))
+                                          className="makeStyles-drawerListItemText-6"
+                                          key=".1"
+                                          primary="Roster"
+                                        >
+                                          <ForwardRef(ListItemText)
+                                            className="makeStyles-drawerListItemText-6"
+                                            classes={
+                                              Object {
+                                                "dense": "MuiListItemText-dense",
+                                                "inset": "MuiListItemText-inset",
+                                                "multiline": "MuiListItemText-multiline",
+                                                "primary": "MuiListItemText-primary",
+                                                "root": "MuiListItemText-root",
+                                                "secondary": "MuiListItemText-secondary",
+                                              }
+                                            }
+                                            primary="Roster"
+                                          >
+                                            <div
+                                              className="MuiListItemText-root makeStyles-drawerListItemText-6"
+                                            >
+                                              <WithStyles(ForwardRef(Typography))
+                                                className="MuiListItemText-primary"
+                                                component="span"
+                                                display="block"
+                                                variant="body1"
+                                              >
+                                                <ForwardRef(Typography)
+                                                  className="MuiListItemText-primary"
+                                                  classes={
+                                                    Object {
+                                                      "alignCenter": "MuiTypography-alignCenter",
+                                                      "alignJustify": "MuiTypography-alignJustify",
+                                                      "alignLeft": "MuiTypography-alignLeft",
+                                                      "alignRight": "MuiTypography-alignRight",
+                                                      "body1": "MuiTypography-body1",
+                                                      "body2": "MuiTypography-body2",
+                                                      "button": "MuiTypography-button",
+                                                      "caption": "MuiTypography-caption",
+                                                      "colorError": "MuiTypography-colorError",
+                                                      "colorInherit": "MuiTypography-colorInherit",
+                                                      "colorPrimary": "MuiTypography-colorPrimary",
+                                                      "colorSecondary": "MuiTypography-colorSecondary",
+                                                      "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                                                      "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                                                      "displayBlock": "MuiTypography-displayBlock",
+                                                      "displayInline": "MuiTypography-displayInline",
+                                                      "gutterBottom": "MuiTypography-gutterBottom",
+                                                      "h1": "MuiTypography-h1",
+                                                      "h2": "MuiTypography-h2",
+                                                      "h3": "MuiTypography-h3",
+                                                      "h4": "MuiTypography-h4",
+                                                      "h5": "MuiTypography-h5",
+                                                      "h6": "MuiTypography-h6",
+                                                      "noWrap": "MuiTypography-noWrap",
+                                                      "overline": "MuiTypography-overline",
+                                                      "paragraph": "MuiTypography-paragraph",
+                                                      "root": "MuiTypography-root",
+                                                      "srOnly": "MuiTypography-srOnly",
+                                                      "subtitle1": "MuiTypography-subtitle1",
+                                                      "subtitle2": "MuiTypography-subtitle2",
+                                                    }
+                                                  }
+                                                  component="span"
+                                                  display="block"
+                                                  variant="body1"
+                                                >
+                                                  <span
+                                                    className="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
+                                                  >
+                                                    Roster
+                                                  </span>
+                                                </ForwardRef(Typography)>
+                                              </WithStyles(ForwardRef(Typography))>
+                                            </div>
+                                          </ForwardRef(ListItemText)>
+                                        </WithStyles(ForwardRef(ListItemText))>
+                                        <NoSsr>
+                                          <WithStyles(memo)
+                                            center={false}
+                                          >
+                                            <ForwardRef(TouchRipple)
+                                              center={false}
+                                              classes={
+                                                Object {
+                                                  "child": "MuiTouchRipple-child",
+                                                  "childLeaving": "MuiTouchRipple-childLeaving",
+                                                  "childPulsate": "MuiTouchRipple-childPulsate",
+                                                  "ripple": "MuiTouchRipple-ripple",
+                                                  "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                                                  "rippleVisible": "MuiTouchRipple-rippleVisible",
+                                                  "root": "MuiTouchRipple-root",
+                                                }
+                                              }
+                                            >
+                                              <span
+                                                className="MuiTouchRipple-root"
+                                              >
+                                                <TransitionGroup
+                                                  childFactory={[Function]}
+                                                  component={null}
+                                                  exit={true}
+                                                />
+                                              </span>
+                                            </ForwardRef(TouchRipple)>
+                                          </WithStyles(memo)>
+                                        </NoSsr>
+                                      </div>
+                                    </ForwardRef(ButtonBase)>
+                                  </WithStyles(ForwardRef(ButtonBase))>
+                                </ForwardRef(ListItem)>
+                              </WithStyles(ForwardRef(ListItem))>
+                            </a>
+                          </LinkAnchor>
+                        </Link>
+                        <WithStyles(ForwardRef(Divider))
+                          light={true}
+                        >
+                          <ForwardRef(Divider)
+                            classes={
+                              Object {
+                                "absolute": "MuiDivider-absolute",
+                                "flexItem": "MuiDivider-flexItem",
+                                "inset": "MuiDivider-inset",
+                                "light": "MuiDivider-light",
+                                "middle": "MuiDivider-middle",
+                                "root": "MuiDivider-root",
+                                "vertical": "MuiDivider-vertical",
+                              }
+                            }
+                            light={true}
+                          >
+                            <hr
+                              className="MuiDivider-root MuiDivider-light"
+                            />
+                          </ForwardRef(Divider)>
+                        </WithStyles(ForwardRef(Divider))>
+                        <WithStyles(ForwardRef(ListItem))
+                          button={true}
+                          className="makeStyles-teamToggleButton-8"
+                        >
+                          <ForwardRef(ListItem)
+                            button={true}
+                            className="makeStyles-teamToggleButton-8"
+                            classes={
+                              Object {
+                                "alignItemsFlexStart": "MuiListItem-alignItemsFlexStart",
+                                "button": "MuiListItem-button",
+                                "container": "MuiListItem-container",
+                                "dense": "MuiListItem-dense",
+                                "disabled": "Mui-disabled",
+                                "divider": "MuiListItem-divider",
+                                "focusVisible": "Mui-focusVisible",
+                                "gutters": "MuiListItem-gutters",
+                                "root": "MuiListItem-root",
+                                "secondaryAction": "MuiListItem-secondaryAction",
+                                "selected": "Mui-selected",
+                              }
+                            }
+                          >
+                            <WithStyles(ForwardRef(ButtonBase))
+                              className="MuiListItem-root makeStyles-teamToggleButton-8 MuiListItem-gutters MuiListItem-button"
+                              component="div"
+                              disabled={false}
+                              focusVisibleClassName="Mui-focusVisible"
+                            >
+                              <ForwardRef(ButtonBase)
+                                className="MuiListItem-root makeStyles-teamToggleButton-8 MuiListItem-gutters MuiListItem-button"
+                                classes={
+                                  Object {
+                                    "disabled": "Mui-disabled",
+                                    "focusVisible": "Mui-focusVisible",
+                                    "root": "MuiButtonBase-root",
+                                  }
+                                }
+                                component="div"
+                                disabled={false}
+                                focusVisibleClassName="Mui-focusVisible"
+                              >
+                                <div
+                                  aria-disabled={false}
+                                  className="MuiButtonBase-root MuiListItem-root makeStyles-teamToggleButton-8 MuiListItem-gutters MuiListItem-button"
+                                  onBlur={[Function]}
+                                  onDragLeave={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onMouseUp={[Function]}
+                                  onTouchEnd={[Function]}
+                                  onTouchMove={[Function]}
+                                  onTouchStart={[Function]}
+                                  role="button"
+                                  tabIndex={0}
+                                >
+                                  <WithStyles(ForwardRef(List))
+                                    className="makeStyles-teamToggleList-9"
+                                    component="nav"
+                                    key=".0"
+                                  >
+                                    <ForwardRef(List)
+                                      className="makeStyles-teamToggleList-9"
+                                      classes={
+                                        Object {
+                                          "dense": "MuiList-dense",
+                                          "padding": "MuiList-padding",
+                                          "root": "MuiList-root",
+                                          "subheader": "MuiList-subheader",
+                                        }
+                                      }
+                                      component="nav"
+                                    >
+                                      <nav
+                                        className="MuiList-root makeStyles-teamToggleList-9 MuiList-padding"
+                                      >
+                                        <WithStyles(ForwardRef(ListItem))
+                                          aria-controls="team-menu"
+                                          aria-haspopup="true"
+                                          button={true}
+                                          onClick={[Function]}
+                                        >
+                                          <ForwardRef(ListItem)
+                                            aria-controls="team-menu"
+                                            aria-haspopup="true"
+                                            button={true}
+                                            classes={
+                                              Object {
+                                                "alignItemsFlexStart": "MuiListItem-alignItemsFlexStart",
+                                                "button": "MuiListItem-button",
+                                                "container": "MuiListItem-container",
+                                                "dense": "MuiListItem-dense",
+                                                "disabled": "Mui-disabled",
+                                                "divider": "MuiListItem-divider",
+                                                "focusVisible": "Mui-focusVisible",
+                                                "gutters": "MuiListItem-gutters",
+                                                "root": "MuiListItem-root",
+                                                "secondaryAction": "MuiListItem-secondaryAction",
+                                                "selected": "Mui-selected",
+                                              }
+                                            }
+                                            onClick={[Function]}
+                                          >
+                                            <WithStyles(ForwardRef(ButtonBase))
+                                              aria-controls="team-menu"
+                                              aria-haspopup="true"
+                                              className="MuiListItem-root MuiListItem-gutters MuiListItem-button"
+                                              component="div"
+                                              disabled={false}
+                                              focusVisibleClassName="Mui-focusVisible"
+                                              onClick={[Function]}
+                                            >
+                                              <ForwardRef(ButtonBase)
+                                                aria-controls="team-menu"
+                                                aria-haspopup="true"
+                                                className="MuiListItem-root MuiListItem-gutters MuiListItem-button"
+                                                classes={
+                                                  Object {
+                                                    "disabled": "Mui-disabled",
+                                                    "focusVisible": "Mui-focusVisible",
+                                                    "root": "MuiButtonBase-root",
+                                                  }
+                                                }
+                                                component="div"
+                                                disabled={false}
+                                                focusVisibleClassName="Mui-focusVisible"
+                                                onClick={[Function]}
+                                              >
+                                                <div
+                                                  aria-controls="team-menu"
+                                                  aria-disabled={false}
+                                                  aria-haspopup="true"
+                                                  className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"
+                                                  onBlur={[Function]}
+                                                  onClick={[Function]}
+                                                  onDragLeave={[Function]}
+                                                  onFocus={[Function]}
+                                                  onKeyDown={[Function]}
+                                                  onKeyUp={[Function]}
+                                                  onMouseDown={[Function]}
+                                                  onMouseLeave={[Function]}
+                                                  onMouseUp={[Function]}
+                                                  onTouchEnd={[Function]}
+                                                  onTouchMove={[Function]}
+                                                  onTouchStart={[Function]}
+                                                  role="button"
+                                                  tabIndex={0}
+                                                >
+                                                  <WithStyles(ForwardRef(ListItemIcon))
+                                                    className="makeStyles-itemIcon-11"
+                                                    key=".0"
+                                                  >
+                                                    <ForwardRef(ListItemIcon)
+                                                      className="makeStyles-itemIcon-11"
+                                                      classes={
+                                                        Object {
+                                                          "alignItemsFlexStart": "MuiListItemIcon-alignItemsFlexStart",
+                                                          "root": "MuiListItemIcon-root",
+                                                        }
+                                                      }
+                                                    >
+                                                      <div
+                                                        className="MuiListItemIcon-root makeStyles-itemIcon-11"
+                                                      >
+                                                        <ForwardRef>
+                                                          <WithStyles(ForwardRef(SvgIcon))>
+                                                            <ForwardRef(SvgIcon)
+                                                              classes={
+                                                                Object {
+                                                                  "colorAction": "MuiSvgIcon-colorAction",
+                                                                  "colorDisabled": "MuiSvgIcon-colorDisabled",
+                                                                  "colorError": "MuiSvgIcon-colorError",
+                                                                  "colorPrimary": "MuiSvgIcon-colorPrimary",
+                                                                  "colorSecondary": "MuiSvgIcon-colorSecondary",
+                                                                  "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                                                                  "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                                                                  "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                                                                  "root": "MuiSvgIcon-root",
+                                                                }
+                                                              }
+                                                            >
+                                                              <svg
+                                                                aria-hidden="true"
+                                                                className="MuiSvgIcon-root"
+                                                                focusable="false"
+                                                                role="presentation"
+                                                                viewBox="0 0 24 24"
+                                                              >
+                                                                <path
+                                                                  d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                                                                />
+                                                              </svg>
+                                                            </ForwardRef(SvgIcon)>
+                                                          </WithStyles(ForwardRef(SvgIcon))>
+                                                        </ForwardRef>
+                                                      </div>
+                                                    </ForwardRef(ListItemIcon)>
+                                                  </WithStyles(ForwardRef(ListItemIcon))>
+                                                  <WithStyles(ForwardRef(ListItemText))
+                                                    className="makeStyles-teamToggleListItem-10"
+                                                    disableTypography={true}
+                                                    key=".1"
+                                                    primary={
+                                                      <ForwardRef(WithStyles)
+                                                        className="makeStyles-primaryLabel-12"
+                                                      >
+                                                        Team Selection
+                                                      </ForwardRef(WithStyles)>
+                                                    }
+                                                    secondary={
+                                                      <ForwardRef(WithStyles)
+                                                        className="makeStyles-secondaryLabel-13"
+                                                      >
+                                                        Test name - Test season
+                                                      </ForwardRef(WithStyles)>
+                                                    }
+                                                  >
+                                                    <ForwardRef(ListItemText)
+                                                      className="makeStyles-teamToggleListItem-10"
+                                                      classes={
+                                                        Object {
+                                                          "dense": "MuiListItemText-dense",
+                                                          "inset": "MuiListItemText-inset",
+                                                          "multiline": "MuiListItemText-multiline",
+                                                          "primary": "MuiListItemText-primary",
+                                                          "root": "MuiListItemText-root",
+                                                          "secondary": "MuiListItemText-secondary",
+                                                        }
+                                                      }
+                                                      disableTypography={true}
+                                                      primary={
+                                                        <ForwardRef(WithStyles)
+                                                          className="makeStyles-primaryLabel-12"
+                                                        >
+                                                          Team Selection
+                                                        </ForwardRef(WithStyles)>
+                                                      }
+                                                      secondary={
+                                                        <ForwardRef(WithStyles)
+                                                          className="makeStyles-secondaryLabel-13"
+                                                        >
+                                                          Test name - Test season
+                                                        </ForwardRef(WithStyles)>
+                                                      }
+                                                    >
+                                                      <div
+                                                        className="MuiListItemText-root makeStyles-teamToggleListItem-10 MuiListItemText-multiline"
+                                                      >
+                                                        <WithStyles(ForwardRef(Typography))
+                                                          className="makeStyles-primaryLabel-12"
+                                                        >
+                                                          <ForwardRef(Typography)
+                                                            className="makeStyles-primaryLabel-12"
+                                                            classes={
+                                                              Object {
+                                                                "alignCenter": "MuiTypography-alignCenter",
+                                                                "alignJustify": "MuiTypography-alignJustify",
+                                                                "alignLeft": "MuiTypography-alignLeft",
+                                                                "alignRight": "MuiTypography-alignRight",
+                                                                "body1": "MuiTypography-body1",
+                                                                "body2": "MuiTypography-body2",
+                                                                "button": "MuiTypography-button",
+                                                                "caption": "MuiTypography-caption",
+                                                                "colorError": "MuiTypography-colorError",
+                                                                "colorInherit": "MuiTypography-colorInherit",
+                                                                "colorPrimary": "MuiTypography-colorPrimary",
+                                                                "colorSecondary": "MuiTypography-colorSecondary",
+                                                                "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                                                                "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                                                                "displayBlock": "MuiTypography-displayBlock",
+                                                                "displayInline": "MuiTypography-displayInline",
+                                                                "gutterBottom": "MuiTypography-gutterBottom",
+                                                                "h1": "MuiTypography-h1",
+                                                                "h2": "MuiTypography-h2",
+                                                                "h3": "MuiTypography-h3",
+                                                                "h4": "MuiTypography-h4",
+                                                                "h5": "MuiTypography-h5",
+                                                                "h6": "MuiTypography-h6",
+                                                                "noWrap": "MuiTypography-noWrap",
+                                                                "overline": "MuiTypography-overline",
+                                                                "paragraph": "MuiTypography-paragraph",
+                                                                "root": "MuiTypography-root",
+                                                                "srOnly": "MuiTypography-srOnly",
+                                                                "subtitle1": "MuiTypography-subtitle1",
+                                                                "subtitle2": "MuiTypography-subtitle2",
+                                                              }
+                                                            }
+                                                          >
+                                                            <p
+                                                              className="MuiTypography-root makeStyles-primaryLabel-12 MuiTypography-body1"
+                                                            >
+                                                              Team Selection
+                                                            </p>
+                                                          </ForwardRef(Typography)>
+                                                        </WithStyles(ForwardRef(Typography))>
+                                                        <WithStyles(ForwardRef(Typography))
+                                                          className="makeStyles-secondaryLabel-13"
+                                                        >
+                                                          <ForwardRef(Typography)
+                                                            className="makeStyles-secondaryLabel-13"
+                                                            classes={
+                                                              Object {
+                                                                "alignCenter": "MuiTypography-alignCenter",
+                                                                "alignJustify": "MuiTypography-alignJustify",
+                                                                "alignLeft": "MuiTypography-alignLeft",
+                                                                "alignRight": "MuiTypography-alignRight",
+                                                                "body1": "MuiTypography-body1",
+                                                                "body2": "MuiTypography-body2",
+                                                                "button": "MuiTypography-button",
+                                                                "caption": "MuiTypography-caption",
+                                                                "colorError": "MuiTypography-colorError",
+                                                                "colorInherit": "MuiTypography-colorInherit",
+                                                                "colorPrimary": "MuiTypography-colorPrimary",
+                                                                "colorSecondary": "MuiTypography-colorSecondary",
+                                                                "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                                                                "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                                                                "displayBlock": "MuiTypography-displayBlock",
+                                                                "displayInline": "MuiTypography-displayInline",
+                                                                "gutterBottom": "MuiTypography-gutterBottom",
+                                                                "h1": "MuiTypography-h1",
+                                                                "h2": "MuiTypography-h2",
+                                                                "h3": "MuiTypography-h3",
+                                                                "h4": "MuiTypography-h4",
+                                                                "h5": "MuiTypography-h5",
+                                                                "h6": "MuiTypography-h6",
+                                                                "noWrap": "MuiTypography-noWrap",
+                                                                "overline": "MuiTypography-overline",
+                                                                "paragraph": "MuiTypography-paragraph",
+                                                                "root": "MuiTypography-root",
+                                                                "srOnly": "MuiTypography-srOnly",
+                                                                "subtitle1": "MuiTypography-subtitle1",
+                                                                "subtitle2": "MuiTypography-subtitle2",
+                                                              }
+                                                            }
+                                                          >
+                                                            <p
+                                                              className="MuiTypography-root makeStyles-secondaryLabel-13 MuiTypography-body1"
+                                                            >
+                                                              Test name - Test season
+                                                            </p>
+                                                          </ForwardRef(Typography)>
+                                                        </WithStyles(ForwardRef(Typography))>
+                                                      </div>
+                                                    </ForwardRef(ListItemText)>
+                                                  </WithStyles(ForwardRef(ListItemText))>
+                                                  <NoSsr>
+                                                    <WithStyles(memo)
+                                                      center={false}
+                                                    >
+                                                      <ForwardRef(TouchRipple)
+                                                        center={false}
+                                                        classes={
+                                                          Object {
+                                                            "child": "MuiTouchRipple-child",
+                                                            "childLeaving": "MuiTouchRipple-childLeaving",
+                                                            "childPulsate": "MuiTouchRipple-childPulsate",
+                                                            "ripple": "MuiTouchRipple-ripple",
+                                                            "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                                                            "rippleVisible": "MuiTouchRipple-rippleVisible",
+                                                            "root": "MuiTouchRipple-root",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          className="MuiTouchRipple-root"
+                                                        >
+                                                          <TransitionGroup
+                                                            childFactory={[Function]}
+                                                            component={null}
+                                                            exit={true}
+                                                          />
+                                                        </span>
+                                                      </ForwardRef(TouchRipple)>
+                                                    </WithStyles(memo)>
+                                                  </NoSsr>
+                                                </div>
+                                              </ForwardRef(ButtonBase)>
+                                            </WithStyles(ForwardRef(ButtonBase))>
+                                          </ForwardRef(ListItem)>
+                                        </WithStyles(ForwardRef(ListItem))>
+                                      </nav>
+                                    </ForwardRef(List)>
+                                  </WithStyles(ForwardRef(List))>
+                                  <WithStyles(ForwardRef(Menu))
+                                    anchorEl={null}
+                                    anchorOrigin={
+                                      Object {
+                                        "horizontal": "right",
+                                        "vertical": "top",
+                                      }
+                                    }
+                                    getContentAnchorEl={null}
+                                    id="team-menu"
+                                    keepMounted={true}
+                                    key=".1"
+                                    onClose={[Function]}
+                                    open={false}
+                                  >
+                                    <ForwardRef(Menu)
+                                      anchorEl={null}
+                                      anchorOrigin={
+                                        Object {
+                                          "horizontal": "right",
+                                          "vertical": "top",
+                                        }
+                                      }
+                                      classes={
+                                        Object {
+                                          "list": "MuiMenu-list",
+                                          "paper": "MuiMenu-paper",
+                                        }
+                                      }
+                                      getContentAnchorEl={null}
+                                      id="team-menu"
+                                      keepMounted={true}
+                                      onClose={[Function]}
+                                      open={false}
+                                    >
+                                      <WithStyles(ForwardRef(Popover))
+                                        PaperProps={
+                                          Object {
+                                            "classes": Object {
+                                              "root": "MuiMenu-paper",
+                                            },
+                                          }
+                                        }
+                                        anchorEl={null}
+                                        anchorOrigin={
+                                          Object {
+                                            "horizontal": "right",
+                                            "vertical": "top",
+                                          }
+                                        }
+                                        getContentAnchorEl={null}
+                                        id="team-menu"
+                                        keepMounted={true}
+                                        onClose={[Function]}
+                                        onEntering={[Function]}
+                                        open={false}
+                                        transformOrigin={
+                                          Object {
+                                            "horizontal": "left",
+                                            "vertical": "top",
+                                          }
+                                        }
+                                        transitionDuration="auto"
+                                      >
+                                        <ForwardRef(Popover)
+                                          PaperProps={
+                                            Object {
+                                              "classes": Object {
+                                                "root": "MuiMenu-paper",
+                                              },
+                                            }
+                                          }
+                                          anchorEl={null}
+                                          anchorOrigin={
+                                            Object {
+                                              "horizontal": "right",
+                                              "vertical": "top",
+                                            }
+                                          }
+                                          classes={
+                                            Object {
+                                              "paper": "MuiPopover-paper",
+                                              "root": "MuiPopover-root",
+                                            }
+                                          }
+                                          getContentAnchorEl={null}
+                                          id="team-menu"
+                                          keepMounted={true}
+                                          onClose={[Function]}
+                                          onEntering={[Function]}
+                                          open={false}
+                                          transformOrigin={
+                                            Object {
+                                              "horizontal": "left",
+                                              "vertical": "top",
+                                            }
+                                          }
+                                          transitionDuration="auto"
+                                        >
+                                          <ForwardRef(Modal)
+                                            BackdropProps={
+                                              Object {
+                                                "invisible": true,
+                                              }
+                                            }
+                                            className="MuiPopover-root"
+                                            id="team-menu"
+                                            keepMounted={true}
+                                            onClose={[Function]}
+                                            open={false}
+                                          >
+                                            <ForwardRef(Portal)
+                                              disablePortal={false}
+                                            >
+                                              <Portal
+                                                containerInfo={
+                                                  <body>
+                                                    <div
+                                                      aria-hidden="true"
+                                                      class="MuiPopover-root"
+                                                      id="team-menu"
+                                                      role="presentation"
+                                                      style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px; visibility: hidden;"
+                                                    >
+                                                      <div
+                                                        data-test="sentinelStart"
+                                                        tabindex="0"
+                                                      />
+                                                      <div
+                                                        class="MuiPaper-root MuiMenu-paper MuiPopover-paper MuiPaper-elevation8 MuiPaper-rounded"
+                                                        style="opacity: 0; transform: scale(0.75, 0.5625); visibility: hidden;"
+                                                        tabindex="-1"
+                                                      >
+                                                        <ul
+                                                          class="MuiList-root MuiMenu-list MuiList-padding"
+                                                          role="menu"
+                                                          tabindex="-1"
+                                                        >
+                                                          <li
+                                                            aria-disabled="false"
+                                                            class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+                                                            role="menuitem"
+                                                            tabindex="0"
+                                                          >
+                                                            Test name - Test season
+                                                            <span
+                                                              class="MuiTouchRipple-root"
+                                                            />
+                                                          </li>
+                                                        </ul>
+                                                      </div>
+                                                      <div
+                                                        data-test="sentinelEnd"
+                                                        tabindex="0"
+                                                      />
+                                                    </div>
+                                                  </body>
+                                                }
+                                              >
+                                                <div
+                                                  className="MuiPopover-root"
+                                                  id="team-menu"
+                                                  onKeyDown={[Function]}
+                                                  role="presentation"
+                                                  style={
+                                                    Object {
+                                                      "bottom": 0,
+                                                      "left": 0,
+                                                      "position": "fixed",
+                                                      "right": 0,
+                                                      "top": 0,
+                                                      "visibility": "hidden",
+                                                      "zIndex": 1300,
+                                                    }
+                                                  }
+                                                >
+                                                  <ForwardRef(SimpleBackdrop)
+                                                    invisible={true}
+                                                    onClick={[Function]}
+                                                    open={false}
+                                                  />
+                                                  <TrapFocus
+                                                    disableAutoFocus={false}
+                                                    disableEnforceFocus={false}
+                                                    disableRestoreFocus={false}
+                                                    getDoc={[Function]}
+                                                    isEnabled={[Function]}
+                                                    open={false}
+                                                  >
+                                                    <div
+                                                      data-test="sentinelStart"
+                                                      tabIndex={0}
+                                                    />
+                                                    <ForwardRef(Grow)
+                                                      appear={true}
+                                                      in={false}
+                                                      onEnter={[Function]}
+                                                      onEntering={[Function]}
+                                                      onExited={[Function]}
+                                                      tabIndex="-1"
+                                                      timeout="auto"
+                                                    >
+                                                      <Transition
+                                                        addEndListener={[Function]}
+                                                        appear={true}
+                                                        enter={true}
+                                                        exit={true}
+                                                        in={false}
+                                                        mountOnEnter={false}
+                                                        onEnter={[Function]}
+                                                        onEntered={[Function]}
+                                                        onEntering={[Function]}
+                                                        onExit={[Function]}
+                                                        onExited={[Function]}
+                                                        onExiting={[Function]}
+                                                        tabIndex="-1"
+                                                        timeout={null}
+                                                        unmountOnExit={false}
+                                                      >
+                                                        <WithStyles(ForwardRef(Paper))
+                                                          className="MuiPopover-paper"
+                                                          classes={
+                                                            Object {
+                                                              "root": "MuiMenu-paper",
+                                                            }
+                                                          }
+                                                          elevation={8}
+                                                          style={
+                                                            Object {
+                                                              "opacity": 0,
+                                                              "transform": "scale(0.75, 0.5625)",
+                                                              "visibility": "hidden",
+                                                            }
+                                                          }
+                                                          tabIndex="-1"
+                                                        >
+                                                          <ForwardRef(Paper)
+                                                            className="MuiPopover-paper"
+                                                            classes={
+                                                              Object {
+                                                                "elevation0": "MuiPaper-elevation0",
+                                                                "elevation1": "MuiPaper-elevation1",
+                                                                "elevation10": "MuiPaper-elevation10",
+                                                                "elevation11": "MuiPaper-elevation11",
+                                                                "elevation12": "MuiPaper-elevation12",
+                                                                "elevation13": "MuiPaper-elevation13",
+                                                                "elevation14": "MuiPaper-elevation14",
+                                                                "elevation15": "MuiPaper-elevation15",
+                                                                "elevation16": "MuiPaper-elevation16",
+                                                                "elevation17": "MuiPaper-elevation17",
+                                                                "elevation18": "MuiPaper-elevation18",
+                                                                "elevation19": "MuiPaper-elevation19",
+                                                                "elevation2": "MuiPaper-elevation2",
+                                                                "elevation20": "MuiPaper-elevation20",
+                                                                "elevation21": "MuiPaper-elevation21",
+                                                                "elevation22": "MuiPaper-elevation22",
+                                                                "elevation23": "MuiPaper-elevation23",
+                                                                "elevation24": "MuiPaper-elevation24",
+                                                                "elevation3": "MuiPaper-elevation3",
+                                                                "elevation4": "MuiPaper-elevation4",
+                                                                "elevation5": "MuiPaper-elevation5",
+                                                                "elevation6": "MuiPaper-elevation6",
+                                                                "elevation7": "MuiPaper-elevation7",
+                                                                "elevation8": "MuiPaper-elevation8",
+                                                                "elevation9": "MuiPaper-elevation9",
+                                                                "outlined": "MuiPaper-outlined",
+                                                                "root": "MuiPaper-root MuiMenu-paper",
+                                                                "rounded": "MuiPaper-rounded",
+                                                              }
+                                                            }
+                                                            elevation={8}
+                                                            style={
+                                                              Object {
+                                                                "opacity": 0,
+                                                                "transform": "scale(0.75, 0.5625)",
+                                                                "visibility": "hidden",
+                                                              }
+                                                            }
+                                                            tabIndex="-1"
+                                                          >
+                                                            <div
+                                                              className="MuiPaper-root MuiMenu-paper MuiPopover-paper MuiPaper-elevation8 MuiPaper-rounded"
+                                                              style={
+                                                                Object {
+                                                                  "opacity": 0,
+                                                                  "transform": "scale(0.75, 0.5625)",
+                                                                  "visibility": "hidden",
+                                                                }
+                                                              }
+                                                              tabIndex="-1"
+                                                            >
+                                                              <ForwardRef(MenuList)
+                                                                actions={
+                                                                  Object {
+                                                                    "current": Object {
+                                                                      "adjustStyleForScrollbar": [Function],
+                                                                    },
+                                                                  }
+                                                                }
+                                                                autoFocus={false}
+                                                                autoFocusItem={false}
+                                                                className="MuiMenu-list"
+                                                                onKeyDown={[Function]}
+                                                                variant="selectedMenu"
+                                                              >
+                                                                <WithStyles(ForwardRef(List))
+                                                                  className="MuiMenu-list"
+                                                                  onKeyDown={[Function]}
+                                                                  role="menu"
+                                                                  tabIndex={-1}
+                                                                >
+                                                                  <ForwardRef(List)
+                                                                    className="MuiMenu-list"
+                                                                    classes={
+                                                                      Object {
+                                                                        "dense": "MuiList-dense",
+                                                                        "padding": "MuiList-padding",
+                                                                        "root": "MuiList-root",
+                                                                        "subheader": "MuiList-subheader",
+                                                                      }
+                                                                    }
+                                                                    onKeyDown={[Function]}
+                                                                    role="menu"
+                                                                    tabIndex={-1}
+                                                                  >
+                                                                    <ul
+                                                                      className="MuiList-root MuiMenu-list MuiList-padding"
+                                                                      onKeyDown={[Function]}
+                                                                      role="menu"
+                                                                      tabIndex={-1}
+                                                                    >
+                                                                      <WithStyles(ForwardRef(MenuItem))
+                                                                        key=".$.$Test name"
+                                                                        onClick={[Function]}
+                                                                        selected={false}
+                                                                        tabIndex={0}
+                                                                      >
+                                                                        <ForwardRef(MenuItem)
+                                                                          classes={
+                                                                            Object {
+                                                                              "dense": "MuiMenuItem-dense",
+                                                                              "gutters": "MuiMenuItem-gutters",
+                                                                              "root": "MuiMenuItem-root",
+                                                                              "selected": "Mui-selected",
+                                                                            }
+                                                                          }
+                                                                          onClick={[Function]}
+                                                                          selected={false}
+                                                                          tabIndex={0}
+                                                                        >
+                                                                          <WithStyles(ForwardRef(ListItem))
+                                                                            button={true}
+                                                                            className="MuiMenuItem-root MuiMenuItem-gutters"
+                                                                            classes={
+                                                                              Object {
+                                                                                "dense": "MuiMenuItem-dense",
+                                                                              }
+                                                                            }
+                                                                            component="li"
+                                                                            disableGutters={false}
+                                                                            onClick={[Function]}
+                                                                            role="menuitem"
+                                                                            selected={false}
+                                                                            tabIndex={0}
+                                                                          >
+                                                                            <ForwardRef(ListItem)
+                                                                              button={true}
+                                                                              className="MuiMenuItem-root MuiMenuItem-gutters"
+                                                                              classes={
+                                                                                Object {
+                                                                                  "alignItemsFlexStart": "MuiListItem-alignItemsFlexStart",
+                                                                                  "button": "MuiListItem-button",
+                                                                                  "container": "MuiListItem-container",
+                                                                                  "dense": "MuiListItem-dense MuiMenuItem-dense",
+                                                                                  "disabled": "Mui-disabled",
+                                                                                  "divider": "MuiListItem-divider",
+                                                                                  "focusVisible": "Mui-focusVisible",
+                                                                                  "gutters": "MuiListItem-gutters",
+                                                                                  "root": "MuiListItem-root",
+                                                                                  "secondaryAction": "MuiListItem-secondaryAction",
+                                                                                  "selected": "Mui-selected",
+                                                                                }
+                                                                              }
+                                                                              component="li"
+                                                                              disableGutters={false}
+                                                                              onClick={[Function]}
+                                                                              role="menuitem"
+                                                                              selected={false}
+                                                                              tabIndex={0}
+                                                                            >
+                                                                              <WithStyles(ForwardRef(ButtonBase))
+                                                                                className="MuiListItem-root MuiMenuItem-root MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+                                                                                component="li"
+                                                                                disabled={false}
+                                                                                focusVisibleClassName="Mui-focusVisible"
+                                                                                onClick={[Function]}
+                                                                                role="menuitem"
+                                                                                tabIndex={0}
+                                                                              >
+                                                                                <ForwardRef(ButtonBase)
+                                                                                  className="MuiListItem-root MuiMenuItem-root MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+                                                                                  classes={
+                                                                                    Object {
+                                                                                      "disabled": "Mui-disabled",
+                                                                                      "focusVisible": "Mui-focusVisible",
+                                                                                      "root": "MuiButtonBase-root",
+                                                                                    }
+                                                                                  }
+                                                                                  component="li"
+                                                                                  disabled={false}
+                                                                                  focusVisibleClassName="Mui-focusVisible"
+                                                                                  onClick={[Function]}
+                                                                                  role="menuitem"
+                                                                                  tabIndex={0}
+                                                                                >
+                                                                                  <li
+                                                                                    aria-disabled={false}
+                                                                                    className="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+                                                                                    onBlur={[Function]}
+                                                                                    onClick={[Function]}
+                                                                                    onDragLeave={[Function]}
+                                                                                    onFocus={[Function]}
+                                                                                    onKeyDown={[Function]}
+                                                                                    onKeyUp={[Function]}
+                                                                                    onMouseDown={[Function]}
+                                                                                    onMouseLeave={[Function]}
+                                                                                    onMouseUp={[Function]}
+                                                                                    onTouchEnd={[Function]}
+                                                                                    onTouchMove={[Function]}
+                                                                                    onTouchStart={[Function]}
+                                                                                    role="menuitem"
+                                                                                    tabIndex={0}
+                                                                                  >
+                                                                                    Test name - Test season
+                                                                                    <NoSsr>
+                                                                                      <WithStyles(memo)
+                                                                                        center={false}
+                                                                                      >
+                                                                                        <ForwardRef(TouchRipple)
+                                                                                          center={false}
+                                                                                          classes={
+                                                                                            Object {
+                                                                                              "child": "MuiTouchRipple-child",
+                                                                                              "childLeaving": "MuiTouchRipple-childLeaving",
+                                                                                              "childPulsate": "MuiTouchRipple-childPulsate",
+                                                                                              "ripple": "MuiTouchRipple-ripple",
+                                                                                              "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                                                                                              "rippleVisible": "MuiTouchRipple-rippleVisible",
+                                                                                              "root": "MuiTouchRipple-root",
+                                                                                            }
+                                                                                          }
+                                                                                        >
+                                                                                          <span
+                                                                                            className="MuiTouchRipple-root"
+                                                                                          >
+                                                                                            <TransitionGroup
+                                                                                              childFactory={[Function]}
+                                                                                              component={null}
+                                                                                              exit={true}
+                                                                                            />
+                                                                                          </span>
+                                                                                        </ForwardRef(TouchRipple)>
+                                                                                      </WithStyles(memo)>
+                                                                                    </NoSsr>
+                                                                                  </li>
+                                                                                </ForwardRef(ButtonBase)>
+                                                                              </WithStyles(ForwardRef(ButtonBase))>
+                                                                            </ForwardRef(ListItem)>
+                                                                          </WithStyles(ForwardRef(ListItem))>
+                                                                        </ForwardRef(MenuItem)>
+                                                                      </WithStyles(ForwardRef(MenuItem))>
+                                                                    </ul>
+                                                                  </ForwardRef(List)>
+                                                                </WithStyles(ForwardRef(List))>
+                                                              </ForwardRef(MenuList)>
+                                                            </div>
+                                                          </ForwardRef(Paper)>
+                                                        </WithStyles(ForwardRef(Paper))>
+                                                      </Transition>
+                                                    </ForwardRef(Grow)>
+                                                    <div
+                                                      data-test="sentinelEnd"
+                                                      tabIndex={0}
+                                                    />
+                                                  </TrapFocus>
+                                                </div>
+                                              </Portal>
+                                            </ForwardRef(Portal)>
+                                          </ForwardRef(Modal)>
+                                        </ForwardRef(Popover)>
+                                      </WithStyles(ForwardRef(Popover))>
+                                    </ForwardRef(Menu)>
+                                  </WithStyles(ForwardRef(Menu))>
+                                  <NoSsr>
+                                    <WithStyles(memo)
+                                      center={false}
+                                    >
+                                      <ForwardRef(TouchRipple)
+                                        center={false}
+                                        classes={
+                                          Object {
+                                            "child": "MuiTouchRipple-child",
+                                            "childLeaving": "MuiTouchRipple-childLeaving",
+                                            "childPulsate": "MuiTouchRipple-childPulsate",
+                                            "ripple": "MuiTouchRipple-ripple",
+                                            "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                                            "rippleVisible": "MuiTouchRipple-rippleVisible",
+                                            "root": "MuiTouchRipple-root",
+                                          }
+                                        }
+                                      >
+                                        <span
+                                          className="MuiTouchRipple-root"
+                                        >
+                                          <TransitionGroup
+                                            childFactory={[Function]}
+                                            component={null}
+                                            exit={true}
+                                          />
+                                        </span>
+                                      </ForwardRef(TouchRipple)>
+                                    </WithStyles(memo)>
+                                  </NoSsr>
+                                </div>
+                              </ForwardRef(ButtonBase)>
+                            </WithStyles(ForwardRef(ButtonBase))>
+                          </ForwardRef(ListItem)>
+                        </WithStyles(ForwardRef(ListItem))>
+                      </ul>
+                    </ForwardRef(List)>
+                  </WithStyles(ForwardRef(List))>
+                </div>
+              </ForwardRef(Paper)>
+            </WithStyles(ForwardRef(Paper))>
+          </div>
+        </ForwardRef(Drawer)>
+      </WithStyles(ForwardRef(Drawer))>
+    </NavigationPanel>
+  </Router>
+</BrowserRouter>
+`;

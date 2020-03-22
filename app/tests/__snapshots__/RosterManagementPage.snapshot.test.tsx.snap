@@ -5,7 +5,7 @@ exports[`RosterManagementPage renders correctly 1`] = `
   className="makeStyles-root-1 makeStyles-drawerClosed-3"
 >
   <div
-    className="MuiPaper-root MuiPaper-elevation1 makeStyles-introPaper-4 MuiPaper-rounded"
+    className="MuiPaper-root makeStyles-introPaper-4 MuiPaper-elevation1 MuiPaper-rounded"
   >
     <p
       className="MuiTypography-root makeStyles-introText-6 MuiTypography-body1"
@@ -29,12 +29,12 @@ exports[`RosterManagementPage renders correctly 1`] = `
         <div
           aria-haspopup="listbox"
           aria-labelledby=" team-select"
-          className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSelect MuiOutlinedInput-inputSelect"
+          className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
           id="team-select"
           onBlur={[Function]}
-          onClick={[Function]}
           onFocus={[Function]}
           onKeyDown={[Function]}
+          onMouseDown={[Function]}
           role="button"
           tabIndex={0}
         >
@@ -64,15 +64,15 @@ exports[`RosterManagementPage renders correctly 1`] = `
         </svg>
         <fieldset
           aria-hidden={true}
-          className="PrivateNotchedOutline-root-171 MuiOutlinedInput-notchedOutline"
+          className="PrivateNotchedOutline-root-168 MuiOutlinedInput-notchedOutline"
           style={
             Object {
-              "paddingLeft": 27,
+              "paddingLeft": 8,
             }
           }
         >
           <legend
-            className="PrivateNotchedOutline-legend-172"
+            className="PrivateNotchedOutline-legend-169"
             style={
               Object {
                 "width": 0.01,
@@ -138,7 +138,7 @@ exports[`RosterManagementPage renders correctly 1`] = `
     </button>
   </div>
   <div
-    className="MuiPaper-root MuiPaper-elevation1 makeStyles-paperContent-8 MuiPaper-rounded"
+    className="MuiPaper-root makeStyles-paperContent-8 MuiPaper-elevation1 MuiPaper-rounded"
   >
     <div
       className="makeStyles-teamInfoContainer-9"
@@ -175,28 +175,14 @@ exports[`RosterManagementPage renders correctly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-171 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
+            className="PrivateNotchedOutline-root-168 MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legend-172"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
+              className="PrivateNotchedOutline-legendLabelled-170"
             >
-              <span
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "&#8203;",
-                  }
-                }
-              />
+              <span>
+                Team Name
+              </span>
             </legend>
           </fieldset>
         </div>
@@ -233,28 +219,14 @@ exports[`RosterManagementPage renders correctly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-171 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
+            className="PrivateNotchedOutline-root-168 MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legend-172"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
+              className="PrivateNotchedOutline-legendLabelled-170"
             >
-              <span
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "&#8203;",
-                  }
-                }
-              />
+              <span>
+                Season
+              </span>
             </legend>
           </fieldset>
         </div>

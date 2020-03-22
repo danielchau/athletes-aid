@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BodyVisualization renders correctly 1`] = `
+<div
+  className="makeStyles-root-1"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+    style={
+      Object {
+        "height": "100%",
+        "margin": "0px",
+      }
+    }
+  >
+    <div
+      className="MuiGrid-root makeStyles-imageContainer-2 MuiGrid-item MuiGrid-grid-xs-6"
+    >
+      <img
+        className="makeStyles-image-3"
+        src={
+          Object {
+            "process": [Function],
+          }
+        }
+      />
+      <div
+        className="makeStyles-dot-4"
+        style={
+          Object {
+            "backgroundColor": "#10B23B",
+            "left": "47%",
+            "top": "88%",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiGrid-root makeStyles-legendContainer-5 MuiGrid-item MuiGrid-grid-xs-6"
+    >
+      <h6
+        className="MuiTypography-root MuiTypography-h6"
+      >
+        Injuries Breakdown
+      </h6>
+      <hr
+        className="MuiDivider-root MuiDivider-light"
+        style={
+          Object {
+            "marginBottom": "8px",
+          }
+        }
+      />
+      <div
+        className="makeStyles-legendItemContainer-6"
+      >
+        <div
+          className="makeStyles-legendItem-7"
+        >
+          <div
+            className="makeStyles-dotLegend-8"
+            style={
+              Object {
+                "backgroundColor": "#10B23B",
+              }
+            }
+          />
+          <p
+            className="MuiTypography-root MuiTypography-body1"
+          >
+            Test locationOnBody (1 / 100.00%)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

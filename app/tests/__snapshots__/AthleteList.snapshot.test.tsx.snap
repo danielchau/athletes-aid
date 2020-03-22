@@ -37,28 +37,14 @@ exports[`AthleteList renders correctly 1`] = `
       />
       <fieldset
         aria-hidden={true}
-        className="PrivateNotchedOutline-root-92 MuiOutlinedInput-notchedOutline"
-        style={
-          Object {
-            "paddingLeft": 8,
-          }
-        }
+        className="PrivateNotchedOutline-root-88 MuiOutlinedInput-notchedOutline"
       >
         <legend
-          className="PrivateNotchedOutline-legend-93"
-          style={
-            Object {
-              "width": 0.01,
-            }
-          }
+          className="PrivateNotchedOutline-legendLabelled-90"
         >
-          <span
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "&#8203;",
-              }
-            }
-          />
+          <span>
+            Search Athlete...
+          </span>
         </legend>
       </fieldset>
     </div>
@@ -103,7 +89,7 @@ exports[`AthleteList renders correctly 1`] = `
             id="checkbox-list-name-label-Test name"
           >
             <span
-              className="MuiTypography-root MuiListItemText-primary MuiTypography-body2"
+              className="MuiTypography-root MuiListItemText-primary MuiTypography-body2 MuiTypography-displayBlock"
             >
               Test name
             </span>
@@ -114,7 +100,7 @@ exports[`AthleteList renders correctly 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-163 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary MuiIconButton-edgeEnd"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-162 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary MuiIconButton-edgeEnd"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -134,9 +120,8 @@ exports[`AthleteList renders correctly 1`] = `
               <input
                 aria-labelledby="checkbox-list-name-label-Test name"
                 checked={false}
-                className="PrivateSwitchBase-input-166"
+                className="PrivateSwitchBase-input-165"
                 data-indeterminate={false}
-                disabled={false}
                 onChange={[Function]}
                 type="checkbox"
               />
