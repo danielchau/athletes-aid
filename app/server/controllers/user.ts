@@ -61,12 +61,9 @@ export const getUser = async (req: Request, res: Response) => {
 
   export const postUserTeams = async (req: Request, res: Response) => {
     try {
-      console.log(req.body)
       let user: User = await userModel.getUser(
         req.body.cwl
       );
-
-      console.log(user);
     
       user.teams = req.body.teams  
       await userModel.updateUser(user);
