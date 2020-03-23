@@ -1,4 +1,5 @@
 import { User, SET_CURRENT_USER, SET_IS_AUTHENTICATING } from "../util/types";
+import { AdminPermissions, TrainerPermissions, CoachPermissions } from "../util/permissions";
 
 /**
  * REDUX ACTIONS
@@ -24,7 +25,14 @@ async function fetchLogin(): Promise<User | null> {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
-                return response.user; // CHANGE THIS
+                console.log(response.user);
+                return {
+                    cwl: response.user.cwl,
+                    firstName: response.user.firstName,
+                    lastName: response.user.lastName,
+                    teams: response.user.teams,
+                    permissions: getPermission(response.user.role)
+                };
             }
         })
         .catch(function(err: Error) {
@@ -39,4 +47,17 @@ export async function logout() {
 
 async function fetchLogout() {
     return fetch("./logout");
+}
+
+function getPermission(role: string) {
+    switch (role) {
+        case "admin":
+            return AdminPermissions;
+        case "trainer":
+            return TrainerPermissions;
+        case "coach":
+            return CoachPermissions;
+        default:
+            return AdminPermissions;
+    }
 }

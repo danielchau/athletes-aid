@@ -3,6 +3,7 @@ import { HeadCell } from "../util/types";
 /**
  * Page names
  */
+export const profilePageName: string = "Profile";
 export const rosterPageName: string = "Roster";
 export const injuryLoggingPageName: string = "Injury Logging";
 export const injuriesPageName: string = "Injuries";
