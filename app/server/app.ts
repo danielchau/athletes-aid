@@ -39,18 +39,30 @@ var SamlStrategy: any = new saml.Strategy(
     identifierFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
   },
   async function(profile: any, done: any): Promise<any> {
-    profile.cwl = profile['urn:oid:0.9.2342.19200300.100.1.1'];
-    profile.firstName = profile['urn:oid:2.5.4.42'];
-    profile.lastName = profile['urn:oid:2.5.4.4'];
-    profile.email = profile['urn:oid:0.9.2342.19200300.100.1.3'];
-    //profile.role = userController.getUserRole(profile.cwl)
-    let user : User = await userModel.getUser(profile.cwl)
-    profile.role = user.role
-    return done(null, profile);
+    profile.cwl = profile["urn:oid:0.9.2342.19200300.100.1.1"];
+    profile.firstName = profile["urn:oid:2.5.4.42"];
+    profile.lastName = profile["urn:oid:2.5.4.4"];
+    profile.email = profile["urn:oid:0.9.2342.19200300.100.1.3"];
+    try {
+      let user: User = await userModel.getUser(profile.cwl);
+      profile.role = user.role;
+      
+      if (user.firstName == undefined && user.lastName == undefined) {
+        user.firstName = profile.firstName;
+        user.lastName = profile.lastName;
+        await userModel.updateUser(user);
+      }
+
+      return done(null, profile);
+    } catch (e) {
+      return done(null, false , {
+        message : "User does not exist"
+      });
+    }
   }
 );
 
-passport.use('saml', SamlStrategy);
+passport.use("saml", SamlStrategy);
 
 const app = express();
 
@@ -112,9 +124,9 @@ app.post(
 );
 
 app.get("/profile", ensureAuthenticated, function(req, res) {
-  console.log("Profile Endpoint\n\n\n\n")
+  console.log("Profile Endpoint\n\n\n\n");
   console.log(req.user);
-  console.log("Session\n\n\n\n")
+  console.log("Session\n\n\n\n");
   console.log(req.session);
   res.status(200);
 });
@@ -124,9 +136,9 @@ app.get("/login/fail", function(req, res) {
   res.status(401).send("Login failed");
 });
 
-app.get('/logout', function(req, res){
+app.get("/logout", function(req, res) {
   req.logout();
-  res.redirect('/');
+  res.redirect("/");
 });
 
 app.get("/metadata", function(req, res) {
