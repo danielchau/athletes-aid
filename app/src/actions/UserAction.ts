@@ -18,7 +18,9 @@ export async function login() {
 }
 
 async function fetchLogin(): Promise<User | null> {
-    return fetch("./login")
+    return fetch("./login", {
+        method: "get"
+    })
         .then(response => response.json())
         .then((response: any) => {
             if (response.error) {
@@ -46,7 +48,9 @@ export async function logout() {
 }
 
 async function fetchLogout() {
-    return fetch("./logout");
+    return fetch("./logout", {
+        method: "get"
+    });
 }
 
 function getPermission(role: string) {
