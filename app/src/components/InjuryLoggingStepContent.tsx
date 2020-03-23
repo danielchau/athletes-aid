@@ -20,8 +20,7 @@ import {
     injuryTypes,
     severities,
     playerStatuses,
-    mechanismsOfInjury,
-    severityDescriptions
+    mechanismsOfInjury
 } from "../constants/constants";
 
 interface InjuryLoggingStepContentProps {
@@ -312,7 +311,7 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                             </MenuItem>
                             {severities.map((severity: number, i: number) => (
                                 <MenuItem key={i} value={severity}>
-                                    {severity} - {severityDescriptions[i]}
+                                    {severity}
                                 </MenuItem>
                             ))}
                         </Select>
