@@ -18,6 +18,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStation";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import clsx from "clsx";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
@@ -38,6 +39,7 @@ import {
 } from "../constants/constants";
 import { Typography } from "@material-ui/core";
 import withWidth, { WithWidthProps, isWidthDown } from "@material-ui/core/withWidth";
+import { logout } from "../actions/UserAction";
 
 interface NavigationPanelProps {
     state: NavigationPanelStates;
@@ -46,6 +48,7 @@ interface NavigationPanelProps {
     setSelectedTeam: any;
     teams: Team[];
     currentUser: User;
+    setIsAuthenticating: (state: boolean) => void;
 }
 
 /**
@@ -81,6 +84,12 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
             props.handleDrawerClose();
         }
     };
+
+    const onLogout = () => {
+        logout().then(_ => {
+            props.setIsAuthenticating(true);
+        });
+    }
 
     return (
         <Drawer
@@ -277,6 +286,16 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
                         ))}
                     </Menu>
                 </ListItem>
+                <Divider light></Divider>
+                <div className={classes.roleContainer} style={{cursor: "pointer"}} onClick={onLogout}>
+                    <ExitToAppIcon className={classes.itemIcon} />
+                    <div className={classes.labelContainer}>
+                        <Typography className={classes.primaryLabel}>Sign Out</Typography>
+                        <Typography className={classes.secondaryLabel}>
+                            Click to exit Athlete's Aid
+                        </Typography>
+                    </div>
+                </div>
             </List>
         </Drawer>
     );

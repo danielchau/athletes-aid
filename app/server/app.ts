@@ -16,6 +16,8 @@ const DIST_DIR = path.join(__dirname, "../dist"); // NEW
 const HTML_FILE = path.join(DIST_DIR, "index.html"); // NEW
 const ATHLETE_CSV = path.join(DIST_DIR, "athleteBulkTemplate.csv");
 
+//import * as userController from "./controllers/user";
+
 var SamlStrategy: any = new saml.Strategy(
   {
     path: "/login/callback",
@@ -35,13 +37,17 @@ var SamlStrategy: any = new saml.Strategy(
     identifierFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
   },
   function(profile: any, done: any): any {
-    console.log("profile:");
-    console.log(profile);
+    profile.cwl = profile['urn:oid:0.9.2342.19200300.100.1.1'];
+    profile.firstName = profile['urn:oid:2.5.4.42'];
+    profile.lastName = profile['urn:oid:2.5.4.4'];
+    profile.email = profile['urn:oid:0.9.2342.19200300.100.1.3'];
+    //profile.role = userController.getUserRole(profile.cwl)
+    profile.role = "admin";
     return done(null, profile);
   }
 );
 
-passport.use(SamlStrategy);
+passport.use('saml', SamlStrategy);
 
 const app = express();
 
@@ -50,7 +56,7 @@ app.use(express.static(DIST_DIR)); // NEW
 app.use(bodyParser.json({ limit: "5mb" }));
 app.use(bodyParser());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(
   session({
     secret: "hello",
@@ -101,6 +107,14 @@ app.post(
     res.redirect("/");
   }
 );
+
+app.get("/profile", ensureAuthenticated, function(req, res) {
+  console.log("Profile Endpoint\n\n\n\n")
+  console.log(req.user);
+  console.log("Session\n\n\n\n")
+  console.log(req.session);
+  res.status(200);
+});
 
 app.get("/login/fail", function(req, res) {
   console.log("Login failed");

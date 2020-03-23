@@ -33,6 +33,7 @@ interface PageProps {
     currentUser: User;
     currentRoster: Athlete[];
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
+    setIsAuthenticating: (state: boolean) => void;
 }
 
 /**
@@ -69,6 +70,7 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     match={props.match}
                     teams={props.teams}
                     currentUser={props.currentUser}
+                    setIsAuthenticating={props.setIsAuthenticating}
                 />
                 <Switch>
                     <Route path={myProfilePath}>

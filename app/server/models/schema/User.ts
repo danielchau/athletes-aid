@@ -10,11 +10,20 @@ export class User {
   id: string;
 
   @attribute()
+  cwl: string;
+
+  @attribute()
+  firstName: string;
+
+  @attribute()
+  lastName: string;
+
+  @attribute()
   email: string;
 
   @attribute()
-  password: string;
+  teams: string[];
 
   @attribute()
-  userType: string;
+  role: string;
 }

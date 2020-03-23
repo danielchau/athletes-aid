@@ -6,6 +6,7 @@ import { NavigationPanelStates, Team } from "../util/types";
 import { withRouter } from "react-router-dom";
 import { setSelectedAthlete } from "../actions/AthleteAction";
 import { fetchCurrentRoster } from "../actions/TeamAction";
+import { setIsAuthenticating } from "../actions/UserAction";
 
 const mapStateToProps = (state: AppState) => ({
     state: state.navigationPanelReducer,
@@ -20,7 +21,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     handleDrawerClose: () => dispatch(toggleNavigationPanel(NavigationPanelStates.closed)),
     handleDrawerOpen: () => dispatch(toggleNavigationPanel(NavigationPanelStates.open)),
     setSelectedAthlete: (id: string) => dispatch(setSelectedAthlete(id)),
-    getCurrentRoster: (athleteIds: string[]) => dispatch(fetchCurrentRoster(athleteIds))
+    getCurrentRoster: (athleteIds: string[]) => dispatch(fetchCurrentRoster(athleteIds)),
+    setIsAuthenticating: (state: boolean) => dispatch(setIsAuthenticating(state))
 });
 
 const PageContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(Page));
