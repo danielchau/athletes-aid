@@ -13,7 +13,6 @@ import { Team, User } from "./util/types";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
 import { setCurrentUser, login, setIsAuthenticating } from "./actions/UserAction";
-import { mockUser } from "./util/mockData";
 // @ts-ignore
 import Login from "./util/CWLLogin.png";
 // @ts-ignore
@@ -62,12 +61,14 @@ class App extends React.Component<AppProps, AppStates> {
     }
 
     onLoginPress() {
-        login().then(_ => {
-            this.props.getTeams("");
-            this.props.setCurrentUser(mockUser);
-            this.setState({ isLoading: true });
-            this.props.setIsAuthenticating(false);
-        })
+        login().then((user: User | null) => {
+            if (!!user) {
+                this.props.getTeams("");
+                this.props.setCurrentUser(user);
+                this.setState({ isLoading: true });
+                this.props.setIsAuthenticating(false);
+            }
+        });
     }
 
     render() {

@@ -137,7 +137,10 @@ export interface ListAthlete {
  * Represents the user logged into the application.
  */
 export interface User {
-    athleteProfile: AthleteProfile;
+    cwl: string;
+    firstName: string;
+    lastName: string;
+    teams: string[];
     permissions: UserPermissions;
 }
 

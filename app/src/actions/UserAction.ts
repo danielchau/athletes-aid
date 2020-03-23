@@ -9,21 +9,34 @@ export function setCurrentUser(currentUser: User) {
 }
 
 export function setIsAuthenticating(state: boolean) {
-  return { type: SET_IS_AUTHENTICATING, state };
+    return { type: SET_IS_AUTHENTICATING, state };
 }
 
 export async function login() {
-  return await fetchLogin();
+    return await fetchLogin();
 }
 
-async function fetchLogin() {
-  return fetch("./login");
+async function fetchLogin(): Promise<User | null> {
+    return fetch("./login")
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                return response.user; // CHANGE THIS
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
 }
 
 export async function logout() {
-  return await fetchLogout();
+    return await fetchLogout();
 }
 
 async function fetchLogout() {
-  return fetch("./logout");
+    return fetch("./logout");
 }
