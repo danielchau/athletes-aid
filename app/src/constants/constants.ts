@@ -3,7 +3,6 @@ import { HeadCell } from "../util/types";
 /**
  * Page names
  */
-export const profilePageName: string = "My Profile";
 export const rosterPageName: string = "Roster";
 export const injuryLoggingPageName: string = "Injury Logging";
 export const injuriesPageName: string = "Injuries";
@@ -13,7 +12,6 @@ export const userManagementPageName: string = "User Management";
 /**
  * URL Redirect paths for navigation
  */
-export const myProfilePath: string = "/myprofile";
 export const profilePath: string = "/profile";
 export const rosterPath: string = "/roster";
 export const injuryLoggingPath: string = "/logging";

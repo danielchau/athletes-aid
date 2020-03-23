@@ -74,7 +74,7 @@ export default function InjuryDialog(props: InjuryDialogProps) {
             postInjuryNote(
                 props.injury.id,
                 newNote,
-                props.currentUser.athleteProfile.name,
+                props.currentUser.firstName + " " + props.currentUser.lastName,
                 tab == 1
             ).then(injury => {
                 props.getAthleteInjuries(

@@ -42,6 +42,14 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
         },
         dropdownMenu: {
             padding: "10px"
+        },
+        chips: {
+            display: "flex",
+            flexWrap: "wrap",
+            overflow: "auto"
+        },
+        chip: {
+            margin: 2
         }
     })
 );

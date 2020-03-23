@@ -85,7 +85,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
                     files: props.currentAthlete.files,
                     injuries: props.currentAthlete.injuries
                 },
-                props.currentUser.athleteProfile.name
+                props.currentUser.firstName + " " + props.currentUser.lastName
             ).then(_ => {
                 props.setIsUpdating(false);
             });

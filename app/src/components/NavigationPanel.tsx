@@ -24,12 +24,10 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
 import { NavigationPanelStates, Team, User } from "../util/types";
 import {
-    profilePageName,
     rosterPageName,
     injuryLoggingPageName,
     injuriesPageName,
     rosterManagementPageName,
-    myProfilePath,
     rosterPath,
     injuryLoggingPath,
     injuriesPath,
@@ -136,22 +134,6 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
                     </div>
                 </div>
                 <Divider light></Divider>
-                <Link className={classes.link} to={myProfilePath}>
-                    <ListItem
-                        button
-                        key={profilePageName}
-                        selected={props.location.pathname == myProfilePath}
-                        onClick={handleListClick}
-                    >
-                        <ListItemIcon className={classes.itemIcon}>
-                            <PersonIcon></PersonIcon>
-                        </ListItemIcon>
-                        <ListItemText
-                            className={classes.drawerListItemText}
-                            primary={profilePageName}
-                        />
-                    </ListItem>
-                </Link>
                 {props.currentUser.permissions.pages.roster && (
                     <Link className={classes.link} to={rosterPath}>
                         <ListItem

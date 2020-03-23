@@ -128,7 +128,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
         return JSON.stringify({
             injuryId: !!props.existingInjury ? props.existingInjury.id : undefined,
             athleteId: props.currentRoster.filter(a => a.name == selectedAthlete)[0].id,
-            createdBy: props.currentUser.athleteProfile.name,
+            createdBy: props.currentUser.firstName + " " + props.currentUser.lastName,
             active: !!props.existingInjury ? props.existingInjury.active : true,
             teamName: props.selectedTeam.name,
             teamId: props.selectedTeam.id,
@@ -248,7 +248,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                         postInjuryNote(
                             id,
                             otherNotes,
-                            props.currentUser.athleteProfile.name,
+                            props.currentUser.firstName + " " + props.currentUser.lastName,
                             false
                         ).then(_ => {
                             props.getTeams("");
