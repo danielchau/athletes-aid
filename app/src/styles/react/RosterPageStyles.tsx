@@ -21,8 +21,13 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
             padding: "16px",
             backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
+        searchBarContainer: {
+            display: "flex",
+            flexDirection: "row",
+            width: "100%"
+        },
         searchBar: {
-            width: "100%",
+            flexGrow: 1,
             maxWidth: "1000px",
             marginBottom: "16px"
         },

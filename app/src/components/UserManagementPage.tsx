@@ -12,8 +12,7 @@ import {
     TrainerPermissions,
     CoachPermissions,
     AdminPermissions,
-    UserPermissions,
-    AthletePermissions
+    UserPermissions
 } from "../util/permissions";
 import {
     FormControl,
@@ -28,6 +27,15 @@ import HelpIcon from "@material-ui/icons/Help";
 import HelpDialog from "./HelpDialog";
 import { userManagementPageName } from "../constants/constants";
 import Chip from "@material-ui/core/Chip";
+import {
+    changeRoleForUser,
+    changeTeamsForUser,
+    getAllUsers,
+    deleteUser
+} from "../actions/UserAction";
+import DeleteIcon from "@material-ui/icons/Delete";
+import AddIcon from "@material-ui/icons/Add";
+import AddUserDialog from "./AddUserDialog";
 
 interface UserManagementPageProps {
     currentUser: User;
@@ -47,11 +55,16 @@ export default function UserManagementPage(props: UserManagementPageProps) {
     const [autocompleteVal, setAutocompleteVal] = React.useState<string>("");
     const [allUsers, setAllUsers] = React.useState<User[]>([]);
     const [open, setOpen] = React.useState(false);
+    const [openAddUser, setOpenAddUser] = React.useState(false);
 
     React.useEffect(() => {
         if (isFirstRender) {
-            setIsFirstRender(false);
-            setIsFetching(false);
+            getAllUsers().then((users: User[]) => {
+                setAllUsers(users);
+                setUsers(users);
+                setIsFirstRender(false);
+                setIsFetching(false);
+            });
         }
     }, []);
 
@@ -77,12 +90,56 @@ export default function UserManagementPage(props: UserManagementPageProps) {
         setUsers(newUsers);
     };
 
-    const onSelectChange = (event: React.ChangeEvent<{ value: string }>, user: User) => {
-        // Send off permissions type here
+    const onSelectChange = (event: React.ChangeEvent<{ value: string[] }>, user: User) => {
+        changeTeamsForUser(user.cwl, event.target.value).then((teams: string[] | null) => {
+            if (!!teams) {
+                let tempUsers = allUsers;
+                tempUsers = tempUsers.map(u => {
+                    if (user.cwl == u.cwl) u.teams = teams;
+                    return u;
+                });
+                setAllUsers(tempUsers);
+            }
+        });
     };
 
     const onTeamChange = (event: React.ChangeEvent<{ value: string }>, user: User) => {
-        // Change teams of user
+        changeRoleForUser(user.cwl, event.target.value).then((role: string | null) => {
+            if (!!role) {
+                let tempUsers = allUsers;
+                tempUsers = tempUsers.map(u => {
+                    if (user.cwl == u.cwl) {
+                        switch (role) {
+                            case "admin":
+                                u.permissions = AdminPermissions;
+                                break;
+                            case "trainer":
+                                u.permissions = TrainerPermissions;
+                                break;
+                            default:
+                                u.permissions = CoachPermissions;
+                                break;
+                        }
+                    }
+                    return u;
+                });
+                setAllUsers(tempUsers);
+            }
+        });
+    };
+
+    const onDeleteUser = (user: User) => {
+        deleteUser(user.cwl).then((cwl: string) => {
+            if (!!cwl) {
+                let tempUsers = allUsers;
+                let deleteIndex = null;
+                for (let i = 0; i < tempUsers.length; i++) {
+                    if (tempUsers[i].cwl == cwl) deleteIndex = i;
+                }
+                if (!!deleteIndex) tempUsers.splice(deleteIndex);
+                setAllUsers(tempUsers);
+            }
+        });
     };
 
     const getUserTeamNames = (teams: string[]) => {
@@ -93,14 +150,27 @@ export default function UserManagementPage(props: UserManagementPageProps) {
 
     return (
         <div className={classes.root}>
-            <TextField
-                label="Search User..."
-                variant="outlined"
-                fullWidth
-                value={autocompleteVal}
-                onChange={handleAutocompleteChange}
-                className={classes.searchBar}
-            />
+            <div className={classes.searchBarContainer}>
+                <TextField
+                    label="Search User..."
+                    variant="outlined"
+                    fullWidth
+                    value={autocompleteVal}
+                    onChange={handleAutocompleteChange}
+                    className={classes.searchBar}
+                />
+                <Tooltip title="Add User">
+                    <IconButton onClick={() => setOpen(true)} style={{ marginLeft: "8px" }}>
+                        <AddIcon />
+                    </IconButton>
+                </Tooltip>
+                <AddUserDialog
+                    open={openAddUser}
+                    setOpen={setOpenAddUser}
+                    allUsers={allUsers}
+                    setAllUsers={setAllUsers}
+                />
+            </div>
             {isFetching ? (
                 <FetchingScreen />
             ) : (
@@ -119,7 +189,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>
-                                        <b>Name</b>
+                                        <b>CWL / Name</b>
                                     </TableCell>
                                     <TableCell align="right">
                                         <b>Teams</b>
@@ -127,13 +197,14 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                     <TableCell align="right">
                                         <b>Role</b>
                                     </TableCell>
+                                    <TableCell align="right"></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {users.map(row => (
                                     <TableRow className={classes.tableRow} key={row.cwl}>
                                         <TableCell component="th" scope="row">
-                                            {row.firstName + " " + row.lastName}
+                                            {row.cwl + " / " + row.firstName + " " + row.lastName}
                                         </TableCell>
                                         <TableCell align="right" style={{ padding: "0px" }}>
                                             <FormControl
@@ -189,14 +260,13 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                                         selectMenu: classes.dropdownMenu
                                                     }}
                                                     onChange={(
-                                                        evt: React.ChangeEvent<{ value: string }>
+                                                        evt: React.ChangeEvent<{ value: string[] }>
                                                     ) => onSelectChange(evt, row)}
                                                 >
                                                     {[
                                                         AdminPermissions,
                                                         TrainerPermissions,
-                                                        CoachPermissions,
-                                                        AthletePermissions
+                                                        CoachPermissions
                                                     ].map((perm: UserPermissions, i: number) => (
                                                         <MenuItem key={i} value={perm.label}>
                                                             {perm.label}
@@ -204,6 +274,14 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                                     ))}
                                                 </Select>
                                             </FormControl>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <IconButton
+                                                style={{ color: "#a83232" }}
+                                                onClick={() => onDeleteUser(row)}
+                                            >
+                                                <DeleteIcon />
+                                            </IconButton>
                                         </TableCell>
                                     </TableRow>
                                 ))}
