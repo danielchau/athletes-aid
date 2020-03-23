@@ -7,6 +7,8 @@ import * as saml from "passport-saml";
 import * as fs from "fs";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import * as userModel from "./models/user";
+import { User } from "./models/schema/User";
 
 var storage = multer.memoryStorage();
 var upload = multer.default({ storage: storage });
@@ -36,13 +38,14 @@ var SamlStrategy: any = new saml.Strategy(
 
     identifierFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
   },
-  function(profile: any, done: any): any {
+  async function(profile: any, done: any): Promise<any> {
     profile.cwl = profile['urn:oid:0.9.2342.19200300.100.1.1'];
     profile.firstName = profile['urn:oid:2.5.4.42'];
     profile.lastName = profile['urn:oid:2.5.4.4'];
     profile.email = profile['urn:oid:0.9.2342.19200300.100.1.3'];
     //profile.role = userController.getUserRole(profile.cwl)
-    profile.role = "admin";
+    let user : User = await userModel.getUser(profile.cwl)
+    profile.role = user.role
     return done(null, profile);
   }
 );
@@ -121,6 +124,11 @@ app.get("/login/fail", function(req, res) {
   res.status(401).send("Login failed");
 });
 
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
 app.get("/metadata", function(req, res) {
   //const decryptionCert = fs.readFileSync(__dirname + "/cert/cert.pem", "utf8");
 
@@ -139,7 +147,14 @@ app.put("/team", teamController.modifyTeam);
 app.delete("/team", teamController.deleteTeam);
 app.get("/teams", teamController.getAllTeams);
 
-// import * as userController from "./controllers/user";
+import * as userController from "./controllers/user";
+
+app.post("/user", userController.postUser);
+app.post("/user/teams", userController.postUserTeams);
+app.get("/user", userController.getUser);
+app.get("/users", userController.getAllUsers);
+app.delete("/user", userController.deleteUser);
+app.post("/user/role", userController.postRole);
 
 import * as injuryController from "./controllers/injury";
 app.post("/singleInjury", injuryController.postInjury);
