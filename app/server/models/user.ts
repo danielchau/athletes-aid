@@ -23,7 +23,7 @@ export async function putUser(user : User): Promise<string> {
 
 export async function getUser(cwl: string): Promise<User> {
   return mapper
-    .get(Object.assign(new User(), { cwl: cwl }))
+    .get(Object.assign(new User(), { "cwl" : cwl }))
     .then((user: User) => {
       console.log(user);
       return user;
