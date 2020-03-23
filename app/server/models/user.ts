@@ -39,11 +39,11 @@ export async function getUser(cwl: string): Promise<User> {
 export async function createUniqueUser(
   user : User
 ): Promise<string> {
-  const existingUser = await getUser(user.cwl);
-  if (existingUser) {
-    console.log("User already exists");
-    return existingUser.cwl;
-  }
+  // const existingUser = await getUser(user.cwl);
+  // if (existingUser) {
+  //   console.log("User already exists");
+  //   return existingUser.cwl;
+  // }
   return putUser(user);
 }
 
