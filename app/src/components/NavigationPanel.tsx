@@ -89,7 +89,7 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
         logout().then(_ => {
             props.setIsAuthenticating(true);
         });
-    }
+    };
 
     return (
         <Drawer
@@ -120,6 +120,15 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
                 <div className={classes.roleContainer}>
                     <AccessibilityNewIcon className={classes.itemIcon} />
                     <div className={classes.labelContainer}>
+                        <Typography className={classes.primaryLabel}>
+                            {props.currentUser.firstName + " " + props.currentUser.lastName}
+                        </Typography>
+                        <Typography
+                            className={classes.secondaryLabel}
+                            style={{ paddingBottom: "8px" }}
+                        >
+                            {props.currentUser.cwl}
+                        </Typography>
                         <Typography className={classes.primaryLabel}>Profile Type</Typography>
                         <Typography className={classes.secondaryLabel}>
                             {props.currentUser.permissions.label}
@@ -287,7 +296,11 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
                     </Menu>
                 </ListItem>
                 <Divider light></Divider>
-                <div className={classes.roleContainer} style={{cursor: "pointer"}} onClick={onLogout}>
+                <div
+                    className={classes.roleContainer}
+                    style={{ cursor: "pointer" }}
+                    onClick={onLogout}
+                >
                     <ExitToAppIcon className={classes.itemIcon} />
                     <div className={classes.labelContainer}>
                         <Typography className={classes.primaryLabel}>Sign Out</Typography>
