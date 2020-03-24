@@ -92,7 +92,7 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-app.get("/athleteTemplate", function(req, res) {
+app.get("/athleteTemplate", function(_req, res) {
   res.download(ATHLETE_CSV);
 });
 
@@ -105,14 +105,14 @@ function ensureAuthenticated(
   else return res.redirect("/login");
 }
 
-app.get("/", ensureAuthenticated, function(req, res) {
+app.get("/", ensureAuthenticated, function(_req, res) {
   res.send("Authenticated");
 });
 
 app.get(
   "/login",
   passport.authenticate("saml", { failureRedirect: "/login/fail" }),
-  function(req, res) {
+  function(_req, res) {
     res.redirect("/");
   }
 );
@@ -120,7 +120,7 @@ app.get(
 app.post(
   "/login/callback",
   passport.authenticate("saml", { failureRedirect: "/login/fail" }),
-  function(req, res) {
+  function(_req, res) {
     res.redirect("/");
   }
 );
@@ -133,17 +133,19 @@ app.get("/profile", ensureAuthenticated, function(req, res) {
   res.status(200);
 });
 
-app.get("/login/fail", function(req, res) {
+app.get("/login/fail", function(_req, res) {
   console.log("Login failed");
   res.status(401).send("Login failed");
 });
 
 app.get("/logout", function(req, res) {
-  req.logout();
-  res.redirect("/");
+  SamlStrategy.logout(req, function(_err: any, _requestUrl: any) {
+    req.logout();
+    res.redirect("/");
+  })
 });
 
-app.get("/metadata", function(req, res) {
+app.get("/metadata", function(_req, res) {
   //const decryptionCert = fs.readFileSync(__dirname + "/cert/cert.pem", "utf8");
 
   //const metadata = SamlStrategy.generateServiceProviderMetadata(decryptionCert);
@@ -190,7 +192,7 @@ app.get("/file", athleteController.getFile);
 app.delete("/file", athleteController.deleteFile);
 
 // Routes
-app.get("/*", (req, res) => {
+app.get("/*", (_req, res) => {
   res.sendFile(HTML_FILE); // EDIT
 });
 
