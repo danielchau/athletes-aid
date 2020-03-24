@@ -22,15 +22,19 @@ const ATHLETE_CSV = path.join(DIST_DIR, "athleteBulkTemplate.csv");
 
 var SamlStrategy: any = new saml.Strategy(
   {
-    path: "/login/callback",
-    entryPoint:
-      "https://authentication.stg.id.ubc.ca/idp/profile/SAML2/Redirect/SSO",
     issuer: "https://athletes-aid.ca",
     host: "athletes-aid.ca",
     protocol: "https://",
     signatureAlgorithm: "sha256",
 
-    logoutUrl: "https://authentication.ubc.ca/idp/profile/SAML2/POST/SLO",
+    path: "/login/callback",
+    entryPoint:
+      "https://authentication.stg.id.ubc.ca/idp/profile/SAML2/Redirect/SSO",
+
+    logoutUrl:
+      "https://authentication.stg.id.ubc.ca/idp/profile/SAML2/Redirect/SLO",
+    logoutCallbackUrl: "https://athletes-aid.ca/",
+
     decryptionPvk: fs.readFileSync(__dirname + "/cert/key.pem", "utf8"),
     cert: fs.readFileSync(__dirname + "/cert/cert_idp.pem", "utf8"),
 

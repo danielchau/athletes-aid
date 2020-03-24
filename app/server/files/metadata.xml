@@ -12,6 +12,7 @@ MIIFxTCCA62gAwIBAgIJAJQXqaW7pjBOMA0GCSqGSIb3DQEBCwUAMHkxCzAJBgNV BAYTAkNBMRkwFwY
 <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
 <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#tripledes-cbc"/>
 </KeyDescriptor>
+<SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://athletes-aid.ca/"/>
 <AssertionConsumerService index="1" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://athletes-aid.ca/login/callback"/>
 </SPSSODescriptor>
 </EntityDescriptor>
