@@ -12,7 +12,8 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
+            overflow: "auto"
         },
         tableContainer: {
             width: "100%",
@@ -40,7 +41,8 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
             height: "100%"
         },
         tableBody: {
-            tableLayout: "fixed"
+            tableLayout: "fixed",
+            minWidth: "750px"
         },
         tableRow: {
             cursor: "pointer",
