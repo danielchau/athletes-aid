@@ -25,15 +25,13 @@ var SamlStrategy: any = new saml.Strategy(
     path: "/login/callback",
     entryPoint:
       "https://authentication.stg.id.ubc.ca/idp/profile/SAML2/Redirect/SSO",
-    issuer: "http://athletes-aid-dev.ca-central-1.elasticbeanstalk.com",
-    host: "athletes-aid-dev.ca-central-1.elasticbeanstalk.com",
+    issuer: "https://athletes-aid.ca",
+    host: "athletes-aid.ca",
+    protocol: "https://",
     signatureAlgorithm: "sha256",
 
     logoutUrl: "https://authentication.ubc.ca/idp/profile/SAML2/POST/SLO",
-
-    // Service Provider private key
     decryptionPvk: fs.readFileSync(__dirname + "/cert/key.pem", "utf8"),
-    // Identity Provider's public key
     cert: fs.readFileSync(__dirname + "/cert/cert_idp.pem", "utf8"),
 
     identifierFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
@@ -46,7 +44,7 @@ var SamlStrategy: any = new saml.Strategy(
     try {
       let user: User = await userModel.getUser(profile.cwl);
       profile.role = user.role;
-      
+
       if (user.firstName == undefined && user.lastName == undefined) {
         user.firstName = profile.firstName;
         user.lastName = profile.lastName;
@@ -55,8 +53,8 @@ var SamlStrategy: any = new saml.Strategy(
 
       return done(null, profile);
     } catch (e) {
-      return done(null, false , {
-        message : "User does not exist"
+      return done(null, false, {
+        message: "User does not exist"
       });
     }
   }
@@ -144,6 +142,7 @@ app.get("/logout", function(req, res) {
 app.get("/metadata", function(req, res) {
   //const decryptionCert = fs.readFileSync(__dirname + "/cert/cert.pem", "utf8");
 
+  //const metadata = SamlStrategy.generateServiceProviderMetadata(decryptionCert);
   const metadata = fs.readFileSync(__dirname + "/metadata.xml", "utf8");
 
   res.type("application/xml");
