@@ -86,6 +86,7 @@ export default function AddUserDialog(props: AddUserDialogProps) {
                         label="CWL ID"
                         type="text"
                         fullWidth
+                        variant="outlined"
                     />
                     <FormControl variant="outlined" fullWidth>
                         <Select id={"form-permissions"} value={role} onChange={onRoleChange}>

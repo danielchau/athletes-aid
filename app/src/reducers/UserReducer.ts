@@ -1,9 +1,9 @@
 import {
-  setCurrentUserTypes,
-  IsAuthenticatingTypes,
-  SET_CURRENT_USER,
-  SET_IS_AUTHENTICATING,
-  User
+    setCurrentUserTypes,
+    IsAuthenticatingTypes,
+    SET_CURRENT_USER,
+    SET_IS_AUTHENTICATING,
+    User
 } from "../util/types";
 
 export function currentUserReducer(currentUser: User = null, action: setCurrentUserTypes) {
@@ -15,14 +15,11 @@ export function currentUserReducer(currentUser: User = null, action: setCurrentU
     }
 }
 
-export function isAuthenticatingReducer(
-  state = true,
-  action: IsAuthenticatingTypes
-) {
-  switch (action.type) {
-    case SET_IS_AUTHENTICATING:
-      return action.isAuthenticating;
-    default:
-      return state;
-  }
+export function isAuthenticatingReducer(state = true, action: IsAuthenticatingTypes) {
+    switch (action.type) {
+        case SET_IS_AUTHENTICATING:
+            return action.isAuthenticating;
+        default:
+            return state;
+    }
 }

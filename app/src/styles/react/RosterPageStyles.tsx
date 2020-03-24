@@ -24,7 +24,8 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
         searchBarContainer: {
             display: "flex",
             flexDirection: "row",
-            width: "100%"
+            width: "100%",
+            maxWidth: "1000px"
         },
         searchBar: {
             flexGrow: 1,

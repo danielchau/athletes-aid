@@ -90,20 +90,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
         setUsers(newUsers);
     };
 
-    const onSelectChange = (event: React.ChangeEvent<{ value: string[] }>, user: User) => {
-        changeTeamsForUser(user.cwl, event.target.value).then((teams: string[] | null) => {
-            if (!!teams) {
-                let tempUsers = allUsers;
-                tempUsers = tempUsers.map(u => {
-                    if (user.cwl == u.cwl) u.teams = teams;
-                    return u;
-                });
-                setAllUsers(tempUsers);
-            }
-        });
-    };
-
-    const onTeamChange = (event: React.ChangeEvent<{ value: string }>, user: User) => {
+    const onSelectChange = (event: React.ChangeEvent<{ value: string }>, user: User) => {
         changeRoleForUser(user.cwl, event.target.value).then((role: string | null) => {
             if (!!role) {
                 let tempUsers = allUsers;
@@ -121,6 +108,25 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                 break;
                         }
                     }
+                    return u;
+                });
+                setAllUsers(tempUsers);
+            }
+        });
+    };
+
+    const onTeamChange = (event: React.ChangeEvent<{ value: string[] }>, user: User) => {
+        let teamsMap = new Map();
+        props.teams.forEach(t => teamsMap.set(t.name + " - " + t.season, t.id));
+
+        changeTeamsForUser(
+            user.cwl,
+            event.target.value.filter(t => !!t).map(t => teamsMap.get(t))
+        ).then((teams: string[] | null) => {
+            if (!!teams) {
+                let tempUsers = allUsers;
+                tempUsers = tempUsers.map(u => {
+                    if (user.cwl == u.cwl) u.teams = teams;
                     return u;
                 });
                 setAllUsers(tempUsers);
@@ -160,7 +166,15 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                     className={classes.searchBar}
                 />
                 <Tooltip title="Add User">
-                    <IconButton onClick={() => setOpen(true)} style={{ marginLeft: "8px" }}>
+                    <IconButton
+                        onClick={() => setOpenAddUser(true)}
+                        style={{
+                            marginLeft: "8px",
+                            marginBottom: "16px",
+                            height: "60px",
+                            width: "60px"
+                        }}
+                    >
                         <AddIcon />
                     </IconButton>
                 </Tooltip>
@@ -197,7 +211,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                     <TableCell align="right">
                                         <b>Role</b>
                                     </TableCell>
-                                    <TableCell align="right"></TableCell>
+                                    <TableCell align="right" style={{ width: "75px" }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -210,7 +224,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                             <FormControl
                                                 variant="outlined"
                                                 style={{
-                                                    width: "350px",
+                                                    width: "300px",
                                                     textAlign: "left"
                                                 }}
                                             >
@@ -219,7 +233,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                                     multiple
                                                     value={getUserTeamNames(row.teams)}
                                                     onChange={(
-                                                        evt: React.ChangeEvent<{ value: string }>
+                                                        evt: React.ChangeEvent<{ value: string[] }>
                                                     ) => onTeamChange(evt, row)}
                                                     input={<Input id="select-multiple-chip" />}
                                                     renderValue={selected => (
@@ -260,7 +274,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                                         selectMenu: classes.dropdownMenu
                                                     }}
                                                     onChange={(
-                                                        evt: React.ChangeEvent<{ value: string[] }>
+                                                        evt: React.ChangeEvent<{ value: string }>
                                                     ) => onSelectChange(evt, row)}
                                                 >
                                                     {[
@@ -276,12 +290,14 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                             </FormControl>
                                         </TableCell>
                                         <TableCell align="right">
-                                            <IconButton
-                                                style={{ color: "#a83232" }}
-                                                onClick={() => onDeleteUser(row)}
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
+                                            <Tooltip title="Delete User">
+                                                <IconButton
+                                                    style={{ color: "#a83232" }}
+                                                    onClick={() => onDeleteUser(row)}
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Tooltip>
                                         </TableCell>
                                     </TableRow>
                                 ))}

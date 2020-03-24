@@ -9,16 +9,16 @@ export function setCurrentUser(currentUser: User) {
     return { type: SET_CURRENT_USER, currentUser };
 }
 
-export function setIsAuthenticating(state: boolean) {
-    return { type: SET_IS_AUTHENTICATING, state };
+export function setIsAuthenticating(isAuthenticating: boolean) {
+    return { type: SET_IS_AUTHENTICATING, isAuthenticating };
 }
 
-export async function login() {
-    return await fetchLogin();
+export async function getUser() {
+    return await fetchUser();
 }
 
-async function fetchLogin(): Promise<User | null> {
-    return fetch("./login", {
+async function fetchUser(): Promise<User | null> {
+    return fetch("./user", {
         method: "get"
     })
         .then(response => response.json())
@@ -27,13 +27,12 @@ async function fetchLogin(): Promise<User | null> {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
-                console.log(response.user);
                 return {
-                    cwl: response.user.cwl,
-                    firstName: response.user.firstName,
-                    lastName: response.user.lastName,
-                    teams: response.user.teams,
-                    permissions: getPermission(response.user.role)
+                    cwl: response.data.user.cwl,
+                    firstName: !!response.data.user.firstName ? response.data.user.firstName : "",
+                    lastName: !!response.data.user.lastName ? response.data.user.lastName : "",
+                    teams: !!response.data.user.teams ? response.data.user.teams : [],
+                    permissions: getPermission(response.data.user.role)
                 };
             }
         })
@@ -85,7 +84,7 @@ async function fetchAllUsers(): Promise<User[] | null> {
                     cwl: u.cwl,
                     firstName: !!u.firstName ? u.firstName : "",
                     lastName: !!u.lastName ? u.lastName : "",
-                    teams: u.teams,
+                    teams: !!u.teams ? u.teams : [],
                     permissions: getPermission(u.role)
                 }));
             }

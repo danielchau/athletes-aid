@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import { Team, User } from "./util/types";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
-import { setCurrentUser, login, setIsAuthenticating } from "./actions/UserAction";
+import { setCurrentUser, getUser, setIsAuthenticating } from "./actions/UserAction";
 // @ts-ignore
 import Login from "./util/CWLLogin.png";
 // @ts-ignore
@@ -41,6 +41,19 @@ class App extends React.Component<AppProps, AppStates> {
         this.state = { isLoading: false };
     }
 
+    componentDidMount() {
+        getUser().then((user: User | null) => {
+            if (!!user) {
+                this.props.getTeams("");
+                this.props.setCurrentUser(user);
+                this.setState({ isLoading: true });
+                this.props.setIsAuthenticating(false);
+            } else {
+                window.location.replace(window.location.href + "/login");
+            }
+        });
+    }
+
     shouldComponentUpdate(nextProps: AppProps, nextState: AppStates) {
         if (this.props.teams.length == 0 && nextProps.teams.length > 0) {
             return true;
@@ -61,12 +74,14 @@ class App extends React.Component<AppProps, AppStates> {
     }
 
     onLoginPress() {
-        login().then((user: User | null) => {
+        getUser().then((user: User | null) => {
             if (!!user) {
                 this.props.getTeams("");
                 this.props.setCurrentUser(user);
                 this.setState({ isLoading: true });
                 this.props.setIsAuthenticating(false);
+            } else {
+                window.location.replace(window.location.href + "/login");
             }
         });
     }
@@ -90,15 +105,7 @@ class App extends React.Component<AppProps, AppStates> {
                         src="https://s3.amazonaws.com/streamlineathletes.com/assets/programs/22/university-british-columbia_track-field_thunderbirds_logo.png"
                     />
                     <img style={{ width: "300px", paddingBottom: "16px" }} src={Logo} />
-                    {this.props.isAuthenticating ? (
-                        <img
-                            style={{ cursor: "pointer" }}
-                            src={Login}
-                            onClick={this.onLoginPress.bind(this)}
-                        />
-                    ) : (
-                        <CircularProgress size={40} color={"secondary"} />
-                    )}
+                    <CircularProgress size={40} color={"secondary"} />
                 </div>
             );
         }

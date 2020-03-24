@@ -37,7 +37,6 @@ import {
 } from "../constants/constants";
 import { Typography } from "@material-ui/core";
 import withWidth, { WithWidthProps, isWidthDown } from "@material-ui/core/withWidth";
-import { logout } from "../actions/UserAction";
 
 interface NavigationPanelProps {
     state: NavigationPanelStates;
@@ -84,9 +83,7 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
     };
 
     const onLogout = () => {
-        logout().then(_ => {
-            props.setIsAuthenticating(true);
-        });
+        window.location.replace(window.location.href.split("/")[0] + "/logout");
     };
 
     return (
@@ -127,7 +124,10 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
                         >
                             {props.currentUser.cwl}
                         </Typography>
-                        <Typography className={classes.primaryLabel}>Profile Type</Typography>
+                        <Divider light></Divider>
+                        <Typography className={classes.primaryLabel} style={{ paddingTop: "8px" }}>
+                            Profile Type
+                        </Typography>
                         <Typography className={classes.secondaryLabel}>
                             {props.currentUser.permissions.label}
                         </Typography>
@@ -283,7 +283,7 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
                     style={{ cursor: "pointer" }}
                     onClick={onLogout}
                 >
-                    <ExitToAppIcon className={classes.itemIcon} />
+                    <ExitToAppIcon style={{ marginTop: "8px" }} className={classes.itemIcon} />
                     <div className={classes.labelContainer}>
                         <Typography className={classes.primaryLabel}>Sign Out</Typography>
                         <Typography className={classes.secondaryLabel}>
@@ -291,6 +291,7 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
                         </Typography>
                     </div>
                 </div>
+                <Divider light></Divider>
             </List>
         </Drawer>
     );
