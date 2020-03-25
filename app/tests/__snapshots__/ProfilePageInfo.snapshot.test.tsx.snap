@@ -1,0 +1,452 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProfilePageInfo renders correctly 1`] = `
+Array [
+  <h6
+    className="MuiTypography-root makeStyles-heading-8 MuiTypography-h6"
+  >
+    Basic Information
+  </h6>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Birthdate
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      Test birthdate
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Year In School
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      1
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Gender
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      Test gender
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Weight
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      1
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+          "paddingLeft": "4px",
+        }
+      }
+    >
+      kg
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Height
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      1
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+          "paddingLeft": "4px",
+        }
+      }
+    >
+      cm
+    </p>
+  </div>,
+  <hr
+    className="MuiDivider-root MuiDivider-light"
+  />,
+  <h6
+    className="MuiTypography-root makeStyles-heading-8 MuiTypography-h6"
+  >
+    Contact Information
+  </h6>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Email
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      Test email
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Cell Phone
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      Test cellPhone
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Home Phone
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      Test homePhone
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Student Number
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      Test studentNumber
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Health Card Number
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      1
+    </p>
+  </div>,
+  <hr
+    className="MuiDivider-root MuiDivider-light"
+  />,
+  <h6
+    className="MuiTypography-root makeStyles-heading-8 MuiTypography-h6"
+  >
+    Emergency Contact Information
+  </h6>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Name
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      Test name
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Email
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      Test email
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "paddingBottom": "4px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 400,
+          "paddingRight": "4px",
+        }
+      }
+    >
+      Phone
+      :
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "fontWeight": 300,
+        }
+      }
+    >
+      Test phone
+    </p>
+  </div>,
+]
+`;

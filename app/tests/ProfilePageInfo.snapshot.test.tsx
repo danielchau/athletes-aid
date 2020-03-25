@@ -13,8 +13,7 @@ const mockInjuryNote = {
 const mockEmergencyContact = {
     id: "Test id",
     name: "Test name",
-    cellPhone: "Test cellPhone",
-    homePhone: "Test homePhone",
+    phone: "Test phone",
     email: "Test email"
 }
 
