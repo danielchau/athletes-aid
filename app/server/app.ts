@@ -28,11 +28,12 @@ var SamlStrategy: any = new saml.Strategy(
     signatureAlgorithm: "sha256",
 
     path: "/login/callback",
+    authnContext:
+      "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport",
     entryPoint:
       "https://authentication.stg.id.ubc.ca/idp/profile/SAML2/Redirect/SSO",
 
-    logoutUrl:
-      "https://authentication.stg.id.ubc.ca/idp/profile/SAML2/Redirect/SLO",
+    logoutUrl: "https://authentication.stg.id.ubc.ca/idp/profile/Logout",
     logoutCallbackUrl: "https://athletes-aid.ca/",
 
     decryptionPvk: fs.readFileSync(__dirname + "/cert/key.pem", "utf8"),
@@ -139,10 +140,16 @@ app.get("/login/fail", function(_req, res) {
 });
 
 app.get("/logout", function(req, res) {
-  SamlStrategy.logout(req, function(_err: any, _requestUrl: any) {
+  req.user = req.session.passport.user;
+
+  return SamlStrategy.logout(req, function(_err: any, _requestUrl: any) {
+    console.log(req);
     req.logout();
-    res.redirect("/");
-  })
+    req.logOut();
+    req.session.destroy(function(err) {
+      res.redirect(_requestUrl);
+    });
+  });
 });
 
 app.get("/metadata", function(_req, res) {
