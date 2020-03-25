@@ -43,8 +43,8 @@ export const postUser = async (req: Request, res: Response) => {
 export const getUser = async (req: Request, res: Response) => {
     try {
       let user = new User();
-      //@ts-ignore
-      user = await userModel.getUser(req.user.cwl);
+
+      user = await userModel.getUser(req.session.passport.user.cwl);
   
       let response = {
         message: "User found",

@@ -145,7 +145,6 @@ app.get("/logout", function(req, res) {
   return SamlStrategy.logout(req, function(_err: any, _requestUrl: any) {
     console.log(req);
     req.logout();
-    req.logOut();
     req.session.destroy(function(err) {
       res.redirect(_requestUrl);
     });
