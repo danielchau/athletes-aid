@@ -6,23 +6,40 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { User, ListAthlete } from "../util/types";
+import { User, Team } from "../util/types";
 import FetchingScreen from "./FetchingScreen";
-import { getAllAthletes } from "../actions/AthleteAction";
 import {
     TrainerPermissions,
     CoachPermissions,
     AdminPermissions,
-    UserPermissions,
-    AthletePermissions
+    UserPermissions
 } from "../util/permissions";
-import { FormControl, Select, MenuItem, TextField, Tooltip, IconButton } from "@material-ui/core";
+import {
+    FormControl,
+    Select,
+    MenuItem,
+    TextField,
+    Tooltip,
+    IconButton,
+    Input
+} from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
 import HelpDialog from "./HelpDialog";
 import { userManagementPageName } from "../constants/constants";
+import Chip from "@material-ui/core/Chip";
+import {
+    changeRoleForUser,
+    changeTeamsForUser,
+    getAllUsers,
+    deleteUser
+} from "../actions/UserAction";
+import DeleteIcon from "@material-ui/icons/Delete";
+import AddIcon from "@material-ui/icons/Add";
+import AddUserDialog from "./AddUserDialog";
 
 interface UserManagementPageProps {
     currentUser: User;
+    teams: Team[];
 }
 
 /**
@@ -38,46 +55,14 @@ export default function UserManagementPage(props: UserManagementPageProps) {
     const [autocompleteVal, setAutocompleteVal] = React.useState<string>("");
     const [allUsers, setAllUsers] = React.useState<User[]>([]);
     const [open, setOpen] = React.useState(false);
+    const [openAddUser, setOpenAddUser] = React.useState(false);
 
     React.useEffect(() => {
         if (isFirstRender) {
-            setIsFirstRender(false);
-            // Have to change this call once we have a get all users call
-            let permissionsOptions = [
-                AdminPermissions,
-                TrainerPermissions,
-                AthletePermissions,
-                CoachPermissions
-            ];
-            getAllAthletes(props.currentUser.athleteProfile.id).then((users: ListAthlete[]) => {
-                let tempUsers = users.map(u => ({
-                    athleteProfile: {
-                        id: u.id,
-                        profilePicture: "",
-                        name: u.name,
-                        birthdate: u.birthdate,
-                        schoolYear: 0,
-                        gender: "",
-                        weight: 0,
-                        height: 0,
-                        email: "",
-                        cellPhone: "",
-                        homePhone: "",
-                        healthCardNumber: "",
-                        studentNumber: "",
-                        emergencyContact: {
-                            id: "",
-                            name: "",
-                            phone: "",
-                            email: ""
-                        },
-                        files: [],
-                        injuries: []
-                    },
-                    permissions: permissionsOptions[Math.round(Math.random() * 3)]
-                }));
-                setUsers(tempUsers);
-                setAllUsers(tempUsers);
+            getAllUsers().then((users: User[]) => {
+                setAllUsers(users);
+                setUsers(users);
+                setIsFirstRender(false);
                 setIsFetching(false);
             });
         }
@@ -96,7 +81,8 @@ export default function UserManagementPage(props: UserManagementPageProps) {
             "i"
         );
         let newUsers = allUsers.filter((a: User) => {
-            if (a.athleteProfile.name.match(reg)) {
+            let athleteName = a.firstName + " " + a.lastName;
+            if (athleteName.match(reg)) {
                 return a;
             }
         });
@@ -104,20 +90,101 @@ export default function UserManagementPage(props: UserManagementPageProps) {
         setUsers(newUsers);
     };
 
-    const onSelectChange = (event: React.ChangeEvent<{ value: string }>) => {
-        // Send off permissions type here
+    const onSelectChange = (event: React.ChangeEvent<{ value: string }>, user: User) => {
+        changeRoleForUser(user.cwl, event.target.value).then((role: string | null) => {
+            if (!!role) {
+                let tempUsers = allUsers;
+                tempUsers = tempUsers.map(u => {
+                    if (user.cwl == u.cwl) {
+                        switch (role) {
+                            case "admin":
+                                u.permissions = AdminPermissions;
+                                break;
+                            case "trainer":
+                                u.permissions = TrainerPermissions;
+                                break;
+                            default:
+                                u.permissions = CoachPermissions;
+                                break;
+                        }
+                    }
+                    return u;
+                });
+                setAllUsers(tempUsers);
+            }
+        });
+    };
+
+    const onTeamChange = (event: React.ChangeEvent<{ value: string[] }>, user: User) => {
+        let teamsMap = new Map();
+        props.teams.forEach(t => teamsMap.set(t.name + " - " + t.season, t.id));
+
+        changeTeamsForUser(
+            user.cwl,
+            event.target.value.filter(t => !!t).map(t => teamsMap.get(t))
+        ).then((teams: string[] | null) => {
+            if (!!teams) {
+                let tempUsers = allUsers;
+                tempUsers = tempUsers.map(u => {
+                    if (user.cwl == u.cwl) u.teams = teams;
+                    return u;
+                });
+                setAllUsers(tempUsers);
+            }
+        });
+    };
+
+    const onDeleteUser = (user: User) => {
+        deleteUser(user.cwl).then((cwl: string) => {
+            if (!!cwl) {
+                let tempUsers = allUsers;
+                let deleteIndex = null;
+                for (let i = 0; i < tempUsers.length; i++) {
+                    if (tempUsers[i].cwl == cwl) deleteIndex = i;
+                }
+                if (!!deleteIndex) tempUsers.splice(deleteIndex);
+                setAllUsers(tempUsers);
+            }
+        });
+    };
+
+    const getUserTeamNames = (teams: string[]) => {
+        let teamMap = new Map();
+        props.teams.forEach(t => teamMap.set(t.id, t.name + " - " + t.season));
+        return teams.map(t => teamMap.get(t));
     };
 
     return (
         <div className={classes.root}>
-            <TextField
-                label="Search User..."
-                variant="outlined"
-                fullWidth
-                value={autocompleteVal}
-                onChange={handleAutocompleteChange}
-                className={classes.searchBar}
-            />
+            <div className={classes.searchBarContainer}>
+                <TextField
+                    label="Search User..."
+                    variant="outlined"
+                    fullWidth
+                    value={autocompleteVal}
+                    onChange={handleAutocompleteChange}
+                    className={classes.searchBar}
+                />
+                <Tooltip title="Add User">
+                    <IconButton
+                        onClick={() => setOpenAddUser(true)}
+                        style={{
+                            marginLeft: "8px",
+                            marginBottom: "16px",
+                            height: "60px",
+                            width: "60px"
+                        }}
+                    >
+                        <AddIcon />
+                    </IconButton>
+                </Tooltip>
+                <AddUserDialog
+                    open={openAddUser}
+                    setOpen={setOpenAddUser}
+                    allUsers={allUsers}
+                    setAllUsers={setAllUsers}
+                />
+            </div>
             {isFetching ? (
                 <FetchingScreen />
             ) : (
@@ -136,21 +203,61 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>
-                                        <b>Name</b>
+                                        <b>CWL / Name</b>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <b>Teams</b>
                                     </TableCell>
                                     <TableCell align="right">
                                         <b>Role</b>
                                     </TableCell>
+                                    <TableCell align="right" style={{ width: "75px" }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {users.map(row => (
-                                    <TableRow
-                                        className={classes.tableRow}
-                                        key={row.athleteProfile.id}
-                                    >
+                                    <TableRow className={classes.tableRow} key={row.cwl}>
                                         <TableCell component="th" scope="row">
-                                            {row.athleteProfile.name}
+                                            {row.cwl + " / " + row.firstName + " " + row.lastName}
+                                        </TableCell>
+                                        <TableCell align="right" style={{ padding: "0px" }}>
+                                            <FormControl
+                                                variant="outlined"
+                                                style={{
+                                                    width: "300px",
+                                                    textAlign: "left"
+                                                }}
+                                            >
+                                                <Select
+                                                    id="team-chips"
+                                                    multiple
+                                                    value={getUserTeamNames(row.teams)}
+                                                    onChange={(
+                                                        evt: React.ChangeEvent<{ value: string[] }>
+                                                    ) => onTeamChange(evt, row)}
+                                                    input={<Input id="select-multiple-chip" />}
+                                                    renderValue={selected => (
+                                                        <div className={classes.chips}>
+                                                            {(selected as string[]).map(value => (
+                                                                <Chip
+                                                                    key={value}
+                                                                    label={value}
+                                                                    className={classes.chip}
+                                                                />
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                >
+                                                    {props.teams.map(team => (
+                                                        <MenuItem
+                                                            key={team.id}
+                                                            value={team.name + " - " + team.season}
+                                                        >
+                                                            {team.name + " - " + team.season}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
                                         </TableCell>
                                         <TableCell align="right" style={{ padding: "0px" }}>
                                             <FormControl
@@ -161,18 +268,19 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                                 }}
                                             >
                                                 <Select
-                                                    id={row.athleteProfile.name}
+                                                    id={row.firstName + " " + row.lastName}
                                                     value={row.permissions.label}
                                                     classes={{
                                                         selectMenu: classes.dropdownMenu
                                                     }}
-                                                    onChange={onSelectChange}
+                                                    onChange={(
+                                                        evt: React.ChangeEvent<{ value: string }>
+                                                    ) => onSelectChange(evt, row)}
                                                 >
                                                     {[
                                                         AdminPermissions,
                                                         TrainerPermissions,
-                                                        CoachPermissions,
-                                                        AthletePermissions
+                                                        CoachPermissions
                                                     ].map((perm: UserPermissions, i: number) => (
                                                         <MenuItem key={i} value={perm.label}>
                                                             {perm.label}
@@ -180,6 +288,16 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                                     ))}
                                                 </Select>
                                             </FormControl>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <Tooltip title="Delete User">
+                                                <IconButton
+                                                    style={{ color: "#a83232" }}
+                                                    onClick={() => onDeleteUser(row)}
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Tooltip>
                                         </TableCell>
                                     </TableRow>
                                 ))}

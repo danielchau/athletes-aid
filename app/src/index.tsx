@@ -12,8 +12,7 @@ import { connect } from "react-redux";
 import { Team, User } from "./util/types";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
-import { setCurrentUser } from "./actions/UserAction";
-import { mockUser } from "./util/mockData";
+import { setCurrentUser, getUser, setIsAuthenticating } from "./actions/UserAction";
 // @ts-ignore
 import Login from "./util/CWLLogin.png";
 // @ts-ignore
@@ -24,11 +23,12 @@ interface AppProps {
     getTeams: (id: string) => void;
     setTeam: (team: Team) => void;
     setCurrentUser: (user: User) => void;
+    isAuthenticating: boolean;
+    setIsAuthenticating: (state: boolean) => void;
 }
 
 interface AppStates {
     isLoading: boolean;
-    isAuthenticating: boolean;
 }
 
 /**
@@ -38,7 +38,20 @@ interface AppStates {
 class App extends React.Component<AppProps, AppStates> {
     constructor(props: AppProps) {
         super(props);
-        this.state = { isLoading: false, isAuthenticating: true };
+        this.state = { isLoading: false };
+    }
+
+    componentDidMount() {
+        getUser().then((user: User | null) => {
+            if (!!user) {
+                this.props.getTeams("");
+                this.props.setCurrentUser(user);
+                this.setState({ isLoading: true });
+                this.props.setIsAuthenticating(false);
+            } else {
+                window.location.replace(window.location.href + "/login");
+            }
+        });
     }
 
     shouldComponentUpdate(nextProps: AppProps, nextState: AppStates) {
@@ -61,13 +74,20 @@ class App extends React.Component<AppProps, AppStates> {
     }
 
     onLoginPress() {
-        this.props.getTeams("");
-        this.props.setCurrentUser(mockUser);
-        this.setState({ isLoading: true, isAuthenticating: false });
+        getUser().then((user: User | null) => {
+            if (!!user) {
+                this.props.getTeams("");
+                this.props.setCurrentUser(user);
+                this.setState({ isLoading: true });
+                this.props.setIsAuthenticating(false);
+            } else {
+                window.location.replace(window.location.href + "/login");
+            }
+        });
     }
 
     render() {
-        if (this.state.isLoading || this.state.isAuthenticating) {
+        if (this.state.isLoading || this.props.isAuthenticating) {
             return (
                 <div
                     style={{
@@ -85,15 +105,7 @@ class App extends React.Component<AppProps, AppStates> {
                         src="https://s3.amazonaws.com/streamlineathletes.com/assets/programs/22/university-british-columbia_track-field_thunderbirds_logo.png"
                     />
                     <img style={{ width: "300px", paddingBottom: "16px" }} src={Logo} />
-                    {this.state.isAuthenticating ? (
-                        <img
-                            style={{ cursor: "pointer" }}
-                            src={Login}
-                            onClick={this.onLoginPress.bind(this)}
-                        />
-                    ) : (
-                        <CircularProgress size={40} color={"secondary"} />
-                    )}
+                    <CircularProgress size={40} color={"secondary"} />
                 </div>
             );
         }
@@ -108,13 +120,15 @@ class App extends React.Component<AppProps, AppStates> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    teams: state.teamsReducer
+    teams: state.teamsReducer,
+    isAuthenticating: state.isAuthenticatingReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     getTeams: (id: string) => dispatch(fetchTeams(id)),
     setTeam: (team: Team) => dispatch(setSelectedTeam(team)),
-    setCurrentUser: (user: User) => dispatch(setCurrentUser(user))
+    setCurrentUser: (user: User) => dispatch(setCurrentUser(user)),
+    setIsAuthenticating: (state: boolean) => dispatch(setIsAuthenticating(state))
 });
 
 const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);

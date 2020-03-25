@@ -5,7 +5,6 @@ import { NavigationPanelStates, Team, User, Athlete } from "../util/types";
 import { pageStyles } from "../styles/react/PageStyle";
 import { Switch, Route, RouteComponentProps } from "react-router-dom";
 import {
-    myProfilePath,
     rosterPath,
     injuryLoggingPath,
     injuriesPath,
@@ -33,6 +32,7 @@ interface PageProps {
     currentUser: User;
     currentRoster: Athlete[];
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
+    setIsAuthenticating: (state: boolean) => void;
 }
 
 /**
@@ -69,14 +69,9 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     match={props.match}
                     teams={props.teams}
                     currentUser={props.currentUser}
+                    setIsAuthenticating={props.setIsAuthenticating}
                 />
                 <Switch>
-                    <Route path={myProfilePath}>
-                        <ProfilePageContainer
-                            currentAthlete={props.currentUser.athleteProfile}
-                            canEdit={true}
-                        ></ProfilePageContainer>
-                    </Route>
                     {props.currentUser.permissions.pages.roster && (
                         <Route path={rosterPath}>
                             <RosterPageContainer></RosterPageContainer>

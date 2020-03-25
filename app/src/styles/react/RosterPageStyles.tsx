@@ -12,7 +12,8 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
+            overflow: "auto"
         },
         tableContainer: {
             width: "100%",
@@ -21,8 +22,14 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
             padding: "16px",
             backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
-        searchBar: {
+        searchBarContainer: {
+            display: "flex",
+            flexDirection: "row",
             width: "100%",
+            maxWidth: "1000px"
+        },
+        searchBar: {
+            flexGrow: 1,
             maxWidth: "1000px",
             marginBottom: "16px"
         },
@@ -34,7 +41,8 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
             height: "100%"
         },
         tableBody: {
-            tableLayout: "fixed"
+            tableLayout: "fixed",
+            minWidth: "750px"
         },
         tableRow: {
             cursor: "pointer",
@@ -42,6 +50,14 @@ export const rosterPageStyles = makeStyles((theme: Theme) =>
         },
         dropdownMenu: {
             padding: "10px"
+        },
+        chips: {
+            display: "flex",
+            flexWrap: "wrap",
+            overflow: "auto"
+        },
+        chip: {
+            margin: 2
         }
     })
 );

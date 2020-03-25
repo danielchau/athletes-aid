@@ -27,8 +27,10 @@ export async function getInjuriesByRange(
   endDate: string,
   teamId: string
 ): Promise<Array<Injury>> {
-  let startTime = new Date(startDate).getTime() / 1000;
-  let endTime = new Date(endDate).getTime() / 1000;
+  let start = new Date(startDate);
+  let end = new Date(endDate);
+  let startTime = start.getTime() / 1000;
+  let endTime = end.getTime() / 1000;
 
   let injuries = new Array<Injury>();
 
@@ -136,15 +138,13 @@ export async function getInjury(injuryId: string): Promise<Injury> {
 /**
  * Updates an injury
  *
- * @param {Injury} injury The id of the injury 
+ * @param {Injury} injury The id of the injury
  * @return {Injury} the updated injury
  */
-export async function updateInjury(
-  injury: Injury,
-): Promise<Injury> {
-    return mapper.update(injury).then(data => {
-      return data;
-    });
+export async function updateInjury(injury: Injury): Promise<Injury> {
+  return mapper.update(injury).then(data => {
+    return data;
+  });
 }
 
 /**

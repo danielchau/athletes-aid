@@ -72,19 +72,20 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
      * @param athlete: AthletProfile that contains necessary information to create entry in db.
      */
     const addAthlete = (athlete: AthleteProfile) => {
-        addAthleteToDb(athlete, props.currentUser.athleteProfile.name).then(
-            (athleteId: string | null) => {
-                if (athleteId != null) {
-                    props.setAllAthletes(
-                        props.allAthletes.concat({
-                            id: athleteId,
-                            name: athlete.name,
-                            birthdate: athlete.birthdate
-                        })
-                    );
-                }
+        addAthleteToDb(
+            athlete,
+            props.currentUser.firstName + " " + props.currentUser.lastName
+        ).then((athleteId: string | null) => {
+            if (athleteId != null) {
+                props.setAllAthletes(
+                    props.allAthletes.concat({
+                        id: athleteId,
+                        name: athlete.name,
+                        birthdate: athlete.birthdate
+                    })
+                );
             }
-        );
+        });
     };
 
     return (

@@ -12,6 +12,7 @@ export const GET_TEAMS = "GET_TEAMS";
 export const GET_ATHLETE_INJURIES = "GET_ATHLETE_INJURIES";
 export const SET_STARTING_DATE = "SET_STARTING_DATE";
 export const SET_ENDING_DATE = "SET_ENDING_DATE";
+export const SET_IS_AUTHENTICATING = "SET_IS_AUTHENTICATING";
 
 export enum NavigationPanelStates {
     open,
@@ -21,6 +22,12 @@ export enum NavigationPanelStates {
 /**
  * Interfaces for Redux Reducers.
  */
+
+export type IsAuthenticatingTypes = SetIsAthenticatingAction;
+interface SetIsAthenticatingAction {
+    type: typeof SET_IS_AUTHENTICATING;
+    isAuthenticating: boolean;
+}
 
 export type NavigationPanelTypes = ToggleNavAction;
 interface ToggleNavAction {
@@ -130,7 +137,10 @@ export interface ListAthlete {
  * Represents the user logged into the application.
  */
 export interface User {
-    athleteProfile: AthleteProfile;
+    cwl: string;
+    firstName: string;
+    lastName: string;
+    teams: string[];
     permissions: UserPermissions;
 }
 

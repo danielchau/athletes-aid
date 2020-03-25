@@ -18,17 +18,16 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStation";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import clsx from "clsx";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
 import { NavigationPanelStates, Team, User } from "../util/types";
 import {
-    profilePageName,
     rosterPageName,
     injuryLoggingPageName,
     injuriesPageName,
     rosterManagementPageName,
-    myProfilePath,
     rosterPath,
     injuryLoggingPath,
     injuriesPath,
@@ -46,6 +45,7 @@ interface NavigationPanelProps {
     setSelectedTeam: any;
     teams: Team[];
     currentUser: User;
+    setIsAuthenticating: (state: boolean) => void;
 }
 
 /**
@@ -82,6 +82,10 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
         }
     };
 
+    const onLogout = () => {
+        window.location.replace(window.location.href.split("/")[0] + "/logout");
+    };
+
     return (
         <Drawer
             variant={isWidthDown("xs", props.width) ? "temporary" : "permanent"}
@@ -111,29 +115,25 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
                 <div className={classes.roleContainer}>
                     <AccessibilityNewIcon className={classes.itemIcon} />
                     <div className={classes.labelContainer}>
-                        <Typography className={classes.primaryLabel}>Profile Type</Typography>
+                        <Typography className={classes.primaryLabel}>
+                            {props.currentUser.firstName + " " + props.currentUser.lastName}
+                        </Typography>
+                        <Typography
+                            className={classes.secondaryLabel}
+                            style={{ paddingBottom: "8px" }}
+                        >
+                            {props.currentUser.cwl}
+                        </Typography>
+                        <Divider light></Divider>
+                        <Typography className={classes.primaryLabel} style={{ paddingTop: "8px" }}>
+                            Profile Type
+                        </Typography>
                         <Typography className={classes.secondaryLabel}>
                             {props.currentUser.permissions.label}
                         </Typography>
                     </div>
                 </div>
                 <Divider light></Divider>
-                <Link className={classes.link} to={myProfilePath}>
-                    <ListItem
-                        button
-                        key={profilePageName}
-                        selected={props.location.pathname == myProfilePath}
-                        onClick={handleListClick}
-                    >
-                        <ListItemIcon className={classes.itemIcon}>
-                            <PersonIcon></PersonIcon>
-                        </ListItemIcon>
-                        <ListItemText
-                            className={classes.drawerListItemText}
-                            primary={profilePageName}
-                        />
-                    </ListItem>
-                </Link>
                 {props.currentUser.permissions.pages.roster && (
                     <Link className={classes.link} to={rosterPath}>
                         <ListItem
@@ -277,6 +277,21 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
                         ))}
                     </Menu>
                 </ListItem>
+                <Divider light></Divider>
+                <div
+                    className={classes.roleContainer}
+                    style={{ cursor: "pointer" }}
+                    onClick={onLogout}
+                >
+                    <ExitToAppIcon style={{ marginTop: "8px" }} className={classes.itemIcon} />
+                    <div className={classes.labelContainer}>
+                        <Typography className={classes.primaryLabel}>Sign Out</Typography>
+                        <Typography className={classes.secondaryLabel}>
+                            Click to exit Athlete's Aid
+                        </Typography>
+                    </div>
+                </div>
+                <Divider light></Divider>
             </List>
         </Drawer>
     );

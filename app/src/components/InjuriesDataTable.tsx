@@ -19,7 +19,7 @@ import {
     injuriesDataTableStyles
 } from "../styles/react/InjuriesDataTableStyles";
 import { Injury, AthleteInjuries, Team, User, Athlete, Order } from "../util/types";
-import { headCells, severityDescriptions } from "../constants/constants";
+import { headCells } from "../constants/constants";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import { Button, Tooltip } from "@material-ui/core";
 
@@ -308,12 +308,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                                 {row.locationOnBody}
                                             </TableCell>
                                             <TableCell align="right">{row.injuryType}</TableCell>
-                                            <Tooltip
-                                                title={severityDescriptions[row.severity]}
-                                                placement="bottom-end"
-                                            >
-                                                <TableCell align="right">{row.severity}</TableCell>
-                                            </Tooltip>
+                                            <TableCell align="right">{row.severity}</TableCell>
                                             <TableCell align="right" style={{ display: "flex" }}>
                                                 {row.status}{" "}
                                                 <div
