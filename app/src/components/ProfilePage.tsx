@@ -33,6 +33,7 @@ import { addFileToAthlete, fetchAthleteFile, deleteAthleteFile } from "../action
 import HelpIcon from "@material-ui/icons/Help";
 import { profilePageName } from "../constants/constants";
 import HelpDialog from "./HelpDialog";
+import ErrorDialog from "./ErrorDialog";
 
 interface ProfilePageProps {
     state: NavigationPanelStates;
@@ -59,6 +60,7 @@ export default function ProfilePage(props: ProfilePageProps) {
     const [files, setFiles] = React.useState<string[]>(props.currentAthlete.files);
     const [isLoadingFiles, setIsLoadingFiles] = React.useState<boolean>(false);
     const [open, setOpen] = React.useState(false);
+    const [openError, setOpenError] = React.useState(false);
 
     const handleInjuryOpen = () => {
         setInjuryOpen(true);
@@ -81,12 +83,14 @@ export default function ProfilePage(props: ProfilePageProps) {
             setIsLoadingFiles(true);
             file.append("fileUpload", event.target.files[0]);
             file.append("userId", props.currentAthlete.id);
-            addFileToAthlete(file).then((f: string) => {
+            addFileToAthlete(file).then((f: string | null) => {
                 if (!!f) {
                     let tempFiles = files.slice();
                     tempFiles.push(f.split("/")[1]);
                     setFiles(tempFiles);
                     setIsLoadingFiles(false);
+                } else {
+                    setOpenError(true);
                 }
             });
         }
@@ -99,6 +103,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                 [classes.drawerClosed]: !(props.state === NavigationPanelStates.open)
             })}
         >
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             <Tooltip title="Help">
                 <IconButton
                     style={{ position: "absolute", top: "68px", right: "4px" }}
@@ -163,6 +168,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                                     files={files}
                                     setFiles={setFiles}
                                     canEdit={props.currentUser.permissions.canEditOtherProfiles}
+                                    setOpenError={setOpenError}
                                 />
                             ))}
                             {props.currentUser.permissions.canEditOtherProfiles && (
@@ -229,6 +235,7 @@ interface FileProps {
     files: string[];
     setFiles: any;
     canEdit: boolean;
+    setOpenError: any;
 }
 
 function File(props: FileProps) {
@@ -264,6 +271,8 @@ function File(props: FileProps) {
                                 let tempFiles = props.files.slice();
                                 tempFiles.splice(props.files.indexOf(props.file), 1);
                                 props.setFiles(tempFiles);
+                            } else {
+                                props.setOpenError(true);
                             }
                         });
                     }}

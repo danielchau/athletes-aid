@@ -13,6 +13,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import { addAthleteToDb } from "../actions/AthleteAction";
+import ErrorDialog from "./ErrorDialog";
 
 interface AddAthleteTableProps {
     athletes: AthleteProfile[];
@@ -30,6 +31,7 @@ interface AddAthleteTableProps {
  */
 export default function AddAthleteTable(props: AddAthleteTableProps) {
     const classes = addAthleteTableStyles({});
+    const [openError, setOpenError] = React.useState(false);
 
     /**
      * Determines if the player exists on the team or the database and renders an appropriate icon
@@ -84,12 +86,15 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
                         birthdate: athlete.birthdate
                     })
                 );
+            } else {
+                setOpenError(true);
             }
         });
     };
 
     return (
         <div className={classes.root}>
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             <Paper className={classes.tableContainer}>
                 <div className={classes.tableBodyContainer}>
                     <Table stickyHeader className={classes.tableBody}>
