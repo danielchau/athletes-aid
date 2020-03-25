@@ -218,3 +218,9 @@ function getTotalPlayersOut(injuries: Injury[]): number {
         }
     }).length;
 }
+
+module.exports = {
+    "InjuriesPage": InjuriesPage,
+    "getAverageSeverity": getAverageSeverity,
+    "getTotalPlayersOut": getTotalPlayersOut
+}

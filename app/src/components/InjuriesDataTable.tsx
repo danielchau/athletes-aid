@@ -449,3 +449,10 @@ function getSorting<K extends keyof any>(
 ): (a: Injury, b: Injury) => number {
     return order === "desc" ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
+
+module.exports = {
+    "InjuriesDataTable": InjuriesDataTable,
+    "desc": desc,
+    "stableSort": stableSort,
+    "getSorting": getSorting
+}
