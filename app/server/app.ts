@@ -5,7 +5,6 @@ import * as multer from "multer";
 import passport from "passport";
 import * as saml from "passport-saml";
 import * as fs from "fs";
-import cookieParser from "cookie-parser";
 import session from "express-session";
 import * as userModel from "./models/user";
 import { User } from "./models/schema/User";
@@ -106,10 +105,6 @@ function ensureAuthenticated(
   else return res.redirect("/login");
 }
 
-app.get("/", ensureAuthenticated, function(_req, res) {
-  res.send("Authenticated");
-});
-
 app.get(
   "/login",
   passport.authenticate("saml", { failureRedirect: "/login/fail" }),
@@ -125,14 +120,6 @@ app.post(
     res.redirect("/");
   }
 );
-
-app.get("/profile", ensureAuthenticated, function(req, res) {
-  console.log("Profile Endpoint\n\n\n\n");
-  console.log(req.user);
-  console.log("Session\n\n\n\n");
-  console.log(req.session);
-  res.status(200);
-});
 
 app.get("/login/fail", function(_req, res) {
   console.log("Login failed");
