@@ -215,7 +215,12 @@ app.post(
   checkIsInRole(ROLES.Admin),
   userController.postUserTeams
 );
-app.get("/user", ensureAuthenticated, checkIsInRole( ROLES.Admin, ROLES.Trainer, ROLES.Coach), userController.getUser);
+app.get(
+  "/user",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer, ROLES.Coach),
+  userController.getUser
+);
 app.get(
   "/users",
   ensureAuthenticated,
