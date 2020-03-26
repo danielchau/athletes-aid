@@ -139,12 +139,19 @@ export default function InjuriesPage(props: InjuriesProps) {
                                     onChange={onChangeEndingDate}
                                 />
                             </MuiPickersUtilsProvider>
-                            <Tooltip title="Search athletes in time range">
+                            <Tooltip
+                                title={
+                                    props.startingDate <= props.endingDate
+                                        ? "Search athletes in time range"
+                                        : "Starting date must be before ending date"
+                                }
+                            >
                                 <Button
                                     variant="outlined"
                                     aria-label="go"
                                     className={classes.dateTimeButton}
                                     onClick={onInjuriesDateChange}
+                                    disabled={props.startingDate > props.endingDate}
                                 >
                                     Get Injuries
                                     <ArrowForwardIosIcon style={{ paddingLeft: "4px" }} />

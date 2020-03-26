@@ -36,6 +36,7 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import AddUserDialog from "./AddUserDialog";
+import ErrorDialog from "./ErrorDialog";
 
 interface UserManagementPageProps {
     currentUser: User;
@@ -56,12 +57,17 @@ export default function UserManagementPage(props: UserManagementPageProps) {
     const [allUsers, setAllUsers] = React.useState<User[]>([]);
     const [open, setOpen] = React.useState(false);
     const [openAddUser, setOpenAddUser] = React.useState(false);
+    const [openError, setOpenError] = React.useState(false);
 
     React.useEffect(() => {
         if (isFirstRender) {
-            getAllUsers().then((users: User[]) => {
-                setAllUsers(users);
-                setUsers(users);
+            getAllUsers().then((users: User[] | null) => {
+                if (!!users) {
+                    setAllUsers(users);
+                    setUsers(users);
+                } else {
+                    setOpenError(true);
+                }
                 setIsFirstRender(false);
                 setIsFetching(false);
             });
@@ -111,6 +117,8 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                     return u;
                 });
                 setAllUsers(tempUsers);
+            } else {
+                setOpenError(true);
             }
         });
     };
@@ -130,6 +138,8 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                     return u;
                 });
                 setAllUsers(tempUsers);
+            } else {
+                setOpenError(true);
             }
         });
     };
@@ -144,6 +154,8 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                 }
                 if (!!deleteIndex) tempUsers.splice(deleteIndex);
                 setAllUsers(tempUsers);
+            } else {
+                setOpenError(true);
             }
         });
     };
@@ -156,6 +168,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
 
     return (
         <div className={classes.root}>
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             <div className={classes.searchBarContainer}>
                 <TextField
                     label="Search User..."
@@ -183,6 +196,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                     setOpen={setOpenAddUser}
                     allUsers={allUsers}
                     setAllUsers={setAllUsers}
+                    setOpenError={setOpenError}
                 />
             </div>
             {isFetching ? (

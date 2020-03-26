@@ -21,6 +21,7 @@ import { Injury, InjuryNote, AthleteInjuries, Team, User, Athlete } from "../uti
 import SendIcon from "@material-ui/icons/Send";
 import { TextField, Switch, Tabs, Tab } from "@material-ui/core";
 import { postInjuryNote, setInjuryStatus } from "../actions/InjuriesAction";
+import ErrorDialog from "./ErrorDialog";
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
@@ -52,6 +53,7 @@ export default function InjuryDialog(props: InjuryDialogProps) {
     const handleTabChange = (_: React.ChangeEvent, newValue: any) => {
         setTab(newValue);
     };
+    const [openError, setOpenError] = React.useState(false);
 
     React.useEffect(() => {
         setInjury(props.injury);
@@ -76,28 +78,41 @@ export default function InjuryDialog(props: InjuryDialogProps) {
                 newNote,
                 props.currentUser.firstName + " " + props.currentUser.lastName,
                 tab == 1
-            ).then(injury => {
-                props.getAthleteInjuries(
-                    props.startingDate,
-                    props.endingDate,
-                    props.selectedTeam.id
-                );
-                setInjury(injury);
+            ).then((injury: Injury | null) => {
+                if (!!injury) {
+                    props.getAthleteInjuries(
+                        props.startingDate,
+                        props.endingDate,
+                        props.selectedTeam.id
+                    );
+                    setInjury(injury);
+                } else {
+                    setOpenError(true);
+                }
                 setNewNote("");
             });
         }
     };
 
     const onActiveSwitch = () => {
-        setInjuryStatus(props.injury.id, !injury.active).then(injury => {
-            props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.id);
-            setInjury(injury);
-            props.getCurrentRoster(props.selectedTeam.athleteIds);
+        setInjuryStatus(props.injury.id, !injury.active).then((injury: Injury | null) => {
+            if (!!injury) {
+                props.getAthleteInjuries(
+                    props.startingDate,
+                    props.endingDate,
+                    props.selectedTeam.id
+                );
+                setInjury(injury);
+                props.getCurrentRoster(props.selectedTeam.athleteIds);
+            } else {
+                setOpenError(true);
+            }
         });
     };
 
     return (
         <div>
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             <Dialog
                 classes={{ paper: classes.dialogPaper }}
                 BackdropProps={{

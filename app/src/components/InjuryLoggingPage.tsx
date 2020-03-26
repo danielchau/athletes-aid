@@ -15,6 +15,7 @@ import { Team, Injury, User, Athlete } from "../util/types";
 import { postInjury, postInjuryNote, updateInjury } from "../actions/InjuriesAction";
 import FetchingScreen from "./FetchingScreen";
 import { bodyLocations, injuryTypes } from "../constants/constants";
+import ErrorDialog from "./ErrorDialog";
 
 function getSteps() {
     return ["Injury Details", "Further Details", "Review"];
@@ -99,6 +100,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const [hasError, setHasError] = React.useState<boolean>(false);
 
     const [isFetching, setIsFetching] = React.useState<boolean>(true);
+    const [openError, setOpenError] = React.useState(false);
 
     React.useEffect(() => {
         if (!!props.currentRoster) {
@@ -156,89 +158,99 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                 setIsLogging(true);
                 updateInjury(transformToAthleteInfo()).then((injury: Injury | null) => {
                     setIsLogging(false);
-                    let updates = "";
-                    if (props.existingInjury.injuryDate.getDate() != injury.injuryDate.getDate()) {
-                        updates +=
-                            "Injury Date: " +
-                            props.existingInjury.injuryDate.getDate() +
-                            " → " +
-                            injury.injuryDate.getDate() +
-                            "\n";
-                    }
-                    if (props.existingInjury.isSportsRelated != injury.isSportsRelated) {
-                        updates +=
-                            "Is Sports Related: " +
-                            props.existingInjury.isSportsRelated +
-                            " → " +
-                            injury.isSportsRelated +
-                            "\n";
-                    }
-                    if (props.existingInjury.eventType != injury.eventType) {
-                        updates +=
-                            "Event Type: " +
-                            props.existingInjury.eventType +
-                            " → " +
-                            injury.eventType +
-                            "\n";
-                    }
-                    if (props.existingInjury.sideOfBody != injury.sideOfBody) {
-                        updates +=
-                            "Side of Body: " +
-                            props.existingInjury.sideOfBody +
-                            " → " +
-                            injury.sideOfBody +
-                            "\n";
-                    }
-                    if (props.existingInjury.locationOnBody != injury.locationOnBody) {
-                        updates +=
-                            "Location on Body: " +
-                            props.existingInjury.locationOnBody +
-                            " → " +
-                            injury.locationOnBody +
-                            "\n";
-                    }
-                    if (props.existingInjury.injuryType != injury.injuryType) {
-                        updates +=
-                            "Injury Type: " +
-                            props.existingInjury.injuryType +
-                            " → " +
-                            injury.injuryType +
-                            "\n";
-                    }
-                    if (props.existingInjury.severity != injury.severity) {
-                        updates +=
-                            "Severity: " +
-                            props.existingInjury.severity +
-                            " → " +
-                            injury.severity +
-                            "\n";
-                    }
-                    if (props.existingInjury.status != injury.status) {
-                        updates +=
-                            "Status: " + props.existingInjury.status + " → " + injury.status + "\n";
-                    }
-                    if (props.existingInjury.mechanism != injury.mechanism) {
-                        updates +=
-                            "Mechanism: " +
-                            props.existingInjury.mechanism +
-                            " → " +
-                            injury.mechanism +
-                            "\n";
-                    }
-                    if (props.existingInjury.injuryDescription != injury.injuryDescription) {
-                        updates +=
-                            "Description: " +
-                            props.existingInjury.injuryDescription +
-                            " → " +
-                            injury.injuryDescription +
-                            "\n";
-                    }
-                    if (updates != "") {
-                        postInjuryNote(injury.id, updates, "Update", false).then(inj => {
-                            props.callbackUponFinishing(inj);
-                        });
+                    if (!!injury) {
+                        let updates = "";
+                        if (
+                            props.existingInjury.injuryDate.getDate() != injury.injuryDate.getDate()
+                        ) {
+                            updates +=
+                                "Injury Date: " +
+                                props.existingInjury.injuryDate.getDate() +
+                                " → " +
+                                injury.injuryDate.getDate() +
+                                "\n";
+                        }
+                        if (props.existingInjury.isSportsRelated != injury.isSportsRelated) {
+                            updates +=
+                                "Is Sports Related: " +
+                                props.existingInjury.isSportsRelated +
+                                " → " +
+                                injury.isSportsRelated +
+                                "\n";
+                        }
+                        if (props.existingInjury.eventType != injury.eventType) {
+                            updates +=
+                                "Event Type: " +
+                                props.existingInjury.eventType +
+                                " → " +
+                                injury.eventType +
+                                "\n";
+                        }
+                        if (props.existingInjury.sideOfBody != injury.sideOfBody) {
+                            updates +=
+                                "Side of Body: " +
+                                props.existingInjury.sideOfBody +
+                                " → " +
+                                injury.sideOfBody +
+                                "\n";
+                        }
+                        if (props.existingInjury.locationOnBody != injury.locationOnBody) {
+                            updates +=
+                                "Location on Body: " +
+                                props.existingInjury.locationOnBody +
+                                " → " +
+                                injury.locationOnBody +
+                                "\n";
+                        }
+                        if (props.existingInjury.injuryType != injury.injuryType) {
+                            updates +=
+                                "Injury Type: " +
+                                props.existingInjury.injuryType +
+                                " → " +
+                                injury.injuryType +
+                                "\n";
+                        }
+                        if (props.existingInjury.severity != injury.severity) {
+                            updates +=
+                                "Severity: " +
+                                props.existingInjury.severity +
+                                " → " +
+                                injury.severity +
+                                "\n";
+                        }
+                        if (props.existingInjury.status != injury.status) {
+                            updates +=
+                                "Status: " +
+                                props.existingInjury.status +
+                                " → " +
+                                injury.status +
+                                "\n";
+                        }
+                        if (props.existingInjury.mechanism != injury.mechanism) {
+                            updates +=
+                                "Mechanism: " +
+                                props.existingInjury.mechanism +
+                                " → " +
+                                injury.mechanism +
+                                "\n";
+                        }
+                        if (props.existingInjury.injuryDescription != injury.injuryDescription) {
+                            updates +=
+                                "Description: " +
+                                props.existingInjury.injuryDescription +
+                                " → " +
+                                injury.injuryDescription +
+                                "\n";
+                        }
+                        if (updates != "") {
+                            postInjuryNote(injury.id, updates, "Update", false).then(inj => {
+                                props.callbackUponFinishing(inj);
+                            });
+                        } else {
+                            props.callbackUponFinishing(injury);
+                        }
                     } else {
-                        props.callbackUponFinishing(injury);
+                        setOpenError(true);
                     }
                 });
             } else {
@@ -250,9 +262,15 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                             otherNotes,
                             props.currentUser.firstName + " " + props.currentUser.lastName,
                             false
-                        ).then(_ => {
-                            props.getTeams("");
+                        ).then((injury: Injury | null) => {
+                            if (!!injury) {
+                                props.getTeams("");
+                            } else {
+                                setOpenError(true);
+                            }
                         });
+                    } else {
+                        setOpenError(true);
                     }
 
                     setIsLogging(false);
@@ -306,6 +324,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
 
     return (
         <div className={classes.root}>
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             {isFetching || !!!props.currentRoster ? (
                 <FetchingScreen />
             ) : (

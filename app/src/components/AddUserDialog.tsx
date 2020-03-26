@@ -21,6 +21,7 @@ interface AddUserDialogProps {
     setOpen: any;
     allUsers: User[];
     setAllUsers: any;
+    setOpenError: any;
 }
 
 export default function AddUserDialog(props: AddUserDialogProps) {
@@ -65,6 +66,8 @@ export default function AddUserDialog(props: AddUserDialogProps) {
                 setCwl("");
                 setRole("");
                 props.setOpen(false);
+            } else {
+                props.setOpenError(true);
             }
         });
     };

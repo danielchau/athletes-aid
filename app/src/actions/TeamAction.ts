@@ -94,7 +94,7 @@ async function fetchCreateTeam(name: string, season: string) {
                 return null;
             } else {
                 console.log(response);
-                return null;
+                return response;
             }
         })
         .catch(function(err: Error) {
@@ -126,7 +126,7 @@ async function fetchUpdateTeamInfo(id: string, name: string, season: string) {
                 return null;
             } else {
                 console.log(response);
-                return null;
+                return response;
             }
         })
         .catch(function(err: Error) {

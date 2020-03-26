@@ -40,6 +40,7 @@ import { Grid, Tooltip } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
 import { rosterManagementPageName } from "../constants/constants";
 import HelpDialog from "./HelpDialog";
+import ErrorDialog from "./ErrorDialog";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
@@ -72,6 +73,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const [isRosterFetching, setIsRosterFetching] = React.useState<boolean>(false);
     const [isCreatingNewTeam, setIsCreatingNewTeam] = React.useState<boolean>(false);
     const [open, setOpen] = React.useState(false);
+    const [openError, setOpenError] = React.useState(false);
 
     /**
      * Get all athletes in the database so that admin knows who they can add individually.
@@ -80,6 +82,8 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         getAllAthletes("").then((response: ListAthlete[] | null) => {
             if (!!response) {
                 setAllAthletes(response);
+            } else {
+                setOpenError(true);
             }
         });
     }, []);
@@ -216,8 +220,12 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
             .map(a => a.id);
         setIsFetching("delete");
         setExistingAthletesChecked(new Set());
-        updateTeamAthletes(selectedTeam.id, athleteIds).then(_ => {
-            props.getTeams("");
+        updateTeamAthletes(selectedTeam.id, athleteIds).then((response: any) => {
+            if (!!response) {
+                props.getTeams("");
+            } else {
+                setOpenError(true);
+            }
         });
     };
 
@@ -244,8 +252,12 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         athleteIds = Array.from(rosterAthleteSet).concat(athleteIds);
         setIsFetching("add");
         setNewAthletesChecked(new Set());
-        updateTeamAthletes(selectedTeam.id, athleteIds).then(_ => {
-            props.getTeams("");
+        updateTeamAthletes(selectedTeam.id, athleteIds).then((response: any) => {
+            if (!!response) {
+                props.getTeams("");
+            } else {
+                setOpenError(true);
+            }
         });
     };
 
@@ -255,14 +267,22 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const handleSave = () => {
         setIsFetching("teamUpdate");
         if (!!selectedTeam) {
-            updateTeamInfo(selectedTeam.id, teamName, season).then(_ => {
-                props.getTeams("");
+            updateTeamInfo(selectedTeam.id, teamName, season).then((response: any) => {
+                if (!!response) {
+                    props.getTeams("");
+                } else {
+                    setOpenError(true);
+                }
                 setIsFetching("");
             });
         } else {
-            createTeam(teamName, season).then(_ => {
-                props.getTeams("");
-                setIsCreatingNewTeam(true);
+            createTeam(teamName, season).then((response: any) => {
+                if (!!response) {
+                    props.getTeams("");
+                    setIsCreatingNewTeam(true);
+                } else {
+                    setOpenError(true);
+                }
                 setIsFetching("");
             });
         }
@@ -308,6 +328,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                 [classes.drawerClosed]: !(props.state === NavigationPanelStates.open)
             })}
         >
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             <Tooltip title="Help">
                 <IconButton
                     style={{ position: "absolute", top: "68px", right: "4px" }}

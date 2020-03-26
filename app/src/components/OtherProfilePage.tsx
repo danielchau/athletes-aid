@@ -5,6 +5,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { getAthlete } from "../actions/AthleteAction";
 import { otherProfilePageStyles } from "../styles/react/OtherProfilePageStyles";
 import FetchingScreen from "./FetchingScreen";
+import ErrorDialog from "./ErrorDialog";
 
 interface OtherProfilePageProps {
     selectedAthleteId: string;
@@ -20,6 +21,7 @@ export default function OtherProfilePage(props: OtherProfilePageProps) {
     const classes = otherProfilePageStyles({});
     const [isFetching, setIsFetching] = React.useState<boolean>(true);
     const [currentAthlete, setCurrentAthlete] = React.useState<AthleteProfile | null>(null);
+    const [openError, setOpenError] = React.useState(false);
 
     /**
      * Fetch the athlete profile if the id is valid.
@@ -37,6 +39,7 @@ export default function OtherProfilePage(props: OtherProfilePageProps) {
 
     return (
         <div className={classes.root}>
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             {isFetching && !!!currentAthlete ? (
                 <FetchingScreen />
             ) : (

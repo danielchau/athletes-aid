@@ -5,6 +5,7 @@ import { profilePageStyles } from "../styles/react/ProfilePageStyles";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { updateAthlete } from "../actions/AthleteAction";
+import ErrorDialog from "./ErrorDialog";
 
 interface ProfilePageInfo {
     currentAthlete: AthleteProfile;
@@ -43,6 +44,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
     const [ecPhone, setEcPhone] = React.useState<string>(
         props.currentAthlete.emergencyContact.phone
     );
+    const [openError, setOpenError] = React.useState(false);
 
     React.useEffect(() => {
         setBirthdate(props.currentAthlete.birthdate);
@@ -86,8 +88,9 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
                     injuries: props.currentAthlete.injuries
                 },
                 props.currentUser.firstName + " " + props.currentUser.lastName
-            ).then(_ => {
-                props.setIsUpdating(false);
+            ).then((response: string | null) => {
+                if (!!response) props.setIsUpdating(false);
+                else setOpenError(true);
             });
         }
         setIsInitialRender(false);
@@ -95,6 +98,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
 
     return (
         <>
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             <Typography className={classes.heading} variant="h6">
                 Basic Information
             </Typography>
