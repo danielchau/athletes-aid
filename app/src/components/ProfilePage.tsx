@@ -167,7 +167,7 @@ export default function ProfilePage(props: ProfilePageProps) {
                                     file={f}
                                     files={files}
                                     setFiles={setFiles}
-                                    canEdit={props.currentUser.permissions.canEditOtherProfiles}
+                                    canEdit={props.currentUser.permissions.canEditFiles}
                                     setOpenError={setOpenError}
                                 />
                             ))}

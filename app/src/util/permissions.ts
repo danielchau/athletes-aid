@@ -7,6 +7,7 @@ export interface UserPermissions {
     canSeeSearchBar: boolean;
     canEditOtherProfiles: boolean;
     canSeeInjuryDetails: boolean;
+    canEditFiles: boolean;
 }
 
 /**
@@ -36,7 +37,8 @@ export const AdminPermissions: UserPermissions = {
     },
     canSeeSearchBar: true,
     canEditOtherProfiles: true,
-    canSeeInjuryDetails: true
+    canSeeInjuryDetails: true,
+    canEditFiles: true
 };
 
 /**
@@ -54,7 +56,8 @@ export const TrainerPermissions: UserPermissions = {
     },
     canSeeSearchBar: true,
     canEditOtherProfiles: false,
-    canSeeInjuryDetails: true
+    canSeeInjuryDetails: true,
+    canEditFiles: true
 };
 
 /**
@@ -72,7 +75,8 @@ export const AthletePermissions: UserPermissions = {
     },
     canSeeSearchBar: false,
     canEditOtherProfiles: false,
-    canSeeInjuryDetails: true
+    canSeeInjuryDetails: true,
+    canEditFiles: false
 };
 
 /**
@@ -90,5 +94,6 @@ export const CoachPermissions: UserPermissions = {
     },
     canSeeSearchBar: true,
     canEditOtherProfiles: false,
-    canSeeInjuryDetails: false
+    canSeeInjuryDetails: false,
+    canEditFiles: false
 };
