@@ -173,7 +173,7 @@ import * as teamController from "./controllers/team";
 app.post(
   "/team",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(ROLES.Admin),
   teamController.postTeam
 );
 app.get(
@@ -185,7 +185,7 @@ app.get(
 app.put(
   "/team",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
   teamController.modifyTeam
 );
 app.delete(
@@ -300,7 +300,7 @@ app.get(
 app.put(
   "/athlete",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(ROLES.Admin),
   athleteController.putAthlete
 );
 app.get(
