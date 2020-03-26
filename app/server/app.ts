@@ -19,6 +19,12 @@ const ATHLETE_CSV = path.join(DIST_DIR, "athleteBulkTemplate.csv");
 
 //import * as userController from "./controllers/user";
 
+const ROLES = {
+  Admin: "admin",
+  Trainer: "trainer",
+  Coach: "coach"
+};
+
 var SamlStrategy: any = new saml.Strategy(
   {
     issuer: "https://athletes-aid.ca",
@@ -105,6 +111,19 @@ function ensureAuthenticated(
   else return res.redirect("/login");
 }
 
+const checkIsInRole = (...roles: string[]) => (
+  req: any,
+  res: any,
+  next: any
+) => {
+  const hasRole = roles.find(role => req.session.passport.user.role === role);
+  if (!hasRole) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  return next();
+};
+
 app.get(
   "/login",
   passport.authenticate("saml", { failureRedirect: "/login/fail" }),
@@ -151,38 +170,164 @@ app.get("/metadata", function(_req, res) {
 // Controllers (route handlers)
 import * as teamController from "./controllers/team";
 
-app.post("/team", ensureAuthenticated, teamController.postTeam);
-app.get("/team", ensureAuthenticated, teamController.getTeam);
-app.put("/team", ensureAuthenticated, teamController.modifyTeam);
-app.delete("/team", ensureAuthenticated, teamController.deleteTeam);
-app.get("/teams", ensureAuthenticated, teamController.getAllTeams);
+app.post(
+  "/team",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin),
+  teamController.postTeam
+);
+app.get(
+  "/team",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  teamController.getTeam
+);
+app.put(
+  "/team",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  teamController.modifyTeam
+);
+app.delete(
+  "/team",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin),
+  teamController.deleteTeam
+);
+app.get(
+  "/teams",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer, ROLES.Coach),
+  teamController.getAllTeams
+);
 
 import * as userController from "./controllers/user";
 
-app.post("/user", ensureAuthenticated, userController.postUser);
-app.post("/user/teams", ensureAuthenticated, userController.postUserTeams);
-app.get("/user", ensureAuthenticated, userController.getUser);
-app.get("/users", ensureAuthenticated, userController.getAllUsers);
-app.delete("/user", ensureAuthenticated, userController.deleteUser);
-app.post("/user/role", ensureAuthenticated, userController.postRole);
+app.post(
+  "/user",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin),
+  userController.postUser
+);
+app.post(
+  "/user/teams",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin),
+  userController.postUserTeams
+);
+app.get(
+  "/user",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer, ROLES.Coach),
+  userController.getUser
+);
+app.get(
+  "/users",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin),
+  userController.getAllUsers
+);
+app.delete(
+  "/user",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin),
+  userController.deleteUser
+);
+app.post(
+  "/user/role",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin),
+  userController.postRole
+);
 
 import * as injuryController from "./controllers/injury";
-app.post("/singleInjury", ensureAuthenticated, injuryController.postInjury);
-app.get("/singleInjury", ensureAuthenticated, injuryController.getInjury);
-app.post("/injuryNote", ensureAuthenticated, injuryController.postInjuryNote);
-app.post("/injurySpecialNote", ensureAuthenticated, injuryController.postInjurySpecialNote);
-app.get("/injuriesInDateRange", ensureAuthenticated, injuryController.getInjuriesByRange);
-app.post("/injuryActive", ensureAuthenticated, injuryController.setActive);
-app.put("/singleInjury", ensureAuthenticated, injuryController.updateInjury);
+app.post(
+  "/singleInjury",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  injuryController.postInjury
+);
+app.get(
+  "/singleInjury",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  injuryController.getInjury
+);
+app.post(
+  "/injuryNote",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  injuryController.postInjuryNote
+);
+app.post(
+  "/injurySpecialNote",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  injuryController.postInjurySpecialNote
+);
+app.get(
+  "/injuriesInDateRange",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  injuryController.getInjuriesByRange
+);
+app.post(
+  "/injuryActive",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  injuryController.setActive
+);
+app.put(
+  "/singleInjury",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  injuryController.updateInjury
+);
 
 import * as athleteController from "./controllers/athlete";
-app.post("/athlete", ensureAuthenticated, athleteController.postAthlete);
-app.get("/athlete", ensureAuthenticated, athleteController.getAthlete);
-app.put("/athlete", ensureAuthenticated, athleteController.putAthlete);
-app.get("/allAthletes", ensureAuthenticated, athleteController.getAllAthletes);
-app.post("/file", ensureAuthenticated, upload.single("fileUpload"), ensureAuthenticated, athleteController.postFile);
-app.get("/file", ensureAuthenticated, athleteController.getFile);
-app.delete("/file", ensureAuthenticated, athleteController.deleteFile);
+app.post(
+  "/athlete",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin),
+  athleteController.postAthlete
+);
+app.get(
+  "/athlete",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer, ROLES.Coach),
+  athleteController.getAthlete
+);
+app.put(
+  "/athlete",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin),
+  athleteController.putAthlete
+);
+app.get(
+  "/allAthletes",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin),
+  athleteController.getAllAthletes
+);
+app.post(
+  "/file",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  upload.single("fileUpload"),
+  athleteController.postFile
+);
+app.get(
+  "/file",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  athleteController.getFile
+);
+app.delete(
+  "/file",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  athleteController.deleteFile
+);
 
 // Routes
 app.get("/*", ensureAuthenticated, (_req, res) => {
