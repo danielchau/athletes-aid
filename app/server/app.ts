@@ -222,6 +222,12 @@ app.get(
   userController.getUser
 );
 app.get(
+  "/user/teams",
+  ensureAuthenticated,
+  checkIsInRole(ROLES.Admin, ROLES.Trainer, ROLES.Coach),
+  userController.getUserTeams
+);
+app.get(
   "/users",
   ensureAuthenticated,
   checkIsInRole(ROLES.Admin),
