@@ -7,7 +7,7 @@ import * as saml from "passport-saml";
 import * as fs from "fs";
 import session from "express-session";
 import * as userModel from "./models/user";
-import { User } from "./models/schema/User";
+import { User, ROLES } from "./models/schema/User";
 
 var storage = multer.memoryStorage();
 var upload = multer.default({ storage: storage });
@@ -16,14 +16,6 @@ var upload = multer.default({ storage: storage });
 const DIST_DIR = path.join(__dirname, "../dist"); // NEW
 const HTML_FILE = path.join(DIST_DIR, "index.html"); // NEW
 const ATHLETE_CSV = path.join(DIST_DIR, "athleteBulkTemplate.csv");
-
-//import * as userController from "./controllers/user";
-
-const ROLES = {
-  Admin: "admin",
-  Trainer: "trainer",
-  Coach: "coach"
-};
 
 var SamlStrategy: any = new saml.Strategy(
   {
