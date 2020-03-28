@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import { User } from "../models/schema/User";
+import { Team } from "../models/schema/Team";
 
 import { Logger } from "@overnightjs/logger";
 
+import * as teamModel from "../models/team";
 import * as userModel from "../models/user";
 
 /**
@@ -58,6 +60,44 @@ export const getUser = async (req: Request, res: Response) => {
       return res.status(500).send("Failed to get User");
     }
   };
+
+    /**
+ * Gets teams objects for a user from DynamoDB
+ *
+ * @param {string} cwl  The CWL ID of the user
+ */
+
+export const getUserTeams = async (req: Request, res: Response) => {
+  try {
+    let user = new User();
+
+    user = await userModel.getUser(req.session.passport.user.cwl);
+
+    let teams = new Array<Team>();
+    for (var teamId of user.teams) {
+      let team = await teamModel.getTeam(teamId);
+      teams.push(team);
+    }
+
+    let teamOutput = teams.map(t => ({
+      id: t.id,
+      name: t.name,
+      season: t.season,
+      athletes: t.athletes
+    }));
+
+    let response = {
+      message: "Teams for user found",
+      data: {
+        teamOutput
+      }
+    };
+    res.json(response);
+  } catch (e) {
+    Logger.Info(e);
+    return res.status(500).send("Failed to get teams for user");
+  }
+};
 
   export const postUserTeams = async (req: Request, res: Response) => {
     try {
