@@ -23,7 +23,7 @@ async function fetchUser(): Promise<User | null> {
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -75,7 +75,7 @@ async function fetchAllUsers(): Promise<User[] | null> {
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -112,7 +112,7 @@ async function fetchRoleChange(userCwl: string, role: string): Promise<string | 
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -142,7 +142,7 @@ async function fetchTeamsChange(userCwl: string, teams: string[]): Promise<strin
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -173,7 +173,7 @@ async function postUser(userCwl: string, teams: string[], role: string): Promise
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -187,16 +187,16 @@ async function postUser(userCwl: string, teams: string[], role: string): Promise
 }
 
 export async function deleteUser(userCwl: string): Promise<string | null> {
-    let params: any = {
-        cwl: userCwl
-    };
-    let query = Object.keys(params)
-        .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
-        .join("&");
-
-    return fetch("./user?" + query, { method: "delete" })
-        .then(function(response: any) {
-            if (response.status !== 200) {
+    return fetch("./user?", {
+        method: "delete",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ cwl: userCwl })
+    })
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {

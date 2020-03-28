@@ -74,6 +74,11 @@ export default function UserManagementPage(props: UserManagementPageProps) {
         }
     }, []);
 
+    React.useEffect(() => {
+        console.log(users);
+        console.log(allUsers);
+    }, [users, allUsers]);
+
     const handleAutocompleteChange = (event: React.ChangeEvent<{ value: string }>) => {
         let value = event.target.value;
 
@@ -116,6 +121,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                     }
                     return u;
                 });
+                setUsers(tempUsers);
                 setAllUsers(tempUsers);
             } else {
                 setOpenError(true);
@@ -137,6 +143,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                     if (user.cwl == u.cwl) u.teams = teams;
                     return u;
                 });
+                setUsers(tempUsers);
                 setAllUsers(tempUsers);
             } else {
                 setOpenError(true);
@@ -145,14 +152,19 @@ export default function UserManagementPage(props: UserManagementPageProps) {
     };
 
     const onDeleteUser = (user: User) => {
-        deleteUser(user.cwl).then((cwl: string) => {
-            if (!!cwl) {
-                let tempUsers = allUsers;
+        deleteUser(user.cwl).then((response: string) => {
+            if (!!response) {
+                let tempUsers = allUsers.slice();
                 let deleteIndex = null;
                 for (let i = 0; i < tempUsers.length; i++) {
-                    if (tempUsers[i].cwl == cwl) deleteIndex = i;
+                    if (tempUsers[i].cwl == user.cwl) {
+                        deleteIndex = i;
+                    }
                 }
-                if (!!deleteIndex) tempUsers.splice(deleteIndex);
+                if (!!deleteIndex) {
+                    tempUsers.splice(deleteIndex);
+                }
+                setUsers(tempUsers);
                 setAllUsers(tempUsers);
             } else {
                 setOpenError(true);
@@ -197,6 +209,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                     allUsers={allUsers}
                     setAllUsers={setAllUsers}
                     setOpenError={setOpenError}
+                    setUsers={setUsers}
                 />
             </div>
             {isFetching ? (
