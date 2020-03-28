@@ -1,12 +1,13 @@
 import { GET_TEAMS, Athlete, Team, GET_CURRENT_ROSTER } from "../util/types";
 import download from "downloadjs";
 import { transformJSONToInjury } from "./InjuriesAction";
+import { UserPermissions, AdminPermissions } from "../util/permissions";
 
 /**
  * REDUX ACTIONS
  */
 
-export function getTeams(athleteId: string, data: any) {
+export function getTeams(permissions: UserPermissions, data: any) {
     return {
         type: GET_TEAMS,
         teams: data.data.teamOutput
@@ -52,20 +53,16 @@ export function getCurrentRoster(athletes: Athlete[]) {
  * FETCH ACTIONS TO SERVER
  */
 
-export function fetchTeams(athleteId: string) {
+export function fetchTeams(permissions: UserPermissions) {
     return async (dispatch: any) => {
-        const data = await fetchTeamsEndpoint(athleteId);
-        return dispatch(getTeams(athleteId, data));
+        const data = await fetchTeamsEndpoint(permissions);
+        return dispatch(getTeams(permissions, data));
     };
 }
 
-async function fetchTeamsEndpoint(athleteId: string): Promise<Team[]> {
-    let params: any = {};
-    let query = Object.keys(params)
-        .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
-        .join("&");
-
-    let response = await fetch("./teams");
+async function fetchTeamsEndpoint(permissions: UserPermissions): Promise<Team[]> {
+    let endpoint = permissions == AdminPermissions ? "./teams" : "./user/teams";
+    let response = await fetch(endpoint);
     let data = await response.json();
     console.log(data);
     return data;

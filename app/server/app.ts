@@ -7,7 +7,7 @@ import * as saml from "passport-saml";
 import * as fs from "fs";
 import session from "express-session";
 import * as userModel from "./models/user";
-import { User, ROLES } from "./models/schema/User";
+import { User, roles } from "./models/schema/User";
 
 var storage = multer.memoryStorage();
 var upload = multer.default({ storage: storage });
@@ -165,31 +165,31 @@ import * as teamController from "./controllers/team";
 app.post(
   "/team",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(roles.Admin),
   teamController.postTeam
 );
 app.get(
   "/team",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   teamController.getTeam
 );
 app.put(
   "/team",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   teamController.modifyTeam
 );
 app.delete(
   "/team",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(roles.Admin),
   teamController.deleteTeam
 );
 app.get(
   "/teams",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer, ROLES.Coach),
+  checkIsInRole(roles.Admin, roles.Trainer, roles.Coach),
   teamController.getAllTeams
 );
 
@@ -198,43 +198,43 @@ import * as userController from "./controllers/user";
 app.post(
   "/user",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(roles.Admin),
   userController.postUser
 );
 app.post(
   "/user/teams",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(roles.Admin),
   userController.postUserTeams
 );
 app.get(
   "/user",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer, ROLES.Coach),
+  checkIsInRole(roles.Admin, roles.Trainer, roles.Coach),
   userController.getUser
 );
 app.get(
   "/user/teams",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer, ROLES.Coach),
+  checkIsInRole(roles.Admin, roles.Trainer, roles.Coach),
   userController.getUserTeams
 );
 app.get(
   "/users",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(roles.Admin),
   userController.getAllUsers
 );
 app.delete(
   "/user",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(roles.Admin),
   userController.deleteUser
 );
 app.post(
   "/user/role",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(roles.Admin),
   userController.postRole
 );
 
@@ -242,43 +242,43 @@ import * as injuryController from "./controllers/injury";
 app.post(
   "/singleInjury",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   injuryController.postInjury
 );
 app.get(
   "/singleInjury",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   injuryController.getInjury
 );
 app.post(
   "/injuryNote",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   injuryController.postInjuryNote
 );
 app.post(
   "/injurySpecialNote",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   injuryController.postInjurySpecialNote
 );
 app.get(
   "/injuriesInDateRange",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   injuryController.getInjuriesByRange
 );
 app.post(
   "/injuryActive",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   injuryController.setActive
 );
 app.put(
   "/singleInjury",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   injuryController.updateInjury
 );
 
@@ -286,44 +286,44 @@ import * as athleteController from "./controllers/athlete";
 app.post(
   "/athlete",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(roles.Admin),
   athleteController.postAthlete
 );
 app.get(
   "/athlete",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer, ROLES.Coach),
+  checkIsInRole(roles.Admin, roles.Trainer, roles.Coach),
   athleteController.getAthlete
 );
 app.put(
   "/athlete",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(roles.Admin),
   athleteController.putAthlete
 );
 app.get(
   "/allAthletes",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin),
+  checkIsInRole(roles.Admin),
   athleteController.getAllAthletes
 );
 app.post(
   "/file",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   upload.single("fileUpload"),
   athleteController.postFile
 );
 app.get(
   "/file",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   athleteController.getFile
 );
 app.delete(
   "/file",
   ensureAuthenticated,
-  checkIsInRole(ROLES.Admin, ROLES.Trainer),
+  checkIsInRole(roles.Admin, roles.Trainer),
   athleteController.deleteFile
 );
 

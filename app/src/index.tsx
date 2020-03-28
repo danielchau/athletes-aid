@@ -13,14 +13,13 @@ import { Team, User } from "./util/types";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
 import { setCurrentUser, getUser, setIsAuthenticating } from "./actions/UserAction";
-// @ts-ignore
-import Login from "./util/CWLLogin.png";
+import { UserPermissions } from "./util/permissions";
 // @ts-ignore
 import Logo from "./util/logoBlue.png";
 
 interface AppProps {
     teams: Team[];
-    getTeams: (id: string) => void;
+    getTeams: (permissions: UserPermissions) => void;
     setTeam: (team: Team) => void;
     setCurrentUser: (user: User) => void;
     isAuthenticating: boolean;
@@ -44,7 +43,7 @@ class App extends React.Component<AppProps, AppStates> {
     componentDidMount() {
         getUser().then((user: User | null) => {
             if (!!user) {
-                this.props.getTeams("");
+                this.props.getTeams(user.permissions);
                 this.props.setCurrentUser(user);
                 this.setState({ isLoading: true });
                 this.props.setIsAuthenticating(false);
@@ -76,7 +75,7 @@ class App extends React.Component<AppProps, AppStates> {
     onLoginPress() {
         getUser().then((user: User | null) => {
             if (!!user) {
-                this.props.getTeams("");
+                this.props.getTeams(user.permissions);
                 this.props.setCurrentUser(user);
                 this.setState({ isLoading: true });
                 this.props.setIsAuthenticating(false);
@@ -125,7 +124,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    getTeams: (id: string) => dispatch(fetchTeams(id)),
+    getTeams: (permissions: UserPermissions) => dispatch(fetchTeams(permissions)),
     setTeam: (team: Team) => dispatch(setSelectedTeam(team)),
     setCurrentUser: (user: User) => dispatch(setCurrentUser(user)),
     setIsAuthenticating: (state: boolean) => dispatch(setIsAuthenticating(state))

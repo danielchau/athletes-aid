@@ -41,12 +41,13 @@ import HelpIcon from "@material-ui/icons/Help";
 import { rosterManagementPageName } from "../constants/constants";
 import HelpDialog from "./HelpDialog";
 import ErrorDialog from "./ErrorDialog";
+import { UserPermissions } from "../util/permissions";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
     selectedTeam: Team;
     teams: Team[];
-    getTeams: (id: string) => Promise<Team[]>;
+    getTeams: (permissions: UserPermissions) => Promise<Team[]>;
     currentUser: User;
     setSelectedTeam: any;
 }
@@ -222,7 +223,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setExistingAthletesChecked(new Set());
         updateTeamAthletes(selectedTeam.id, athleteIds).then((response: any) => {
             if (!!response) {
-                props.getTeams("");
+                props.getTeams(props.currentUser.permissions);
             } else {
                 setOpenError(true);
             }
@@ -254,7 +255,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setNewAthletesChecked(new Set());
         updateTeamAthletes(selectedTeam.id, athleteIds).then((response: any) => {
             if (!!response) {
-                props.getTeams("");
+                props.getTeams(props.currentUser.permissions);
             } else {
                 setOpenError(true);
             }
@@ -269,7 +270,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         if (!!selectedTeam) {
             updateTeamInfo(selectedTeam.id, teamName, season).then((response: any) => {
                 if (!!response) {
-                    props.getTeams("");
+                    props.getTeams(props.currentUser.permissions);
                 } else {
                     setOpenError(true);
                 }
@@ -278,7 +279,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         } else {
             createTeam(teamName, season).then((response: any) => {
                 if (!!response) {
-                    props.getTeams("");
+                    props.getTeams(props.currentUser.permissions);
                     setIsCreatingNewTeam(true);
                 } else {
                     setOpenError(true);

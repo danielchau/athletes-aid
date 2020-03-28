@@ -4,6 +4,7 @@ import { AppState } from "..";
 import { fetchTeams, fetchCurrentRoster } from "../actions/TeamAction";
 import { Team } from "../util/types";
 import { setSelectedTeam } from "../actions/NavigationPanelAction";
+import { UserPermissions } from "../util/permissions";
 
 const mapStateToProps = (state: AppState) => ({
     state: state.navigationPanelReducer,
@@ -14,7 +15,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     setSelectedTeam: (team: Team) => dispatch(setSelectedTeam(team)),
-    getTeams: (id: string) => dispatch(fetchTeams(id))
+    getTeams: (permissions: UserPermissions) => dispatch(fetchTeams(permissions))
 });
 
 const RosterManagementPageContainer = connect(
