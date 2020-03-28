@@ -89,7 +89,7 @@ async function fetchCreateTeam(name: string, season: string) {
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -121,7 +121,7 @@ async function fetchUpdateTeamInfo(id: string, name: string, season: string) {
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -152,7 +152,7 @@ async function fetchUpdateTeamAthletes(id: string, athletes: string[]) {
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -202,7 +202,7 @@ export function getAthleteTemplate() {
         method: "get"
     })
         .then(async function(response: any) {
-            if (response.status !== 200) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
             } else {
                 const blob = await response.blob();

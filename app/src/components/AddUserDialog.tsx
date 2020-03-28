@@ -21,6 +21,7 @@ interface AddUserDialogProps {
     setOpen: any;
     allUsers: User[];
     setAllUsers: any;
+    setUsers: any;
     setOpenError: any;
 }
 
@@ -62,9 +63,10 @@ export default function AddUserDialog(props: AddUserDialogProps) {
                     permissions: getPermissions(),
                     teams: []
                 });
+                props.setUsers(tempUsers);
                 props.setAllUsers(tempUsers);
                 setCwl("");
-                setRole("");
+                setRole("Coach");
                 props.setOpen(false);
             } else {
                 props.setOpenError(true);
