@@ -13,7 +13,7 @@ import { Team, User } from "./util/types";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
 import { setCurrentUser, getUser, setIsAuthenticating } from "./actions/UserAction";
-import { UserPermissions } from "./util/permissions";
+import { UserPermissions, AdminPermissions, TrainerPermissions } from "./util/permissions";
 // @ts-ignore
 import Logo from "./util/logoBlue.png";
 
@@ -43,7 +43,9 @@ class App extends React.Component<AppProps, AppStates> {
     componentDidMount() {
         getUser().then((user: User | null) => {
             if (!!user) {
-                this.props.getTeams(user.permissions);
+                this.props.getTeams(
+                    user.permissions == AdminPermissions ? TrainerPermissions : user.permissions
+                );
                 this.props.setCurrentUser(user);
                 this.setState({ isLoading: true });
                 this.props.setIsAuthenticating(false);
@@ -54,10 +56,7 @@ class App extends React.Component<AppProps, AppStates> {
     }
 
     shouldComponentUpdate(nextProps: AppProps, nextState: AppStates) {
-        if (this.props.teams.length == 0 && nextProps.teams.length > 0) {
-            return true;
-        }
-        if (this.state.isLoading && !nextState.isLoading) {
+        if (this.state.isLoading != nextState.isLoading) {
             return true;
         }
         return false;
@@ -65,24 +64,11 @@ class App extends React.Component<AppProps, AppStates> {
 
     componentDidUpdate() {
         if (this.state.isLoading) {
-            this.props.setTeam(this.props.teams[0]);
+            this.props.setTeam(!!this.props.teams[0] ? this.props.teams[0] : null);
             setTimeout(() => {
                 this.setState({ isLoading: false });
             }, 750);
         }
-    }
-
-    onLoginPress() {
-        getUser().then((user: User | null) => {
-            if (!!user) {
-                this.props.getTeams(user.permissions);
-                this.props.setCurrentUser(user);
-                this.setState({ isLoading: true });
-                this.props.setIsAuthenticating(false);
-            } else {
-                window.location.replace(window.location.href + "/login");
-            }
-        });
     }
 
     render() {

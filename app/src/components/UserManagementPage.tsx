@@ -303,6 +303,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                                     onChange={(
                                                         evt: React.ChangeEvent<{ value: string }>
                                                     ) => onSelectChange(evt, row)}
+                                                    disabled={row.cwl == props.currentUser.cwl}
                                                 >
                                                     {[
                                                         AdminPermissions,
@@ -317,14 +318,16 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                             </FormControl>
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Tooltip title="Delete User">
-                                                <IconButton
-                                                    style={{ color: "#a83232" }}
-                                                    onClick={() => onDeleteUser(row)}
-                                                >
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </Tooltip>
+                                            {row.cwl != props.currentUser.cwl && (
+                                                <Tooltip title="Delete User">
+                                                    <IconButton
+                                                        style={{ color: "#a83232" }}
+                                                        onClick={() => onDeleteUser(row)}
+                                                    >
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            )}
                                         </TableCell>
                                     </TableRow>
                                 ))}

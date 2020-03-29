@@ -57,7 +57,7 @@ export default function InjuriesPage(props: InjuriesProps) {
      * roster and update the page.
      */
     React.useEffect(() => {
-        if (props.selectedTeam.name != "") {
+        if (!!props.selectedTeam && props.selectedTeam.name != "") {
             setIsFetching(true);
             props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.id);
         }
@@ -72,8 +72,10 @@ export default function InjuriesPage(props: InjuriesProps) {
     };
 
     const onInjuriesDateChange = () => {
-        setIsFetching(true);
-        props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.id);
+        if (!!props.selectedTeam) {
+            setIsFetching(true);
+            props.getAthleteInjuries(props.startingDate, props.endingDate, props.selectedTeam.id);
+        }
     };
 
     const onChangeStartingDate = (date: Date) => {
