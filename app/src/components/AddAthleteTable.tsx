@@ -14,13 +14,14 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import { addAthleteToDb } from "../actions/AthleteAction";
 import ErrorDialog from "./ErrorDialog";
+import { UserPermissions } from "../util/permissions";
 
 interface AddAthleteTableProps {
     athletes: AthleteProfile[];
     rosterAthletes: Athlete[];
     allAthletes: ListAthlete[];
     setAllAthletes: any;
-    getTeams: (id: string) => void;
+    getTeams: (permissions: UserPermissions) => void;
     currentUser: User;
 }
 

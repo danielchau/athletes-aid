@@ -34,7 +34,7 @@ export default function RosterPage(props: RosterPageProps & RouteComponentProps)
     React.useEffect(() => {
         if (!!props.currentRoster) {
             setIsFetching(false);
-        } else {
+        } else if (!!props.selectedTeam) {
             setIsFetching(true);
             props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
                 setIsFetching(false);

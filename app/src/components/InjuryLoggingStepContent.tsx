@@ -117,7 +117,9 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
         props.setOtherNotes(event.target.value);
     };
 
-    const selectedTeam = !!props.existingInjury
+    const selectedTeam = !!!props.selectedTeam
+        ? ""
+        : !!props.existingInjury
         ? props.existingInjury.teamName
         : props.selectedTeam.name;
 
@@ -133,11 +135,11 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                         <Select
                             labelWidth={100}
                             id="team-select"
-                            value={props.selectedTeam.name}
+                            value={!!props.selectedTeam ? props.selectedTeam.name : ""}
                             inputProps={{ readOnly: true }}
                         >
-                            <MenuItem value={props.selectedTeam.name}>
-                                {props.selectedTeam.name}
+                            <MenuItem value={!!props.selectedTeam ? props.selectedTeam.name : ""}>
+                                {!!props.selectedTeam ? props.selectedTeam.name : ""}
                             </MenuItem>
                         </Select>
                     </FormControl>

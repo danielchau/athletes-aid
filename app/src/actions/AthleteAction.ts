@@ -28,7 +28,7 @@ async function fetchAddAthlete(athlete: AthleteProfile, createdBy: string): Prom
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -55,7 +55,7 @@ async function putAthlete(athlete: AthleteProfile, createdBy: string): Promise<s
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -82,7 +82,7 @@ async function fetchAllAthletes(athleteId: string): Promise<ListAthlete[] | null
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -117,7 +117,7 @@ async function fetchAthlete(athleteId: string): Promise<AthleteProfile | null> {
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -167,7 +167,7 @@ async function fetchFileAdd(file: FormData): Promise<string | null> {
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -191,7 +191,7 @@ export function fetchAthleteFile(athleteId: string, file: string) {
 
     fetch("./file?" + query)
         .then(async function(response: any) {
-            if (response.status !== 200) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
             } else {
                 const blob = await response.blob();
@@ -214,7 +214,7 @@ export async function deleteAthleteFile(athleteId: string, file: string): Promis
 
     return fetch("./file?" + query, { method: "delete" })
         .then(function(response: any) {
-            if (response.status !== 200) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {

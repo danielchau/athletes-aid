@@ -246,9 +246,11 @@ function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & Wit
                                 }
                                 secondary={
                                     <Typography className={classes.secondaryLabel}>
-                                        {props.selectedTeam.name +
-                                            " - " +
-                                            props.selectedTeam.season}
+                                        {!!props.selectedTeam
+                                            ? props.selectedTeam.name +
+                                              " - " +
+                                              props.selectedTeam.season
+                                            : ""}
                                     </Typography>
                                 }
                             />

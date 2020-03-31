@@ -64,7 +64,7 @@ export default function TopBar(props: TopBarProps) {
                     props.setSelectedAthlete(selectedAthlete[0].id);
                 }
             } else {
-                if (!!!props.currentRoster) {
+                if (!!!props.currentRoster && !!props.selectedTeam) {
                     setIsFetching(true);
                     props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
                         setIsFetching(false);

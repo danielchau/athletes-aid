@@ -16,6 +16,7 @@ import { postInjury, postInjuryNote, updateInjury } from "../actions/InjuriesAct
 import FetchingScreen from "./FetchingScreen";
 import { bodyLocations, injuryTypes } from "../constants/constants";
 import ErrorDialog from "./ErrorDialog";
+import { UserPermissions, AdminPermissions, TrainerPermissions } from "../util/permissions";
 
 function getSteps() {
     return ["Injury Details", "Further Details", "Review"];
@@ -26,7 +27,7 @@ interface InjuryLoggingPageProps {
     existingInjury: Injury | null;
     callbackUponFinishing: (injury: Injury) => void;
     currentUser: User;
-    getTeams: (id: string) => void;
+    getTeams: (permissions: UserPermissions) => void;
     currentRoster: Athlete[];
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
@@ -105,7 +106,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     React.useEffect(() => {
         if (!!props.currentRoster) {
             setIsFetching(false);
-        } else {
+        } else if (!!props.selectedTeam) {
             setIsFetching(true);
             props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
                 setIsFetching(false);
@@ -264,7 +265,11 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                             false
                         ).then((injury: Injury | null) => {
                             if (!!injury) {
-                                props.getTeams("");
+                                props.getTeams(
+                                    props.currentUser.permissions == AdminPermissions
+                                        ? TrainerPermissions
+                                        : props.currentUser.permissions
+                                );
                             } else {
                                 setOpenError(true);
                             }

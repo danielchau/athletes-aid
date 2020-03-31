@@ -3,6 +3,7 @@ import InjuryLoggingPage from "../components/InjuryLoggingPage";
 import { AppState } from "..";
 import { Injury } from "../util/types";
 import { fetchTeams, fetchCurrentRoster } from "../actions/TeamAction";
+import { UserPermissions } from "../util/permissions";
 
 interface InjuriesPageContainerProps {
     existingInjury: Injury | null;
@@ -18,7 +19,7 @@ const mapStateToProps = (state: AppState, ownProps: InjuriesPageContainerProps) 
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    getTeams: (id: string) => dispatch(fetchTeams(id)),
+    getTeams: (permissions: UserPermissions) => dispatch(fetchTeams(permissions)),
     getCurrentRoster: (athleteIds: string[]) => dispatch(fetchCurrentRoster(athleteIds))
 });
 
