@@ -14,17 +14,23 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen
-            })
+            }),
+            [theme.breakpoints.down("xs")]: {
+                width: "100vw"
+            }
         },
         drawerClosed: {
             width: "calc(100vw - 72px)",
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen
-            })
+            }),
+            [theme.breakpoints.down("xs")]: {
+                width: "100vw"
+            }
         },
         leftCol: {
-            width: "30%",
+            width: "100%",
             height: "100%",
             borderRightWidth: 2,
             borderRightColor: "#EAEAEA",
@@ -34,7 +40,7 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             backgroundColor: "rgba(0, 33, 69, 0.05)"
         },
         rightCol: {
-            width: "70%",
+            width: "100%",
             height: "100%",
             padding: "16px",
             overflow: "scroll",
@@ -52,7 +58,9 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             color: "#fff",
             backgroundColor: "#6f8296",
             maxWidth: "300px",
-            maxHeight: "300px"
+            maxHeight: "300px",
+            minWidth: "175px",
+            minHeight: "175px"
         },
         name: {
             textAlign: "center",
@@ -69,11 +77,27 @@ export const profilePageStyles = makeStyles((theme: Theme) =>
             height: "200px",
             width: "100%",
             marginBottom: "16px",
-            backgroundColor: "rgba(0, 33, 69, 0.05)"
+            backgroundColor: "rgba(0, 33, 69, 0.05)",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            overflow: "auto"
         },
         injuryDataTableContainer: {
             marginTop: "-16px",
             width: "100%"
+        },
+        vizPaper: {
+            padding: theme.spacing(2),
+            marginTop: "8px"
+        },
+        gridItem: {
+            [theme.breakpoints.down("sm")]: {
+                height: undefined
+            },
+            [theme.breakpoints.up("md")]: {
+                height: "100%"
+            }
         }
     })
 );

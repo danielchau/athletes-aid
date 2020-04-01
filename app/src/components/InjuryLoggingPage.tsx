@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { injuryLoggingPageStyles } from "../styles/react/InjuryLoggingPageStyles";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
@@ -15,6 +15,8 @@ import { Team, Injury, User, Athlete } from "../util/types";
 import { postInjury, postInjuryNote, updateInjury } from "../actions/InjuriesAction";
 import FetchingScreen from "./FetchingScreen";
 import { bodyLocations, injuryTypes } from "../constants/constants";
+import ErrorDialog from "./ErrorDialog";
+import { UserPermissions, AdminPermissions, TrainerPermissions } from "../util/permissions";
 
 function getSteps() {
     return ["Injury Details", "Further Details", "Review"];
@@ -25,7 +27,7 @@ interface InjuryLoggingPageProps {
     existingInjury: Injury | null;
     callbackUponFinishing: (injury: Injury) => void;
     currentUser: User;
-    getTeams: (id: string) => void;
+    getTeams: (permissions: UserPermissions) => void;
     currentRoster: Athlete[];
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
 }
@@ -99,11 +101,13 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const [hasError, setHasError] = React.useState<boolean>(false);
 
     const [isFetching, setIsFetching] = React.useState<boolean>(true);
+    const [openError, setOpenError] = React.useState(false);
 
     React.useEffect(() => {
         if (!!props.currentRoster) {
             setIsFetching(false);
-        } else {
+        } else if (!!props.selectedTeam) {
+            setIsFetching(true);
             props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
                 setIsFetching(false);
             });
@@ -113,21 +117,22 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     React.useEffect(() => {
         if (
             !!props.currentRoster &&
-            JSON.stringify(props.currentRoster.map(a => a.id)) !=
-                JSON.stringify(props.selectedTeam.athleteIds)
+            JSON.stringify(props.currentRoster.map(a => a.id).sort()) !=
+                JSON.stringify(props.selectedTeam.athleteIds.sort())
         ) {
+            setIsFetching(true);
             props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
                 setIsFetching(false);
             });
         }
     }, [props.selectedTeam]);
 
-    const transformToAthleteInfo = (hasInjuryId: boolean) => {
+    const transformToAthleteInfo = () => {
         return JSON.stringify({
-            injuryId: hasInjuryId ? props.existingInjury.id : undefined,
+            injuryId: !!props.existingInjury ? props.existingInjury.id : undefined,
             athleteId: props.currentRoster.filter(a => a.name == selectedAthlete)[0].id,
-            createdBy: props.currentUser.athleteProfile.name,
-            active: true,
+            createdBy: props.currentUser.firstName + " " + props.currentUser.lastName,
+            active: !!props.existingInjury ? props.existingInjury.active : true,
             teamName: props.selectedTeam.name,
             teamId: props.selectedTeam.id,
             athleteName: selectedAthlete,
@@ -152,19 +157,125 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
         if (activeStep == steps.length - 1) {
             if (!!props.callbackUponFinishing) {
                 setIsLogging(true);
-                updateInjury(transformToAthleteInfo(true)).then((injury: Injury | null) => {
+                updateInjury(transformToAthleteInfo()).then((injury: Injury | null) => {
                     setIsLogging(false);
-                    props.callbackUponFinishing(injury);
+                    if (!!injury) {
+                        let updates = "";
+                        if (
+                            props.existingInjury.injuryDate.getDate() != injury.injuryDate.getDate()
+                        ) {
+                            updates +=
+                                "Injury Date: " +
+                                props.existingInjury.injuryDate.getDate() +
+                                " → " +
+                                injury.injuryDate.getDate() +
+                                "\n";
+                        }
+                        if (props.existingInjury.isSportsRelated != injury.isSportsRelated) {
+                            updates +=
+                                "Is Sports Related: " +
+                                props.existingInjury.isSportsRelated +
+                                " → " +
+                                injury.isSportsRelated +
+                                "\n";
+                        }
+                        if (props.existingInjury.eventType != injury.eventType) {
+                            updates +=
+                                "Event Type: " +
+                                props.existingInjury.eventType +
+                                " → " +
+                                injury.eventType +
+                                "\n";
+                        }
+                        if (props.existingInjury.sideOfBody != injury.sideOfBody) {
+                            updates +=
+                                "Side of Body: " +
+                                props.existingInjury.sideOfBody +
+                                " → " +
+                                injury.sideOfBody +
+                                "\n";
+                        }
+                        if (props.existingInjury.locationOnBody != injury.locationOnBody) {
+                            updates +=
+                                "Location on Body: " +
+                                props.existingInjury.locationOnBody +
+                                " → " +
+                                injury.locationOnBody +
+                                "\n";
+                        }
+                        if (props.existingInjury.injuryType != injury.injuryType) {
+                            updates +=
+                                "Injury Type: " +
+                                props.existingInjury.injuryType +
+                                " → " +
+                                injury.injuryType +
+                                "\n";
+                        }
+                        if (props.existingInjury.severity != injury.severity) {
+                            updates +=
+                                "Severity: " +
+                                props.existingInjury.severity +
+                                " → " +
+                                injury.severity +
+                                "\n";
+                        }
+                        if (props.existingInjury.status != injury.status) {
+                            updates +=
+                                "Status: " +
+                                props.existingInjury.status +
+                                " → " +
+                                injury.status +
+                                "\n";
+                        }
+                        if (props.existingInjury.mechanism != injury.mechanism) {
+                            updates +=
+                                "Mechanism: " +
+                                props.existingInjury.mechanism +
+                                " → " +
+                                injury.mechanism +
+                                "\n";
+                        }
+                        if (props.existingInjury.injuryDescription != injury.injuryDescription) {
+                            updates +=
+                                "Description: " +
+                                props.existingInjury.injuryDescription +
+                                " → " +
+                                injury.injuryDescription +
+                                "\n";
+                        }
+                        if (updates != "") {
+                            postInjuryNote(injury.id, updates, "Update", false).then(inj => {
+                                props.callbackUponFinishing(inj);
+                            });
+                        } else {
+                            props.callbackUponFinishing(injury);
+                        }
+                    } else {
+                        setOpenError(true);
+                    }
                 });
             } else {
                 setIsLogging(true);
-                postInjury(transformToAthleteInfo(false)).then((id: string | null) => {
-                    if (!!id) {
-                        postInjuryNote(id, otherNotes, props.currentUser.athleteProfile.name).then(
-                            _ => {
-                                props.getTeams("");
+                postInjury(transformToAthleteInfo()).then((id: string | null) => {
+                    if (!!id && otherNotes != "") {
+                        postInjuryNote(
+                            id,
+                            otherNotes,
+                            props.currentUser.firstName + " " + props.currentUser.lastName,
+                            false
+                        ).then((injury: Injury | null) => {
+                            if (!!injury) {
+                                props.getTeams(
+                                    props.currentUser.permissions == AdminPermissions
+                                        ? TrainerPermissions
+                                        : props.currentUser.permissions
+                                );
+                            } else {
+                                setOpenError(true);
                             }
-                        );
+                        });
+                    } else {
+                        setOpenError(true);
                     }
 
                     setIsLogging(false);
@@ -218,6 +329,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
 
     return (
         <div className={classes.root}>
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             {isFetching || !!!props.currentRoster ? (
                 <FetchingScreen />
             ) : (

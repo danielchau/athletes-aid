@@ -34,6 +34,25 @@ export default function TopBar(props: TopBarProps) {
     const classes = topBarStyles({});
     const [autocompleteValue, setAutocompleteValue] = React.useState<string>("");
     const [autocompleteOpen, setAutocompleteOpen] = React.useState<boolean>(false);
+    const [isFetching, setIsFetching] = React.useState<boolean>(false);
+    const [isFirstRender, setIsFirstRender] = React.useState<boolean>(true);
+
+    React.useEffect(() => {
+        if (isFirstRender) {
+            setIsFirstRender(false);
+        } else {
+            if (
+                !!props.currentRoster &&
+                JSON.stringify(props.currentRoster.map(a => a.id).sort()) !=
+                    JSON.stringify(props.selectedTeam.athleteIds.sort())
+            ) {
+                setIsFetching(true);
+                props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
+                    setIsFetching(false);
+                });
+            }
+        }
+    }, [props.selectedTeam]);
 
     const onAutocompleteInputChange = (event: any, value: string) => {
         if (!!event) {
@@ -45,8 +64,11 @@ export default function TopBar(props: TopBarProps) {
                     props.setSelectedAthlete(selectedAthlete[0].id);
                 }
             } else {
-                if (!!!props.currentRoster) {
-                    props.getCurrentRoster(props.selectedTeam.athleteIds);
+                if (!!!props.currentRoster && !!props.selectedTeam) {
+                    setIsFetching(true);
+                    props.getCurrentRoster(props.selectedTeam.athleteIds).then(_ => {
+                        setIsFetching(false);
+                    });
                 }
                 if (autocompleteValue != value) {
                     setAutocompleteValue(value);
@@ -97,6 +119,7 @@ export default function TopBar(props: TopBarProps) {
                                 id="athlete-select"
                                 options={!!props.currentRoster ? props.currentRoster : []}
                                 getOptionLabel={(option: Athlete) => option.name}
+                                loading={isFetching}
                                 classes={{
                                     root: classes.inputRoot,
                                     input: classes.inputInput

@@ -1,5 +1,6 @@
 import { AthleteProfile, ListAthlete, SET_SELECTED_ATHLETE } from "../util/types";
 import { transformJSONToInjury } from "./InjuriesAction";
+import download from "downloadjs";
 
 /**
  * REDUX ACTIONS
@@ -27,7 +28,7 @@ async function fetchAddAthlete(athlete: AthleteProfile, createdBy: string): Prom
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -54,7 +55,7 @@ async function putAthlete(athlete: AthleteProfile, createdBy: string): Promise<s
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -81,7 +82,7 @@ async function fetchAllAthletes(athleteId: string): Promise<ListAthlete[] | null
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -116,7 +117,7 @@ async function fetchAthlete(athleteId: string): Promise<AthleteProfile | null> {
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -126,22 +127,98 @@ async function fetchAthlete(athleteId: string): Promise<AthleteProfile | null> {
                     profilePicture: "",
                     name: data.firstName + " " + data.lastName,
                     birthdate: new Date(data.birthDate).toDateString(),
-                    schoolYear: data.yearInSchool,
-                    gender: data.gender,
-                    weight: data.weight,
-                    height: data.height,
-                    email: data.email,
-                    cellPhone: data.cellPhone,
-                    homePhone: data.homePhone,
-                    healthCardNumber: data.healthPlan,
+                    schoolYear: !!data.yearInSchool ? data.yearInSchool : "",
+                    gender: !!data.gender ? data.gender : "",
+                    weight: !!data.weight ? data.weight : 0,
+                    height: !!data.height ? data.height : 0,
+                    email: !!data.email ? data.email : "",
+                    cellPhone: !!data.cellPhone ? data.cellPhone : "",
+                    homePhone: !!data.homePhone ? data.homePhone : "",
+                    healthCardNumber: !!data.provincialHealthCardNumber
+                        ? data.provincialHealthCardNumber
+                        : "",
+                    studentNumber: !!data.studentNumber ? data.studentNumber : "",
                     emergencyContact: {
-                        name: data.emergencyContact.name,
+                        name: !!data.emergencyContact.name ? data.emergencyContact.name : "",
                         phone: !!data.emergencyContact.phone ? data.emergencyContact.phone : "",
                         email: !!data.emergencyContact.email ? data.emergencyContact.email : ""
                     },
-                    files: [],
+                    files: !!data.availableFiles
+                        ? data.availableFiles.map((f: string) => f.split("/")[1])
+                        : [],
                     injuries: transformJSONToInjury(data.injuries)
                 };
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
+
+export async function addFileToAthlete(file: FormData) {
+    return await fetchFileAdd(file);
+}
+
+async function fetchFileAdd(file: FormData): Promise<string | null> {
+    return fetch("./file", {
+        method: "post",
+        body: file
+    })
+        .then(response => response.json())
+        .then((response: any) => {
+            if (response.error || response.status == 500) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                return response.data.filePath;
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+            return null;
+        });
+}
+
+export function fetchAthleteFile(athleteId: string, file: string) {
+    let params: any = {
+        userId: athleteId,
+        key: file
+    };
+    let query = Object.keys(params)
+        .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+        .join("&");
+
+    fetch("./file?" + query)
+        .then(async function(response: any) {
+            if (response.error || response.status == 500) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+            } else {
+                const blob = await response.blob();
+                download(blob, file);
+            }
+        })
+        .catch(function(err: Error) {
+            console.log("Fetch Error", err);
+        });
+}
+
+export async function deleteAthleteFile(athleteId: string, file: string): Promise<string | null> {
+    let params: any = {
+        userId: athleteId,
+        key: file
+    };
+    let query = Object.keys(params)
+        .map((k: any) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+        .join("&");
+
+    return fetch("./file?" + query, { method: "delete" })
+        .then(function(response: any) {
+            if (response.error || response.status == 500) {
+                console.log("Looks like there was a problem. Status Code: " + response.status);
+                return null;
+            } else {
+                return "Success";
             }
         })
         .catch(function(err: Error) {
@@ -174,7 +251,8 @@ const transformAthleteProfileToJSON = (
         healthPlan: "",
         memberId: 0,
         groupNumber: 0,
-        provincialHealthCardNumber: 0,
+        provincialHealthCardNumber: athlete.healthCardNumber,
+        studentNumber: athlete.studentNumber,
         province: "",
         primaryPhysician: "",
         emergencyContact: {

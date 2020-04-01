@@ -20,8 +20,7 @@ import {
     injuryTypes,
     severities,
     playerStatuses,
-    mechanismsOfInjury,
-    severityDescriptions
+    mechanismsOfInjury
 } from "../constants/constants";
 
 interface InjuryLoggingStepContentProps {
@@ -74,6 +73,10 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
     const handleAthleteChange = (event: StringTextContentChangeEvent) => {
         props.setSelectedAthlete(event.target.textContent);
     };
+    const handleAthleteInputChange = (_: any, value: string) => {
+        props.setSelectedAthlete(value);
+    };
+
     const handleDateChange = (date: Date) => {
         props.setSelectedDate(date);
     };
@@ -114,7 +117,9 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
         props.setOtherNotes(event.target.value);
     };
 
-    const selectedTeam = !!props.existingInjury
+    const selectedTeam = !!!props.selectedTeam
+        ? ""
+        : !!props.existingInjury
         ? props.existingInjury.teamName
         : props.selectedTeam.name;
 
@@ -130,11 +135,11 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                         <Select
                             labelWidth={100}
                             id="team-select"
-                            value={props.selectedTeam.name}
+                            value={!!props.selectedTeam ? props.selectedTeam.name : ""}
                             inputProps={{ readOnly: true }}
                         >
-                            <MenuItem value={props.selectedTeam.name}>
-                                {props.selectedTeam.name}
+                            <MenuItem value={!!props.selectedTeam ? props.selectedTeam.name : ""}>
+                                {!!props.selectedTeam ? props.selectedTeam.name : ""}
                             </MenuItem>
                         </Select>
                     </FormControl>
@@ -159,6 +164,7 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                                 options={props.currentRoster}
                                 getOptionLabel={(option: Athlete) => option.name}
                                 onChange={handleAthleteChange}
+                                onInputChange={handleAthleteInputChange}
                                 inputValue={props.selectedAthlete}
                                 renderInput={params => (
                                     <TextField
@@ -307,7 +313,7 @@ export default function InjuryLoggingStepContent(props: InjuryLoggingStepContent
                             </MenuItem>
                             {severities.map((severity: number, i: number) => (
                                 <MenuItem key={i} value={severity}>
-                                    {severity} - {severityDescriptions[i]}
+                                    {severity}
                                 </MenuItem>
                             ))}
                         </Select>

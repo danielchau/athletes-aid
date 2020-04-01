@@ -13,14 +13,18 @@ import { connect } from "react-redux";
 import { Team, User } from "./util/types";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
-import { setCurrentUser } from "./actions/UserAction";
-import { mockUser } from "./util/mockData";
+import { setCurrentUser, getUser, setIsAuthenticating } from "./actions/UserAction";
+import { UserPermissions, AdminPermissions, TrainerPermissions } from "./util/permissions";
+// @ts-ignore
+import Logo from "./util/logoBlue.png";
 
 interface AppProps {
     teams: Team[];
-    getTeams: (id: string) => void;
+    getTeams: (permissions: UserPermissions) => void;
     setTeam: (team: Team) => void;
     setCurrentUser: (user: User) => void;
+    isAuthenticating: boolean;
+    setIsAuthenticating: (state: boolean) => void;
 }
 
 interface AppStates {
@@ -34,33 +38,42 @@ interface AppStates {
 class App extends React.Component<AppProps, AppStates> {
     constructor(props: AppProps) {
         super(props);
-        this.state = { isLoading: true };
+        this.state = { isLoading: false };
     }
 
     componentDidMount() {
-        this.props.getTeams("");
-        this.props.setCurrentUser(mockUser);
+        getUser().then((user: User | null) => {
+            if (!!user) {
+                this.props.getTeams(
+                    user.permissions == AdminPermissions ? TrainerPermissions : user.permissions
+                );
+                this.props.setCurrentUser(user);
+                this.setState({ isLoading: true });
+                this.props.setIsAuthenticating(false);
+            } else {
+                window.location.replace(window.location.href + "/login");
+            }
+        });
     }
 
     shouldComponentUpdate(nextProps: AppProps, nextState: AppStates) {
-        if (this.props.teams.length == 0 && nextProps.teams.length > 0) {
-            return true;
-        }
-        if (this.state.isLoading && !nextState.isLoading) {
+        if (this.state.isLoading != nextState.isLoading) {
             return true;
         }
         return false;
     }
 
     componentDidUpdate() {
-        this.props.setTeam(this.props.teams[0]);
-        setTimeout(() => {
-            this.setState({ isLoading: false });
-        }, 750);
+        if (this.state.isLoading) {
+            this.props.setTeam(!!this.props.teams[0] ? this.props.teams[0] : null);
+            setTimeout(() => {
+                this.setState({ isLoading: false });
+            }, 750);
+        }
     }
 
     render() {
-        if (this.state.isLoading) {
+        if (this.state.isLoading || this.props.isAuthenticating) {
             return (
                 <div
                     style={{
@@ -77,6 +90,7 @@ class App extends React.Component<AppProps, AppStates> {
                         style={{ width: "60px" }}
                         src="https://s3.amazonaws.com/streamlineathletes.com/assets/programs/22/university-british-columbia_track-field_thunderbirds_logo.png"
                     />
+                    <img style={{ width: "300px", paddingBottom: "16px" }} src={Logo} />
                     <CircularProgress size={40} color={"secondary"} />
                 </div>
             );
@@ -92,13 +106,15 @@ class App extends React.Component<AppProps, AppStates> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    teams: state.teamsReducer
+    teams: state.teamsReducer,
+    isAuthenticating: state.isAuthenticatingReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    getTeams: (id: string) => dispatch(fetchTeams(id)),
+    getTeams: (permissions: UserPermissions) => dispatch(fetchTeams(permissions)),
     setTeam: (team: Team) => dispatch(setSelectedTeam(team)),
-    setCurrentUser: (user: User) => dispatch(setCurrentUser(user))
+    setCurrentUser: (user: User) => dispatch(setCurrentUser(user)),
+    setIsAuthenticating: (state: boolean) => dispatch(setIsAuthenticating(state))
 });
 
 const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);

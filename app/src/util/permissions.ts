@@ -7,6 +7,7 @@ export interface UserPermissions {
     canSeeSearchBar: boolean;
     canEditOtherProfiles: boolean;
     canSeeInjuryDetails: boolean;
+    canEditFiles: boolean;
 }
 
 /**
@@ -18,6 +19,7 @@ interface PagePermissions {
     logging: boolean;
     injuries: boolean;
     rosterManagement: boolean;
+    userManagement: boolean;
 }
 
 /**
@@ -30,11 +32,13 @@ export const AdminPermissions: UserPermissions = {
         roster: true,
         logging: true,
         injuries: true,
-        rosterManagement: true
+        rosterManagement: true,
+        userManagement: true
     },
     canSeeSearchBar: true,
     canEditOtherProfiles: true,
-    canSeeInjuryDetails: true
+    canSeeInjuryDetails: true,
+    canEditFiles: true
 };
 
 /**
@@ -47,11 +51,13 @@ export const TrainerPermissions: UserPermissions = {
         roster: true,
         logging: true,
         injuries: true,
-        rosterManagement: false
+        rosterManagement: false,
+        userManagement: false
     },
     canSeeSearchBar: true,
     canEditOtherProfiles: false,
-    canSeeInjuryDetails: true
+    canSeeInjuryDetails: true,
+    canEditFiles: true
 };
 
 /**
@@ -64,11 +70,13 @@ export const AthletePermissions: UserPermissions = {
         roster: false,
         logging: true,
         injuries: false,
-        rosterManagement: false
+        rosterManagement: false,
+        userManagement: false
     },
     canSeeSearchBar: false,
     canEditOtherProfiles: false,
-    canSeeInjuryDetails: true
+    canSeeInjuryDetails: true,
+    canEditFiles: false
 };
 
 /**
@@ -81,9 +89,11 @@ export const CoachPermissions: UserPermissions = {
         roster: true,
         logging: false,
         injuries: false,
-        rosterManagement: false
+        rosterManagement: false,
+        userManagement: false
     },
     canSeeSearchBar: true,
     canEditOtherProfiles: false,
-    canSeeInjuryDetails: false
+    canSeeInjuryDetails: false,
+    canEditFiles: false
 };

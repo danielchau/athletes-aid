@@ -27,8 +27,10 @@ export async function getInjuriesByRange(
   endDate: string,
   teamId: string
 ): Promise<Array<Injury>> {
-  let startTime = new Date(startDate).getTime() / 1000;
-  let endTime = new Date(endDate).getTime() / 1000;
+  let start = new Date(startDate);
+  let end = new Date(endDate);
+  let startTime = start.getTime() / 1000;
+  let endTime = end.getTime() / 1000;
 
   let injuries = new Array<Injury>();
 
@@ -83,6 +85,38 @@ export async function addInjuryNote(
 }
 
 /**
+ * Adds an InjuryNote to an existing Injury from DynamoDB
+ *
+ * @param {string} injuryId The ID of the injury
+ * @param {InjuryNote} injuryId The InjuryNote to add to the injury
+ * @return {Promise} A promise which resolves with the injury
+ */
+export async function addInjurySpecialNote(
+  injuryNote: InjuryNote,
+  injuryId: string
+): Promise<Injury> {
+  let injury: Injury;
+
+  for await (const entry of mapper.query(Injury, { id: injuryId })) {
+    injury = entry;
+  }
+
+  if (injury) {
+    if (!injury.specialNotes) {
+      injury.specialNotes = Array<InjuryNote>();
+    }
+
+    injury.specialNotes.push(injuryNote);
+
+    return mapper.update(injury).then(injury => {
+      return injury;
+    });
+  } else {
+    throw new Error("Injury does not exist");
+  }
+}
+
+/**
  * Retrieves a Injury from DynamoDB
  *
  * @param {string} injuryId The ID of the injury
@@ -104,15 +138,13 @@ export async function getInjury(injuryId: string): Promise<Injury> {
 /**
  * Updates an injury
  *
- * @param {Injury} injury The id of the injury 
+ * @param {Injury} injury The id of the injury
  * @return {Injury} the updated injury
  */
-export async function updateInjury(
-  injury: Injury,
-): Promise<Injury> {
-    return mapper.update(injury).then(data => {
-      return data;
-    });
+export async function updateInjury(injury: Injury): Promise<Injury> {
+  return mapper.update(injury).then(data => {
+    return data;
+  });
 }
 
 /**

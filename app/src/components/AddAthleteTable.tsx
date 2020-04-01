@@ -7,18 +7,21 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { AthleteProfile, ListAthlete, Athlete, User } from "../util/types";
 import { addAthleteTableStyles } from "../styles/react/AddAthleteTableStyles";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Tooltip, Typography } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import { addAthleteToDb } from "../actions/AthleteAction";
+import ErrorDialog from "./ErrorDialog";
+import { UserPermissions } from "../util/permissions";
 
 interface AddAthleteTableProps {
     athletes: AthleteProfile[];
     rosterAthletes: Athlete[];
     allAthletes: ListAthlete[];
     setAllAthletes: any;
-    getTeams: (id: string) => void;
+    getTeams: (permissions: UserPermissions) => void;
     currentUser: User;
 }
 
@@ -29,6 +32,7 @@ interface AddAthleteTableProps {
  */
 export default function AddAthleteTable(props: AddAthleteTableProps) {
     const classes = addAthleteTableStyles({});
+    const [openError, setOpenError] = React.useState(false);
 
     /**
      * Determines if the player exists on the team or the database and renders an appropriate icon
@@ -71,30 +75,72 @@ export default function AddAthleteTable(props: AddAthleteTableProps) {
      * @param athlete: AthletProfile that contains necessary information to create entry in db.
      */
     const addAthlete = (athlete: AthleteProfile) => {
-        addAthleteToDb(athlete, props.currentUser.athleteProfile.name).then(
-            (athleteId: string | null) => {
-                if (athleteId != null) {
-                    props.setAllAthletes(
-                        props.allAthletes.concat({
-                            id: athleteId,
-                            name: athlete.name,
-                            birthdate: athlete.birthdate
-                        })
-                    );
-                }
+        addAthleteToDb(
+            athlete,
+            props.currentUser.firstName + " " + props.currentUser.lastName
+        ).then((athleteId: string | null) => {
+            if (athleteId != null) {
+                props.setAllAthletes(
+                    props.allAthletes.concat({
+                        id: athleteId,
+                        name: athlete.name,
+                        birthdate: athlete.birthdate
+                    })
+                );
+            } else {
+                setOpenError(true);
             }
-        );
+        });
     };
 
     return (
         <div className={classes.root}>
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             <Paper className={classes.tableContainer}>
                 <div className={classes.tableBodyContainer}>
                     <Table stickyHeader className={classes.tableBody}>
                         <TableHead>
                             <TableRow>
                                 <TableCell>
-                                    <b>Athlete Exists?</b> (No? click icon to register)
+                                    <b>Status</b>
+                                    <Tooltip
+                                        classes={{ tooltip: classes.tooltip }}
+                                        title={
+                                            <React.Fragment>
+                                                <div style={{ display: "flex", padding: "4px" }}>
+                                                    <DoneIcon style={{ color: "#0055B7" }} />
+                                                    <Typography color="inherit">
+                                                        : Athlete in database, not on team
+                                                    </Typography>
+                                                </div>
+                                                <div style={{ display: "flex", padding: "4px" }}>
+                                                    <PersonAddIcon style={{ color: "#F2A71E" }} />
+                                                    <Typography color="inherit">
+                                                        : Athlete not in database or team
+                                                    </Typography>
+                                                </div>
+                                                <div style={{ display: "flex", padding: "4px" }}>
+                                                    <HighlightOffIcon
+                                                        style={{ color: "#db2e2e" }}
+                                                    />
+                                                    <Typography color="inherit">
+                                                        : Athlete already on team
+                                                    </Typography>
+                                                </div>
+                                            </React.Fragment>
+                                        }
+                                    >
+                                        <IconButton
+                                            size="small"
+                                            style={{
+                                                width: "30px",
+                                                height: "30px",
+                                                marginLeft: "4px"
+                                            }}
+                                        >
+                                            <HelpOutlineIcon />
+                                        </IconButton>
+                                    </Tooltip>
                                 </TableCell>
                                 <TableCell>
                                     <b>Athlete Name</b>

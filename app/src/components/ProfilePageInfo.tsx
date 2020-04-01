@@ -5,6 +5,7 @@ import { profilePageStyles } from "../styles/react/ProfilePageStyles";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { updateAthlete } from "../actions/AthleteAction";
+import ErrorDialog from "./ErrorDialog";
 
 interface ProfilePageInfo {
     currentAthlete: AthleteProfile;
@@ -34,6 +35,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
     const [healthCardNo, setHealthCardNo] = React.useState<string>(
         props.currentAthlete.healthCardNumber
     );
+    const [studentNo, setStudentNo] = React.useState<string>(props.currentAthlete.studentNumber);
 
     const [ecName, setEcName] = React.useState<string>(props.currentAthlete.emergencyContact.name);
     const [ecEmail, setEcEmail] = React.useState<string>(
@@ -42,6 +44,22 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
     const [ecPhone, setEcPhone] = React.useState<string>(
         props.currentAthlete.emergencyContact.phone
     );
+    const [openError, setOpenError] = React.useState(false);
+
+    React.useEffect(() => {
+        setBirthdate(props.currentAthlete.birthdate);
+        setSchoolYear(props.currentAthlete.schoolYear.toString());
+        setGender(props.currentAthlete.gender.toString());
+        setWeight(props.currentAthlete.weight.toString());
+        setEmail(props.currentAthlete.email);
+        setCellPhone(props.currentAthlete.cellPhone);
+        setHomePhone(props.currentAthlete.homePhone);
+        setHealthCardNo(props.currentAthlete.healthCardNumber);
+        setStudentNo(props.currentAthlete.studentNumber);
+        setEcName(props.currentAthlete.emergencyContact.name);
+        setEcEmail(props.currentAthlete.emergencyContact.email);
+        setEcPhone(props.currentAthlete.emergencyContact.phone);
+    }, [props.currentAthlete]);
 
     React.useEffect(() => {
         if (!props.isEditing && !isInitialRender) {
@@ -59,6 +77,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
                     cellPhone: cellPhone,
                     homePhone: homePhone,
                     healthCardNumber: healthCardNo,
+                    studentNumber: studentNo,
                     emergencyContact: {
                         id: props.currentAthlete.emergencyContact.id,
                         name: ecName,
@@ -68,9 +87,10 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
                     files: props.currentAthlete.files,
                     injuries: props.currentAthlete.injuries
                 },
-                props.currentUser.athleteProfile.name
-            ).then(_ => {
-                props.setIsUpdating(false);
+                props.currentUser.firstName + " " + props.currentUser.lastName
+            ).then((response: string | null) => {
+                if (!!response) props.setIsUpdating(false);
+                else setOpenError(true);
             });
         }
         setIsInitialRender(false);
@@ -78,6 +98,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
 
     return (
         <>
+            <ErrorDialog open={openError} setOpen={setOpenError} />
             <Typography className={classes.heading} variant="h6">
                 Basic Information
             </Typography>
@@ -104,6 +125,7 @@ export default function ProfilePageInfo(props: ProfilePageInfo) {
                 ["Email", email, setEmail],
                 ["Cell Phone", cellPhone, setCellPhone],
                 ["Home Phone", homePhone, setHomePhone],
+                ["Student Number", studentNo, setStudentNo],
                 ["Health Card Number", healthCardNo, setHealthCardNo]
             ].map(([category, value, event], i: number) => (
                 <ProfileAttribute

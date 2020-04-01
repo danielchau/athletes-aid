@@ -16,14 +16,20 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen
-            })
+            }),
+            [theme.breakpoints.down("xs")]: {
+                width: "100vw"
+            }
         },
         drawerClosed: {
             width: "calc(100vw - 72px)",
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen
-            })
+            }),
+            [theme.breakpoints.down("xs")]: {
+                width: "100vw"
+            }
         },
         introPaper: {
             color: theme.palette.text.secondary,
@@ -45,7 +51,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
         introButton: {
             border: "solid 1px",
             borderColor: "rgb(0,0,0,0.30)",
-            width: "56px"
+            width: "56px",
+            height: "56px"
         },
         paperContent: {
             flexGrow: 1,
@@ -76,11 +83,20 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             overflow: "auto",
             marginTop: "8px"
         },
+        gridItem: {
+            [theme.breakpoints.down("sm")]: {
+                maxHeight: "600px",
+                marginBottom: "8px"
+            },
+            [theme.breakpoints.up("md")]: {
+                height: "100%",
+                overflow: "auto"
+            }
+        },
         card: {
-            width: "calc(50% - 8px)",
             height: "100%",
-            marginRight: "8px",
-            overflow: "auto"
+            overflow: "auto",
+            marginRight: "8px"
         },
         athletesContainer: {
             display: "flex",
@@ -89,6 +105,11 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
         },
         athletesList: {
             flex: "1 1 auto",
+            overflow: "hidden",
+            height: "100%"
+        },
+        innerList: {
+            height: "calc(100% - 56px)",
             overflow: "auto"
         },
         existingAthletesButton: {
@@ -107,7 +128,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             flexDirection: "column",
             display: "flex",
             alignContent: "center",
-            height: "calc(100% - 100px)"
+            height: "calc(100% - 100px)",
+            minHeight: "500px"
         },
         saveButton: {
             margin: "8px",
@@ -150,7 +172,7 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
         newAthleteContainer: {
             height: "100%",
             width: "100%",
-            overflow: "scroll",
+            overflow: "hidden",
             flexGrow: 1
         }
     })

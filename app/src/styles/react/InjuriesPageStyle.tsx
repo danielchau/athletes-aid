@@ -14,14 +14,20 @@ export const injuriesPageStyles = makeStyles((theme: Theme) =>
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen
-            })
+            }),
+            [theme.breakpoints.down("xs")]: {
+                width: "100vw"
+            }
         },
         drawerClosed: {
             width: "calc(100vw - 72px)",
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen
-            })
+            }),
+            [theme.breakpoints.down("xs")]: {
+                width: "100vw"
+            }
         },
         grid: {
             backgroundColor: "#fff"
@@ -30,7 +36,12 @@ export const injuriesPageStyles = makeStyles((theme: Theme) =>
             padding: theme.spacing(2),
             textAlign: "center",
             color: theme.palette.text.secondary,
-            backgroundColor: "rgba(0, 33, 69, 0.05)"
+            backgroundColor: "rgba(0, 33, 69, 0.05)",
+            height: "100%"
+        },
+        vizPaper: {
+            padding: theme.spacing(2),
+            height: "100%"
         },
         primaryStatisticContainer: {
             display: "flex",

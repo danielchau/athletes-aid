@@ -3,21 +3,22 @@ import { HeadCell } from "../util/types";
 /**
  * Page names
  */
-export const profilePageName: string = "My Profile";
+export const profilePageName: string = "Profile";
 export const rosterPageName: string = "Roster";
 export const injuryLoggingPageName: string = "Injury Logging";
 export const injuriesPageName: string = "Injuries";
 export const rosterManagementPageName: string = "Roster Management";
+export const userManagementPageName: string = "User Management";
 
 /**
  * URL Redirect paths for navigation
  */
-export const myProfilePath: string = "/myprofile";
 export const profilePath: string = "/profile";
 export const rosterPath: string = "/roster";
 export const injuryLoggingPath: string = "/logging";
 export const injuriesPath: string = "/";
 export const rosterManagementPath: string = "/rostermanagement";
+export const userManagementPath: string = "/usermanagement";
 
 /**
  * Drawer width of the navigation panel
@@ -69,19 +70,6 @@ export const injuryTypes: string[] = [
     "Other"
 ];
 export const severities: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-export const severityDescriptions: string[] = [
-    "no severity",
-    "no pain and minimal discomfort",
-    "no pain and mild discomfort",
-    "no pain but discomfort",
-    "mild pain/discomfort",
-    "mild/medium pain/discomfort",
-    "medium pain/discomfort",
-    "medium/major pain/discomfort",
-    "major pain/discomfort",
-    "extreme pain/discomfort",
-    "extremely severe (life threatenting)"
-];
 export const playerStatuses: string[] = ["Out", "Mod", "RTP"];
 export const mechanismsOfInjury: string[] = [
     "Direct contact with another athlete",

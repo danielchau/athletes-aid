@@ -5,12 +5,12 @@ import { NavigationPanelStates, Team, User, Athlete } from "../util/types";
 import { pageStyles } from "../styles/react/PageStyle";
 import { Switch, Route, RouteComponentProps } from "react-router-dom";
 import {
-    myProfilePath,
     rosterPath,
     injuryLoggingPath,
     injuriesPath,
     rosterManagementPath,
-    profilePath
+    profilePath,
+    userManagementPath
 } from "../constants/constants";
 import TopBar from "./TopBar";
 import InjuriesPageContainer from "../containers/InjuriesPageContainer";
@@ -19,6 +19,7 @@ import RosterManagementPageContainer from "../containers/RosterManagementPageCon
 import ProfilePageContainer from "../containers/ProfilePageContainer";
 import RosterPageContainer from "../containers/RosterPageContainer";
 import OtherProfilePageContainer from "../containers/OtherProfilePageContainer";
+import UserManagementPageContainer from "../containers/UserManagementPageContainer";
 
 interface PageProps {
     state: NavigationPanelStates;
@@ -31,6 +32,7 @@ interface PageProps {
     currentUser: User;
     currentRoster: Athlete[];
     getCurrentRoster: (athleteIds: string[]) => Promise<Athlete[]>;
+    setIsAuthenticating: (state: boolean) => void;
 }
 
 /**
@@ -67,14 +69,9 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     match={props.match}
                     teams={props.teams}
                     currentUser={props.currentUser}
+                    setIsAuthenticating={props.setIsAuthenticating}
                 />
                 <Switch>
-                    <Route path={myProfilePath}>
-                        <ProfilePageContainer
-                            currentAthlete={props.currentUser.athleteProfile}
-                            canEdit={true}
-                        ></ProfilePageContainer>
-                    </Route>
                     {props.currentUser.permissions.pages.roster && (
                         <Route path={rosterPath}>
                             <RosterPageContainer></RosterPageContainer>
@@ -91,6 +88,11 @@ export default function Page(props: PageProps & RouteComponentProps) {
                     {props.currentUser.permissions.pages.rosterManagement && (
                         <Route path={rosterManagementPath}>
                             <RosterManagementPageContainer></RosterManagementPageContainer>
+                        </Route>
+                    )}
+                    {props.currentUser.permissions.pages.userManagement && (
+                        <Route path={userManagementPath}>
+                            <UserManagementPageContainer />
                         </Route>
                     )}
                     {props.currentUser.permissions.pages.profiles && (

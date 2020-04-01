@@ -69,7 +69,7 @@ async function fetchPostInjury(athleteInfo: any): Promise<string | null> {
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -97,7 +97,7 @@ async function fetchUpdateInjury(athleteInfo: any): Promise<Injury | null> {
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -110,16 +110,22 @@ async function fetchUpdateInjury(athleteInfo: any): Promise<Injury | null> {
         });
 }
 
-export async function postInjuryNote(injuryId: string, content: string, createdBy: string) {
-    return await fetchPostInjuryNote(injuryId, content, createdBy);
+export async function postInjuryNote(
+    injuryId: string,
+    content: string,
+    createdBy: string,
+    isSpecial: boolean
+) {
+    return await fetchPostInjuryNote(injuryId, content, createdBy, isSpecial);
 }
 
 async function fetchPostInjuryNote(
     injuryId: string,
     content: string,
-    createdBy: string
+    createdBy: string,
+    isSpecial: boolean
 ): Promise<Injury | null> {
-    return fetch("./injuryNote", {
+    return fetch(isSpecial ? "./injurySpecialNote" : "./injuryNote", {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -132,7 +138,7 @@ async function fetchPostInjuryNote(
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -163,7 +169,7 @@ async function fetchInjuryStatus(injuryId: string, status: boolean): Promise<Inj
     })
         .then(response => response.json())
         .then((response: any) => {
-            if (response.error) {
+            if (response.error || response.status == 500) {
                 console.log("Looks like there was a problem. Status Code: " + response.status);
                 return null;
             } else {
@@ -201,6 +207,13 @@ export function transformJSONToInjury(json: any[]): Injury[] {
             injuryDescription: injury.injuryDescription,
             otherNotes: !!injury.otherNotes
                 ? injury.otherNotes.map((n: any) => ({
+                      createdBy: !!n.createdBy ? n.createdBy : "",
+                      createdOn: new Date(n.createdOn),
+                      content: n.content
+                  }))
+                : [],
+            specialNotes: !!injury.specialNotes
+                ? injury.specialNotes.map((n: any) => ({
                       createdBy: !!n.createdBy ? n.createdBy : "",
                       createdOn: new Date(n.createdOn),
                       content: n.content

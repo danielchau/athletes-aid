@@ -1,0 +1,18 @@
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://athletes-aid.ca" ID="https___athletes_aid_ca">
+<SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+<KeyDescriptor use="encryption">
+<ds:KeyInfo>
+<ds:X509Data>
+<ds:X509Certificate>
+MIIFxTCCA62gAwIBAgIJAJQXqaW7pjBOMA0GCSqGSIb3DQEBCwUAMHkxCzAJBgNV BAYTAkNBMRkwFwYDVQQIDBBCcml0aXNoLUNvbHVtYmlhMRIwEAYDVQQHDAlWYW5j b3V2ZXIxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDEYMBYGA1UE AwwPYXRobGV0ZXMtYWlkLmNhMB4XDTIwMDMyNDAyMTMxM1oXDTIyMDkxMDAyMTMx M1oweTELMAkGA1UEBhMCQ0ExGTAXBgNVBAgMEEJyaXRpc2gtQ29sdW1iaWExEjAQ BgNVBAcMCVZhbmNvdXZlcjEhMB8GA1UECgwYSW50ZXJuZXQgV2lkZ2l0cyBQdHkg THRkMRgwFgYDVQQDDA9hdGhsZXRlcy1haWQuY2EwggIiMA0GCSqGSIb3DQEBAQUA A4ICDwAwggIKAoICAQC7W8RO0x1S3MB9Kz4KpLbGzA8cehadRryq7ujdRxdx4PkX rAUhP/pE9ybhx6hdDF06QrpTMAW0UQ68Wixln8tkh2cLqtaZoGy6E/G3TwZ/gl1X w2piI2OMORCxFDf7GGABx0xBM9hXjje4bDv4pGSesh6sYf8gX7g3/C28RGlxi0ma TpKT6oTGdhaPM4Vu/1piyL63ybYFwPHYqYUkWbg87hseToSJEW2JC9Vn4k20Ju9i Ao996mXWU9Hi/O+rOqxtMAbYWRz70OieC1ho4ffQ4mpFtrzxhV6UMUWW09yWsibg tizjSWuQ2zMo2s0A0vEQJCGCGPDgkwmeFRazczpiCt17S1AsVl4RRWJLYwu6eeZs szvTCkW435vSXNVlPV80bUUTKz0pkKVioweRqRviRZiKrwtgouj76WE7osHoOF2Q TU2Tinc8dpWWsOm4cgitaRg9vWG89RB2V1nUBJ762ChkYONPSNn5ugM4fCR0rvZ3 2MH6pIcEn7jins8RqYARCfvbqGyVcuqKiXJpiztCM7Q/MWlLYZ1wVOYVYqZJ4QhB uaK5TRBfmjPFv9NG94u1vyf22Cw5/oSMpqQB9obZPsxQVMMj5RUswbcxrpvarUpS 9At8w+p2etm9EZri6xijWwKQC/MmGHvwOEBk4hG7FfPRoJvCN5rohtA6de6I0wID AQABo1AwTjAdBgNVHQ4EFgQUH6niNi03UHJtf6fMGm9Ix1B5gH0wHwYDVR0jBBgw FoAUH6niNi03UHJtf6fMGm9Ix1B5gH0wDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0B AQsFAAOCAgEAAeyDmhWeZx+L7TI3pu+6KitL71+ZDKoKPiOflSMQvM3NnzpnEKrn hLHkb4okEVKLj9AAmLRnSdwApCApU6iXKA1u197eElWRdFmZIxJTDr17X1/q1BnM Vv8ZNsTyp+6heCpql0mp9ZU9NLgdtOZHnemkiAYNwAcVZA1pgJivXMYxssYq5Qiz syBAsF2UndkT1JBpBHM17EGk2nj4+8+eUKiOERKoB/MjL98Xb2+NIXFDjgCpIDZe UDLBlFe99eXKNaC26aSbD/zfqknMjeD/qLsfFlGkToQsjejeXVwm+duXP7bnH3BS dG4RglrE6driyleJ4yqaJBYJNd7KHWWdSellRKKKzUvEzcUv1IZhyHJiw/t0Ai8H GOtjANouNcYWQg+Sj/NLkAeEyimIDnZ7Rbvv9c0pGdV/JxDGoFK6g8xJgyg6Eaqp roElxm7/jd5Zxqivkc0WmZwQaUA1jA3+ydJdzU3Cq9WcSOVmKXpW4KZWBx78H/T6 M34QJLjsPOtDTVoKUWVQzp62yCv/juDVH0CUw5esvAFx79nOeqmm+B/8EByI1Npp laXxE0ZQWMHSrVHgdz71F39T8XGtbKW6bA5sSZ1u+XDzQKz3h4wlZUnhXCxhpGGr 6KT973QjJDK0poghAwv1AzcgBO68I36NiroAMu/mzUZU+ZYD+hOyUw0=
+</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+<EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc"/>
+<EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
+<EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#tripledes-cbc"/>
+</KeyDescriptor>
+<SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://athletes-aid.ca/"/>
+<AssertionConsumerService index="1" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://athletes-aid.ca/login/callback"/>
+</SPSSODescriptor>
+</EntityDescriptor>

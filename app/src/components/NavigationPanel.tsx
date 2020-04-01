@@ -4,6 +4,7 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -15,24 +16,27 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import HealingIcon from "@material-ui/icons/Healing";
 import SettingsIcon from "@material-ui/icons/Settings";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStation";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import clsx from "clsx";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { navigationPanelStyles } from "../styles/react/NavigationPanelStyle";
 import { NavigationPanelStates, Team, User } from "../util/types";
 import {
-    profilePageName,
     rosterPageName,
     injuryLoggingPageName,
     injuriesPageName,
     rosterManagementPageName,
-    myProfilePath,
     rosterPath,
     injuryLoggingPath,
     injuriesPath,
-    rosterManagementPath
+    rosterManagementPath,
+    userManagementPath,
+    userManagementPageName
 } from "../constants/constants";
 import { Typography } from "@material-ui/core";
+import withWidth, { WithWidthProps, isWidthDown } from "@material-ui/core/withWidth";
 
 interface NavigationPanelProps {
     state: NavigationPanelStates;
@@ -41,6 +45,7 @@ interface NavigationPanelProps {
     setSelectedTeam: any;
     teams: Team[];
     currentUser: User;
+    setIsAuthenticating: (state: boolean) => void;
 }
 
 /**
@@ -48,9 +53,15 @@ interface NavigationPanelProps {
  * The contents depend on what role the user is.
  * @param props
  */
-export default function NavigationPanel(props: NavigationPanelProps & RouteComponentProps) {
+function NavigationPanel(props: NavigationPanelProps & RouteComponentProps & WithWidthProps) {
     const classes = navigationPanelStyles({});
     const [teamToggleAnchorEl, setTeamToggleAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    React.useEffect(() => {
+        if (props.width == "xs" && props.state === NavigationPanelStates.open) {
+            props.handleDrawerClose();
+        }
+    }, [props.width]);
 
     const handleClickTeamToggle = (event: React.MouseEvent<HTMLElement>) => {
         setTeamToggleAnchorEl(event.currentTarget);
@@ -65,13 +76,27 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
         setTeamToggleAnchorEl(null);
     };
 
+    const handleListClick = () => {
+        if (isWidthDown("xs", props.width)) {
+            props.handleDrawerClose();
+        }
+    };
+
+    const onLogout = () => {
+        window.location.replace(window.location.href.split("/")[0] + "/logout");
+    };
+
     return (
         <Drawer
-            variant="permanent"
-            className={clsx(classes.drawer, {
-                [classes.drawerOpen]: props.state === NavigationPanelStates.open,
-                [classes.drawerClose]: !(props.state === NavigationPanelStates.open)
-            })}
+            variant={isWidthDown("xs", props.width) ? "temporary" : "permanent"}
+            anchor={isWidthDown("xs", props.width) ? "top" : "left"}
+            className={clsx(
+                {
+                    [classes.drawerOpen]: props.state === NavigationPanelStates.open,
+                    [classes.drawerClose]: !(props.state === NavigationPanelStates.open)
+                },
+                classes.drawer
+            )}
             classes={{
                 paper: clsx({
                     [classes.drawerOpen]: props.state === NavigationPanelStates.open,
@@ -82,7 +107,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
         >
             <div className={classes.toolbar}>
                 <IconButton style={{ color: "#fff" }} onClick={props.handleDrawerClose}>
-                    <ChevronLeftIcon />
+                    {isWidthDown("xs", props.width) ? <KeyboardArrowUpIcon /> : <ChevronLeftIcon />}
                 </IconButton>
             </div>
             <Divider />
@@ -90,34 +115,32 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                 <div className={classes.roleContainer}>
                     <AccessibilityNewIcon className={classes.itemIcon} />
                     <div className={classes.labelContainer}>
-                        <Typography className={classes.primaryLabel}>Profile Type</Typography>
+                        <Typography className={classes.primaryLabel}>
+                            {props.currentUser.firstName + " " + props.currentUser.lastName}
+                        </Typography>
+                        <Typography
+                            className={classes.secondaryLabel}
+                            style={{ paddingBottom: "8px" }}
+                        >
+                            {props.currentUser.cwl}
+                        </Typography>
+                        <Divider light></Divider>
+                        <Typography className={classes.primaryLabel} style={{ paddingTop: "8px" }}>
+                            Profile Type
+                        </Typography>
                         <Typography className={classes.secondaryLabel}>
                             {props.currentUser.permissions.label}
                         </Typography>
                     </div>
                 </div>
                 <Divider light></Divider>
-                <Link className={classes.link} to={myProfilePath}>
-                    <ListItem
-                        button
-                        key={profilePageName}
-                        selected={props.location.pathname == myProfilePath}
-                    >
-                        <ListItemIcon className={classes.itemIcon}>
-                            <PersonIcon></PersonIcon>
-                        </ListItemIcon>
-                        <ListItemText
-                            className={classes.drawerListItemText}
-                            primary={profilePageName}
-                        />
-                    </ListItem>
-                </Link>
                 {props.currentUser.permissions.pages.roster && (
                     <Link className={classes.link} to={rosterPath}>
                         <ListItem
                             button
                             key={rosterPageName}
                             selected={props.location.pathname == rosterPath}
+                            onClick={handleListClick}
                         >
                             <ListItemIcon className={classes.itemIcon}>
                                 <GroupIcon></GroupIcon>
@@ -135,6 +158,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                             button
                             key={injuryLoggingPageName}
                             selected={props.location.pathname == injuryLoggingPath}
+                            onClick={handleListClick}
                         >
                             <ListItemIcon className={classes.itemIcon}>
                                 <DescriptionIcon></DescriptionIcon>
@@ -152,6 +176,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                             button
                             key={injuriesPageName}
                             selected={props.location.pathname == injuriesPath}
+                            onClick={handleListClick}
                         >
                             <ListItemIcon className={classes.itemIcon}>
                                 <HealingIcon></HealingIcon>
@@ -169,6 +194,7 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                             button
                             key={rosterManagementPageName}
                             selected={props.location.pathname == rosterManagementPath}
+                            onClick={handleListClick}
                         >
                             <ListItemIcon className={classes.itemIcon}>
                                 <SettingsIcon></SettingsIcon>
@@ -176,6 +202,24 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                             <ListItemText
                                 className={classes.drawerListItemText}
                                 primary={rosterManagementPageName}
+                            />
+                        </ListItem>
+                    </Link>
+                )}
+                {props.currentUser.permissions.pages.userManagement && (
+                    <Link className={classes.link} to={userManagementPath}>
+                        <ListItem
+                            button
+                            key={userManagementPageName}
+                            selected={props.location.pathname == userManagementPath}
+                            onClick={handleListClick}
+                        >
+                            <ListItemIcon className={classes.itemIcon}>
+                                <TransferWithinAStationIcon></TransferWithinAStationIcon>
+                            </ListItemIcon>
+                            <ListItemText
+                                className={classes.drawerListItemText}
+                                primary={userManagementPageName}
                             />
                         </ListItem>
                     </Link>
@@ -202,9 +246,11 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                                 }
                                 secondary={
                                     <Typography className={classes.secondaryLabel}>
-                                        {props.selectedTeam.name +
-                                            " - " +
-                                            props.selectedTeam.season}
+                                        {!!props.selectedTeam
+                                            ? props.selectedTeam.name +
+                                              " - " +
+                                              props.selectedTeam.season
+                                            : ""}
                                     </Typography>
                                 }
                             />
@@ -233,7 +279,24 @@ export default function NavigationPanel(props: NavigationPanelProps & RouteCompo
                         ))}
                     </Menu>
                 </ListItem>
+                <Divider light></Divider>
+                <div
+                    className={classes.roleContainer}
+                    style={{ cursor: "pointer" }}
+                    onClick={onLogout}
+                >
+                    <ExitToAppIcon style={{ marginTop: "8px" }} className={classes.itemIcon} />
+                    <div className={classes.labelContainer}>
+                        <Typography className={classes.primaryLabel}>Sign Out</Typography>
+                        <Typography className={classes.secondaryLabel}>
+                            Click to exit Athlete's Aid
+                        </Typography>
+                    </div>
+                </div>
+                <Divider light></Divider>
             </List>
         </Drawer>
     );
 }
+
+export default withWidth()(NavigationPanel);

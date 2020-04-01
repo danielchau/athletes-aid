@@ -21,7 +21,7 @@ import {
 import { Injury, AthleteInjuries, Team, User, Athlete, Order } from "../util/types";
 import { headCells } from "../constants/constants";
 import GetAppIcon from "@material-ui/icons/GetApp";
-import { Button } from "@material-ui/core";
+import { Button, Tooltip } from "@material-ui/core";
 
 interface InjuriesDataTableProps {
     injuries: Injury[];
@@ -59,7 +59,7 @@ interface EnhancedTableToolbarProps {
 export default function InjuriesDataTable(props: InjuriesDataTableProps) {
     const classes = injuriesDataTableStyles({});
     const [order, setOrder] = React.useState<Order>("asc");
-    const [orderBy, setOrderBy] = React.useState<keyof Injury>("athleteName");
+    const [orderBy, setOrderBy] = React.useState<keyof Injury>("status");
     const [selectedInjuries, setSelectedInjuries] = React.useState<string[]>([]);
     const [selectedInjury, setSelectedInjury] = React.useState<Injury | null>(null);
     const [page, setPage] = React.useState(0);
@@ -154,7 +154,7 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         let headers =
             "Active,Created On,Created By,Team Name,Athlete Name,Injury Date," +
             "Is Sports Related,Event Type,Side Of Body,Location On Body," +
-            "Injury Type,Severity,Status,Mechanism,Injury Description,Other Notes,\r\n";
+            "Injury Type,Severity,Status,Mechanism,Injury Description,Other Notes,Special Notes,\r\n";
         let csvContent = "data:text/csv;charset=utf-8," + headers;
         props.injuries
             .filter(i => selectedInjuries.indexOf(i.id) !== -1)
@@ -175,7 +175,12 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                     i.status.toString(),
                     i.mechanism.toString(),
                     `"` + i.injuryDescription.replace(/"/g, `'`).toString() + `"`,
-                    `"` + JSON.stringify(i.otherNotes).replace(/"/g, `'`) + `"`
+                    `"` +
+                        JSON.stringify(i.otherNotes)
+                            .replace(/"/g, `'`)
+                            .replace("\n", ",") +
+                        `"`,
+                    `"` + JSON.stringify(i.specialNotes).replace(/"/g, `'`) + `"`
                 ];
                 csvContent += values + "\r\n";
             });
@@ -189,12 +194,52 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
         link.click(); // This will download the data file named "my_data.csv".
     };
 
+    const onCoachExport = () => {
+        let headers =
+            "Active,Created On,Created By,Team Name,Athlete Name,Injury Date," +
+            "Side Of Body,Location On Body,Severity,Status,\r\n";
+        let csvContent = "data:text/csv;charset=utf-8," + headers;
+        props.injuries
+            .filter(i => selectedInjuries.indexOf(i.id) !== -1)
+            .map(i => {
+                let values = [
+                    i.active.toString(),
+                    i.createdOn.toDateString(),
+                    i.createdBy.toString(),
+                    i.teamName.toString(),
+                    i.athleteName.toString(),
+                    i.injuryDate.toDateString(),
+                    i.sideOfBody.toString(),
+                    i.locationOnBody.toString(),
+                    i.severity.toString(),
+                    i.status.toString()
+                ];
+                csvContent += values + "\r\n";
+            });
+
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "my_data.csv");
+        document.body.appendChild(link); // Required for FF
+
+        link.click(); // This will download the data file named "my_data.csv".
+    };
+
+    const getStatusColor = (status: string) => {
+        if (status == "Out") return "#b50d0d";
+        if (status == "Mod") return "#f0da37";
+        else return "#2cb030";
+    };
+
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
                 <EnhancedTableToolbar
                     numSelected={selectedInjuries.length}
-                    onExport={onExport}
+                    onExport={
+                        props.currentUser.permissions.canSeeInjuryDetails ? onExport : onCoachExport
+                    }
                     currentUser={props.currentUser}
                 />
                 <div className={classes.tableWrapper}>
@@ -251,15 +296,28 @@ export default function InjuriesDataTable(props: InjuriesDataTableProps) {
                                             >
                                                 {row.athleteName}
                                             </TableCell>
-                                            <TableCell align="right">
-                                                {row.injuryDate.toLocaleDateString()}
-                                            </TableCell>
+                                            <Tooltip
+                                                title={row.injuryDate.toDateString()}
+                                                placement="bottom-end"
+                                            >
+                                                <TableCell align="right">
+                                                    {row.injuryDate.toLocaleDateString()}
+                                                </TableCell>
+                                            </Tooltip>
                                             <TableCell align="right">
                                                 {row.locationOnBody}
                                             </TableCell>
                                             <TableCell align="right">{row.injuryType}</TableCell>
                                             <TableCell align="right">{row.severity}</TableCell>
-                                            <TableCell align="right">{row.status}</TableCell>
+                                            <TableCell align="right" style={{ display: "flex" }}>
+                                                {row.status}{" "}
+                                                <div
+                                                    className={classes.statusIndicator}
+                                                    style={{
+                                                        backgroundColor: getStatusColor(row.status)
+                                                    }}
+                                                />
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}

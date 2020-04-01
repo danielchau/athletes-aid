@@ -37,7 +37,6 @@ export const injuryDialogStyles = makeStyles((theme: Theme) =>
             marginBottom: "8px"
         },
         notePaper: {
-            backgroundColor: "#ffffff",
             padding: "8px",
             marginBottom: "8px"
         },
@@ -72,6 +71,14 @@ export const injuryDialogStyles = makeStyles((theme: Theme) =>
             alignContent: "center",
             alignSelf: "center",
             paddingBottom: "8px"
+        },
+        notesContainer: {
+            maxHeight: "800px",
+            overflow: "auto"
+        },
+        tabRoot: {
+            backgroundColor: "rgb(234, 234, 234)",
+            borderRadius: "3px"
         }
     })
 );
