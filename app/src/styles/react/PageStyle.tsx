@@ -7,19 +7,26 @@ export const pageStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             display: "flex",
-            width: "100vw",
-            height: "100vh",
+            width: "100%",
+            height: "100%",
             flexDirection: "column"
         },
         appBarContainer: {
             display: "flex",
             width: "100%",
-            height: "64px"
+            height: "64px",
+            [theme.breakpoints.down("xs")]: {
+                height: "56px"
+            }
         },
         pageBodyContainer: {
             display: "flex",
             flexDirection: "row",
-            height: "calc(100vh - 64px)"
+            height: "calc(100% - 64px)",
+            [theme.breakpoints.down("xs")]: {
+                height: "calc(100% - 56px)",
+                width: "100%"
+            }
         }
     })
 );

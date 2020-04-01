@@ -21,7 +21,6 @@ interface AddAthleteTableProps {
     rosterAthletes: Athlete[];
     allAthletes: ListAthlete[];
     setAllAthletes: any;
-    getTeams: (permissions: UserPermissions) => void;
     currentUser: User;
 }
 

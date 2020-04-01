@@ -18,7 +18,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
                 duration: theme.transitions.duration.enteringScreen
             }),
             [theme.breakpoints.down("xs")]: {
-                width: "100vw"
+                width: "100%",
+                overflow: "scroll"
             }
         },
         drawerClosed: {
@@ -28,7 +29,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
                 duration: theme.transitions.duration.leavingScreen
             }),
             [theme.breakpoints.down("xs")]: {
-                width: "100vw"
+                width: "100%",
+                overflow: "scroll"
             }
         },
         introPaper: {
@@ -60,8 +62,10 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
             paddingRight: "0px",
             display: "flex",
             flexDirection: "column",
-            maxHeight: "calc(100% - 80px)",
-            backgroundColor: "rgba(0, 33, 69, 0.05)"
+            backgroundColor: "rgba(0, 33, 69, 0.05)",
+            [theme.breakpoints.up("sm")]: {
+                maxHeight: "calc(100% - 80px)"
+            }
         },
         teamInfoContainer: {
             display: "flex",

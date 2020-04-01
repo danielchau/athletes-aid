@@ -49,7 +49,11 @@ export default function InjuriesPage(props: InjuriesProps) {
      */
     React.useEffect(() => {
         setIsFetching(false);
-        setInjuries(props.athleteInjuries.injuries);
+        if (showInactive) {
+            setInjuries(props.athleteInjuries.injuries);
+        } else {
+            setInjuries(props.athleteInjuries.injuries.filter(i => i.active));
+        }
     }, [props.athleteInjuries]);
 
     /**

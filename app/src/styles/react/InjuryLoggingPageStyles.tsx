@@ -8,7 +8,8 @@ export const injuryLoggingPageStyles = makeStyles((theme: Theme) =>
         root: {
             width: "100%",
             padding: "16px",
-            backgroundColor: "#fff"
+            backgroundColor: "#fff",
+            overflow: "hidden"
         },
         backButton: {
             marginRight: theme.spacing(1)
@@ -45,7 +46,11 @@ export const injuryLoggingPageStyles = makeStyles((theme: Theme) =>
             height: "calc(100% - 168px)",
             marginBottom: "52px",
             marginTop: "8px",
-            overflow: "hidden"
+            overflow: "hidden",
+            [theme.breakpoints.down("xs")]: {
+                height: "calc(100% - 184px)",
+                marginBottom: "68px"
+            }
         },
         loggingBottomButtons: {
             position: "fixed",

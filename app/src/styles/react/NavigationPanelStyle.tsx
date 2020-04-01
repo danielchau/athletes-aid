@@ -12,7 +12,8 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             whiteSpace: "nowrap",
             [theme.breakpoints.down("xs")]: {
                 width: "100%",
-                backgroundColor: "transparent"
+                backgroundColor: "transparent",
+                boxShadow: "0 6px 19px -3px #585858"
             }
         },
         drawerOpen: {
@@ -24,7 +25,8 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             backgroundColor: "#fafafa",
             [theme.breakpoints.down("xs")]: {
                 width: "100%",
-                height: "487px"
+                height: "553px",
+                overflow: "hidden"
             }
         },
         drawerClose: {
@@ -40,7 +42,8 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             backgroundColor: "#fafafa",
             [theme.breakpoints.down("xs")]: {
                 width: "100%",
-                height: "487px"
+                height: "553px",
+                overflow: "hidden"
             }
         },
         toolbar: {
