@@ -27,7 +27,8 @@ import {
     createTeam,
     getAthleteTemplate,
     updateTeamInfo,
-    updateTeamAthletes
+    updateTeamAthletes,
+    fetchTeamsEndpoint
 } from "../actions/TeamAction";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -45,11 +46,7 @@ import { UserPermissions } from "../util/permissions";
 
 interface RosterManagementPageProps {
     state: NavigationPanelStates;
-    selectedTeam: Team;
-    teams: Team[];
-    getTeams: (permissions: UserPermissions) => Promise<Team[]>;
     currentUser: User;
-    setSelectedTeam: any;
 }
 
 /**
@@ -75,17 +72,21 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
     const [isCreatingNewTeam, setIsCreatingNewTeam] = React.useState<boolean>(false);
     const [open, setOpen] = React.useState(false);
     const [openError, setOpenError] = React.useState(false);
+    const [teams, setTeams] = React.useState([]);
 
     /**
      * Get all athletes in the database so that admin knows who they can add individually.
      */
     React.useEffect(() => {
-        getAllAthletes("").then((response: ListAthlete[] | null) => {
-            if (!!response) {
-                setAllAthletes(response);
-            } else {
-                setOpenError(true);
-            }
+        fetchTeamsEndpoint(props.currentUser.permissions).then((t: Team[]) => {
+            setTeams(t);
+            getAllAthletes("").then((response: ListAthlete[] | null) => {
+                if (!!response) {
+                    setAllAthletes(response);
+                } else {
+                    setOpenError(true);
+                }
+            });
         });
     }, []);
 
@@ -93,24 +94,21 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         if (isCreatingNewTeam) {
             setCurrentRoster([]);
             setSelectedTeam(
-                props.teams.filter((t: Team) => {
+                teams.filter((t: Team) => {
                     return t.name == teamName && t.season == season;
                 })[0]
             );
             setIsCreatingNewTeam(false);
         }
-    }, [props.teams]);
+    }, [teams]);
 
     /**
      * If the teams change, update the relevant states.
      */
     React.useEffect(() => {
         if (!!selectedTeam) {
-            let newSelectedTeam = props.teams.filter(t => t.id == selectedTeam.id);
+            let newSelectedTeam = teams.filter(t => t.id == selectedTeam.id);
             if (newSelectedTeam.length > 0) {
-                if (newSelectedTeam[0].id == props.selectedTeam.id) {
-                    props.setSelectedTeam(newSelectedTeam[0]);
-                }
                 setSelectedTeam(newSelectedTeam[0]);
                 setIsRosterFetching(true);
                 fetchCurrentRosterEndpoint(newSelectedTeam[0].athleteIds).then(
@@ -130,7 +128,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                 );
             }
         }
-    }, [props.teams]);
+    }, [teams]);
 
     React.useEffect(() => {
         setIsFetching("");
@@ -141,7 +139,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
      * @param event
      */
     const handleTeamSelected = (event: React.ChangeEvent<{ value: string }>) => {
-        let team = props.teams.filter(team => team.id === event.target.value);
+        let team = teams.filter(team => team.id === event.target.value);
         setSelectedTeam(team.length > 0 ? team[0] : null);
         if (team.length > 0) {
             setIsRosterFetching(true);
@@ -223,7 +221,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setExistingAthletesChecked(new Set());
         updateTeamAthletes(selectedTeam.id, athleteIds).then((response: any) => {
             if (!!response) {
-                props.getTeams(props.currentUser.permissions);
+                fetchTeamsEndpoint(props.currentUser.permissions).then((t: Team[]) => {
+                    setTeams(t);
+                });
             } else {
                 setOpenError(true);
             }
@@ -255,7 +255,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         setNewAthletesChecked(new Set());
         updateTeamAthletes(selectedTeam.id, athleteIds).then((response: any) => {
             if (!!response) {
-                props.getTeams(props.currentUser.permissions);
+                fetchTeamsEndpoint(props.currentUser.permissions).then((t: Team[]) => {
+                    setTeams(t);
+                });
             } else {
                 setOpenError(true);
             }
@@ -270,7 +272,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         if (!!selectedTeam) {
             updateTeamInfo(selectedTeam.id, teamName, season).then((response: any) => {
                 if (!!response) {
-                    props.getTeams(props.currentUser.permissions);
+                    fetchTeamsEndpoint(props.currentUser.permissions).then((t: Team[]) => {
+                        setTeams(t);
+                    });
                 } else {
                     setOpenError(true);
                 }
@@ -279,7 +283,9 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
         } else {
             createTeam(teamName, season).then((response: any) => {
                 if (!!response) {
-                    props.getTeams(props.currentUser.permissions);
+                    fetchTeamsEndpoint(props.currentUser.permissions).then((t: Team[]) => {
+                        setTeams(t);
+                    });
                     setIsCreatingNewTeam(true);
                 } else {
                     setOpenError(true);
@@ -354,7 +360,7 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                         <MenuItem value="" disabled>
                             Select the team to edit...
                         </MenuItem>
-                        {props.teams.map((team: Team, i: number) => (
+                        {teams.map((team: Team, i: number) => (
                             <MenuItem key={i} value={team.id}>
                                 {team.name + " -  " + team.season}
                             </MenuItem>
@@ -522,7 +528,6 @@ export default function RosterManagementPage(props: RosterManagementPageProps) {
                                                         rosterAthletes={currentRoster}
                                                         allAthletes={allAthletes}
                                                         setAllAthletes={setAllAthletes}
-                                                        getTeams={props.getTeams}
                                                         currentUser={props.currentUser}
                                                     ></AddAthleteTable>
                                                 </div>

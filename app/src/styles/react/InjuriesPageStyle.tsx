@@ -16,7 +16,7 @@ export const injuriesPageStyles = makeStyles((theme: Theme) =>
                 duration: theme.transitions.duration.enteringScreen
             }),
             [theme.breakpoints.down("xs")]: {
-                width: "100vw"
+                width: "100%"
             }
         },
         drawerClosed: {
@@ -26,7 +26,7 @@ export const injuriesPageStyles = makeStyles((theme: Theme) =>
                 duration: theme.transitions.duration.leavingScreen
             }),
             [theme.breakpoints.down("xs")]: {
-                width: "100vw"
+                width: "100%"
             }
         },
         grid: {

@@ -24,7 +24,8 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             backgroundColor: "#fafafa",
             [theme.breakpoints.down("xs")]: {
                 width: "100%",
-                height: "487px"
+                height: "553px",
+                overflow: "hidden"
             }
         },
         drawerClose: {
@@ -40,7 +41,8 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             backgroundColor: "#fafafa",
             [theme.breakpoints.down("xs")]: {
                 width: "100%",
-                height: "487px"
+                height: "553px",
+                overflow: "hidden"
             }
         },
         toolbar: {

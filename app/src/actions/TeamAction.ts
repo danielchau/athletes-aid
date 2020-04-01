@@ -10,28 +10,7 @@ import { UserPermissions, AdminPermissions } from "../util/permissions";
 export function getTeams(permissions: UserPermissions, data: any) {
     return {
         type: GET_TEAMS,
-        teams: data.data.teamOutput
-            .map((d: any) => {
-                return {
-                    id: d.id,
-                    name: d.name,
-                    season: d.season,
-                    athleteIds: d.athletes
-                };
-            })
-            .sort((a: Team, b: Team) => {
-                if (a.name < b.name) {
-                    return -1;
-                } else if (a.name > b.name) {
-                    return 1;
-                } else {
-                    if (a.season < b.season) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                }
-            })
+        teams: data
     };
 }
 
@@ -60,12 +39,32 @@ export function fetchTeams(permissions: UserPermissions) {
     };
 }
 
-async function fetchTeamsEndpoint(permissions: UserPermissions): Promise<Team[]> {
+export async function fetchTeamsEndpoint(permissions: UserPermissions): Promise<Team[]> {
     let endpoint = permissions == AdminPermissions ? "./teams" : "./user/teams";
     let response = await fetch(endpoint);
     let data = await response.json();
-    console.log(data);
-    return data;
+    return data.data.teamOutput
+        .map((d: any) => {
+            return {
+                id: d.id,
+                name: d.name,
+                season: d.season,
+                athleteIds: d.athletes
+            };
+        })
+        .sort((a: Team, b: Team) => {
+            if (a.name < b.name) {
+                return -1;
+            } else if (a.name > b.name) {
+                return 1;
+            } else {
+                if (a.season < b.season) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        });
 }
 
 export async function createTeam(name: string, season: string) {

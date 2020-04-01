@@ -8,15 +8,10 @@ import { UserPermissions } from "../util/permissions";
 
 const mapStateToProps = (state: AppState) => ({
     state: state.navigationPanelReducer,
-    teams: state.teamsReducer,
-    currentUser: state.currentUserReducer,
-    selectedTeam: state.selectedTeamReducer
+    currentUser: state.currentUserReducer
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-    setSelectedTeam: (team: Team) => dispatch(setSelectedTeam(team)),
-    getTeams: (permissions: UserPermissions) => dispatch(fetchTeams(permissions))
-});
+const mapDispatchToProps = (dispatch: any) => ({});
 
 const RosterManagementPageContainer = connect(
     mapStateToProps,

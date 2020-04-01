@@ -37,10 +37,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import AddUserDialog from "./AddUserDialog";
 import ErrorDialog from "./ErrorDialog";
+import { fetchTeamsEndpoint } from "../actions/TeamAction";
 
 interface UserManagementPageProps {
     currentUser: User;
-    teams: Team[];
 }
 
 /**
@@ -58,18 +58,22 @@ export default function UserManagementPage(props: UserManagementPageProps) {
     const [open, setOpen] = React.useState(false);
     const [openAddUser, setOpenAddUser] = React.useState(false);
     const [openError, setOpenError] = React.useState(false);
+    const [teams, setTeams] = React.useState([]);
 
     React.useEffect(() => {
         if (isFirstRender) {
-            getAllUsers().then((users: User[] | null) => {
-                if (!!users) {
-                    setAllUsers(users);
-                    setUsers(users);
-                } else {
-                    setOpenError(true);
-                }
-                setIsFirstRender(false);
-                setIsFetching(false);
+            fetchTeamsEndpoint(props.currentUser.permissions).then((t: Team[]) => {
+                setTeams(t);
+                getAllUsers().then((users: User[] | null) => {
+                    if (!!users) {
+                        setAllUsers(users);
+                        setUsers(users);
+                    } else {
+                        setOpenError(true);
+                    }
+                    setIsFirstRender(false);
+                    setIsFetching(false);
+                });
             });
         }
     }, []);
@@ -131,7 +135,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
 
     const onTeamChange = (event: React.ChangeEvent<{ value: string[] }>, user: User) => {
         let teamsMap = new Map();
-        props.teams.forEach(t => teamsMap.set(t.name + " - " + t.season, t.id));
+        teams.forEach(t => teamsMap.set(t.name + " - " + t.season, t.id));
 
         changeTeamsForUser(
             user.cwl,
@@ -172,10 +176,10 @@ export default function UserManagementPage(props: UserManagementPageProps) {
         });
     };
 
-    const getUserTeamNames = (teams: string[]) => {
+    const getUserTeamNames = (t: string[]) => {
         let teamMap = new Map();
-        props.teams.forEach(t => teamMap.set(t.id, t.name + " - " + t.season));
-        return teams.map(t => teamMap.get(t));
+        teams.forEach(t => teamMap.set(t.id, t.name + " - " + t.season));
+        return t.map(t => teamMap.get(t));
     };
 
     return (
@@ -275,7 +279,7 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                                                         </div>
                                                     )}
                                                 >
-                                                    {props.teams.map(team => (
+                                                    {teams.map(team => (
                                                         <MenuItem
                                                             key={team.id}
                                                             value={team.name + " - " + team.season}

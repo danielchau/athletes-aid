@@ -43,11 +43,11 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
     const [isLogging, setIsLogging] = React.useState(false);
 
     const isLocationOther = () => {
-        return bodyLocations.some(l => l == props.existingInjury.locationOnBody);
+        return !bodyLocations.some(l => l == props.existingInjury.locationOnBody);
     };
 
     const isTypeOther = () => {
-        return injuryTypes.some(t => t == props.existingInjury.injuryType);
+        return !injuryTypes.some(t => t == props.existingInjury.injuryType);
     };
 
     const [selectedAthlete, setSelectedAthlete] = React.useState(
@@ -274,7 +274,7 @@ export default function InjuryLoggingPage(props: InjuryLoggingPageProps) {
                                 setOpenError(true);
                             }
                         });
-                    } else {
+                    } else if (otherNotes != "") {
                         setOpenError(true);
                     }
 

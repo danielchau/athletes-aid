@@ -59,6 +59,9 @@ class App extends React.Component<AppProps, AppStates> {
         if (this.state.isLoading != nextState.isLoading) {
             return true;
         }
+        if (nextProps.teams != this.props.teams) {
+            return true;
+        }
         return false;
     }
 
@@ -81,8 +84,8 @@ class App extends React.Component<AppProps, AppStates> {
                         justifyContent: "center",
                         alignSelf: "center",
                         alignItems: "center",
-                        width: "calc(100vw  - 16px)",
-                        height: "calc(100vh  - 16px)"
+                        width: "calc(100%  - 16px)",
+                        height: "calc(100%  - 16px)"
                     }}
                 >
                     <img
@@ -95,11 +98,9 @@ class App extends React.Component<AppProps, AppStates> {
             );
         }
         return (
-            <div>
-                <Router>
-                    <PageContainer />
-                </Router>
-            </div>
+            <Router>
+                <PageContainer />
+            </Router>
         );
     }
 }

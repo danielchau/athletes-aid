@@ -19,7 +19,7 @@ export const injuryDialogStyles = makeStyles((theme: Theme) =>
             height: "100%",
             maxWidth: "600px",
             width: "50%",
-            minWidth: "200px",
+            minWidth: "400px",
             position: "fixed",
             bottom: "0",
             right: "0",

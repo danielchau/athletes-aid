@@ -3,8 +3,7 @@ import UserManagementPage from "../components/UserManagementPage";
 import { AppState } from "..";
 
 const mapStateToProps = (state: AppState) => ({
-    currentUser: state.currentUserReducer,
-    teams: state.teamsReducer
+    currentUser: state.currentUserReducer
 });
 
 const mapDispatchToProps = (dispatch: any) => ({});
