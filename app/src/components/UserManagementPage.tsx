@@ -41,6 +41,7 @@ import { fetchTeamsEndpoint } from "../actions/TeamAction";
 
 interface UserManagementPageProps {
     currentUser: User;
+    getTeams: (permissions: UserPermissions) => void;
 }
 
 /**
@@ -149,6 +150,11 @@ export default function UserManagementPage(props: UserManagementPageProps) {
                 });
                 setUsers(tempUsers);
                 setAllUsers(tempUsers);
+                if (props.currentUser.cwl == user.cwl) {
+                    props.getTeams(
+                        user.permissions == AdminPermissions ? TrainerPermissions : user.permissions
+                    );
+                }
             } else {
                 setOpenError(true);
             }
