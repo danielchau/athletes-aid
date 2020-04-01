@@ -12,7 +12,8 @@ export const navigationPanelStyles = makeStyles((theme: Theme) =>
             whiteSpace: "nowrap",
             [theme.breakpoints.down("xs")]: {
                 width: "100%",
-                backgroundColor: "transparent"
+                backgroundColor: "transparent",
+                boxShadow: "0 6px 19px -3px #585858"
             }
         },
         drawerOpen: {

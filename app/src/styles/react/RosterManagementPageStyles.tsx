@@ -18,7 +18,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
                 duration: theme.transitions.duration.enteringScreen
             }),
             [theme.breakpoints.down("xs")]: {
-                width: "100%"
+                width: "100%",
+                overflow: "scroll"
             }
         },
         drawerClosed: {
@@ -28,7 +29,8 @@ export const rosterManagementPageStyles = makeStyles((theme: Theme) =>
                 duration: theme.transitions.duration.leavingScreen
             }),
             [theme.breakpoints.down("xs")]: {
-                width: "100%"
+                width: "100%",
+                overflow: "scroll"
             }
         },
         introPaper: {
