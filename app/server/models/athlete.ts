@@ -6,12 +6,25 @@ import path from "path";
 
 import * as fs from "fs";
 
+
+/**
+ * Add an athlete to the database
+ *
+ * @param {Athlete} athlete the athlete object
+ * @return {string} the id of the athlete
+ */
 export async function postAthlete(athlete: Athlete): Promise<string> {
   return mapper.put(athlete).then((data: Athlete) => {
     return data.id;
   });
 }
 
+/**
+ * Get an athlete from the database
+ *
+ * @param {string} athleteID The id of the athlete to get
+ * @return {Athlete} the athlete object
+ */
 export async function getAthlete(athleteId: string): Promise<Athlete> {
   return mapper
     .get(Object.assign(new Athlete(), { id: athleteId }))
@@ -32,6 +45,11 @@ export async function updateAthlete(athlete: Athlete): Promise<Athlete> {
   });
 }
 
+/**
+ * Gets all athletes from the database
+ *
+ * @return {Array<Athlete>} the athlete object
+ */
 export async function getAllAthletes(): Promise<Array<Athlete>> {
   let athletes = new Array<Athlete>();
   for await (const entry of mapper.scan(Athlete)) {
@@ -45,6 +63,13 @@ export type fileReturn = {
   filePath: string;
 };
 
+/**
+ * Adds a file to S3
+ *
+ * @param {Express.Multer.File} file the file to add
+ * @param {string} userId id of the athlete
+ * @return {fileReturn} A file return object
+ */
 export async function postFile(
   file: Express.Multer.File,
   userId: string
@@ -72,6 +97,13 @@ export async function postFile(
   return { tag: s3Response.ETag, filePath: fileName };
 }
 
+/**
+ * Gets a file to S3
+ *
+ * @param {string} key key of the file to retrieve 
+ * @param {string} userId id of the athlete
+ * @return {string} the location of the file
+ */
 export async function getFile(key: string, userId: string): Promise<string> {
   const s3Client = new S3Client();
 
@@ -94,6 +126,12 @@ export async function getFile(key: string, userId: string): Promise<string> {
   return fileLocation;
 }
 
+/**
+ * Deletes a file from S3
+ *
+ * @param {string} key key of the file to delete 
+ * @param {string} userId id of the athlete
+ */
 export async function deleteFile(key: string, userId: string): Promise<any> {
   const s3Client = new S3Client();
 

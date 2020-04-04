@@ -7,8 +7,8 @@ import mapper from "./mapper";
  * @param {User} user The user to add to the database
  * @return {Promise} A promise which resolves with the value of the user cwl
  */
-export async function putUser(user : User): Promise<string> {
-  return mapper.put(user).then((data: User)=> {
+export async function putUser(user: User): Promise<string> {
+  return mapper.put(user).then((data: User) => {
     console.log(data.cwl);
     return data.cwl;
   });
@@ -23,29 +23,13 @@ export async function putUser(user : User): Promise<string> {
 
 export async function getUser(cwl: string): Promise<User> {
   return mapper
-    .get(Object.assign(new User(), { "cwl" : cwl }))
+    .get(Object.assign(new User(), { cwl: cwl }))
     .then((user: User) => {
       console.log(user);
       return user;
     });
 }
 
-/**
- * Create a User by CWL and role. Every user is unique and mapped by CWL, thus can only be created once.
- *
- * @param {User} The user to create
- * @return {string} id of the created user
- */
-export async function createUniqueUser(
-  user : User
-): Promise<string> {
-  // const existingUser = await getUser(user.cwl);
-  // if (existingUser) {
-  //   console.log("User already exists");
-  //   return existingUser.cwl;
-  // }
-  return putUser(user);
-}
 
 /**
  * Updates an existing User
@@ -53,12 +37,9 @@ export async function createUniqueUser(
  * @param {User} user the User to update
  * @return {string} cwl id of the updated user
  */
-export async function updateUser(
-  user: User
-): Promise<string> {
+export async function updateUser(user: User): Promise<string> {
   const oldUser = await getUser(user.cwl);
   if (oldUser) {
-
     return mapper.update(user).then(data => {
       return data.cwl;
     });
@@ -78,6 +59,7 @@ export async function deleteUser(cwl: string) {
 
 /**
  * Gets all Users from the data base
+ * @returns {Promise<Array<User>>} object containing the users
  */
 export async function getAllUsers(): Promise<Array<User>> {
   let users = new Array<User>();

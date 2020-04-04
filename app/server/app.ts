@@ -17,6 +17,9 @@ const DIST_DIR = path.join(__dirname, "../dist"); // NEW
 const HTML_FILE = path.join(DIST_DIR, "index.html"); // NEW
 const ATHLETE_CSV = path.join(DIST_DIR, "athleteBulkTemplate.csv");
 
+/**
+ *  SAML strategy for UBC CWL
+ */
 var SamlStrategy: any = new saml.Strategy(
   {
     issuer: "https://athletes-aid.ca",
@@ -90,10 +93,16 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
+/**
+ * Downloads the athlete template
+ */
 app.get("/athleteTemplate", ensureAuthenticated, function(_req, res) {
   res.download(ATHLETE_CSV);
 });
 
+/**
+ * Ensures the user is authenticated
+ */
 function ensureAuthenticated(
   req: { isAuthenticated: () => any },
   res: { redirect: (arg0: string) => any },
@@ -103,6 +112,9 @@ function ensureAuthenticated(
   else return res.redirect("/login");
 }
 
+/**
+ * Checks that the user is in an authorized role for the endpoint
+ */
 const checkIsInRole = (...roles: string[]) => (
   req: any,
   res: any,
@@ -116,6 +128,9 @@ const checkIsInRole = (...roles: string[]) => (
   return next();
 };
 
+/**
+ *  Login redirect to UBC CWL
+ */
 app.get(
   "/login",
   passport.authenticate("saml", { failureRedirect: "/login/fail" }),
@@ -124,6 +139,9 @@ app.get(
   }
 );
 
+/**
+ *  Login callback from UBC CWL
+ */
 app.post(
   "/login/callback",
   passport.authenticate("saml", { failureRedirect: "/login/fail" }),
@@ -132,11 +150,17 @@ app.post(
   }
 );
 
+/**
+ *  Login fail callback from UBC CWL
+ */
 app.get("/login/fail", function(_req, res) {
   console.log("Login failed");
   res.status(401).send("Login failed");
 });
 
+/**
+ *  Logout from UBC CWL
+ */
 app.get("/logout", function(req, res) {
   req.user = req.session.passport.user;
 
@@ -149,6 +173,9 @@ app.get("/logout", function(req, res) {
   });
 });
 
+/**
+ *  Metadata xml endpoint for CWL metadata
+ */
 app.get("/metadata", function(_req, res) {
   //const decryptionCert = fs.readFileSync(__dirname + "/cert/cert.pem", "utf8");
 
@@ -239,6 +266,7 @@ app.post(
 );
 
 import * as injuryController from "./controllers/injury";
+
 app.post(
   "/singleInjury",
   ensureAuthenticated,
@@ -327,9 +355,8 @@ app.delete(
   athleteController.deleteFile
 );
 
-// Routes
 app.get("/*", ensureAuthenticated, (_req, res) => {
-  res.sendFile(HTML_FILE); // EDIT
+  res.sendFile(HTML_FILE);
 });
 
 export default app;

@@ -8,6 +8,10 @@ import * as injuryModel from "../models/injury";
 
 import * as fs from "fs";
 
+/**
+ * POST Request: Adds a new athlete to the data base
+ * @return {res} The id of the new athlete
+ */
 export const postAthlete = async (req: Request, res: Response) => {
   Logger.Info(req);
 
@@ -76,6 +80,10 @@ export const postAthlete = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * GET Request: Adds a new athlete to the data base
+ * @return {res} The athlete and associated injuries
+ */
 export const getAthlete = async (req: Request, res: Response) => {
   try {
     let athlete = new Athlete();
@@ -103,6 +111,10 @@ export const getAthlete = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * PUT Request: Updates an existing athlete
+ * @return {res} The updated athlete object
+ */
 export const putAthlete = async (req: Request, res: Response) => {
   Logger.Info(req);
 
@@ -171,6 +183,10 @@ export const putAthlete = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * GET Request: Gets all athletes in the database
+ * @return {res} Data object containing all athlete objects
+ */
 export const getAllAthletes = async (req: Request, res: Response) => {
   try {
     let athletes = new Array<Athlete>();
@@ -189,6 +205,10 @@ export const getAllAthletes = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * POST Request: Adds a file to an athletes profile
+ * @return {res} returnFile data object
+ */
 export const postFile = async (req: Request, res: Response) => {
   Logger.Info(req);
 
@@ -209,12 +229,19 @@ export const postFile = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * GET Request: Adds a new athlete to the data base
+ * @return {res} The id of the new athlete
+ */
 export const getFile = async (req: Request, res: Response) => {
   try {
-    let fileLocation = await athleteModel.getFile(req.query.key, req.query.userId);
+    let fileLocation = await athleteModel.getFile(
+      req.query.key,
+      req.query.userId
+    );
 
     return res.download(fileLocation, () => {
-      fs.unlink(fileLocation, (err) => {
+      fs.unlink(fileLocation, err => {
         if (err) throw err;
       });
     });
@@ -224,6 +251,10 @@ export const getFile = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * DELETE Request: deletes an athlete from the database
+ * @return {res} delete message
+ */
 export const deleteFile = async (req: Request, res: Response) => {
   try {
     await athleteModel.deleteFile(req.query.key, req.query.userId);
