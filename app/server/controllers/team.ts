@@ -5,8 +5,11 @@ import { Logger } from "@overnightjs/logger";
 import { Athlete } from "../models/schema/Athlete";
 import * as teamModel from "../models/team";
 import * as athleteModel from "../models/athlete";
-import * as injuryModel from "../models/injury";
 
+/**
+ * POST Request: Creates a new team
+ * @return {res} The Id of the new team
+ */
 export const postTeam = async (req: Request, res: Response) => {
   try {
     const team = Object.assign(new Team(), {
@@ -31,6 +34,10 @@ export const postTeam = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * PUT Request: Updates an existing team
+ * @return {res} The id of the team
+ */
 export const modifyTeam = async (req: Request, res: Response) => {
   try {
     let id: string = await teamModel.updateTeam(
@@ -53,6 +60,10 @@ export const modifyTeam = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * GET Request: Gets a team from the database
+ * @return {res} A data object containing the team object and associated athlete objects
+ */
 export const getTeam = async (req: Request, res: Response) => {
   try {
     let team = new Team();
@@ -79,6 +90,10 @@ export const getTeam = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * GET Request: Gets all teams in the database
+ * @return {res} Data object containing all teams
+ */
 export const getAllTeams = async (req: Request, res: Response) => {
   try {
     let teams = new Array<Team>();
@@ -105,6 +120,10 @@ export const getAllTeams = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * Delete Request: Deletes an existing team from the database
+ * @return {res} delete message
+ */
 export const deleteTeam = async (req: Request, res: Response) => {
   try {
     await teamModel.deleteTeam(req.body.teamId);
