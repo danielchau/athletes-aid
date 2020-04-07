@@ -14,19 +14,4 @@ describe('user test', () => {
         expect(personID).toBeDefined();
         expect(personID).toBe('Test ID');
     });
-    
-    /*
-    test('getUser', async () => {
-        const person = await getUser("Test Email");
-        
-        expect(person).toBeDefined();
-    });
-    
-    test('createUniqueUser', async () => {
-        const personID = await createUniqueUser({name: "Test Name", email: "Test Email", userType: "Test userType"});
-        
-        expect(personID).toBeDefined();
-        expect(personID).toBe('Test ID');
-    });
-    */
 });
